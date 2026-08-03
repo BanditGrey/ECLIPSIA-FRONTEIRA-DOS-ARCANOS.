@@ -1,0 +1,173 @@
+export type ApiMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+
+export type ApiResult<T = unknown> =
+  | {
+      success: true;
+      data: T;
+    }
+  | {
+      success: false;
+      error: string;
+    };
+
+const env = (import.meta as unknown as { env?: { DEV?: boolean; VITE_API_URL?: string } }).env;
+const isDev = env?.DEV ?? (typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname));
+
+const normalizeBaseUrl = (url: string) => {
+  const trimmed = url.replace(/\/$/, '');
+
+  return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+};
+
+export const BASE_URL = normalizeBaseUrl(
+  env?.VITE_API_URL ?? (isDev ? 'http://localhost:5000/api' : 'https://eclipsia-server.railway.app/api')
+);
+export const SERVER_URL = BASE_URL.replace(/\/api\/?$/, '');
+
+const TOKEN_KEY = 'eclipsia_token';
+
+const getToken = () => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  return window.localStorage.getItem(TOKEN_KEY);
+};
+
+const setToken = (token: string) => {
+  if (typeof window !== 'undefined') {
+    window.localStorage.setItem(TOKEN_KEY, token);
+  }
+};
+
+const clearToken = () => {
+  if (typeof window !== 'undefined') {
+    window.localStorage.removeItem(TOKEN_KEY);
+  }
+};
+
+export const API = {
+  BASE_URL,
+
+  get token() {
+    return getToken();
+  },
+
+  setToken,
+  clearToken,
+
+  getHeaders(auth = true) {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json'
+    };
+
+    const token = getToken();
+
+    if (auth && token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
+    return headers;
+  },
+
+  async request<T = unknown>(method: ApiMethod, endpoint: string, body?: unknown, auth = true): Promise<ApiResult<T>> {
+    try {
+      const response = await fetch(`${BASE_URL}${endpoint}`, {
+        method,
+        headers: this.getHeaders(auth),
+        body: body === undefined ? undefined : JSON.stringify(body)
+      });
+
+      const contentType = response.headers.get('content-type') ?? '';
+      const data = contentType.includes('application/json') ? await response.json() : await response.text();
+
+      if (!response.ok) {
+        const error = typeof data === 'object' && data && 'message' in data ? String((data as { message: unknown }).message) : String(data || response.statusText);
+
+        return {
+          success: false,
+          error
+        };
+      }
+
+      return {
+        success: true,
+        data: data as T
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Network error'
+      };
+    }
+  },
+
+  get<T = unknown>(endpoint: string, auth = true) {
+    return this.request<T>('GET', endpoint, undefined, auth);
+  },
+
+  post<T = unknown>(endpoint: string, body?: unknown, auth = true) {
+    return this.request<T>('POST', endpoint, body, auth);
+  },
+
+  put<T = unknown>(endpoint: string, body?: unknown, auth = true) {
+    return this.request<T>('PUT', endpoint, body, auth);
+  },
+
+  delete<T = unknown>(endpoint: string, auth = true) {
+    return this.request<T>('DELETE', endpoint, undefined, auth);
+  },
+
+  auth: {
+    register(username: string, email: string, password: string) {
+      return API.post('/auth/register', { username, email, password }, false);
+    },
+
+    login(email: string, password: string) {
+      return API.post('/auth/login', { email, password }, false);
+    },
+
+    logout() {
+      clearToken();
+      return Promise.resolve({ success: true, data: null } as ApiResult<null>);
+    }
+  },
+
+  player: {
+    get<T = unknown>() {
+      return API.get<T>('/player/me');
+    },
+
+    save(playerData: unknown) {
+      return API.put('/player/save', { playerData });
+    },
+
+    create<T = unknown>(characterData: unknown) {
+      return API.post<T>('/player/create', characterData);
+    },
+
+    deleteCharacter<T = unknown>(characterId: string) {
+      return API.delete<T>(`/player/character/${characterId}`);
+    },
+
+    selectCharacter<T = unknown>(characterId: string) {
+      return API.post<T>(`/player/character/${characterId}/select`);
+    }
+  },
+
+  ranking: {
+    getByLevel(page = 1) {
+      return API.get(`/ranking/level?page=${page}`);
+    },
+
+    getByDiscoveries(page = 1) {
+      return API.get(`/ranking/discoveries?page=${page}`);
+    }
+  },
+
+  world: {
+    getState() {
+      return API.get('/world/state');
+    }
+  }
+};

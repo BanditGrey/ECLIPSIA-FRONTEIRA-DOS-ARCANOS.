@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=Share+Tech+Mono&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #060a14;
+  color: #e0e6f0;
+  font-family: 'Crimson Text', serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #060a14;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a3f5f;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f0c040;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2a3f5f #060a14;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.03);
+  }
+}
+
+@keyframes flash {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.6);
+  }
+}
+
+.anim-fade {
+  animation: fadeIn 180ms ease-out both;
+}
+
+.anim-up {
+  animation: slideUp 220ms ease-out both;
+}
+
+.anim-shake {
+  animation: shake 320ms ease-in-out both;
+}
+
+.anim-pulse {
+  animation: pulse 1200ms ease-in-out infinite;
+}
+
+.anim-flash {
+  animation: flash 420ms ease-in-out both;
+}
+
+.input-field {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid #1e2a3a;
+  background: #0a0e1a;
+  padding: 0.625rem 0.75rem;
+  color: #e0e6f0;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.input-field::placeholder {
+  color: #556677;
+}
+
+.input-field:focus {
+  border-color: #f0c040;
+  background: #111827;
+  box-shadow: 0 0 0 2px rgb(240 192 64 / 0.18);
+}
+
+.input-field:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}

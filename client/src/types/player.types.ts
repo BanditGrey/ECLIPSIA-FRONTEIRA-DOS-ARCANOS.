@@ -1,0 +1,78 @@
+export interface Stats {
+  strength: number;
+  agility: number;
+  vitality: number;
+  arcana: number;
+  perception: number;
+  will: number;
+}
+
+export interface Luck {
+  base: number;
+  equipment: number;
+  titles: number;
+  impulse: number;
+  events: number;
+}
+
+export interface Equipment {
+  weapon_main: string | null;
+  weapon_off: string | null;
+  head: string | null;
+  chest: string | null;
+  legs: string | null;
+  gloves: string | null;
+  boots: string | null;
+  earring: string | null;
+  necklace: string | null;
+  belt: string | null;
+  resistance: string | null;
+  amulet: string | null;
+  spirit_stone: string | null;
+  pet: string | null;
+  mount: string | null;
+}
+
+export interface InventoryItem {
+  id: string;
+  qty: number;
+}
+
+export interface Proficiencies {
+  blade: number;
+  arcane: number;
+  druid: number;
+  vanguard: number;
+  ranger: number;
+  spectre: number;
+}
+
+export interface PlayerData {
+  name: string;
+  archetype: string;
+  level: number;
+  xp: number;
+  xpToNext: number;
+  gold: number;
+  hp: number;
+  maxHp: number;
+  mp: number;
+  maxMp: number;
+  stats: Stats;
+  luck: Luck;
+  freePoints: number;
+  equipment: Equipment;
+  inventory: InventoryItem[];
+  maxInventory: number;
+  skills: string[];
+  skillCooldowns: Record<string, number>;
+  titles: string[];
+  activeTitle: string | null;
+  proficiencies: Proficiencies;
+  kills: Record<string, number>;
+  discoveries: string[];
+  weakPointHits: number;
+  rareDrops: number;
+  createdAt: string;
+  lastLogin: string;
+}
