@@ -10,10 +10,13 @@ import { playerRoutes } from './routes/player.routes.js';
 import { rankingRoutes } from './routes/ranking.routes.js';
 import { mailRoutes } from './routes/mail.routes.js';
 import { marketRoutes } from './routes/market.routes.js';
+import { ChatMessage } from './models/ChatMessage.js';
+import { Player } from './models/Player.js';
+import { addToInventory, isValidItemRef, removeFromInventory } from './utils/gameUtils.js';
+import { notifyPlayer, onlinePlayers, setIO } from './utils/notify.js';
 
 const app = express();
 const server = http.createServer(app);
-const onlinePlayers = new Map();
 
 const allowedOrigins = new Set([
   'http://localhost:3000',
@@ -77,6 +80,8 @@ const io = new Server(server, {
   cors: corsOptions
 });
 
+setIO(io);
+
 const broadcastOnlineCount = () => {
   io.emit('online:count', onlinePlayers.size);
 };
@@ -89,7 +94,199 @@ const sanitizeMessage = (value) => {
     .slice(0, 240);
 };
 
+// ────────────────────────────────────────────────────────────────
+//  TRADE P2P: negociação direta entre dois personagens online.
+//  O servidor custodia o estado e executa a troca de forma validada.
+// ────────────────────────────────────────────────────────────────
+const MAX_TRADE_ITEMS = 3;
+const trades = new Map();
+let tradeSeq = 0;
+
+const findTradeOf = (name) =>
+  [...trades.values()].find((trade) => trade.status === 'active' && (trade.from === name || trade.to === name));
+
+const tradeSnapshot = (trade) => ({
+  tradeId: trade.id,
+  from: trade.from,
+  to: trade.to,
+  status: trade.status,
+  offers: trade.offers,
+  confirmed: [...trade.confirmed]
+});
+
+const emitToBoth = (trade, event, extra = {}) => {
+  notifyPlayer(trade.from, event, { ...tradeSnapshot(trade), ...extra });
+  notifyPlayer(trade.to, event, { ...tradeSnapshot(trade), ...extra });
+};
+
+const cancelTradesOf = (name, reason) => {
+  for (const [id, trade] of trades) {
+    if (trade.status === 'active' && (trade.from === name || trade.to === name)) {
+      trade.status = 'cancelled';
+      emitToBoth(trade, 'trade:cancelled', { reason });
+      trades.delete(id);
+    }
+  }
+};
+
+const sanitizeTradeOffer = (payload = {}) => {
+  const items = Array.isArray(payload.items) ? payload.items.map((ref) => String(ref)).filter(isValidItemRef).slice(0, MAX_TRADE_ITEMS) : [];
+  const gold = Math.max(0, Math.floor(Number(payload.gold) || 0));
+  return { items, gold };
+};
+
+const executeTrade = async (trade) => {
+  const [playerA, playerB] = await Promise.all([
+    Player.findOne({ 'characters.name': trade.from }),
+    Player.findOne({ 'characters.name': trade.to })
+  ]);
+
+  const charA = playerA?.characters.find((c) => c.name === trade.from);
+  const charB = playerB?.characters.find((c) => c.name === trade.to);
+
+  if (!charA || !charB) {
+    throw new Error('Personagem não encontrado');
+  }
+
+  const offerA = trade.offers[trade.from] ?? { items: [], gold: 0 };
+  const offerB = trade.offers[trade.to] ?? { items: [], gold: 0 };
+
+  if (charA.gold < offerA.gold || charB.gold < offerB.gold) {
+    throw new Error('Ouro insuficiente');
+  }
+
+  const owns = (character, ref) => character.inventory.some((entry) => (entry.itemStr ?? entry.id) === ref && entry.qty > 0);
+
+  for (const ref of offerA.items) {
+    if (!owns(charA, ref)) throw new Error('Item indisponível na troca');
+  }
+
+  for (const ref of offerB.items) {
+    if (!owns(charB, ref)) throw new Error('Item indisponível na troca');
+  }
+
+  // Pré-checagem de capacidade (evita mutação parcial)
+  const spaceFor = (character, incoming) => {
+    const newEntries = incoming.filter((ref) => !character.inventory.some((entry) => (entry.itemStr ?? entry.id) === ref));
+    return character.inventory.length + newEntries.length <= character.maxInventory;
+  };
+
+  if (!spaceFor(charA, offerB.items) || !spaceFor(charB, offerA.items)) {
+    throw new Error('Inventário cheio');
+  }
+
+  // Execução
+  for (const ref of offerA.items) {
+    removeFromInventory(charA, ref, 1);
+    addToInventory(charB, ref, 1, charB.maxInventory);
+  }
+
+  for (const ref of offerB.items) {
+    removeFromInventory(charB, ref, 1);
+    addToInventory(charA, ref, 1, charA.maxInventory);
+  }
+
+  charA.gold = charA.gold - offerA.gold + offerB.gold;
+  charB.gold = charB.gold - offerB.gold + offerA.gold;
+
+  await playerA.save();
+  await playerB.save();
+
+  trade.status = 'completed';
+  notifyPlayer(trade.from, 'trade:completed', { tradeId: trade.id, character: charA });
+  notifyPlayer(trade.to, 'trade:completed', { tradeId: trade.id, character: charB });
+  trades.delete(trade.id);
+};
+
+const tradeHandlers = (socket) => {
+  socket.on('trade:request', (payload = {}) => {
+    const fromName = socket.data.playerId;
+    const toName = sanitizeMessage(payload.toName ?? '');
+
+    if (!fromName || !toName || fromName === toName) return;
+    if (!onlinePlayers.has(toName)) {
+      notifyPlayer(fromName, 'trade:failed', { reason: 'offline' });
+      return;
+    }
+    if (findTradeOf(fromName) || findTradeOf(toName)) {
+      notifyPlayer(fromName, 'trade:failed', { reason: 'busy' });
+      return;
+    }
+
+    tradeSeq += 1;
+    const trade = {
+      id: `trade-${tradeSeq}`,
+      from: fromName,
+      to: toName,
+      status: 'pending',
+      offers: { [fromName]: { items: [], gold: 0 }, [toName]: { items: [], gold: 0 } },
+      confirmed: new Set()
+    };
+    trades.set(trade.id, trade);
+    notifyPlayer(toName, 'trade:requested', { tradeId: trade.id, fromName });
+    notifyPlayer(fromName, 'trade:waiting', { tradeId: trade.id, toName });
+  });
+
+  socket.on('trade:respond', (payload = {}) => {
+    const trade = trades.get(payload.tradeId);
+
+    if (!trade || trade.status !== 'pending') return;
+
+    if (!payload.accept) {
+      trade.status = 'declined';
+      emitToBoth(trade, 'trade:declined');
+      trades.delete(trade.id);
+      return;
+    }
+
+    trade.status = 'active';
+    emitToBoth(trade, 'trade:start');
+  });
+
+  socket.on('trade:update', (payload = {}) => {
+    const trade = trades.get(payload.tradeId);
+    const who = socket.data.playerId;
+
+    if (!trade || trade.status !== 'active' || (who !== trade.from && who !== trade.to)) return;
+
+    trade.offers[who] = sanitizeTradeOffer(payload);
+    trade.confirmed = new Set();
+    emitToBoth(trade, 'trade:updated');
+  });
+
+  socket.on('trade:confirm', async (payload = {}) => {
+    const trade = trades.get(payload.tradeId);
+    const who = socket.data.playerId;
+
+    if (!trade || trade.status !== 'active' || (who !== trade.from && who !== trade.to)) return;
+
+    trade.confirmed.add(who);
+    emitToBoth(trade, 'trade:confirmed');
+
+    if (trade.confirmed.has(trade.from) && trade.confirmed.has(trade.to)) {
+      try {
+        await executeTrade(trade);
+      } catch (error) {
+        trade.confirmed = new Set();
+        emitToBoth(trade, 'trade:failed', { reason: error.message });
+      }
+    }
+  });
+
+  socket.on('trade:cancel', (payload = {}) => {
+    const trade = trades.get(payload.tradeId);
+
+    if (!trade || trade.status === 'completed') return;
+
+    trade.status = 'cancelled';
+    emitToBoth(trade, 'trade:cancelled', { reason: 'cancelado' });
+    trades.delete(trade.id);
+  });
+};
+
 io.on('connection', (socket) => {
+  tradeHandlers(socket);
+
   socket.on('player:identify', (payload = {}) => {
     const playerId = sanitizeMessage(payload.playerId ?? payload.id ?? socket.id);
     const name = sanitizeMessage(payload.name ?? 'Unknown');
@@ -102,6 +299,15 @@ io.on('connection', (socket) => {
     });
 
     broadcastOnlineCount();
+
+    ChatMessage.find()
+      .sort({ createdAt: -1 })
+      .limit(50)
+      .lean()
+      .then((history) => {
+        socket.emit('chat:history', { messages: history.reverse() });
+      })
+      .catch(() => {});
   });
 
   socket.on('chat:message', (payload = {}) => {
@@ -113,14 +319,18 @@ io.on('connection', (socket) => {
       return;
     }
 
+    const name = onlinePlayer?.name ?? sanitizeMessage(payload.name ?? 'Unknown');
+
     io.emit('chat:message', {
       id: `${Date.now()}-${socket.id}`,
       type: 'player',
       playerId: playerId ?? socket.id,
-      name: onlinePlayer?.name ?? sanitizeMessage(payload.name ?? 'Unknown'),
+      name,
       text,
       createdAt: new Date().toISOString()
     });
+
+    ChatMessage.create({ playerId: playerId ?? null, name, text }).catch(() => {});
   });
 
   socket.on('world:boss_defeated', (payload = {}) => {
@@ -142,6 +352,12 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
+    const leaver = socket.data.playerId;
+
+    if (leaver) {
+      cancelTradesOf(leaver, 'desconectado');
+    }
+
     if (socket.data.playerId) {
       onlinePlayers.delete(socket.data.playerId);
     } else {

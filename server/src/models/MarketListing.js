@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
  * Mercado/leilão de itens (sistema ItemEffects).
  * O item listado fica custodiado no próprio listing (itemStr).
  */
-const ITEM_STR_REGEX = /^\d+(\|-?\d+:-?\d+)*$/;
+const ITEM_STR_REGEX = /^\d+(\|[1-9]\d*:-?\d+)*$/;
 
 const MarketListingSchema = new mongoose.Schema({
   sellerId: { type: String, required: true },

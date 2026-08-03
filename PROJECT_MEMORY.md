@@ -1,7 +1,7 @@
 # 🧠 MEMÓRIA DO PROJETO — ECLIPSIA: FRONTEIRA DOS ARCANOS
 
 > **Leia este arquivo primeiro.** Ele existe para você se localizar sem varrer o repo inteiro.
-> Última atualização: 2026-08-03 (após correio/mercado/crafting/upgrade/chat-links — ver §5.6).
+> Última atualização: 2026-08-03 (após trade P2P, encantamento/sets, chat persistente, testes — ver §5.6 e §5.7).
 
 ---
 
@@ -94,6 +94,7 @@ cd client && npm run build
 
 # servidor (só sintaxe; precisa de MongoDB para rodar de verdade)
 node --check server/src/models/Player.js
+cd server && npm install && npm test   # 11 testes (gameUtils + schemas mongoose offline)
 ```
 
 ---
@@ -184,6 +185,36 @@ usePlayerStore.getEquipmentItemStats ──▶ effects > stats (resolvedToItemSt
 
 ---
 
+## 5.7 TRADE P2P, ENCANTAMENTO, SETS, CHAT PERSISTENTE, TESTES
+
+### Trade P2P (socket)
+- **Server** (`server.js`, seção TRADE): estado em memória (`trades` Map), eventos `trade:request/respond/update/confirm/cancel`; execução `executeTrade()` valida posse/ouro/capacidade ANTES de mutar (sem mutação parcial) e troca via `addToInventory/removeFromInventory`; snapshot do personagem volta por `trade:completed`.
+- Máx. 3 itens/lado; só personagens online; um trade ativo por jogador; disconnect cancela.
+- **Client**: `components/panels/TradePanel.tsx` — aba **trade** da CityPanel (7 abas). Eventos socket → CustomEvents `eclipsia:trade:*` no window; TradePanel escuta.
+
+### Encantamento (ENCHANT_SLOT 98) e Conjuntos (SET_ID 100)
+- Itens com slots de encantamento: linha Eclipse (98:1) e linha Fragmento/relic (98:2) — `w1h_1007/w1h_1010/hd_2603/hd_2506/ch_3103/ch_3006/bt_4603`.
+- **Encantar** (CraftingPanel): consome pedra espiritual + item → adiciona o par on-hit/regen/dreno da pedra ao item (novo itemStr). Pedra fornece o primeiro par em [61-66, 55, 49].
+- **Sets** (`data/sets.ts`): id 1 Eclipse (2pc DMG_BONUS 5%, 3pc CRIT_CHANCE 5%), id 2 Fragmento (2pc DEF_BONUS 10%, 3pc SHIELD 150). Aplicados em `calculatePlayerStats` (conta peças pelo effect 100 e aplica tiers via applyEffectPair).
+
+### Chat persistente
+- `models/ChatMessage.js` (últimas mensagens); server salva em `chat:message` e envia `chat:history` (50) no identify; ChatPanel faz prepend do histórico.
+
+### Notificações push
+- `server/src/utils/notify.js`: `onlinePlayers` (Map nome→socket), `setIO`, `notifyPlayer(name, event, payload)`.
+- Rotas notificam: `mail:new` (send), `market:sold` (buy). Socket client reemite como `eclipsia:*` + toast no gameStore.
+
+### Testes de servidor
+- `server/tests/` com node:test: gameUtils (regex/insert/remove/capacidade) + schemas mongoose offline (validateSync). `cd server && npm test` → **11/11**.
+- Regex itemStr endurecida: effectId não pode ser 0 (`[1-9]\d*`) — server E client (`isSerializedItemStr`).
+- `addToInventory` agora usa `character.maxInventory` como default (bug pego por teste).
+
+### Regras de negócio importantes
+- Server NÃO tem catálogo de itens: numId/rarity de listings vêm do parse do itemStr/client.
+- Ouro de venda e trades usa o Mail como transporte (carta automática do "Mercado de Eclipsia").
+
+---
+
 ## 6. CATÁLOGO DE ITENS
 
 ### 6.1 Faixas de numId (itemRegistry.ts)
@@ -256,12 +287,14 @@ usePlayerStore.getEquipmentItemStats ──▶ effects > stats (resolvedToItemSt
 
 Feito nesta leva: ✅ correio, ✅ mercado (leilão simples), ✅ links de item no chat, ✅ inventário itemStr, ✅ crafting + upgrade, ✅ SPEED/HASTE/LOOT_BONUS/HEAL_BONUS consumidos, ✅ `npm run audit` (client).
 
+Feito na segunda leva: ✅ trade P2P via socket, ✅ encantamento (98) + 2 conjuntos (100), ✅ chat persistente, ✅ testes de servidor (11/11), ✅ notificações push (mail:new/market:sold), ✅ regex itemStr endurecida.
+
 Restante:
-1. 🔄 **Trade P2P simultâneo** (troca com janela de confirmação via socket) — hoje trocas acontecem via correio/mercado
-2. 🔮 **Encantamento** (ENCHANT_SLOT=98) e **sets** (SET_ID=100) — IDs reservados, sem mecânica
-3. 📜 Persistência de chat (hois é efêmero via socket broadcast)
-4. 🧪 Testes automatizados de servidor (rotas mail/market) — hoje só node --check + smoke manual
-5. 📦 Notificar jogador online (socket) quando recebe carta/venda
+1. 🏛 **Leilão com bids** (mercado hoje é preço fixo) e **rate limiting** nas rotas
+2. 🧪 Testes de integração das rotas mail/market (precisa mongodb-memory-server) e do fluxo de trade
+3. 💾 Trade state está em memória no server (reiniciou = trades pendentes somem) — mover p/ Mongo se necessário
+4. 🎛 Balancear economia (preços de mercado, custos de craft/upgrade) com dados reais de jogo
+5. 🔎 Busca de itens no mercado por nome (hoje só filtro rarity/numId)
 
 ---
 

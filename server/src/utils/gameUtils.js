@@ -3,7 +3,7 @@
  * manipulação do inventário dos personagens no banco.
  */
 
-export const ITEM_STR_REGEX = /^\d+(\|-?\d+:-?\d+)*$/;
+export const ITEM_STR_REGEX = /^\d+(\|[1-9]\d*:-?\d+)*$/;
 
 export const isValidItemRef = (ref) => typeof ref === 'string' && ITEM_STR_REGEX.test(ref);
 
@@ -13,7 +13,7 @@ export const getNumId = (ref) => {
 };
 
 /** Adiciona um item (itemStr ou id legado) ao inventário do personagem. */
-export const addToInventory = (character, ref, qty = 1, maxInventory = 20) => {
+export const addToInventory = (character, ref, qty = 1, maxInventory = character?.maxInventory ?? 20) => {
   const entry = character.inventory.find((inv) => (inv.itemStr ?? inv.id) === ref);
 
   if (entry) {

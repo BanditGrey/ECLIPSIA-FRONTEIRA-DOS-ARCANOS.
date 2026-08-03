@@ -3,6 +3,7 @@ import { authMiddleware } from '../middleware/auth.middleware.js';
 import { Mail } from '../models/Mail.js';
 import { Player } from '../models/Player.js';
 import { addToInventory, getCharacter, isValidItemRef, removeFromInventory } from '../utils/gameUtils.js';
+import { notifyPlayer } from '../utils/notify.js';
 
 export const mailRoutes = Router();
 mailRoutes.use(authMiddleware);
@@ -89,6 +90,8 @@ mailRoutes.post('/send', async (req, res) => {
     });
 
     await player.save();
+
+    notifyPlayer(destination, 'mail:new', { fromName: sender.name, subject: mail.subject });
 
     return res.status(201).json({ mail, character: sender });
   } catch (error) {

@@ -110,7 +110,7 @@ export const deserializeItem = (str: string): Item => {
 };
 
 /** Verdadeiro quando a string está no formato serializado "numId|e:v|...". */
-export const isSerializedItemStr = (value: string): boolean => /^\d+(\|-?\d+:-?\d+)*$/.test(value);
+export const isSerializedItemStr = (value: string): boolean => /^\d+(\|[1-9]\d*:-?\d+)*$/.test(value);
 
 /**
  * Resolve uma referência de item que pode ser:

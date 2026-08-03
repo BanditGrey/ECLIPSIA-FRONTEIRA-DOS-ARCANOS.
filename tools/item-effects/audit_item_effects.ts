@@ -266,8 +266,8 @@ rec(11, 'Cenário 3 SPEC (mt_8700 Dragão do Vazio: mountSpeed 0.50, agi+20, str
 const sword1007 = byNumId.get(1007);
 const str4 = serializeItem(sword1007);
 const back4 = deserializeItem(str4);
-rec(11, `Cenário 4 SPEC: serialize "1007|1:110|3:15|21:6|22:20" + round-trip`,
-  str4 === '1007|1:110|3:15|21:6|22:20' && back4.numId === 1007 && back4.effects?.e4 === 22 && back4.effects?.v4 === 20 ? 'OK' : 'CRITICAL', `obtido "${str4}"`);
+rec(11, `Cenário 4 SPEC: serialize "1007|1:110|3:15|21:6|22:20|98:1|100:1" + round-trip`,
+  str4 === '1007|1:110|3:15|21:6|22:20|98:1|100:1' && back4.numId === 1007 && back4.effects?.e4 === 22 && back4.effects?.v4 === 20 ? 'OK' : 'CRITICAL', `obtido "${str4}"`);
 // Cenário 5: penalidade negativa via string customizada
 const hammer1600 = byNumId.get(1600);
 const r5 = resolveEffects(hammer1600);

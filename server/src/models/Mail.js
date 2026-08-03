@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
  * Correio entre jogadores (sistema ItemEffects).
  * Anexos usam o formato itemStr: "numId|e1:v1|e2:v2|..."
  */
-const ITEM_STR_REGEX = /^\d+(\|-?\d+:-?\d+)*$/;
+const ITEM_STR_REGEX = /^\d+(\|[1-9]\d*:-?\d+)*$/;
 
 const MailSchema = new mongoose.Schema({
   fromName: { type: String, required: true, trim: true },

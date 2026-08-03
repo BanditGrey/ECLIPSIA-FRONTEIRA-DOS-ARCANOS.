@@ -59,7 +59,7 @@ const EquipmentSchema = new mongoose.Schema(
  *    "numId|e1:v1|e2:v2|..."     → com effects (values podem ser negativos)
  * Ex.: "1005|1:65|4:5|7:3"
  */
-const ITEM_STR_REGEX = /^\d+(\|-?\d+:-?\d+)*$/;
+const ITEM_STR_REGEX = /^\d+(\|[1-9]\d*:-?\d+)*$/;
 
 /**
  * Inventário (sistema ItemEffects): itens como string serializada.

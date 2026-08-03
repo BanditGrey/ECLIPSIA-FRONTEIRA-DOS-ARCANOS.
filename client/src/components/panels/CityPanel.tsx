@@ -6,8 +6,9 @@ import type { Equipment } from '../../types/player.types';
 import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
 import { MailPanel } from './MailPanel';
+import { TradePanel } from './TradePanel';
 
-type CityTab = 'tavern' | 'shop' | 'blacksmith' | 'sage' | 'board' | 'mail';
+type CityTab = 'tavern' | 'shop' | 'blacksmith' | 'sage' | 'board' | 'mail' | 'trade';
 type ShopFilter = 'all' | 'weapons' | 'armor' | 'accessories' | 'pet' | 'mount';
 type NpcId = 'old_merchant' | 'adventurer' | 'mysterious' | 'beast_tamer';
 
@@ -31,7 +32,7 @@ interface ShopEntry {
   stats: string;
 }
 
-const tabs: CityTab[] = ['tavern', 'shop', 'blacksmith', 'sage', 'board', 'mail'];
+const tabs: CityTab[] = ['tavern', 'shop', 'blacksmith', 'sage', 'board', 'mail', 'trade'];
 const filters: ShopFilter[] = ['all', 'weapons', 'armor', 'accessories', 'pet', 'mount'];
 const equipmentSlots: EquipmentSlot[] = ['weapon_main', 'weapon_off', 'head', 'chest', 'legs', 'gloves', 'boots', 'earring', 'necklace', 'belt', 'resistance', 'amulet', 'spirit_stone', 'pet', 'mount'];
 const NPC_MODAL = 'modal-city-npc';
@@ -124,7 +125,7 @@ export const CityPanel = () => {
 
   return (
     <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
-      <div className="grid grid-cols-6 gap-2 rounded-xl border border-game-border bg-game-panel p-2 font-mono text-xs">
+      <div className="grid grid-cols-7 gap-2 rounded-xl border border-game-border bg-game-panel p-2 font-mono text-xs">
         {tabs.map((item) => (
           <button
             key={item}
@@ -266,6 +267,8 @@ export const CityPanel = () => {
         )}
 
         {tab === 'mail' && <MailPanel />}
+
+        {tab === 'trade' && <TradePanel />}
       </section>
 
       <Modal id={NPC_MODAL} title={selectedNpc ? t(`city.npcs.${selectedNpc.id}.name`) : t('city.tavern')}>

@@ -13,6 +13,7 @@ import { EFFECT, getEffect, getEffectPairs } from '../data/effectRegistry';
 import type { Item, ItemStats } from '../types/item.types';
 import type { Equipment, Stats } from '../types/player.types';
 import { resolveItemRef } from '../utils/itemSerializer';
+import { getItemSet } from '../data/sets';
 
 /** Effect "ao acertar" (effectIds 61–66) já pronto para rolagem em combate. */
 export interface OnHitEffect {
@@ -296,6 +297,8 @@ export const calculatePlayerStats = (baseStats: Stats, equipment: Equipment): Re
   resolved.perception = baseStats.perception;
   resolved.will = baseStats.will;
 
+  const setCounts = new Map<number, number>();
+
   for (const slot of EQUIPMENT_SLOTS) {
     const itemId = equipment[slot];
 
@@ -308,6 +311,28 @@ export const calculatePlayerStats = (baseStats: Stats, equipment: Equipment): Re
     if (!item) continue;
 
     mergeResolved(resolved, resolveEffects(item));
+
+    // Conta peças de conjunto (SET_ID, effect 100)
+    const setPair = getEffectPairs(item.effects).find((pair) => pair.effectId === EFFECT.SET_ID);
+
+    if (setPair) {
+      setCounts.set(setPair.value, (setCounts.get(setPair.value) ?? 0) + 1);
+    }
+  }
+
+  // Bônus de conjunto: aplica os tiers atingidos pelo número de peças
+  for (const [setId, count] of setCounts) {
+    const set = getItemSet(setId);
+
+    if (!set) continue;
+
+    for (const tier of set.bonuses) {
+      if (count < tier.pieces) continue;
+
+      for (const pair of tier.pairs) {
+        applyEffectPair(resolved, pair.effectId, pair.value);
+      }
+    }
   }
 
   return resolved;

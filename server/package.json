@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "test": "node --test tests/gameUtils.test.js tests/schemas.test.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

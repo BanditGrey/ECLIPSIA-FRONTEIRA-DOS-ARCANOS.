@@ -85,6 +85,48 @@ class SocketService {
       });
     });
 
+    // Histórico persistido do chat (enviado pelo servidor ao identificar)
+    this.socket.on('chat:history', (payload: { messages?: ChatUiMessage[] }) => {
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('eclipsia:chat-history', { detail: payload }));
+      }
+    });
+
+    // Notificações push (correio, mercado, trade) → eventos de janela
+    const pushEvents = [
+      'mail:new',
+      'market:sold',
+      'trade:requested',
+      'trade:waiting',
+      'trade:start',
+      'trade:updated',
+      'trade:confirmed',
+      'trade:completed',
+      'trade:declined',
+      'trade:cancelled',
+      'trade:failed'
+    ];
+
+    pushEvents.forEach((event) => {
+      this.socket?.on(event, (payload: unknown) => {
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent(`eclipsia:${event}`, { detail: payload }));
+        }
+      });
+    });
+
+    const addNotification = (text: string, kind: 'info' | 'gold' | 'error' | 'warning') => {
+      useGameStore.getState().addNotification(text, kind);
+    };
+
+    this.socket.on('mail:new', (payload: { fromName?: string }) => {
+      addNotification(`${t('socket.newMail')}: ${sanitizeText(payload?.fromName ?? '')}`, 'gold');
+    });
+
+    this.socket.on('market:sold', (payload: { price?: number }) => {
+      addNotification(`${t('socket.itemSold')} (${payload?.price ?? 0} 🪙)`, 'gold');
+    });
+
     this.socket.on('world:boss_defeated', (payload: { bossId?: string; bossName?: string; playerName?: string }) => {
       const bossName = sanitizeText(payload.bossName ?? payload.bossId ?? t('game.unknown'));
       useGameStore.getState().addNotification(`${t('socket.bossDefeated')}: ${bossName}`, 'gold');
@@ -120,6 +162,27 @@ class SocketService {
     this.emit('chat:message', {
       text: sanitizeText(message)
     });
+  }
+
+  // ── Trade P2P ──
+  requestTrade(toName: string) {
+    this.emit('trade:request', { toName });
+  }
+
+  respondTrade(tradeId: string, accept: boolean) {
+    this.emit('trade:respond', { tradeId, accept });
+  }
+
+  updateTrade(tradeId: string, items: string[], gold: number) {
+    this.emit('trade:update', { tradeId, items, gold });
+  }
+
+  confirmTrade(tradeId: string) {
+    this.emit('trade:confirm', { tradeId });
+  }
+
+  cancelTrade(tradeId: string) {
+    this.emit('trade:cancel', { tradeId });
   }
 
   notifyBossDefeated(bossId: string) {

@@ -32,6 +32,8 @@ export const CraftingPanel = () => {
   const spendGold = usePlayerStore((state) => state.spendGold);
   const addNotification = useGameStore((state) => state.addNotification);
   const [selectedRef, setSelectedRef] = useState<string | null>(null);
+  const [enchantTarget, setEnchantTarget] = useState<string | null>(null);
+  const [enchantStone, setEnchantStone] = useState<string | null>(null);
 
   const inventory = player?.inventory ?? [];
   const countOf = (itemId: string) =>
@@ -96,6 +98,55 @@ export const CraftingPanel = () => {
   const selectedLevel = selectedItem ? getEffectPairs(selectedItem.effects).find((p) => p.effectId === EFFECT.UPGRADE_LEVEL)?.value ?? 0 : 0;
   const cost = upgradeCost(selectedLevel);
   const pairsCount = selectedItem ? getEffectPairs(selectedItem.effects).filter((p) => p.effectId !== EFFECT.UPGRADE_LEVEL).length : 0;
+
+  // ── Encantamento ──
+  const enchantableRefs = upgradeableRefs.filter((ref) => {
+    const item = resolveItemRef(ref);
+
+    if (!item) return false;
+
+    const pairs = getEffectPairs(item.effects);
+
+    return pairs.some((pair) => pair.effectId === EFFECT.ENCHANT_SLOT) && pairs.length < MAX_EFFECTS_PER_ITEM;
+  });
+
+  const stoneRefs = inventory
+    .map((entry) => refOf(entry))
+    .filter((ref) => resolveItemRef(ref)?.type === 'spirit_stone');
+
+  const ENCHANTABLE_STONE_EFFECTS = [61, 62, 63, 64, 65, 66, 55, 49];
+
+  const enchantPair = (() => {
+    if (!enchantStone) return null;
+
+    const stone = resolveItemRef(enchantStone);
+
+    if (!stone) return null;
+
+    return getEffectPairs(stone.effects).find((pair) => ENCHANTABLE_STONE_EFFECTS.includes(pair.effectId)) ?? null;
+  })();
+
+  const canEnchant = Boolean(enchantTarget && enchantStone && enchantPair);
+
+  const enchant = () => {
+    const target = enchantTarget ? resolveItemRef(enchantTarget) : null;
+
+    if (!target || !enchantTarget || !enchantStone || !enchantPair) {
+      addNotification(t('crafting.cannot'), 'warning');
+      return;
+    }
+
+    const basePairs = getEffectPairs(target.effects);
+    const newEffects = buildItemEffect([...basePairs, enchantPair]);
+    const newRef = serializeItem(target, newEffects);
+
+    removeItem(enchantTarget, 1);
+    removeItem(enchantStone, 1);
+    addItem(newRef, 1);
+    setEnchantTarget(null);
+    setEnchantStone(null);
+    addNotification(`${t('crafting.enchanted')}: ${describeEffect(enchantPair.effectId, enchantPair.value, lang).text}`, 'gold');
+  };
 
   const canUpgrade = Boolean(
     selectedItem &&
@@ -166,6 +217,7 @@ export const CraftingPanel = () => {
         </div>
       </section>
 
+      <div className="grid min-h-0 gap-3 overflow-auto pr-1">
       {/* Upgrade */}
       <section className="rounded-xl border border-game-border bg-game-panel p-3">
         <h3 className="mb-2 font-title text-game-gold">{t('crafting.upgradeTitle')}</h3>
@@ -203,6 +255,48 @@ export const CraftingPanel = () => {
           )}
         </div>
       </section>
+
+      {/* Encantamento */}
+      <section className="rounded-xl border border-game-border bg-game-panel p-3">
+        <h3 className="mb-2 font-title text-game-gold">{t('crafting.enchantTitle')}</h3>
+        <div className="grid gap-2">
+          <select
+            className="input-field"
+            value={enchantTarget ?? ''}
+            onChange={(event) => setEnchantTarget(event.target.value || null)}
+          >
+            <option value="">{t('crafting.selectItem')}</option>
+            {enchantableRefs.map((ref) => {
+              const item = resolveItemRef(ref);
+
+              if (!item) return null;
+
+              const slots = getEffectPairs(item.effects).find((pair) => pair.effectId === EFFECT.ENCHANT_SLOT)?.value ?? 0;
+
+              return (
+                <option key={ref} value={ref}>
+                  {itemNameOf(item.id, lang)} ({slots}💎)
+                </option>
+              );
+            })}
+          </select>
+          <select
+            className="input-field"
+            value={enchantStone ?? ''}
+            onChange={(event) => setEnchantStone(event.target.value || null)}
+          >
+            <option value="">{t('crafting.selectStone')}</option>
+            {stoneRefs.map((ref) => {
+              const item = resolveItemRef(ref);
+              return item ? <option key={ref} value={ref}>{item.icon} {itemNameOf(item.id, lang)}</option> : null;
+            })}
+          </select>
+          <Button disabled={!canEnchant} onClick={enchant}>
+            {t('crafting.enchant')}
+          </Button>
+        </div>
+      </section>
+      </div>
     </div>
   );
 };

@@ -698,8 +698,29 @@ export const translations: Record<LangCode, TranslationTree> = {
       "selectItem": "Selecionar item",
       "level": "Nível",
       "upgrade": "Melhorar",
-      "upgraded": "Melhorado"
+      "upgraded": "Melhorado",
+      "enchantTitle": "Encantamento",
+      "selectStone": "Selecionar pedra espiritual",
+      "enchant": "Encantar",
+      "enchanted": "Encantado"
     },
+    "trade": {
+      "title": "Troca entre jogadores",
+      "hint": "Negocie itens e ouro diretamente com outro personagem online. Máx. 3 itens por lado.",
+      "targetPlaceholder": "Nome do outro personagem",
+      "request": "Pedir troca",
+      "incoming": "Pedido de troca de",
+      "with": "Trocando com",
+      "addItem": "Adicionar item",
+      "confirm": "Confirmar",
+      "confirmHint": "Confirme quando a oferta estiver pronta.",
+      "waitingConfirm": "Aguardando o outro jogador...",
+      "completed": "Troca concluída!",
+      "declined": "Troca recusada.",
+      "cancelled": "Troca cancelada",
+      "failed": "Falha na troca"
+    },
+
     "impulse": {
       "title": "Impulso",
       "absent": "Tempo ausente",
@@ -1022,7 +1043,9 @@ export const translations: Record<LangCode, TranslationTree> = {
     "socket": {
       "bossDefeated": "Chefe derrotado",
       "colossusSpawned": "Colosso surgiu",
-      "online": "Jogadores online"
+      "online": "Jogadores online",
+      "newMail": "Nova carta recebida",
+      "itemSold": "Item vendido no mercado"
     },
     "auth": {
       "invalidUsername": "Usuário deve ter 3 a 20 caracteres.",
@@ -1679,8 +1702,29 @@ export const translations: Record<LangCode, TranslationTree> = {
       "selectItem": "Select item",
       "level": "Level",
       "upgrade": "Upgrade",
-      "upgraded": "Upgraded"
+      "upgraded": "Upgraded",
+      "enchantTitle": "Enchanting",
+      "selectStone": "Select spirit stone",
+      "enchant": "Enchant",
+      "enchanted": "Enchanted"
     },
+    "trade": {
+      "title": "Player trade",
+      "hint": "Trade items and gold directly with another online character. Max 3 items per side.",
+      "targetPlaceholder": "Other character name",
+      "request": "Request trade",
+      "incoming": "Trade request from",
+      "with": "Trading with",
+      "addItem": "Add item",
+      "confirm": "Confirm",
+      "confirmHint": "Confirm when the offer is ready.",
+      "waitingConfirm": "Waiting for the other player...",
+      "completed": "Trade completed!",
+      "declined": "Trade declined.",
+      "cancelled": "Trade cancelled",
+      "failed": "Trade failed"
+    },
+
     "ranking": {
       "title": "Ranking",
       "level": "Level",
@@ -2609,8 +2653,29 @@ export const translations: Record<LangCode, TranslationTree> = {
       "selectItem": "Seleccionar objeto",
       "level": "Nivel",
       "upgrade": "Mejorar",
-      "upgraded": "Mejorado"
+      "upgraded": "Mejorado",
+      "enchantTitle": "Encantamiento",
+      "selectStone": "Seleccionar piedra espiritual",
+      "enchant": "Encantar",
+      "enchanted": "Encantado"
     },
+    "trade": {
+      "title": "Intercambio entre jugadores",
+      "hint": "Intercambia objetos y oro directamente con otro personaje en línea. Máx. 3 objetos por lado.",
+      "targetPlaceholder": "Nombre del otro personaje",
+      "request": "Pedir intercambio",
+      "incoming": "Pedido de intercambio de",
+      "with": "Intercambiando con",
+      "addItem": "Añadir objeto",
+      "confirm": "Confirmar",
+      "confirmHint": "Confirma cuando la oferta esté lista.",
+      "waitingConfirm": "Esperando al otro jugador...",
+      "completed": "¡Intercambio completado!",
+      "declined": "Intercambio rechazado.",
+      "cancelled": "Intercambio cancelado",
+      "failed": "Fallo en el intercambio"
+    },
+
     "profile": {
       "title": "Perfil",
       "status": "Estado",
@@ -3628,8 +3693,29 @@ export const translations: Record<LangCode, TranslationTree> = {
       "selectItem": "アイテムを選択",
       "level": "レベル",
       "upgrade": "強化",
-      "upgraded": "強化完了"
+      "upgraded": "強化完了",
+      "enchantTitle": "エンチャント",
+      "selectStone": "霊石を選択",
+      "enchant": "エンチャント",
+      "enchanted": "エンチャント完了"
     },
+    "trade": {
+      "title": "プレイヤー間取引",
+      "hint": "オンラインの他のキャラクターとアイテム・ゴールドを直接交換します。片側最大3アイテム。",
+      "targetPlaceholder": "相手のキャラクター名",
+      "request": "取引を申し込む",
+      "incoming": "取引依頼：",
+      "with": "取引相手",
+      "addItem": "アイテムを追加",
+      "confirm": "確認",
+      "confirmHint": "準備ができたら確認してください。",
+      "waitingConfirm": "相手を待っています...",
+      "completed": "取引成立！",
+      "declined": "取引は拒否されました。",
+      "cancelled": "取引はキャンセルされました",
+      "failed": "取引に失敗しました"
+    },
+
     "profile": {
       "title": "プロフィール",
       "status": "状態",

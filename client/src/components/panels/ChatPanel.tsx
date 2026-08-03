@@ -108,6 +108,25 @@ export const ChatPanel = () => {
     socketService.connect();
     appendMessage({ id: createMessageId(), type: 'system', text: t('chat.connected') });
 
+    const handleHistory = (event: Event) => {
+      const payload = (event as CustomEvent<{ messages?: Array<{ id?: string; name?: string; text?: string }> }>).detail;
+      const history = payload?.messages ?? [];
+
+      if (history.length > 0) {
+        setMessages((current) => [
+          ...history.map((entry) => ({
+            id: entry.id ?? createMessageId(),
+            type: 'player' as const,
+            name: sanitizeText(entry.name ?? t('game.unknown')),
+            text: sanitizeText(entry.text ?? '')
+          })),
+          ...current
+        ].slice(-MAX_MESSAGES));
+      }
+    };
+
+    window.addEventListener('eclipsia:chat-history', handleHistory);
+
     const handleChatMessage = (event: Event) => {
       const payload = (event as CustomEvent<{ id?: string; name?: string; text?: string; type?: 'system' | 'player' }>).detail;
 
@@ -122,6 +141,7 @@ export const ChatPanel = () => {
     window.addEventListener('eclipsia:chat-message', handleChatMessage);
 
     return () => {
+      window.removeEventListener('eclipsia:chat-history', handleHistory);
       window.removeEventListener('eclipsia:chat-message', handleChatMessage);
     };
   }, [t]);

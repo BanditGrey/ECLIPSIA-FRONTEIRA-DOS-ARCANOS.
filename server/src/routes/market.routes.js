@@ -4,6 +4,7 @@ import { Mail } from '../models/Mail.js';
 import { MarketListing } from '../models/MarketListing.js';
 import { Player } from '../models/Player.js';
 import { addToInventory, getNumId, isValidItemRef, removeFromInventory } from '../utils/gameUtils.js';
+import { notifyPlayer } from '../utils/notify.js';
 
 export const marketRoutes = Router();
 marketRoutes.use(authMiddleware);
@@ -142,6 +143,8 @@ marketRoutes.post('/buy', async (req, res) => {
     });
 
     await player.save();
+
+    notifyPlayer(listing.sellerName, 'market:sold', { itemStr: listing.itemStr, price: listing.price, buyer: buyer.name });
 
     return res.json({ listing, character: buyer });
   } catch (error) {
