@@ -173,6 +173,36 @@ export const API = {
     }
   },
 
+  guild: {
+    list() {
+      return API.get('/guild/list');
+    },
+    my(charName: string) {
+      return API.get(`/guild/my?charName=${encodeURIComponent(charName)}`);
+    },
+    create(payload: { charName: string; name: string }) {
+      return API.post('/guild/create', payload);
+    },
+    join(payload: { charName: string; guildId: string }) {
+      return API.post('/guild/join', payload);
+    },
+    leave(payload: { charName: string }) {
+      return API.post('/guild/leave', payload);
+    },
+    kick(payload: { charName: string; targetName: string }) {
+      return API.post('/guild/kick', payload);
+    },
+    promote(payload: { charName: string; targetName: string }) {
+      return API.post('/guild/promote', payload);
+    },
+    motd(payload: { charName: string; motd: string }) {
+      return API.post('/guild/motd', payload);
+    },
+    disband(payload: { charName: string }) {
+      return API.post('/guild/disband', payload);
+    }
+  },
+
   player: {
     get<T = unknown>() {
       return API.get<T>('/player/me');

@@ -11,7 +11,9 @@ import { playerRoutes } from './routes/player.routes.js';
 import { rankingRoutes } from './routes/ranking.routes.js';
 import { mailRoutes } from './routes/mail.routes.js';
 import { marketRoutes } from './routes/market.routes.js';
+import { guildRoutes } from './routes/guild.routes.js';
 import { ChatMessage } from './models/ChatMessage.js';
+import { Guild } from './models/Guild.js';
 import { Player } from './models/Player.js';
 import { addToInventory, isValidItemRef, removeFromInventory } from './utils/gameUtils.js';
 import { notifyPlayer, onlinePlayers, setIO } from './utils/notify.js';
@@ -113,6 +115,7 @@ app.use('/api/player', playerRoutes);
 app.use('/api/ranking', rankingRoutes);
 app.use('/api/mail', mailRoutes);
 app.use('/api/market', marketRoutes);
+app.use('/api/guild', guildRoutes);
 
 const io = new Server(server, {
   cors: corsOptions
@@ -389,6 +392,55 @@ io.on('connection', (socket) => {
     });
 
     ChatMessage.create({ playerId: playerId ?? null, name, text }).catch(() => {});
+  });
+
+  // ── Chat de guilda: entra na room validando membership ──
+  socket.on('guild:room', async (payload = {}) => {
+    try {
+      const charName = socket.data.playerId;
+      const guildId = String(payload.guildId ?? '');
+
+      if (!charName || !guildId) return;
+
+      const guild = await Guild.findById(guildId).lean();
+
+      if (!guild || !guild.members.some((member) => member.name === charName)) return;
+
+      socket.join(`guild:${guildId}`);
+      socket.data.guildId = guildId;
+      socket.emit('guild:room_joined', { guildId });
+    } catch {
+      // guild inexistente/erro de banco: ignora silenciosamente
+    }
+  });
+
+  socket.on('chat:guild', (payload = {}) => {
+    const guildId = socket.data.guildId;
+
+    if (!guildId) return;
+
+    // Throttle anti-spam: máx. 5 mensagens por 10s
+    const now = Date.now();
+    socket.data.guildChatTimes = (socket.data.guildChatTimes ?? []).filter((stamp) => now - stamp < 10_000);
+
+    if (socket.data.guildChatTimes.length >= 5) {
+      return;
+    }
+
+    socket.data.guildChatTimes.push(now);
+
+    const playerId = socket.data.playerId;
+    const onlinePlayer = playerId ? onlinePlayers.get(playerId) : null;
+    const text = sanitizeMessage(payload.text ?? payload.message);
+
+    if (!text) return;
+
+    io.to(`guild:${guildId}`).emit('chat:guild', {
+      id: `${Date.now()}-${socket.id}`,
+      name: onlinePlayer?.name ?? sanitizeMessage(payload.name ?? 'Unknown'),
+      text,
+      createdAt: new Date().toISOString()
+    });
   });
 
   socket.on('world:boss_defeated', (payload = {}) => {

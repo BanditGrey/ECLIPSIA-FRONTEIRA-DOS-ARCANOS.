@@ -1,7 +1,7 @@
 # 🧠 MEMÓRIA DO PROJETO — ECLIPSIA: FRONTEIRA DOS ARCANOS
 
 > **Leia este arquivo primeiro.** Ele existe para você se localizar sem varrer o repo inteiro.
-> Última atualização: 2026-08-03 (após deploy config + rate limiting + taxa de mercado — ver §5.6 "Deploy, segurança e economia" e DEPLOY.md).
+> Última atualização: 2026-08-03 (após sistema de Guildas completo — ver §5.6 "Guildas").
 
 ---
 
@@ -298,6 +298,12 @@ Feito na segunda leva: ✅ trade P2P via socket, ✅ encantamento (98) + 2 conju
 - **Graceful shutdown**: SIGTERM/SIGINT fecham o server com timeout de 5s.
 - **Economia do mercado (gold sinks)** em `market.routes.js`: `MARKET_TAX_RATE = 0.05` (vendedor recebe líquido via carta) e `MARKET_LISTING_FEE = 2` (listagem, não reembolsável). UI avisa na aba de venda (`market.taxNote`).
 - ⚠ Server é stateless exceto trades em memória — reiniciar derruba trades pendentes.
+
+### Guildas (sistema completo)
+- **Server**: `models/Guild.js` (name único 3-24, leaderName, motd ≤160, members[{name, role, joinedAt}], maxMembers 20) + `routes/guild.routes.js`: list, my, create, join, leave (líder sai → sucessão por antiguidade; último sai → dissolve), kick (líder todos / oficial só membro), promote (líder alterna officer↔member), motd (líder/oficial), disband. Mutações notificam membros online via `guild:updated` (notify.js); expulso recebe `guild:kicked`.
+- **Chat de guilda**: room socket `guild:<id>` — cliente emite `guild:room` (servidor valida membership antes do join), `chat:guild` com throttle 5/10s.
+- **Client**: `GuildPanel.tsx` completo (criar/diretório/entrar, cargos com badges, promover/rebaixar/expulsar por permissão, MOTD editável, chat da guilda, sair/dissolver) + `API.guild.*` + `socketService.joinGuildRoom/sendGuildMessage`.
+- i18n: `guild.*` completo nos 4 idiomas (incl. `guild.role.{leader,officer,member}`).
 
 Restante:
 1. 🏛 **Leilão com bids** (mercado hoje é preço fixo)

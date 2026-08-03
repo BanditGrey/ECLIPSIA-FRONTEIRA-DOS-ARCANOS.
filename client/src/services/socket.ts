@@ -86,6 +86,17 @@ class SocketService {
     });
 
     // Histórico persistido do chat (enviado pelo servidor ao identificar)
+    // Chat da guilda (room validada no servidor)
+    this.socket.on('chat:guild', (payload: ChatUiMessage) => {
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(
+          new CustomEvent('eclipsia:guild-message', {
+            detail: { ...payload, name: sanitizeText(payload.name), text: sanitizeText(payload.text) }
+          })
+        );
+      }
+    });
+
     this.socket.on('chat:history', (payload: { messages?: ChatUiMessage[] }) => {
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('eclipsia:chat-history', { detail: payload }));
@@ -96,6 +107,9 @@ class SocketService {
     const pushEvents = [
       'mail:new',
       'market:sold',
+      'guild:updated',
+      'guild:kicked',
+      'guild:disbanded',
       'trade:requested',
       'trade:waiting',
       'trade:start',
@@ -162,6 +176,15 @@ class SocketService {
     this.emit('chat:message', {
       text: sanitizeText(message)
     });
+  }
+
+  // ── Guilda ──
+  joinGuildRoom(guildId: string) {
+    this.emit('guild:room', { guildId });
+  }
+
+  sendGuildMessage(message: string) {
+    this.emit('chat:guild', { text: sanitizeText(message) });
   }
 
   // ── Trade P2P ──
