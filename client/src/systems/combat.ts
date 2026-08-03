@@ -484,9 +484,14 @@ const handleVictory = () => {
   const resolved = getResolvedEffects();
   const xpBonus = resolved?.xpBonus ?? 0;
   const goldBonus = resolved?.goldBonus ?? 0;
-  // xpBonus/goldBonus são frações 0-1
-  const xp = Math.floor(enemy.xp * xpMultiplier * impulseSystem.getBonus('xp') * (1 + xpBonus));
-  const gold = Math.floor(enemy.gold * impulseSystem.getBonus('gold') * (1 + goldBonus));
+
+  // Bônus de grupo por nº de membros na caçada (autoritativo do servidor)
+  const activeSession = huntSession();
+  const sizeBonus = activeSession && huntRegionMatches() ? activeSession.sizeBonus : undefined;
+
+  // xpBonus/goldBonus são frações 0-1; sizeBonus vem em % inteiro
+  const xp = Math.floor(enemy.xp * xpMultiplier * impulseSystem.getBonus('xp') * (1 + xpBonus + (sizeBonus?.xp ?? 0) / 100));
+  const gold = Math.floor(enemy.gold * impulseSystem.getBonus('gold') * (1 + goldBonus + (sizeBonus?.gold ?? 0) / 100));
 
   playerStore.gainXp(xp);
   playerStore.gainGold(gold);
@@ -527,8 +532,8 @@ const handleVictory = () => {
     }
   }
 
-  // LOOT_BONUS (29, pets/montarias) aumenta a sorte efetiva do drop
-  const lootLuck = playerStore.getLuck() + (resolved?.lootBonus ?? 0) * 200;
+  // LOOT_BONUS (29, pets/montarias) + bônus de grupo aumentam a sorte do drop
+  const lootLuck = playerStore.getLuck() + (resolved?.lootBonus ?? 0) * 200 + (sizeBonus?.loot ?? 0) * 5;
   const loot = rollLoot(enemy, lootLuck, combat.autoConfig.lootFilter);
   loot.forEach((entry) => playerStore.addItem(entry.itemId, entry.qty));
 

@@ -15,6 +15,8 @@ export interface PartyHuntSnapshot {
   round: number;
   auraAtk: number;
   auraDef: number;
+  /** Bônus por tamanho do grupo (autoritativo do servidor): % XP/ouro/loot. */
+  sizeBonus?: { xp: number; gold: number; loot: number };
   members: PartyHuntMember[];
 }
 

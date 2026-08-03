@@ -147,6 +147,12 @@ export const PartyPanel = () => {
                 <p className="font-mono text-xs text-green-300">
                   🎯 {t('partyCombat.activeHunt')}: {hunt.region} · {t('partyCombat.round')} {hunt.round} · ⚔ +{hunt.auraAtk}% / 🛡 +{hunt.auraDef}%
                 </p>
+                {hunt.sizeBonus && (
+                  <p className="font-mono text-xs text-green-200/80">
+                    👥 {hunt.members.length} {t('partyCombat.membersWord')} → +{hunt.sizeBonus.xp}% XP · +{hunt.sizeBonus.gold}% 🪙 · +{hunt.sizeBonus.loot}% 🎁
+                  </p>
+                )}
+                <p className="font-mono text-[10px] text-game-muted">{t('partyCombat.sizeBonusHint')}</p>
                 {isLeader && (
                   <Button size="sm" variant="danger" onClick={() => socketService.endPartyHunt()}>
                     {t('partyCombat.endHunt')}

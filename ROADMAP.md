@@ -58,6 +58,7 @@ só os companheiros locais participam do combate. Meta: grupo lutar junto.
       (PARTY_ATK_AURA 79 / PARTY_DEF_AURA 80) no start; servidor agrega e
       devolve bônus efetivo que o client aplica via effectEngine
 - [x] XP da sessão aplicado via `gainXp` no PartyCombatBridge (GameLayout)
+- [x] Bônus progressivo por nº de membros (+10% XP / +5% ouro / +3% loot por membro, server-autoritativo)
 - [ ] Dungeons em party: andares compartilhados (todos avançam juntos) e
       recompensa de dungeon para cada membro
 

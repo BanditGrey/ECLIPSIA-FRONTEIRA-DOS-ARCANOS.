@@ -403,6 +403,15 @@ const MAX_TURN_DAMAGE = 200_000; // sanity cap por reporte
 const TEAMWORK_XP_PER_KILL = 8; // xp extra dividido entre membros
 const HUNT_SUMMARY_INTERVAL_MS = 1500;
 
+// Bônus de grupo por membro NA SESSÃO (ex.: 3 membros → +30% XP, +15% ouro, +9% loot)
+const SIZE_BONUS_PER_MEMBER = { xp: 10, gold: 5, loot: 3 };
+
+const computeSizeBonus = (memberCount) => ({
+  xp: memberCount * SIZE_BONUS_PER_MEMBER.xp,
+  gold: memberCount * SIZE_BONUS_PER_MEMBER.gold,
+  loot: memberCount * SIZE_BONUS_PER_MEMBER.loot
+});
+
 const partyHunts = new Map(); // partyId -> sessão
 
 const huntSnapshot = (hunt) => ({
@@ -413,6 +422,7 @@ const huntSnapshot = (hunt) => ({
   round: hunt.round,
   auraAtk: hunt.auraAtk,
   auraDef: hunt.auraDef,
+  sizeBonus: computeSizeBonus(hunt.contributions.size),
   members: [...hunt.contributions.entries()].map(([name, entry]) => ({
     name,
     dmg: entry.dmg,

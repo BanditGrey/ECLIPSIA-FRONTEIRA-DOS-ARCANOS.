@@ -429,6 +429,8 @@ export const translations: Record<LangCode, TranslationTree> = {
       "startHunt": "Caçar em grupo",
       "endHunt": "Encerrar caçada",
       "waitLeader": "O líder inicia a caçada",
+      "membersWord": "membros",
+      "sizeBonusHint": "Bônus por membro na caçada: +10% XP · +5% ouro · +3% loot",
       "regionMismatch": "lute na região da caçada p/ receber auras",
       "reason": { "not_leader": "apenas o líder inicia", "already": "já existe caçada ativa" }
     },
@@ -1574,6 +1576,8 @@ export const translations: Record<LangCode, TranslationTree> = {
       "startHunt": "Hunt as a party",
       "endHunt": "End hunt",
       "waitLeader": "The leader starts the hunt",
+      "membersWord": "members",
+      "sizeBonusHint": "Bonus per member in the hunt: +10% XP · +5% gold · +3% loot",
       "regionMismatch": "fight in the hunt region to receive auras",
       "reason": { "not_leader": "only the leader starts it", "already": "a hunt is already active" }
     },
@@ -2717,6 +2721,8 @@ export const translations: Record<LangCode, TranslationTree> = {
       "startHunt": "Cazar en grupo",
       "endHunt": "Terminar cacería",
       "waitLeader": "El líder inicia la cacería",
+      "membersWord": "miembros",
+      "sizeBonusHint": "Bono por miembro en la cacería: +10% XP · +5% oro · +3% botín",
       "regionMismatch": "lucha en la región de la cacería para recibir auras",
       "reason": { "not_leader": "solo el líder la inicia", "already": "ya hay una cacería activa" }
     },
@@ -3860,6 +3866,8 @@ export const translations: Record<LangCode, TranslationTree> = {
       "startHunt": "パーティで狩る",
       "endHunt": "ハント終了",
       "waitLeader": "リーダーがハントを開始します",
+      "membersWord": "メンバー",
+      "sizeBonusHint": "ハントのメンバー1人ごと：XP+10%・ゴールド+5%・ルート+3%",
       "regionMismatch": "オーラを得るにはハント地域で戦って下さい",
       "reason": { "not_leader": "リーダーのみ開始可能", "already": "既にハントが進行中" }
     },

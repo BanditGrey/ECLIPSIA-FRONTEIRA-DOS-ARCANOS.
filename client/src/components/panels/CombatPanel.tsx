@@ -140,6 +140,11 @@ export const CombatPanel = () => {
           <div className="rounded-lg border border-green-700 bg-game-panel px-3 py-1.5 font-mono text-xs text-green-300">
             <p>
               🎯 {t('partyCombat.activeHunt')} · {t('partyCombat.round')} {huntSession.round} · ⚔ +{huntSession.auraAtk}% 🛡 +{huntSession.auraDef}%
+              {huntSession.sizeBonus && (
+                <>
+                  {' '}· 👥 {huntSession.members.length} → +{huntSession.sizeBonus.xp}% XP · +{huntSession.sizeBonus.gold}% 🪙 · +{huntSession.sizeBonus.loot}% 🎁
+                </>
+              )}
               {combat.region !== huntSession.region && <span className="text-yellow-300"> · {t('partyCombat.regionMismatch')}</span>}
             </p>
             <p className="text-green-200/80">
