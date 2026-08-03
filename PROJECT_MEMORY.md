@@ -1,7 +1,7 @@
 # 🧠 MEMÓRIA DO PROJETO — ECLIPSIA: FRONTEIRA DOS ARCANOS
 
 > **Leia este arquivo primeiro.** Ele existe para você se localizar sem varrer o repo inteiro.
-> Última atualização: 2026-08-03 (após 💎 Cristais + party real + daily quests — ver §5.6).
+> Última atualização: camada social viva (convites no chat, sussurros, chat de party, presença) — ver §5.6.
 
 ---
 
@@ -320,6 +320,21 @@ Feito na segunda leva: ✅ trade P2P via socket, ✅ encantamento (98) + 2 conju
 - **Party real (socket)**: handlers `party:invite/respond/leave/kick` (estado em memória no server, máx. 5, limpeza no disconnect); PartyPanel tem seção "Grupo de jogadores" (convite por nome, aceitar/recusar, líder 👑, kick, sair) acima da lista de companheiros locais. ⚠ membros reais ainda NÃO participam do combate (companheiros locais seguem separados).
 - **Daily quests** (`data/dailyQuests.ts`): 4 diárias (20 kills, 15 explorações, 2 crafts, 3 andares de dungeon) rastreadas em `PlayerData.daily { date, progress, claimed }` via `recordDailyEvent()` (hooks em combat/world/CraftingPanel) e resgatadas com `claimDaily()`. Aba **DIÁRIAS** no QuestPanel. Reinício automático por data (YYYY-MM-DD).
 
+### 💬 Camada social viva (chat integrado)
+- **ChatPanel reescrito** com tipos de mensagem: system, global, party, whisper-in/out e **cards de convite de party clicáveis** (aceitar/recusar direto no chat).
+- **Comandos de chat** (client-side, antes do envio):
+  - `/convite <nome>` (ou /invite) → party:invite + eco no chat
+  - `/w <nome> <msg>` (ou /msg, /sussurrar) → sussurro privado (entrega só ao alvo)
+  - `/r <msg>` → responde ao último sussurro recebido
+  - `/p <msg>` (ou /party) → chat da party (room socket `party:<id>`)
+  - `/help` lista os comandos
+- **Nomes clicáveis** no chat → barra de ações (🤝 Convidar ao grupo / 💬 Sussurrar / ✕); sussurrar pré-preenche `/w Nome ` no input.
+- **Presença online**: broadcast `chat:presence` no identify/disconnect → linhas de sistema "entrou/saiu da fronteira".
+- **Server**: handlers `chat:whisper` (com `chat:whisper_failed` se offline), `chat:party` (restrito à room), rooms de party gerenciadas no accept/leave/kick/disconnect (`leavePartyRoom`); throttles de 5 msgs/10s por canal.
+- Links de item `[item:...]` seguem funcionando no chat (chips com nome real via itemNames).
+- i18n: `chat.commandHint/partyPrefix/whisperFrom/whisperTo/inviteCard/presenceIn/...` nos 4 idiomas.
+- ⚠ node_modules é limpo entre sessões (excluído do snapshot): reinstalar com `cd client && npm install && npm i --no-save tsx` e `cd server && npm install`.
+
 Restante:
 1. 🏛 **Leilão com bids** (mercado hoje é preço fixo)
 2. 🧪 Testes de integração das rotas mail/market (precisa mongodb-memory-server) e do fluxo de trade
@@ -328,6 +343,7 @@ Restante:
 5. 🔎 Busca de itens no mercado por nome (hoje só filtro rarity/numId)
 6. ⚔ Membros da party real no combate (hoje só companheiros locais)
 7. 💳 Gateway de pagamento real para crystals (hoje a concessão é manual via ADMIN_KEY)
+8. 🔔 Histórico de sussurros/party persistente (hoje só global é persistido)
 
 ---
 

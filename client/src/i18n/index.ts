@@ -725,7 +725,21 @@ export const translations: Record<LangCode, TranslationTree> = {
       "disconnected": "Desconectado do chat.",
       "messageTooLong": "Mensagem muito longa.",
       "empty": "Digite uma mensagem.",
-      "itemLinkHint": "Dica: cole [item:numId|efeito:valor|...] para linkar um item — ex.: [item:1005|1:65|4:5|7:3]"
+      "itemLinkHint": "Dica: cole [item:numId|efeito:valor|...] para linkar um item — ex.: [item:1005|1:65|4:5|7:3]",
+      "commandHint": "Comandos: /convite <nome> · /w <nome> <msg> · /r <msg> · /p <msg> · /help — clique em um nome para ações",
+      "partyPrefix": "Grupo",
+      "whisperFrom": "Sussurro de",
+      "whisperTo": "Sussurro para",
+      "whisperOffline": "Não foi possível sussurrar — jogador offline",
+      "inviteCard": "Convite de grupo de",
+      "inviteAnswered": "Convite respondido.",
+      "inviteSent": "Convite enviado para",
+      "presenceIn": "entrou na fronteira",
+      "presenceOut": "saiu da fronteira",
+      "actionInvite": "Convidar ao grupo",
+      "actionWhisper": "Sussurrar",
+      "noReplyTarget": "Ninguém para responder ainda — use /w <nome> <msg>",
+      "badCommand": "Comando inválido"
     },
     "mail": {
       "inbox": "Caixa de entrada",
@@ -1775,7 +1789,21 @@ export const translations: Record<LangCode, TranslationTree> = {
         "desc": "Hidden quest unlocked by 3 discoveries in Nythera."
       },
       "mystery": "???",
-      "itemLinkHint": "Tip: paste [item:numId|effect:value|...] to link an item — e.g. [item:1005|1:65|4:5|7:3]"
+      "itemLinkHint": "Tip: paste [item:numId|effect:value|...] to link an item — e.g. [item:1005|1:65|4:5|7:3]",
+      "commandHint": "Commands: /invite <name> · /w <name> <msg> · /r <msg> · /p <msg> · /help — click a name for actions",
+      "partyPrefix": "Party",
+      "whisperFrom": "Whisper from",
+      "whisperTo": "Whisper to",
+      "whisperOffline": "Could not whisper — player offline",
+      "inviteCard": "Party invite from",
+      "inviteAnswered": "Invite answered.",
+      "inviteSent": "Invite sent to",
+      "presenceIn": "entered the frontier",
+      "presenceOut": "left the frontier",
+      "actionInvite": "Invite to party",
+      "actionWhisper": "Whisper",
+      "noReplyTarget": "No one to reply yet — use /w <name> <msg>",
+      "badCommand": "Invalid command"
     },
     "mail": {
       "inbox": "Inbox",
@@ -2801,7 +2829,21 @@ export const translations: Record<LangCode, TranslationTree> = {
         "misty_ring": "Anillo nebuloso",
         "fortune_amulet": "Amuleto de la fortuna"
       },
-      "itemLinkHint": "Consejo: pega [item:numId|efecto:valor|...] para enlazar un objeto — ej.: [item:1005|1:65|4:5|7:3]"
+      "itemLinkHint": "Consejo: pega [item:numId|efecto:valor|...] para enlazar un objeto — ej.: [item:1005|1:65|4:5|7:3]",
+      "commandHint": "Comandos: /invite <nombre> · /w <nombre> <msg> · /r <msg> · /p <msg> · /help — haz clic en un nombre para acciones",
+      "partyPrefix": "Grupo",
+      "whisperFrom": "Susurro de",
+      "whisperTo": "Susurro a",
+      "whisperOffline": "No se pudo susurrar: jugador desconectado",
+      "inviteCard": "Invitación de grupo de",
+      "inviteAnswered": "Invitación respondida.",
+      "inviteSent": "Invitación enviada a",
+      "presenceIn": "entró en la frontera",
+      "presenceOut": "salió de la frontera",
+      "actionInvite": "Invitar al grupo",
+      "actionWhisper": "Susurrar",
+      "noReplyTarget": "Nadie a quien responder aún — usa /w <nombre> <msg>",
+      "badCommand": "Comando inválido"
     },
     "mail": {
       "inbox": "Buzón",
@@ -3917,7 +3959,21 @@ export const translations: Record<LangCode, TranslationTree> = {
         "misty_ring": "霧の指輪",
         "fortune_amulet": "幸運の護符"
       },
-      "itemLinkHint": "ヒント：[item:numId|効果:値|...] を貼り付けるとアイテムをリンクできます — 例: [item:1005|1:65|4:5|7:3]"
+      "itemLinkHint": "ヒント：[item:numId|効果:値|...] を貼り付けるとアイテムをリンクできます — 例: [item:1005|1:65|4:5|7:3]",
+      "commandHint": "コマンド: /invite <名前> · /w <名前> <msg> · /r <msg> · /p <msg> · /help — 名前クリックでアクション",
+      "partyPrefix": "パーティ",
+      "whisperFrom": "ささやき（受信）：",
+      "whisperTo": "ささやき（送信）：",
+      "whisperOffline": "ささやき不可 — プレイヤーがオフライン",
+      "inviteCard": "グループ招待：",
+      "inviteAnswered": "招待に応答しました。",
+      "inviteSent": "招待を送りました：",
+      "presenceIn": "が辺境に入りました",
+      "presenceOut": "が辺境から去りました",
+      "actionInvite": "グループに招待",
+      "actionWhisper": "ささやく",
+      "noReplyTarget": "返信相手がいません — /w <名前> <msg> を使って下さい",
+      "badCommand": "無効なコマンド"
     },
     "mail": {
       "inbox": "受信箱",

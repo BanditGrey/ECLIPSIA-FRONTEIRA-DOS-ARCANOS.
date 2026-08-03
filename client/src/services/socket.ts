@@ -116,6 +116,10 @@ class SocketService {
       'party:kicked',
       'party:declined',
       'party:failed',
+      'chat:whisper',
+      'chat:whisper_failed',
+      'chat:party',
+      'chat:presence',
       'trade:requested',
       'trade:waiting',
       'trade:start',
@@ -182,6 +186,15 @@ class SocketService {
     this.emit('chat:message', {
       text: sanitizeText(message)
     });
+  }
+
+  // ── Social: sussurros, chat de party ──
+  sendWhisper(toName: string, message: string) {
+    this.emit('chat:whisper', { toName, text: sanitizeText(message) });
+  }
+
+  sendPartyMessage(message: string) {
+    this.emit('chat:party', { text: sanitizeText(message) });
   }
 
   // ── Party real (jogadores online) ──

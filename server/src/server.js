@@ -254,6 +254,25 @@ const broadcastParty = (party) => {
   party.members.forEach((name) => notifyPlayer(name, 'party:updated', partySnapshot(party)));
 };
 
+/** Remove o socket do jogador da room da party (por nome). */
+const leavePartyRoom = (name, partyId) => {
+  const entry = onlinePlayers.get(name);
+
+  if (!entry || !io) {
+    return;
+  }
+
+  const targetSocket = io.sockets.sockets.get(entry.socketId);
+
+  if (targetSocket) {
+    targetSocket.leave(`party:${partyId}`);
+
+    if (targetSocket.data.partyId === partyId) {
+      targetSocket.data.partyId = null;
+    }
+  }
+};
+
 const removeFromParty = (name, notifyLeft = false) => {
   const party = findPartyOf(name);
 
@@ -338,10 +357,18 @@ const partyHandlers = (socket) => {
     }
 
     party.members.push(who);
+    socket.join(`party:${party.id}`);
+    socket.data.partyId = party.id;
     broadcastParty(party);
   });
 
   socket.on('party:leave', () => {
+    const leaverParty = findPartyOf(socket.data.playerId);
+
+    if (leaverParty) {
+      leavePartyRoom(socket.data.playerId, leaverParty.id);
+    }
+
     removeFromParty(socket.data.playerId, true);
   });
 
@@ -354,6 +381,7 @@ const partyHandlers = (socket) => {
 
     if (!party.members.includes(target)) return;
 
+    leavePartyRoom(target, party.id);
     removeFromParty(target, false);
     notifyPlayer(target, 'party:kicked', {});
   });
@@ -472,6 +500,9 @@ io.on('connection', (socket) => {
 
     broadcastOnlineCount();
 
+    // Presença: avisa os demais que o jogador entrou na fronteira
+    socket.broadcast.emit('chat:presence', { name, online: true });
+
     ChatMessage.find()
       .sort({ createdAt: -1 })
       .limit(50)
@@ -564,6 +595,69 @@ io.on('connection', (socket) => {
     });
   });
 
+  // ── Mensagens privadas (sussurros): entrega apenas ao alvo ──
+  socket.on('chat:whisper', (payload = {}) => {
+    const fromName = socket.data.playerId;
+    const toName = sanitizeMessage(payload.toName ?? '');
+    const text = sanitizeMessage(payload.text ?? payload.message);
+
+    if (!fromName || !toName || !text || fromName === toName) return;
+
+    // Throttle: 5 sussurros / 10s
+    const now = Date.now();
+    socket.data.whisperTimes = (socket.data.whisperTimes ?? []).filter((stamp) => now - stamp < 10_000);
+
+    if (socket.data.whisperTimes.length >= 5) {
+      return;
+    }
+
+    socket.data.whisperTimes.push(now);
+
+    const targetEntry = onlinePlayers.get(toName);
+
+    if (!targetEntry) {
+      socket.emit('chat:whisper_failed', { toName, reason: 'offline' });
+      return;
+    }
+
+    io.to(targetEntry.socketId).emit('chat:whisper', {
+      fromName,
+      toName,
+      text,
+      createdAt: new Date().toISOString()
+    });
+  });
+
+  // ── Chat da party: restrito à room party:<id> ──
+  socket.on('chat:party', (payload = {}) => {
+    const partyId = socket.data.partyId;
+
+    if (!partyId) return;
+
+    // Throttle: 5 msgs / 10s
+    const now = Date.now();
+    socket.data.partyChatTimes = (socket.data.partyChatTimes ?? []).filter((stamp) => now - stamp < 10_000);
+
+    if (socket.data.partyChatTimes.length >= 5) {
+      return;
+    }
+
+    socket.data.partyChatTimes.push(now);
+
+    const playerId = socket.data.playerId;
+    const onlinePlayer = playerId ? onlinePlayers.get(playerId) : null;
+    const text = sanitizeMessage(payload.text ?? payload.message);
+
+    if (!text) return;
+
+    io.to(`party:${partyId}`).emit('chat:party', {
+      id: `${Date.now()}-${socket.id}`,
+      name: onlinePlayer?.name ?? 'Unknown',
+      text,
+      createdAt: new Date().toISOString()
+    });
+  });
+
   socket.on('world:boss_defeated', (payload = {}) => {
     io.emit('world:boss_defeated', {
       bossId: sanitizeMessage(payload.bossId),
@@ -586,8 +680,15 @@ io.on('connection', (socket) => {
     const leaver = socket.data.playerId;
 
     if (leaver) {
+      const leaverParty = findPartyOf(leaver);
+
+      if (leaverParty) {
+        leavePartyRoom(leaver, leaverParty.id);
+      }
+
       cancelTradesOf(leaver, 'desconectado');
       removeFromParty(leaver, false);
+      io.emit('chat:presence', { name: leaver, online: false });
     }
 
     if (socket.data.playerId) {
