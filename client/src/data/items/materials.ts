@@ -525,5 +525,50 @@ export const materials = {
       "e1": 97,
       "v1": 0
     }
+  },
+  "mat_9350": {
+    "id": "mat_9350",
+    "numId": 9350,
+    "icon": "✨",
+    "rarity": "common",
+    "type": "material",
+    "slot": "material",
+    "requireLevel": 1,
+    "nameKey": "itemNames.mat_9350.name",
+    "descKey": "itemNames.mat_9350.desc",
+    "effects": {
+      "e1": 97,
+      "v1": 0
+    }
+  },
+  "mat_9351": {
+    "id": "mat_9351",
+    "numId": 9351,
+    "icon": "🌒",
+    "rarity": "uncommon",
+    "type": "material",
+    "slot": "material",
+    "requireLevel": 10,
+    "nameKey": "itemNames.mat_9351.name",
+    "descKey": "itemNames.mat_9351.desc",
+    "effects": {
+      "e1": 97,
+      "v1": 0
+    }
+  },
+  "mat_9352": {
+    "id": "mat_9352",
+    "numId": 9352,
+    "icon": "💎",
+    "rarity": "rare",
+    "type": "material",
+    "slot": "material",
+    "requireLevel": 20,
+    "nameKey": "itemNames.mat_9352.name",
+    "descKey": "itemNames.mat_9352.desc",
+    "effects": {
+      "e1": 97,
+      "v1": 0
+    }
   }
 } satisfies Record<string, Item>;

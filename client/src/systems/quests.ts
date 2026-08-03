@@ -66,7 +66,7 @@ export const questDefinitions: QuestDefinition[] = [
     reward: {
       xp: 500,
       gold: 300,
-      item: 'long_sword'
+      item: 'w1h_1003'
     },
     autoAccept: true
   },
@@ -78,7 +78,7 @@ export const questDefinitions: QuestDefinition[] = [
     reward: {
       xp: 800,
       gold: 500,
-      item: 'misty_ring'
+      item: 'er_5100'
     },
     autoAccept: true
   },
@@ -101,7 +101,7 @@ export const questDefinitions: QuestDefinition[] = [
     reward: {
       xp: 1500,
       gold: 1000,
-      item: 'fortune_amulet'
+      item: 'am_7001'
     },
     autoAccept: false,
     hidden: true

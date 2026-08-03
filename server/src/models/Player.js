@@ -54,6 +54,14 @@ const EquipmentSchema = new mongoose.Schema(
 );
 
 /**
+ * Formato itemStr (sistema ItemEffects):
+ *    "numId"                     → item base sem effects customizados
+ *    "numId|e1:v1|e2:v2|..."     → com effects (values podem ser negativos)
+ * Ex.: "1005|1:65|4:5|7:3"
+ */
+const ITEM_STR_REGEX = /^\d+(\|-?\d+:-?\d+)*$/;
+
+/**
  * Inventário (sistema ItemEffects): itens como string serializada.
  *
  *    { itemStr: "1005|1:65|4:5|7:3", qty: 1 }
@@ -63,7 +71,14 @@ const EquipmentSchema = new mongoose.Schema(
  */
 const InventoryItemSchema = new mongoose.Schema(
   {
-    itemStr: { type: String, default: null },
+    itemStr: {
+      type: String,
+      default: null,
+      validate: {
+        validator: (value) => value === null || ITEM_STR_REGEX.test(value),
+        message: (props) => `itemStr inválida: "${props.value}"`
+      }
+    },
     id: { type: String, default: null },
     qty: { type: Number, default: 1 }
   },
@@ -124,5 +139,9 @@ const PlayerSchema = new mongoose.Schema({
   activeCharId: { type: String, default: null },
   createdAt: { type: Date, default: Date.now }
 });
+
+// Índices para busca eficiente de personagens (ranking, listagem)
+PlayerSchema.index({ 'characters.name': 1 });
+PlayerSchema.index({ 'characters.level': -1 });
 
 export const Player = mongoose.model('Player', PlayerSchema);

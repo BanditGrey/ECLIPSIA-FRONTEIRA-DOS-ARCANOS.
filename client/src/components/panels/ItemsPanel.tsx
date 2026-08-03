@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
-import { describeEffect, getEffectIcon } from '../../data/effectNames';
-import { getEffectPairs } from '../../data/effectRegistry';
+import { describeEffect, getEffectIcon, getEffectName } from '../../data/effectNames';
+import { getEffect, getEffectPairs } from '../../data/effectRegistry';
 import { itemNames } from '../../data/itemNames';
 import { useI18n } from '../../hooks/useI18n';
 import { useGameStore } from '../../store/useGameStore';
@@ -214,6 +214,24 @@ export const ItemsPanel = () => {
     return Object.entries(meta.stats).map(([key, value]) => `${t(key === 'atk' ? 'charCreate.stats.atk' : 'charCreate.stats.def')} +${value}`).join(' • ');
   };
 
+  /**
+   * Diff effect-a-effect entre o item selecionado e o equipado no mesmo
+   * slot: verde se o novo é melhor, vermelho se é pior.
+   */
+  const effectDiffRows = (newMeta: ItemMeta, oldItemId: string) => {
+    const oldMeta = getItemMeta(oldItemId);
+    const newPairs = new Map(getEffectPairs(newMeta.effects).map((pair) => [pair.effectId, pair.value]));
+    const oldPairs = new Map(getEffectPairs(oldMeta.effects).map((pair) => [pair.effectId, pair.value]));
+    const ids = [...new Set([...newPairs.keys(), ...oldPairs.keys()])];
+
+    return ids.map((effectId) => {
+      const newValue = newPairs.get(effectId) ?? 0;
+      const oldValue = oldPairs.get(effectId) ?? 0;
+
+      return { effectId, newValue, oldValue, delta: newValue - oldValue };
+    });
+  };
+
   const renderSlot = (slot: EquipmentSlot) => {
     const itemId = player?.equipment[slot];
     const meta = itemId ? getItemMeta(itemId) : null;
@@ -336,7 +354,11 @@ export const ItemsPanel = () => {
                     const line = describeEffect(effectId, value, lang);
 
                     return (
-                      <span key={`${effectId}-${index}`} className={['flex items-center gap-2', line.colorClass].join(' ')}>
+                      <span
+                        key={`${effectId}-${index}`}
+                        className={['flex items-center gap-2', line.colorClass].join(' ')}
+                        title={`${getEffectName(effectId, lang)} — ${getEffect(effectId)?.description ?? ''}`}
+                      >
                         <span aria-hidden>{getEffectIcon(effectId)}</span>
                         <span>{line.text}</span>
                       </span>
@@ -365,7 +387,30 @@ export const ItemsPanel = () => {
 
             <section className="rounded-xl border border-game-border bg-game-card p-3 text-sm text-game-muted">
               <h3 className="mb-1 font-title text-game-gold">{t('items.comparison')}</h3>
-              {t('items.currentEquipped')}: {equippedCurrent ? itemName(getItemMeta(equippedCurrent)) : t('panels.none')}
+              {equippedCurrent ? (
+                <div className="grid gap-1">
+                  <p>
+                    {t('items.currentEquipped')}: {itemName(getItemMeta(equippedCurrent))}
+                  </p>
+                  <div className="grid gap-1 font-mono text-xs">
+                    {effectDiffRows(selectedMeta, equippedCurrent).map(({ effectId, newValue, oldValue, delta }) => (
+                      <span
+                        key={`diff-${effectId}`}
+                        className={['flex items-center gap-2', delta > 0 ? 'text-green-300' : delta < 0 ? 'text-red-300' : 'text-game-muted'].join(' ')}
+                        title={`${getEffectName(effectId, lang)} — ${getEffect(effectId)?.description ?? ''}`}
+                      >
+                        <span aria-hidden>{getEffectIcon(effectId)}</span>
+                        <span>{getEffectName(effectId, lang)}</span>
+                        <span className="ml-auto">
+                          {oldValue} → {newValue} ({delta > 0 ? '+' : ''}{delta})
+                        </span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <span>{t('panels.none')}</span>
+              )}
             </section>
 
             {selectedMeta.itemStr && (

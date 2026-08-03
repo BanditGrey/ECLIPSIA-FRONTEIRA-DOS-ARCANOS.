@@ -114,7 +114,7 @@ export const isSerializedItemStr = (value: string): boolean => /^\d+(\|-?\d+:-?\
 
 /**
  * Resolve uma referência de item que pode ser:
- *  - um id de catálogo (ex.: "sword_one_basic")
+ *  - um id de catálogo (ex.: "w1h_1005")
  *  - uma itemStr serializada (ex.: "1005|1:65|4:5|7:3")
  */
 export const resolveItemRef = (ref: string): Item | undefined => {

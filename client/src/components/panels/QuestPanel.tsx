@@ -15,7 +15,7 @@ interface QuestEntry {
   progress: number;
   rewardXp: number;
   rewardGold: number;
-  rewardItem?: 'long_sword' | 'misty_ring' | 'fortune_amulet';
+  rewardItem?: 'w1h_1003' | 'er_5100' | 'am_7001';
   secret?: boolean;
   unlocked?: boolean;
 }
@@ -50,7 +50,7 @@ export const QuestPanel = () => {
         progress: player?.kills.mist_wolf ?? 0,
         rewardXp: 500,
         rewardGold: 300,
-        rewardItem: 'long_sword',
+        rewardItem: 'w1h_1003',
         unlocked: true
       },
       {
@@ -60,7 +60,7 @@ export const QuestPanel = () => {
         progress: player?.kills.goblin ?? 0,
         rewardXp: 800,
         rewardGold: 500,
-        rewardItem: 'misty_ring',
+        rewardItem: 'er_5100',
         unlocked: true
       },
       {
@@ -79,7 +79,7 @@ export const QuestPanel = () => {
         progress: nytheraDiscoveries,
         rewardXp: 1500,
         rewardGold: 1000,
-        rewardItem: 'fortune_amulet',
+        rewardItem: 'am_7001',
         secret: true,
         unlocked: nytheraDiscoveries >= 3
       }

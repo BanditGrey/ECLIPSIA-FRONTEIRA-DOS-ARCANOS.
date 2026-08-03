@@ -44,7 +44,7 @@ const npcs: NpcEntry[] = [
 
 const shopItems: ShopEntry[] = [
   { id: 'sword_one_common_shop', icon: '⚔', category: 'weapons', rarity: 'common', price: 100, level: 1, stats: '+10' },
-  { id: 'chest_uncommon_shop', icon: '🥋', category: 'armor', rarity: 'uncommon', price: 160, level: 5, stats: '+8' },
+  { id: 'ch_3001', icon: '🥋', category: 'armor', rarity: 'uncommon', price: 160, level: 5, stats: '+8' },
   { id: 'amulet_rare_shop', icon: '🔮', category: 'accessories', rarity: 'rare', price: 300, level: 10, stats: '+5' },
   { id: 'pet_common_shop', icon: '🐾', category: 'pet', rarity: 'common', price: 250, level: 1, stats: '+1' },
   { id: 'mount_common_shop', icon: '🐴', category: 'mount', rarity: 'common', price: 500, level: 15, stats: '10%'

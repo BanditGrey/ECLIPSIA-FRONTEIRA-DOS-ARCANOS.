@@ -9,14 +9,14 @@
  */
 
 import { ITEMS } from '../data/items';
-import { EFFECT, getEffectPairs } from '../data/effectRegistry';
+import { EFFECT, getEffect, getEffectPairs } from '../data/effectRegistry';
 import type { Item, ItemStats } from '../types/item.types';
 import type { Equipment, Stats } from '../types/player.types';
 
 /** Effect "ao acertar" (effectIds 61–66) já pronto para rolagem em combate. */
 export interface OnHitEffect {
   effectId: number;
-  /** Chance de aplicar o status (inteiro, 15 = 15%). */
+  /** Chance de aplicar o status (fração 0–1; ex.: 0.25 = 25%). */
   chance: number;
   /** Payload do status (turnos para controle; dano de DoT é derivado em combate). */
   value: number;
@@ -120,8 +120,17 @@ export const emptyResolvedEffects = (): ResolvedEffects => ({
   petBonuses: { atk: 0, hp: 0, cdReduce: 0, xpBonus: 0, reviveSpeed: 0 }
 });
 
-/** Aplica um par (effectId, value) em um `ResolvedEffects` (mutação). */
-const applyEffectPair = (target: ResolvedEffects, effectId: number, value: number) => {
+/**
+ * Aplica um par (effectId, value) em um `ResolvedEffects` (mutação).
+ *
+ * Convenção de saída: effects com unidade `percent` são convertidos
+ * para fração 0–1 (ex.: value 15 → 0.15). Stats flat, turnos, ids e
+ * flags permanecem com o valor direto.
+ */
+const applyEffectPair = (target: ResolvedEffects, effectId: number, rawValue: number) => {
+  const definition = getEffect(effectId);
+  const value = definition?.unit === 'percent' ? rawValue / 100 : rawValue;
+
   switch (effectId) {
     // ── Stats primários ──
     case EFFECT.ATK: target.atk += value; break;
