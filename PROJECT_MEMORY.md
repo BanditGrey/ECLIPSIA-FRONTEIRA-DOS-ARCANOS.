@@ -1,7 +1,7 @@
 # 🧠 MEMÓRIA DO PROJETO — ECLIPSIA: FRONTEIRA DOS ARCANOS
 
 > **Leia este arquivo primeiro.** Ele existe para você se localizar sem varrer o repo inteiro.
-> Última atualização: camada social viva (convites no chat, sussurros, chat de party, presença) — ver §5.6.
+> Última atualização: caçada de party em combate (Caso 1, Modo A) — ver §5.6 e ROADMAP.md.
 
 ---
 
@@ -342,6 +342,12 @@ Feito na segunda leva: ✅ trade P2P via socket, ✅ encantamento (98) + 2 conju
 - Links de item `[item:...]` seguem funcionando no chat (chips com nome real via itemNames).
 - i18n: `chat.commandHint/partyPrefix/whisperFrom/whisperTo/inviteCard/presenceIn/...` nos 4 idiomas.
 - ⚠ node_modules é limpo entre sessões (excluído do snapshot): reinstalar com `cd client && npm install && npm i --no-save tsx` e `cd server && npm install`.
+
+### 🎯 Caçada de party em combate (Caso 1 do ROADMAP — Modo A)
+- **Server** (`server.js`): `partyHunts` Map por party; eventos `party_combat:start` (líder, valida party+liderança), `join` (snapshot de auras 79/80 somadas e capadas em 100%), `turn` (reporte dano/sofrido/kills com sanity cap 200k), `end`, `leave`; broadcast `party_combat:updated` throttled (1,5s); fim paga `xpBonus = kills*8/membros`; sessão morre com leave/disband/disconnect do último.
+- **Client**: `store/usePartyCombatStore.ts` (sessão/contribuições/auras); `PartyCombatBridge` no GameLayout (auto-join com snapshot de auras via calculatePlayerStats, aplica XP final, toasts); combatEngine reporta turnos e aplica auraAtk/auraDef **apenas quando combat.region === sessão.region**; PartyPanel inicia (select de regiões com gate) e encerra; CombatPanel mostra barra da sessão com ranking de contribuições.
+- Regras: XP de equipe é EXTRA (cada um já ganha o seu do próprio combate); loot individual; auras coletivas são o benefício em tempo real.
+- Pendente no caso 1: dungeons com andares compartilhados, testes de sanity, checks de auditoria (ver ROADMAP.md).
 
 Restante:
 1. 🏛 **Leilão com bids** (mercado hoje é preço fixo)

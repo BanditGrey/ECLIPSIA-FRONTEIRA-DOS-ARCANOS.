@@ -120,6 +120,10 @@ class SocketService {
       'chat:whisper_failed',
       'chat:party',
       'chat:presence',
+      'party_combat:started',
+      'party_combat:updated',
+      'party_combat:ended',
+      'party_combat:failed',
       'trade:requested',
       'trade:waiting',
       'trade:start',
@@ -195,6 +199,27 @@ class SocketService {
 
   sendPartyMessage(message: string) {
     this.emit('chat:party', { text: sanitizeText(message) });
+  }
+
+  // ── Caçada de party (combate cooperativo) ──
+  startPartyHunt(region: string, dungeonId?: string | null) {
+    this.emit('party_combat:start', { region, dungeonId });
+  }
+
+  joinPartyHunt(partyId: string, auraAtk: number, auraDef: number) {
+    this.emit('party_combat:join', { partyId, auraAtk, auraDef });
+  }
+
+  reportPartyTurn(payload: { dmgDealt?: number; dmgTaken?: number; killed?: boolean }) {
+    this.emit('party_combat:turn', payload);
+  }
+
+  endPartyHunt() {
+    this.emit('party_combat:end', {});
+  }
+
+  leavePartyHunt() {
+    this.emit('party_combat:leave', {});
   }
 
   // ── Party real (jogadores online) ──

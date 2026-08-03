@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { regions } from '../../data/regions';
 import { useI18n } from '../../hooks/useI18n';
 import { socketService } from '../../services/socket';
 import { useGameStore } from '../../store/useGameStore';
+import { usePartyCombatStore } from '../../store/usePartyCombatStore';
 import { usePartyStore } from '../../store/usePartyStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
 import { Button } from '../ui/Button';
@@ -20,7 +22,8 @@ interface PartyInvite {
 
 export const PartyPanel = () => {
   const { t } = useI18n();
-  const playerName = usePlayerStore((state) => state.data?.name ?? '');
+  const player = usePlayerStore((state) => state.data);
+  const playerName = player?.name ?? '';
   const addNotification = useGameStore((state) => state.addNotification);
   const [realParty, setRealParty] = useState<RealParty | null>(null);
   const [invite, setInvite] = useState<PartyInvite | null>(null);
@@ -80,6 +83,26 @@ export const PartyPanel = () => {
   };
 
   const isLeader = realParty?.leader === playerName;
+  const hunt = usePartyCombatStore((state) => state.session);
+  const [huntRegion, setHuntRegion] = useState<string>(regions[0]?.id ?? '');
+
+  const isRegionUnlocked = (regionId: string) => {
+    const region = regions.find((entry) => entry.id === regionId);
+
+    if (!region) {
+      return false;
+    }
+
+    if (region.requireLevel && (player?.level ?? 0) < region.requireLevel) {
+      return false;
+    }
+
+    if (region.requireTitle && !player?.titles.includes(region.requireTitle)) {
+      return false;
+    }
+
+    return true;
+  };
   const members = usePartyStore((state) => state.members);
   const activeId = usePartyStore((state) => state.activeId);
   const maxSize = usePartyStore((state) => state.maxSize);
@@ -118,6 +141,38 @@ export const PartyPanel = () => {
 
         {realParty ? (
           <div className="grid gap-1.5">
+            {/* Caçada de grupo */}
+            {hunt ? (
+              <div className="mb-1 rounded-lg border border-green-700 bg-game-dark p-2">
+                <p className="font-mono text-xs text-green-300">
+                  🎯 {t('partyCombat.activeHunt')}: {hunt.region} · {t('partyCombat.round')} {hunt.round} · ⚔ +{hunt.auraAtk}% / 🛡 +{hunt.auraDef}%
+                </p>
+                {isLeader && (
+                  <Button size="sm" variant="danger" onClick={() => socketService.endPartyHunt()}>
+                    {t('partyCombat.endHunt')}
+                  </Button>
+                )}
+              </div>
+            ) : (
+              <div className="mb-1 grid grid-cols-[1fr_auto] gap-2">
+                <select className="input-field" value={huntRegion} onChange={(event) => setHuntRegion(event.target.value)}>
+                  {regions.map((region) => (
+                    <option key={region.id} value={region.id} disabled={!isRegionUnlocked(region.id)}>
+                      {region.icon} {t(`travel.regions.${region.id}.name`)}
+                      {!isRegionUnlocked(region.id) ? ' 🔒' : ''}
+                    </option>
+                  ))}
+                </select>
+                {isLeader ? (
+                  <Button disabled={!isRegionUnlocked(huntRegion)} onClick={() => socketService.startPartyHunt(huntRegion)}>
+                    🎯 {t('partyCombat.startHunt')}
+                  </Button>
+                ) : (
+                  <span className="self-center font-mono text-[10px] text-game-muted">{t('partyCombat.waitLeader')}</span>
+                )}
+              </div>
+            )}
+
             {realParty.members.map((member) => (
               <div key={member} className="flex items-center gap-2 rounded-lg border border-game-border bg-game-card p-2">
                 <span className={['min-w-0 flex-1 truncate text-sm', member === playerName ? 'text-game-gold' : 'text-game-text'].join(' ')}>

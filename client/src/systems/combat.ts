@@ -10,7 +10,9 @@ import { useCombatStore } from '../store/useCombatStore';
 import { useGameStore } from '../store/useGameStore';
 import { usePartyStore } from '../store/usePartyStore';
 import { usePetStore } from '../store/usePetStore';
+import { usePartyCombatStore } from '../store/usePartyCombatStore';
 import { usePlayerStore } from '../store/usePlayerStore';
+import { socketService } from '../services/socket';
 import type { Enemy, LootEntry } from '../types/combat.types';
 import type { PartyMember } from '../types/party.types';
 import { calculatePlayerStats, getConditionalValue, type ResolvedEffects } from './effectEngine';
@@ -223,6 +225,8 @@ const rollOnHitEffects = () => {
 
 /** Finaliza o turno do inimigo: ticks de cooldown, avanço de turno e auto-batalha. */
 const endEnemyTurn = () => {
+  reportHuntRound(false);
+
   const combat = useCombatStore.getState();
 
   usePetStore.getState().tickCooldown();
@@ -252,6 +256,38 @@ const healPlayerFlat = (amount: number) => {
   });
 };
 
+// ── Caçada de party: acumuladores do round e reporte ──
+let roundDealt = 0;
+let roundTaken = 0;
+
+const huntSession = () => {
+  const state = usePartyCombatStore.getState();
+
+  return state.active ? state.session : null;
+};
+
+/** Auras da caçada só valem lutando na região da sessão. */
+const huntRegionMatches = (): boolean => {
+  const session = huntSession();
+
+  return Boolean(session && session.region === useCombatStore.getState().region);
+};
+
+const reportHuntRound = (killed: boolean) => {
+  if (!huntSession()) {
+    roundDealt = 0;
+    roundTaken = 0;
+    return;
+  }
+
+  if (roundDealt > 0 || roundTaken > 0 || killed) {
+    socketService.reportPartyTurn({ dmgDealt: roundDealt, dmgTaken: roundTaken, killed });
+  }
+
+  roundDealt = 0;
+  roundTaken = 0;
+};
+
 const getPlayerDamage = (percent = 100) => {
   const playerStore = usePlayerStore.getState();
   const combat = useCombatStore.getState();
@@ -260,6 +296,13 @@ const getPlayerDamage = (percent = 100) => {
   // Bônus de dano (frações 0-1): DMG_BONUS (24), VS_* (75-78),
   // ON_LOW_HP_ATK (69, com HP < 20%), PARTY_ATK_AURA (79 com party ativa)
   let bonusFraction = resolved?.dmgBonus ?? 0;
+
+  // Aura coletiva da caçada de party (soma dos PARTY_ATK_AURA dos membros)
+  const session = huntSession();
+
+  if (session && huntRegionMatches()) {
+    bonusFraction += session.auraAtk / 100;
+  }
 
   if (resolved && combat.enemy) {
     if (combat.enemy.race === 'beast') {
@@ -329,7 +372,12 @@ const healPlayerPercent = (hpPercent: number, mpPercent: number) => {
 
 const applyEnemyDamage = (amount: number) => {
   const combat = useCombatStore.getState();
+  const applied = Math.min(Math.max(0, amount), Math.max(0, combat.enemyHp));
   const enemyHp = Math.max(0, combat.enemyHp - amount);
+
+  if (huntSession()) {
+    roundDealt += applied;
+  }
 
   useCombatStore.getState().setEnemyHp(enemyHp);
 
@@ -381,6 +429,10 @@ const damagePartyOrPlayer = (damage: number) => {
     }
   }
 
+  if (huntSession()) {
+    roundTaken += Math.max(0, finalDamage);
+  }
+
   if (!target) {
     usePlayerStore.getState().takeDamage(finalDamage);
     return;
@@ -417,6 +469,8 @@ const handleDefeat = () => {
 };
 
 const handleVictory = () => {
+  reportHuntRound(true);
+
   const combat = useCombatStore.getState();
   const playerStore = usePlayerStore.getState();
   const partyStore = usePartyStore.getState();
@@ -784,6 +838,13 @@ export const combatEngine = {
 
       if (isPlayerLowHp()) {
         defBonus += getConditionalValue(resolved, EFFECT.ON_LOW_HP_DEF);
+      }
+
+      // Aura coletiva de defesa da caçada de party
+      const activeSession = huntSession();
+
+      if (activeSession && huntRegionMatches() && activeSession.auraDef > 0) {
+        defBonus += activeSession.auraDef;
       }
 
       if (defBonus > 0) {

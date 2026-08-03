@@ -367,6 +367,12 @@ const partyHandlers = (socket) => {
 
     if (leaverParty) {
       leavePartyRoom(socket.data.playerId, leaverParty.id);
+
+      const hunt = partyHunts.get(leaverParty.id);
+
+      if (hunt && !hunt.ended) {
+        endPartyHunt(hunt, { aborted: true });
+      }
     }
 
     removeFromParty(socket.data.playerId, true);
@@ -384,6 +390,199 @@ const partyHandlers = (socket) => {
     leavePartyRoom(target, party.id);
     removeFromParty(target, false);
     notifyPlayer(target, 'party:kicked', {});
+  });
+};
+
+// ────────────────────────────────────────────────────────────────
+//  CAÇADA DE PARTY (Modo A — sessão paralela sincronizada):
+//  cada membro luta no próprio cliente contra a mesma região; o
+//  servidor agrega contribuições, aplica auras coletivas e paga
+//  bônus de trabalho em equipe ao final.
+// ────────────────────────────────────────────────────────────────
+const MAX_TURN_DAMAGE = 200_000; // sanity cap por reporte
+const TEAMWORK_XP_PER_KILL = 8; // xp extra dividido entre membros
+const HUNT_SUMMARY_INTERVAL_MS = 1500;
+
+const partyHunts = new Map(); // partyId -> sessão
+
+const huntSnapshot = (hunt) => ({
+  partyId: hunt.partyId,
+  region: hunt.region,
+  dungeonId: hunt.dungeonId ?? null,
+  leader: hunt.leader,
+  round: hunt.round,
+  auraAtk: hunt.auraAtk,
+  auraDef: hunt.auraDef,
+  members: [...hunt.contributions.entries()].map(([name, entry]) => ({
+    name,
+    dmg: entry.dmg,
+    taken: entry.taken,
+    kills: entry.kills
+  }))
+});
+
+const broadcastHunt = (hunt, event = 'party_combat:updated') => {
+  const party = parties.get(hunt.partyId);
+  const targets = party ? party.members : [...hunt.contributions.keys()];
+
+  targets.forEach((name) => notifyPlayer(name, event, huntSnapshot(hunt)));
+};
+
+const clampReportNumber = (value) => {
+  const parsed = Math.floor(Number(value) || 0);
+
+  return Math.max(0, Math.min(MAX_TURN_DAMAGE, parsed));
+};
+
+const endPartyHunt = (hunt, { aborted = false } = {}) => {
+  if (hunt.ended) {
+    return;
+  }
+
+  hunt.ended = true;
+
+  const memberCount = Math.max(1, hunt.contributions.size);
+  const totalKills = [...hunt.contributions.values()].reduce((sum, entry) => sum + entry.kills, 0);
+  const xpBonus = aborted ? 0 : Math.floor((totalKills * TEAMWORK_XP_PER_KILL) / memberCount);
+
+  const party = parties.get(hunt.partyId);
+  const targets = party ? party.members : [...hunt.contributions.keys()];
+
+  targets.forEach((name) => notifyPlayer(name, 'party_combat:ended', { ...huntSnapshot(hunt), xpBonus, aborted }));
+  partyHunts.delete(hunt.partyId);
+};
+
+const partyHuntHandlers = (socket) => {
+  // Líder inicia a caçada para a party
+  socket.on('party_combat:start', (payload = {}) => {
+    const who = socket.data.playerId;
+    const region = sanitizeMessage(payload.region ?? '');
+    const dungeonId = sanitizeMessage(payload.dungeonId ?? '') || null;
+
+    if (!who || !region) return;
+
+    const party = findPartyOf(who);
+
+    if (!party || party.leader !== who) {
+      notifyPlayer(who, 'party_combat:failed', { reason: 'not_leader' });
+      return;
+    }
+
+    if (partyHunts.has(party.id)) {
+      notifyPlayer(who, 'party_combat:failed', { reason: 'already' });
+      return;
+    }
+
+    const hunt = {
+      partyId: party.id,
+      region,
+      dungeonId,
+      leader: who,
+      round: 0,
+      auraAtk: 0,
+      auraDef: 0,
+      contributions: new Map(),
+      lastSummaryAt: 0,
+      ended: false
+    };
+
+    partyHunts.set(party.id, hunt);
+    party.members.forEach((name) => notifyPlayer(name, 'party_combat:started', huntSnapshot(hunt)));
+  });
+
+  // Membro entra na sessão enviando seu snapshot de auras
+  socket.on('party_combat:join', (payload = {}) => {
+    const who = socket.data.playerId;
+    const hunt = partyHunts.get(payload.partyId) ?? [...partyHunts.values()].find((entry) => {
+      const party = parties.get(entry.partyId);
+      return party && party.members.includes(who);
+    });
+
+    if (!hunt || hunt.ended || !who) return;
+
+    const party = parties.get(hunt.partyId);
+
+    if (!party || !party.members.includes(who)) return;
+
+    const existing = hunt.contributions.get(who) ?? { dmg: 0, taken: 0, kills: 0 };
+    hunt.contributions.set(who, existing);
+
+    // Auras coletivas: soma dos effects 79/80 de todos os membros
+    hunt.auraAtk = Math.max(0, Math.min(100, Math.floor(Number(payload.auraAtk) || 0)));
+    hunt.auraDef = Math.max(0, Math.min(100, Math.floor(Number(payload.auraDef) || 0)));
+    hunt.memberAuras = hunt.memberAuras ?? new Map();
+    hunt.memberAuras.set(who, { atk: hunt.auraAtk, def: hunt.auraDef });
+
+    let auraAtk = 0;
+    let auraDef = 0;
+
+    for (const aura of hunt.memberAuras.values()) {
+      auraAtk += aura.atk;
+      auraDef += aura.def;
+    }
+
+    hunt.auraAtk = Math.min(100, auraAtk);
+    hunt.auraDef = Math.min(100, auraDef);
+
+    broadcastHunt(hunt);
+  });
+
+  // Reporte de turno: dano causado/sofrido e kills
+  socket.on('party_combat:turn', (payload = {}) => {
+    const who = socket.data.playerId;
+
+    if (!who) return;
+
+    const hunt = [...partyHunts.values()].find((entry) => entry.contributions.has(who));
+
+    if (!hunt || hunt.ended) return;
+
+    const entry = hunt.contributions.get(who);
+    entry.dmg += clampReportNumber(payload.dmgDealt);
+    entry.taken += clampReportNumber(payload.dmgTaken);
+    entry.kills += payload.killed ? 1 : 0;
+    hunt.round += 1;
+
+    const now = Date.now();
+
+    if (now - hunt.lastSummaryAt >= HUNT_SUMMARY_INTERVAL_MS) {
+      hunt.lastSummaryAt = now;
+      broadcastHunt(hunt);
+    }
+  });
+
+  // Líder encerra a caçada
+  socket.on('party_combat:end', () => {
+    const who = socket.data.playerId;
+    const hunt = [...partyHunts.values()].find((entry) => entry.contributions.has(who) || entry.leader === who);
+
+    if (!hunt || hunt.ended || hunt.leader !== who) return;
+
+    endPartyHunt(hunt);
+  });
+
+  // Membro sai da sessão
+  socket.on('party_combat:leave', () => {
+    const who = socket.data.playerId;
+    const hunt = [...partyHunts.values()].find((entry) => entry.contributions.has(who));
+
+    if (!hunt || hunt.ended) return;
+
+    hunt.contributions.delete(who);
+    hunt.memberAuras?.delete(who);
+
+    if (hunt.leader === who) {
+      const nextLeader = [...hunt.contributions.keys()][0];
+
+      if (!nextLeader) {
+        endPartyHunt(hunt, { aborted: true });
+        return;
+      }
+
+      hunt.leader = nextLeader;
+    }
+
+    broadcastHunt(hunt);
   });
 };
 
@@ -486,6 +685,7 @@ const tradeHandlers = (socket) => {
 io.on('connection', (socket) => {
   tradeHandlers(socket);
   partyHandlers(socket);
+  partyHuntHandlers(socket);
 
   socket.on('player:identify', (payload = {}) => {
     const playerId = sanitizeMessage(payload.playerId ?? payload.id ?? socket.id);
@@ -684,6 +884,23 @@ io.on('connection', (socket) => {
 
       if (leaverParty) {
         leavePartyRoom(leaver, leaverParty.id);
+      }
+
+      const leaverHunt = [...partyHunts.values()].find((entry) => entry.contributions.has(leaver) || entry.leader === leaver);
+
+      if (leaverHunt && !leaverHunt.ended) {
+        leaverHunt.contributions.delete(leaver);
+        leaverHunt.memberAuras?.delete(leaver);
+
+        if (leaverHunt.contributions.size === 0) {
+          endPartyHunt(leaverHunt, { aborted: true });
+        } else {
+          if (leaverHunt.leader === leaver) {
+            leaverHunt.leader = [...leaverHunt.contributions.keys()][0];
+          }
+
+          broadcastHunt(leaverHunt);
+        }
       }
 
       cancelTradesOf(leaver, 'desconectado');

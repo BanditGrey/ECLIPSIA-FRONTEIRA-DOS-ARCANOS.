@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { useI18n } from '../../hooks/useI18n';
 import { useCombatStore } from '../../store/useCombatStore';
 import { useGameStore } from '../../store/useGameStore';
+import { usePartyCombatStore } from '../../store/usePartyCombatStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
 import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
@@ -110,6 +111,7 @@ export const CombatPanel = () => {
   const setPanel = useGameStore((state) => state.setPanel);
   const openModal = useGameStore((state) => state.openModal);
   const combat = useCombatStore();
+  const huntSession = usePartyCombatStore((state) => state.session);
 
   if (!combat.active || !combat.enemy) {
     return (
@@ -124,14 +126,31 @@ export const CombatPanel = () => {
 
   return (
     <div className="grid h-full grid-rows-[auto_1fr_auto] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
-      <header className="flex items-center justify-between rounded-lg border border-game-border bg-game-panel px-3 py-2 font-mono text-sm text-game-muted">
-        <span>{combat.region || t('game.unknown')}</span>
-        {combat.isDungeon && (
-          <span>
-            {t('combat.floor')} {combat.floor}/{combat.maxFloor}
-          </span>
+      <div className="grid gap-2">
+        <header className="flex items-center justify-between rounded-lg border border-game-border bg-game-panel px-3 py-2 font-mono text-sm text-game-muted">
+          <span>{combat.region || t('game.unknown')}</span>
+          {combat.isDungeon && (
+            <span>
+              {t('combat.floor')} {combat.floor}/{combat.maxFloor}
+            </span>
+          )}
+        </header>
+
+        {huntSession && (
+          <div className="rounded-lg border border-green-700 bg-game-panel px-3 py-1.5 font-mono text-xs text-green-300">
+            <p>
+              🎯 {t('partyCombat.activeHunt')} · {t('partyCombat.round')} {huntSession.round} · ⚔ +{huntSession.auraAtk}% 🛡 +{huntSession.auraDef}%
+              {combat.region !== huntSession.region && <span className="text-yellow-300"> · {t('partyCombat.regionMismatch')}</span>}
+            </p>
+            <p className="text-green-200/80">
+              {[...huntSession.members]
+                .sort((a, b) => b.dmg - a.dmg)
+                .map((member) => `${member.name} ${member.dmg}⚔ ${member.kills}💀`)
+                .join(' · ')}
+            </p>
+          </div>
         )}
-      </header>
+      </div>
 
       <main className="grid min-h-0 grid-rows-[1fr_auto_1fr] gap-3 overflow-hidden">
         <section className="grid rounded-xl border border-red-700 bg-game-card p-4">

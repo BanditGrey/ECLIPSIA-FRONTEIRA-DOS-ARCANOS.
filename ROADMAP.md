@@ -18,63 +18,63 @@
 
 ---
 
-## 🎯 CASO 1 — Party real DENTRO do combate (prioridade máxima)
+## 🎯 CASO 1 — Party real DENTRO do combate (🚧 EM ANDAMENTO — núcleo pronto)
 
 Hoje a party real é social (chat/convites). Membros não lutam juntos —
 só os companheiros locais participam do combate. Meta: grupo lutar junto.
 
 ### 1.1 Decisão de arquitetura (fazer PRIMEIRO)
-- [ ] Escolher o modo de jogo cooperativo:
+- [x] Escolher o modo de jogo cooperativo (✅ Modo A implementado):
   - **Modo A — Sessão paralela sincronizada** (recomendado p/ começar): cada
     membro luta na própria máquina contra monstros da mesma região; servidor
     agrega contribuições por turno e distribui XP/loot. Simples, sem simulação
     central.
   - **Modo B — Combate centralizado**: estado do combate no servidor (ou cliente
     host), turnos sincronizados via socket. Mais fiel, muito mais complexo.
-- [ ] Definir regras: XP dividido (fórmula `getXpMultiplier` já existe no
+- [x] Definir regras: XP dividido (fórmula `getXpMultiplier` já existe no
       usePartyStore), loot (cada um rola o seu + LOOT_BONUS), morte (membro
       cai → segue lutando sozinho até o fim da sessão?).
 
 ### 1.2 Servidor — sessão de combate de party
-- [ ] Estado `partyCombat` (Map): partyId → { region, members[], round,
+- [x] Estado `partyCombat` (Map): partyId → { region, members[], round,
       kills, contributions: Map<name, {dmgDealt, dmgTaken, kills}> }
 - [ ] Eventos socket novos:
-  - [ ] `party_combat:start { partyId, region, dungeonId? }` (líder inicia)
-  - [ ] `party_combat:join/leave` (membro entra/sai da sessão)
-  - [ ] `party_combat:turn { dmgDealt, dmgTaken, killed?, enemyId }` (cada
+  - [x] `party_combat:start { partyId, region, dungeonId? }` (líder inicia)
+  - [x] `party_combat:join/leave` (membro entra/sai da sessão)
+  - [x] `party_combat:turn { dmgDealt, dmgTaken, killed? }` (cada
         cliente reporta seu turno; servidor valida com sanity caps por nível)
-  - [ ] `party_combat:summary` (broadcast do agregado por turno p/ UI)
-  - [ ] `party_combat:end { xpShare, goldShare, lootRolls }` (distribuição)
-- [ ] Validar: só membros da party entram; sessão morre com disband/disconnect
+  - [x] `party_combat:summary` → `party_combat:updated` (broadcast throttled 1,5s p/ UI)
+  - [x] `party_combat:ended { xpBonus, stats }` (bônus de equipe por kills)
+- [x] Validar: só membros da party entram; sessão morre com disband/disconnect
       do líder (ou passa liderança, como na party)
-- [ ] Sanity anti-cheat básico: teto de dano por turno = f(nível, ATK máximo
+- [x] Sanity anti-cheat básico: teto de dano por turno (200k por reporte)
       possível do catálogo) — log de suspeita
 
 ### 1.3 Client — integração no motor de combate
-- [ ] `combatEngine.start()` ganha modo party: registra na sessão via socket
-- [ ] Ao fim de cada turno local → enviar `party_combat:turn`
-- [ ] Receber `party_combat:summary` → alimentar feed de contribuições
-- [ ] Auras reais: membros enviam snapshot de `ResolvedEffects` resumido
+- [x] `combatEngine` reporta turnos (dano causado/sofrido/kills) à sessão via socket
+- [x] Ao fim de cada turno local → enviar `party_combat:turn`
+- [x] Receber `party_combat:updated` → alimentar feed de contribuições
+- [x] Auras reais: membros enviam snapshot de `ResolvedEffects` resumido
       (PARTY_ATK_AURA 79 / PARTY_DEF_AURA 80) no start; servidor agrega e
       devolve bônus efetivo que o client aplica via effectEngine
-- [ ] XP/ouro da sessão aplicados via `gainXp/gainGold` + `recordDailyEvent`
+- [x] XP da sessão aplicado via `gainXp` no PartyCombatBridge (GameLayout)
 - [ ] Dungeons em party: andares compartilhados (todos avançam juntos) e
       recompensa de dungeon para cada membro
 
 ### 1.4 UI
-- [ ] CombatPanel: barra lateral de party (HP dos membros, contribuição de
+- [x] CombatPanel: barra de sessão (contribuições ⚔/💀 por membro, auras, aviso de região)
       dano por turno, kills)
-- [ ] PartyPanel: botão "🎯 Caçar em grupo" (líder) + estado da sessão
-- [ ] Chat de party já funciona dentro do combate (`/p`)
-- [ ] Toast de distribuição de loot/XP no fim da sessão
+- [x] PartyPanel: seletor de região + "🎯 Caçar em grupo" (líder) + encerrar + status
+- [x] Chat de party já funciona dentro do combate (`/p`)
+- [x] Toast de XP de equipe no fim da sessão (loot segue individual)
 
 ### 1.5 Qualidade
 - [ ] Testes: sanity caps e divisão de XP (extrair lógica p/ função pura +
       node:test)
-- [ ] i18n: `partyCombat.*` nos 4 idiomas
-- [ ] Auditoria: novos checks no `tools/item-effects/audit_item_effects.ts`
+- [x] i18n: `partyCombat.*` nos 4 idiomas
+- [ ] Auditoria: novos checks sociais/hunt
       (ou auditoria social separada)
-- [ ] Atualizar PROJECT_MEMORY.md §5.7
+- [x] Atualizar PROJECT_MEMORY.md (§5.6, seção caçada)
 
 ---
 

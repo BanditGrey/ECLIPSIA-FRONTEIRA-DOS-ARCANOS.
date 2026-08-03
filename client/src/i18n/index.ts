@@ -419,6 +419,19 @@ export const translations: Record<LangCode, TranslationTree> = {
       "failed": "Não foi possível convidar",
       "reason": { "offline": "jogador offline", "busy": "já está em um grupo", "full": "grupo cheio", "not_leader": "apenas o líder convida" }
     },
+    "partyCombat": {
+      "started": "Caçada de grupo iniciada",
+      "ended": "Caçada encerrada — bônus de equipe:",
+      "aborted": "Caçada de grupo cancelada.",
+      "failed": "Não foi possível iniciar a caçada",
+      "activeHunt": "Caçada de grupo",
+      "round": "Turno",
+      "startHunt": "Caçar em grupo",
+      "endHunt": "Encerrar caçada",
+      "waitLeader": "O líder inicia a caçada",
+      "regionMismatch": "lute na região da caçada p/ receber auras",
+      "reason": { "not_leader": "apenas o líder inicia", "already": "já existe caçada ativa" }
+    },
     "dailyQuests": {
       "claim": "Resgatar",
       "claimed": "Resgatada",
@@ -1551,6 +1564,19 @@ export const translations: Record<LangCode, TranslationTree> = {
       "failed": "Could not invite",
       "reason": { "offline": "player is offline", "busy": "already in a group", "full": "group is full", "not_leader": "only the leader can invite" }
     },
+    "partyCombat": {
+      "started": "Party hunt started",
+      "ended": "Hunt ended — team bonus:",
+      "aborted": "Party hunt cancelled.",
+      "failed": "Could not start the hunt",
+      "activeHunt": "Party hunt",
+      "round": "Round",
+      "startHunt": "Hunt as a party",
+      "endHunt": "End hunt",
+      "waitLeader": "The leader starts the hunt",
+      "regionMismatch": "fight in the hunt region to receive auras",
+      "reason": { "not_leader": "only the leader starts it", "already": "a hunt is already active" }
+    },
     "dailyQuests": {
       "claim": "Claim",
       "claimed": "Claimed",
@@ -2681,6 +2707,19 @@ export const translations: Record<LangCode, TranslationTree> = {
       "failed": "No se pudo invitar",
       "reason": { "offline": "jugador desconectado", "busy": "ya está en un grupo", "full": "grupo lleno", "not_leader": "solo el líder invita" }
     },
+    "partyCombat": {
+      "started": "Cacería de grupo iniciada",
+      "ended": "Cacería terminada — bono de equipo:",
+      "aborted": "Cacería de grupo cancelada.",
+      "failed": "No se pudo iniciar la cacería",
+      "activeHunt": "Cacería de grupo",
+      "round": "Ronda",
+      "startHunt": "Cazar en grupo",
+      "endHunt": "Terminar cacería",
+      "waitLeader": "El líder inicia la cacería",
+      "regionMismatch": "lucha en la región de la cacería para recibir auras",
+      "reason": { "not_leader": "solo el líder la inicia", "already": "ya hay una cacería activa" }
+    },
     "dailyQuests": {
       "claim": "Reclamar",
       "claimed": "Reclamada",
@@ -3810,6 +3849,19 @@ export const translations: Record<LangCode, TranslationTree> = {
       "declined": "招待は拒否されました。",
       "failed": "招待できませんでした",
       "reason": { "offline": "プレイヤーがオフライン", "busy": "既にグループ所属", "full": "グループが満員", "not_leader": "リーダーのみ招待可能" }
+    },
+    "partyCombat": {
+      "started": "パーティハント開始",
+      "ended": "ハント終了 — チームボーナス：",
+      "aborted": "パーティハントは中止されました。",
+      "failed": "ハントを開始できませんでした",
+      "activeHunt": "パーティハント",
+      "round": "ラウンド",
+      "startHunt": "パーティで狩る",
+      "endHunt": "ハント終了",
+      "waitLeader": "リーダーがハントを開始します",
+      "regionMismatch": "オーラを得るにはハント地域で戦って下さい",
+      "reason": { "not_leader": "リーダーのみ開始可能", "already": "既にハントが進行中" }
     },
     "dailyQuests": {
       "claim": "受取",
