@@ -1,7 +1,7 @@
 # 🧠 MEMÓRIA DO PROJETO — ECLIPSIA: FRONTEIRA DOS ARCANOS
 
 > **Leia este arquivo primeiro.** Ele existe para você se localizar sem varrer o repo inteiro.
-> Última atualização: 2026-08-03 (após trade P2P, encantamento/sets, chat persistente, testes — ver §5.6 e §5.7).
+> Última atualização: 2026-08-03 (após mochila 60 + baú 500 — ver §5.6 "Inventário itemStr + BAÚ").
 
 ---
 
@@ -147,10 +147,13 @@ usePlayerStore.getEquipmentItemStats ──▶ effects > stats (resolvedToItemSt
 
 ## 5.6 SISTEMAS CONSTRUIDOS SOBRE O ITEMEFFECTS (correio/mercado/crafting)
 
-### Inventário itemStr
+### Inventário itemStr + BAÚ
+- **Capacidades: mochila 60 entradas · baú 500 entradas** (`DEFAULT_MAX_INVENTORY=60`, `DEFAULT_MAX_STORAGE=500`; server: `maxInventory default 60`, `storage [] + maxStorage default 500`; criação de personagem idem; `allowedFields` inclui `storage`/`maxStorage`).
 - `InventoryItem = { itemStr?, id?, qty }` — `refOf(entry)` dá a referência canônica.
 - `addItem/removeItem/equip` aceitam id de catálogo OU itemStr (testado com roll custom `"1005|1:99"`).
 - `equip()` guarda a ref no slot; engine/store resolvem os dois formatos.
+- **Baú**: `PlayerData.storage: InventoryItem[]`; store tem `depositItem/withdrawItem/isStorageFull` (merge por ref, respeita limites dos dois lados); UI = aba **storage** do ItemsPanel (5 abas: equipado/mochila/baú/crafting/mercado) + botões Depositar (modal da mochila) e Retirar (modal do baú).
+- ⚠ `getMaxInventory` usa `Math.min(valor, default)` — se mudar o default, o teto muda junto.
 
 ### Correio (mail)
 - **Server**: `models/Mail.js` (fromName, toName, subject, message, itemStr regex-validado, gold, read/claimed, expira em 30d) + `routes/mail.routes.js`: GET `/api/mail/inbox?charName=`, POST `/send` (deduz item/ouro do remetente no banco), `/read`, `/claim` (adiciona anexo ao personagem, checa inventário cheio), DELETE.

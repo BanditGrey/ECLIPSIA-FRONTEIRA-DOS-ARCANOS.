@@ -39,6 +39,7 @@ interface ServerCharacter {
   luck?: Partial<PlayerData['luck']>;
   freePoints?: number;
   equipment?: Partial<Equipment>;
+  storage?: Array<{ itemStr?: string; id?: string; qty: number }>;
   inventory?: PlayerData['inventory'];
   skills?: string[];
   skillCooldowns?: Record<string, number>;
@@ -170,7 +171,9 @@ const characterToPlayerData = (character: ServerCharacter): PlayerData => {
       ...character.equipment
     },
     inventory: character.inventory ?? [],
-    maxInventory: 20,
+    maxInventory: 60,
+    storage: character.storage ?? [],
+    maxStorage: 500,
     skills: character.skills ?? [],
     skillCooldowns: character.skillCooldowns ?? {},
     titles: character.titles ?? [],

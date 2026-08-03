@@ -13,7 +13,7 @@ export const getNumId = (ref) => {
 };
 
 /** Adiciona um item (itemStr ou id legado) ao inventário do personagem. */
-export const addToInventory = (character, ref, qty = 1, maxInventory = character?.maxInventory ?? 20) => {
+export const addToInventory = (character, ref, qty = 1, maxInventory = character?.maxInventory ?? 60) => {
   const entry = character.inventory.find((inv) => (inv.itemStr ?? inv.id) === ref);
 
   if (entry) {

@@ -13,7 +13,7 @@ import { Modal } from '../ui/Modal';
 import { CraftingPanel } from './items/CraftingPanel';
 import { MarketPanel } from './items/MarketPanel';
 
-type ItemsTab = 'equipped' | 'bag' | 'crafting' | 'market';
+type ItemsTab = 'equipped' | 'bag' | 'storage' | 'crafting' | 'market';
 type EquipmentSlot = keyof Equipment;
 type Rarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'relic';
 
@@ -35,7 +35,7 @@ interface ItemMeta {
   itemStr?: string;
 }
 
-const tabs: ItemsTab[] = ['equipped', 'bag', 'crafting', 'market'];
+const tabs: ItemsTab[] = ['equipped', 'bag', 'storage', 'crafting', 'market'];
 const weaponSlots: EquipmentSlot[] = ['weapon_main', 'weapon_off'];
 const armorSlots: EquipmentSlot[] = ['head', 'chest', 'legs', 'gloves', 'boots'];
 const accessorySlots: EquipmentSlot[] = ['earring', 'necklace', 'belt', 'resistance', 'amulet', 'spirit_stone', 'pet', 'mount'];
@@ -167,17 +167,21 @@ export const ItemsPanel = () => {
   const { t, lang } = useI18n();
   const [tab, setTab] = useState<ItemsTab>('equipped');
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
+  const [selectedSource, setSelectedSource] = useState<'bag' | 'storage'>('bag');
   const openModal = useGameStore((state) => state.openModal);
   const addNotification = useGameStore((state) => state.addNotification);
   const player = usePlayerStore((state) => state.data);
   const equip = usePlayerStore((state) => state.equip);
   const unequip = usePlayerStore((state) => state.unequip);
   const removeItem = usePlayerStore((state) => state.removeItem);
+  const depositItem = usePlayerStore((state) => state.depositItem);
+  const withdrawItem = usePlayerStore((state) => state.withdrawItem);
 
   const mainWeaponTwoHanded = useMemo(() => Boolean(player?.equipment.weapon_main && isTwoHanded(player.equipment.weapon_main)), [player]);
 
-  const openDetail = (item: InventoryItem) => {
+  const openDetail = (item: InventoryItem, source: 'bag' | 'storage' = 'bag') => {
     setSelectedItem(item);
+    setSelectedSource(source);
     openModal(DETAIL_MODAL);
   };
 
@@ -279,7 +283,7 @@ export const ItemsPanel = () => {
 
   return (
     <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
-      <div className="grid grid-cols-4 gap-2 rounded-xl border border-game-border bg-game-panel p-2 font-mono text-sm">
+      <div className="grid grid-cols-5 gap-2 rounded-xl border border-game-border bg-game-panel p-2 font-mono text-sm">
         {tabs.map((item) => (
           <button
             key={item}
@@ -304,7 +308,7 @@ export const ItemsPanel = () => {
         {tab === 'bag' && (
           <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden">
             <div className="font-mono text-sm text-game-muted">
-              {player?.inventory.length ?? 0}/20 {t('items.slots')}
+              {player?.inventory.length ?? 0}/{player?.maxInventory ?? 60} {t('items.slots')}
             </div>
             <div className="grid min-h-0 grid-cols-4 gap-2 overflow-auto pr-1">
               {(player?.inventory ?? []).map((item) => {
@@ -315,13 +319,41 @@ export const ItemsPanel = () => {
                     key={refOf(item)}
                     type="button"
                     className={['relative rounded-xl border bg-game-card p-3 transition-colors hover:bg-game-hover active:scale-95', rarityBorder[meta.rarity]].join(' ')}
-                    onClick={() => openDetail(item)}
+                    onClick={() => openDetail(item, 'bag')}
                   >
                     <span className="text-4xl">{meta.icon}</span>
                     {item.qty > 1 && <span className="absolute right-2 top-2 rounded bg-game-primary px-1.5 font-mono text-xs">×{item.qty}</span>}
                   </button>
                 );
               })}
+            </div>
+          </div>
+        )}
+
+        {tab === 'storage' && (
+          <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden">
+            <div className="font-mono text-sm text-game-muted">
+              {(player?.storage ?? []).length}/{player?.maxStorage ?? 500} {t('items.storageSlots')}
+            </div>
+            <div className="grid min-h-0 grid-cols-4 gap-2 overflow-auto pr-1">
+              {(player?.storage ?? []).map((item) => {
+                const meta = getItemMeta(refOf(item));
+
+                return (
+                  <button
+                    key={refOf(item)}
+                    type="button"
+                    className={['relative rounded-xl border bg-game-card p-3 transition-colors hover:bg-game-hover active:scale-95', rarityBorder[meta.rarity]].join(' ')}
+                    onClick={() => openDetail(item, 'storage')}
+                  >
+                    <span className="text-4xl">{meta.icon}</span>
+                    {item.qty > 1 && <span className="absolute right-2 top-2 rounded bg-game-primary px-1.5 font-mono text-xs">×{item.qty}</span>}
+                  </button>
+                );
+              })}
+              {(player?.storage ?? []).length === 0 && (
+                <p className="col-span-4 text-sm text-game-muted">{t('items.storageEmpty')}</p>
+              )}
             </div>
           </div>
         )}
@@ -421,28 +453,61 @@ export const ItemsPanel = () => {
               </p>
             )}
 
-            <div className="grid grid-cols-2 gap-2">
-              <Button
-                disabled={!selectedMeta.slot}
-                onClick={() => {
-                  if (!equip(refOf(selectedItem))) {
-                    addNotification(t('items.twoHandedBlocked'), 'warning');
-                  }
-                }}
-              >
-                {t('items.equip')}
-              </Button>
-              <Button
-                variant="danger"
-                onClick={() => {
-                  if (window.confirm(t('items.confirmDiscard'))) {
-                    removeItem(refOf(selectedItem), 1);
-                  }
-                }}
-              >
-                {t('items.discard')}
-              </Button>
-            </div>
+            {selectedSource === 'bag' ? (
+              <div className="grid grid-cols-3 gap-2">
+                <Button
+                  disabled={!selectedMeta.slot}
+                  onClick={() => {
+                    if (!equip(refOf(selectedItem))) {
+                      addNotification(t('items.twoHandedBlocked'), 'warning');
+                    }
+                  }}
+                >
+                  {t('items.equip')}
+                </Button>
+                <Button
+                  onClick={() => {
+                    if (!depositItem(refOf(selectedItem), 1)) {
+                      addNotification(t('items.storageFull'), 'warning');
+                    }
+                  }}
+                >
+                  {t('items.deposit')}
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    if (window.confirm(t('items.confirmDiscard'))) {
+                      removeItem(refOf(selectedItem), 1);
+                    }
+                  }}
+                >
+                  {t('items.discard')}
+                </Button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-2">
+                <Button
+                  onClick={() => {
+                    if (!withdrawItem(refOf(selectedItem), 1)) {
+                      addNotification(t('items.bagFull'), 'warning');
+                    }
+                  }}
+                >
+                  {t('items.withdraw')}
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    if (window.confirm(t('items.confirmDiscard'))) {
+                      withdrawItem(refOf(selectedItem), selectedItem.qty);
+                    }
+                  }}
+                >
+                  {t('items.discard')}
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </Modal>

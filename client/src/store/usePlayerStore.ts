@@ -9,7 +9,8 @@ type EquipmentSlot = keyof Equipment;
 type RegisteredItem = Pick<Item, 'id' | 'slot' | 'isTwoHanded' | 'stats' | 'effects'>;
 
 const MAX_LUCK = 200;
-const DEFAULT_MAX_INVENTORY = 20;
+const DEFAULT_MAX_INVENTORY = 60;
+const DEFAULT_MAX_STORAGE = 500;
 
 const equipmentSlots: EquipmentSlot[] = [
   'weapon_main',
@@ -120,6 +121,8 @@ const clamp = (value: number, min: number, max: number) => Math.min(Math.max(val
 
 const getMaxInventory = (data: PlayerData) => Math.min(data.maxInventory || DEFAULT_MAX_INVENTORY, DEFAULT_MAX_INVENTORY);
 
+const getMaxStorage = (data: PlayerData) => Math.min(data.maxStorage || DEFAULT_MAX_STORAGE, DEFAULT_MAX_STORAGE);
+
 /** Referência canônica de uma entrada de inventário (itemStr ou id legado). */
 export const refOf = (entry: InventoryItem): string => entry.itemStr ?? entry.id ?? '';
 
@@ -188,6 +191,9 @@ interface PlayerState {
   addStat: (stat: keyof Stats, amount?: number) => boolean;
   addItem: (itemRef: string, qty?: number) => boolean;
   removeItem: (itemRef: string, qty?: number) => boolean;
+  depositItem: (itemRef: string, qty?: number) => boolean;
+  withdrawItem: (itemRef: string, qty?: number) => boolean;
+  isStorageFull: () => boolean;
   equip: (itemId: string) => boolean;
   unequip: (slot: EquipmentSlot) => boolean;
   takeDamage: (amount: number) => number;
@@ -368,6 +374,91 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     });
 
     return true;
+  },
+  depositItem: (itemRef, qty = 1) => {
+    const data = get().data;
+    const amount = Math.max(1, qty);
+
+    if (!data) {
+      return false;
+    }
+
+    // Remove do inventário (valida posse)
+    const inventory = [...data.inventory];
+    const invIndex = inventory.findIndex((item) => refOf(item) === itemRef);
+
+    if (invIndex < 0 || inventory[invIndex].qty < amount) {
+      return false;
+    }
+
+    // Capacidade do baú (entradas distintas)
+    const storage = [...(data.storage ?? [])];
+    const stoIndex = storage.findIndex((item) => refOf(item) === itemRef);
+
+    if (stoIndex < 0 && storage.length >= getMaxStorage(data)) {
+      return false;
+    }
+
+    inventory[invIndex] = { ...inventory[invIndex], qty: inventory[invIndex].qty - amount };
+
+    if (inventory[invIndex].qty <= 0) {
+      inventory.splice(invIndex, 1);
+    }
+
+    if (stoIndex >= 0) {
+      storage[stoIndex] = { ...storage[stoIndex], qty: storage[stoIndex].qty + amount };
+    } else {
+      storage.push(makeInventoryEntry(itemRef, amount));
+    }
+
+    set({ data: { ...data, inventory, storage } });
+    return true;
+  },
+  withdrawItem: (itemRef, qty = 1) => {
+    const data = get().data;
+    const amount = Math.max(1, qty);
+
+    if (!data) {
+      return false;
+    }
+
+    const storage = [...(data.storage ?? [])];
+    const stoIndex = storage.findIndex((item) => refOf(item) === itemRef);
+
+    if (stoIndex < 0 || storage[stoIndex].qty < amount) {
+      return false;
+    }
+
+    const inventory = [...data.inventory];
+    const invIndex = inventory.findIndex((item) => refOf(item) === itemRef);
+
+    if (invIndex < 0 && inventory.length >= getMaxInventory(data)) {
+      return false;
+    }
+
+    storage[stoIndex] = { ...storage[stoIndex], qty: storage[stoIndex].qty - amount };
+
+    if (storage[stoIndex].qty <= 0) {
+      storage.splice(stoIndex, 1);
+    }
+
+    if (invIndex >= 0) {
+      inventory[invIndex] = { ...inventory[invIndex], qty: inventory[invIndex].qty + amount };
+    } else {
+      inventory.push(makeInventoryEntry(itemRef, amount));
+    }
+
+    set({ data: { ...data, inventory, storage } });
+    return true;
+  },
+  isStorageFull: () => {
+    const data = get().data;
+
+    if (!data) {
+      return false;
+    }
+
+    return (data.storage ?? []).length >= getMaxStorage(data);
   },
   equip: (itemId) => {
     const data = get().data;

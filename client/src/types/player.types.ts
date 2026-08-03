@@ -70,6 +70,9 @@ export interface PlayerData {
   equipment: Equipment;
   inventory: InventoryItem[];
   maxInventory: number;
+  /** Baú do personagem (armazenamento estendido). */
+  storage: InventoryItem[];
+  maxStorage?: number;
   skills: string[];
   skillCooldowns: Record<string, number>;
   titles: string[];

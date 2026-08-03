@@ -114,7 +114,10 @@ const CharacterSchema = new mongoose.Schema(
     freePoints: { type: Number, default: 3 },
     equipment: { type: EquipmentSchema, default: () => ({}) },
     inventory: { type: [InventoryItemSchema], default: [] },
-    maxInventory: { type: Number, default: 20 },
+    maxInventory: { type: Number, default: 60 },
+    // Baú: armazenamento estendido do personagem (até 500 entradas)
+    storage: { type: [InventoryItemSchema], default: [] },
+    maxStorage: { type: Number, default: 500 },
     skills: { type: [String], default: [] },
     skillCooldowns: { type: Map, of: Number, default: {} },
     titles: { type: [String], default: [] },
