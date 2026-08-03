@@ -4,12 +4,14 @@ import { getEffect, getEffectPairs } from '../../data/effectRegistry';
 import { itemNames } from '../../data/itemNames';
 import { useI18n } from '../../hooks/useI18n';
 import { useGameStore } from '../../store/useGameStore';
-import { usePlayerStore } from '../../store/usePlayerStore';
+import { refOf, usePlayerStore } from '../../store/usePlayerStore';
 import type { ItemEffect } from '../../types/item.types';
 import type { Equipment, InventoryItem } from '../../types/player.types';
 import { resolveItemRef, serializeItem } from '../../utils/itemSerializer';
 import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
+import { CraftingPanel } from './items/CraftingPanel';
+import { MarketPanel } from './items/MarketPanel';
 
 type ItemsTab = 'equipped' | 'bag' | 'crafting' | 'market';
 type EquipmentSlot = keyof Equipment;
@@ -272,7 +274,7 @@ export const ItemsPanel = () => {
     </section>
   );
 
-  const selectedMeta = selectedItem ? getItemMeta(selectedItem.id) : null;
+  const selectedMeta = selectedItem ? getItemMeta(refOf(selectedItem)) : null;
   const equippedCurrent = selectedMeta?.slot && player ? player.equipment[selectedMeta.slot] : null;
 
   return (
@@ -306,11 +308,11 @@ export const ItemsPanel = () => {
             </div>
             <div className="grid min-h-0 grid-cols-4 gap-2 overflow-auto pr-1">
               {(player?.inventory ?? []).map((item) => {
-                const meta = getItemMeta(item.id);
+                const meta = getItemMeta(refOf(item));
 
                 return (
                   <button
-                    key={item.id}
+                    key={refOf(item)}
                     type="button"
                     className={['relative rounded-xl border bg-game-card p-3 transition-colors hover:bg-game-hover active:scale-95', rarityBorder[meta.rarity]].join(' ')}
                     onClick={() => openDetail(item)}
@@ -324,9 +326,9 @@ export const ItemsPanel = () => {
           </div>
         )}
 
-        {(tab === 'crafting' || tab === 'market') && (
-          <div className="flex h-full items-center justify-center text-game-muted">{t('game.soon')}</div>
-        )}
+        {tab === 'crafting' && <CraftingPanel />}
+
+        {tab === 'market' && <MarketPanel />}
       </section>
 
       <Modal id={DETAIL_MODAL} title={selectedMeta ? itemName(selectedMeta) : t('items.unknownItem')}>
@@ -423,7 +425,7 @@ export const ItemsPanel = () => {
               <Button
                 disabled={!selectedMeta.slot}
                 onClick={() => {
-                  if (!equip(selectedItem.id)) {
+                  if (!equip(refOf(selectedItem))) {
                     addNotification(t('items.twoHandedBlocked'), 'warning');
                   }
                 }}
@@ -434,7 +436,7 @@ export const ItemsPanel = () => {
                 variant="danger"
                 onClick={() => {
                   if (window.confirm(t('items.confirmDiscard'))) {
-                    removeItem(selectedItem.id, 1);
+                    removeItem(refOf(selectedItem), 1);
                   }
                 }}
               >

@@ -1,4 +1,5 @@
 import { ITEMS } from '../data/items';
+import { calculatePlayerStats } from './effectEngine';
 import { monsters } from '../data/monsters';
 import { regions } from '../data/regions';
 import { translations } from '../i18n';
@@ -68,17 +69,20 @@ const addDiscovery = (region: string, amount: number) => {
   });
 };
 
+/**
+ * Redução do tempo de exploração: MOUNT_SPEED (91) da montaria +
+ * SPEED (30) do equipamento (frações 0-1 resolvidas pelo effectEngine).
+ */
 const getMountReduction = () => {
   const player = usePlayerStore.getState().data;
-  const mountId = player?.equipment.mount;
 
-  if (!mountId) {
+  if (!player) {
     return 0;
   }
 
-  const mount = (ITEMS as Record<string, Item>)[mountId];
+  const resolved = calculatePlayerStats(player.stats, player.equipment);
 
-  return mount?.mountData?.exploreReduction ?? 0;
+  return Math.min(0.85, resolved.mountSpeed + resolved.speed);
 };
 
 const getRegionMaterial = (regionId: string) => {

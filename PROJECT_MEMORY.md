@@ -1,7 +1,7 @@
 # 🧠 MEMÓRIA DO PROJETO — ECLIPSIA: FRONTEIRA DOS ARCANOS
 
 > **Leia este arquivo primeiro.** Ele existe para você se localizar sem varrer o repo inteiro.
-> Última atualização: 2026-08-03 (após Prompt 19 — sistema ItemEffects — e auditoria completa).
+> Última atualização: 2026-08-03 (após correio/mercado/crafting/upgrade/chat-links — ver §5.6).
 
 ---
 
@@ -144,6 +144,46 @@ usePlayerStore.getEquipmentItemStats ──▶ effects > stats (resolvedToItemSt
 
 ---
 
+## 5.6 SISTEMAS CONSTRUIDOS SOBRE O ITEMEFFECTS (correio/mercado/crafting)
+
+### Inventário itemStr
+- `InventoryItem = { itemStr?, id?, qty }` — `refOf(entry)` dá a referência canônica.
+- `addItem/removeItem/equip` aceitam id de catálogo OU itemStr (testado com roll custom `"1005|1:99"`).
+- `equip()` guarda a ref no slot; engine/store resolvem os dois formatos.
+
+### Correio (mail)
+- **Server**: `models/Mail.js` (fromName, toName, subject, message, itemStr regex-validado, gold, read/claimed, expira em 30d) + `routes/mail.routes.js`: GET `/api/mail/inbox?charName=`, POST `/send` (deduz item/ouro do remetente no banco), `/read`, `/claim` (adiciona anexo ao personagem, checa inventário cheio), DELETE.
+- **Client**: `components/panels/MailPanel.tsx` — aba **mail** da CityPanel (tabs agora são 6). Anexo exibido com effects via resolveItemRef.
+- Ouro de venda no mercado chega ao vendedor **por carta automática** ("Mercado de Eclipsia").
+
+### Mercado (market)
+- **Server**: `models/MarketListing.js` (custódia do itemStr, numId/rarity indexados, status active/sold/cancelled, expira 7d) + `routes/market.routes.js`: GET `/listings` (filtros rarity/numId), `/my`, POST `/list` (tira do inventário), `/buy` (ouro → item; vendedor recebe por mail), `/cancel`.
+- **Client**: `components/panels/items/MarketPanel.tsx` — aba **market** do ItemsPanel (substituiu o "Em breve"), sub-abas buy/sell/mine.
+- ⚠ Server NÃO tem o catálogo de itens: numId vem do parse do itemStr; rarity é informada pelo client (uso cosmético p/ filtro).
+
+### Crafting + Upgrade
+- `data/recipes.ts` — 12 receitas (inputs materiais → output id do catálogo) + `upgradeCost(level)` (ouro 150·(n+1)² + 1× mat_9350).
+- `components/panels/items/CraftingPanel.tsx` — aba **crafting** do ItemsPanel.
+- **Upgrade**: +5% (round) nos effects flat 1–11, grava `UPGRADE_LEVEL (99)` no item → novo itemStr no inventário. Máx. nível 10; bloqueado se 10 effects sem slot 99.
+
+### Links de item no chat
+- Formato: `[item:numId|e:v|...]` — regex `/\[item:([0-9|:-]+)\]/g` no ChatPanel.
+- Chips clicáveis com tooltip de effects; clique expande detalhes inline. O sanitize do socket preserva `[ ] | : -`.
+
+### Consumidores novos de effects
+- **SPEED (30)** + MOUNT_SPEED (91): `world.ts getMountReduction` via `calculatePlayerStats` (cap 0.85).
+- **HASTE (59)**: reduz cooldown de skills em combat (`skill.cd * (1 - haste)`, mín. 1).
+- **LOOT_BONUS (29)**: sorte efetiva do drop + lootBonus·200 na vitória.
+- **HEAL_BONUS (26)**: amplifica healPercent das skills.
+
+### Helpers de servidor
+- `server/src/utils/gameUtils.js`: `ITEM_STR_REGEX`, `isValidItemRef`, `getNumId`, `addToInventory`, `removeFromInventory`, `getCharacter` — usados por mail/market (reutilize em trades/leilão).
+
+### Estado offline
+- MarketPanel/MailPanel mostram aviso e seguem funcionando localmente quando o server está fora (API retorna success:false).
+
+---
+
 ## 6. CATÁLOGO DE ITENS
 
 ### 6.1 Faixas de numId (itemRegistry.ts)
@@ -212,15 +252,16 @@ usePlayerStore.getEquipmentItemStats ──▶ effects > stats (resolvedToItemSt
 
 ---
 
-## 10. TRABALHO FUTURO (não é pendência do Prompt 19)
+## 10. TRABALHO FUTURO
 
-1. 📮 **Correio entre jogadores** (usa itemStr — infraestrutura pronta)
-2. 🏪 **Mercado/leilão** (itemStr + rolls customizados já desserializam, testado com `"1005|1:99"`)
-3. 🔄 **Trades + links de item no chat**
-4. 🔄 Migrar inventário do client para `{itemStr, qty}`
-5. 🔮 Crafting/upgrade (ENCHANT_SLOT=98, UPGRADE_LEVEL=99, SET_ID=100 já reservados)
-6. ⚖️ SPEED(30)/HASTE(59) não têm mecânica consumidora ainda (nenhum item os usa)
-7. 🧪 Considerar transformar a auditoria em `npm run audit`
+Feito nesta leva: ✅ correio, ✅ mercado (leilão simples), ✅ links de item no chat, ✅ inventário itemStr, ✅ crafting + upgrade, ✅ SPEED/HASTE/LOOT_BONUS/HEAL_BONUS consumidos, ✅ `npm run audit` (client).
+
+Restante:
+1. 🔄 **Trade P2P simultâneo** (troca com janela de confirmação via socket) — hoje trocas acontecem via correio/mercado
+2. 🔮 **Encantamento** (ENCHANT_SLOT=98) e **sets** (SET_ID=100) — IDs reservados, sem mecânica
+3. 📜 Persistência de chat (hois é efêmero via socket broadcast)
+4. 🧪 Testes automatizados de servidor (rotas mail/market) — hoje só node --check + smoke manual
+5. 📦 Notificar jogador online (socket) quando recebe carta/venda
 
 ---
 
@@ -230,8 +271,8 @@ usePlayerStore.getEquipmentItemStats ──▶ effects > stats (resolvedToItemSt
 git branch --show-current        # confirme a branch da sessão
 git log --oneline -3             # últimos commits
 cat PROJECT_MEMORY.md            # você está aqui
-cd client && npm install         # node_modules não persiste
-./client/node_modules/.bin/tsx tools/item-effects/audit_item_effects.ts  # baseline 89/89
+cd client && npm install         # node_modules não persiste (tsx agora é devDep)
+cd client && npm run audit   # baseline 89/89 (roda da raiz do client)
 ```
 
 Se a auditoria não der 89/89 OK, algo regressiu — investigue antes de continuar.

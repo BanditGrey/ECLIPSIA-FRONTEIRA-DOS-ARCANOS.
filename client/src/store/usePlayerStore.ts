@@ -120,7 +120,13 @@ const clamp = (value: number, min: number, max: number) => Math.min(Math.max(val
 
 const getMaxInventory = (data: PlayerData) => Math.min(data.maxInventory || DEFAULT_MAX_INVENTORY, DEFAULT_MAX_INVENTORY);
 
-const hasInventoryItem = (inventory: InventoryItem[], itemId: string) => inventory.some((item) => item.id === itemId && item.qty > 0);
+/** Referência canônica de uma entrada de inventário (itemStr ou id legado). */
+export const refOf = (entry: InventoryItem): string => entry.itemStr ?? entry.id ?? '';
+
+const makeInventoryEntry = (ref: string, qty: number): InventoryItem =>
+  isSerializedItemStr(ref) ? { itemStr: ref, qty } : { id: ref, qty };
+
+const hasInventoryItem = (inventory: InventoryItem[], ref: string) => inventory.some((item) => refOf(item) === ref && item.qty > 0);
 
 const getEquipmentItemStats = (equipment: Equipment): ItemStats => {
   return equipmentSlots.reduce<ItemStats>((total, slot) => {
@@ -180,8 +186,8 @@ interface PlayerState {
   gainGold: (amount: number) => number;
   spendGold: (amount: number) => boolean;
   addStat: (stat: keyof Stats, amount?: number) => boolean;
-  addItem: (itemId: string, qty?: number) => boolean;
-  removeItem: (itemId: string, qty?: number) => boolean;
+  addItem: (itemRef: string, qty?: number) => boolean;
+  removeItem: (itemRef: string, qty?: number) => boolean;
   equip: (itemId: string) => boolean;
   unequip: (slot: EquipmentSlot) => boolean;
   takeDamage: (amount: number) => number;
@@ -295,7 +301,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
 
     return true;
   },
-  addItem: (itemId, qty = 1) => {
+  addItem: (itemRef, qty = 1) => {
     const data = get().data;
     const amount = Math.max(1, qty);
 
@@ -304,7 +310,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     }
 
     const inventory = [...data.inventory];
-    const existingIndex = inventory.findIndex((item) => item.id === itemId);
+    const existingIndex = inventory.findIndex((item) => refOf(item) === itemRef);
 
     if (existingIndex >= 0) {
       inventory[existingIndex] = {
@@ -316,7 +322,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
         return false;
       }
 
-      inventory.push({ id: itemId, qty: amount });
+      inventory.push(makeInventoryEntry(itemRef, amount));
     }
 
     set({
@@ -328,7 +334,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
 
     return true;
   },
-  removeItem: (itemId, qty = 1) => {
+  removeItem: (itemRef, qty = 1) => {
     const data = get().data;
     const amount = Math.max(1, qty);
 
@@ -337,7 +343,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     }
 
     const inventory = [...data.inventory];
-    const existingIndex = inventory.findIndex((item) => item.id === itemId);
+    const existingIndex = inventory.findIndex((item) => refOf(item) === itemRef);
 
     if (existingIndex < 0 || inventory[existingIndex].qty < amount) {
       return false;

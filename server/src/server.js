@@ -8,6 +8,8 @@ import { connectDatabase } from './config/database.js';
 import { authRoutes } from './routes/auth.routes.js';
 import { playerRoutes } from './routes/player.routes.js';
 import { rankingRoutes } from './routes/ranking.routes.js';
+import { mailRoutes } from './routes/mail.routes.js';
+import { marketRoutes } from './routes/market.routes.js';
 
 const app = express();
 const server = http.createServer(app);
@@ -68,6 +70,8 @@ app.get('/api/world/state', (_req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/player', playerRoutes);
 app.use('/api/ranking', rankingRoutes);
+app.use('/api/mail', mailRoutes);
+app.use('/api/market', marketRoutes);
 
 const io = new Server(server, {
   cors: corsOptions

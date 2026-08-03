@@ -133,6 +133,46 @@ export const API = {
     }
   },
 
+  mail: {
+    inbox(charName: string) {
+      return API.get<{ mails: unknown[] }>(`/mail/inbox?charName=${encodeURIComponent(charName)}`);
+    },
+    send(payload: { charName: string; toName: string; subject?: string; message?: string; itemRef?: string | null; gold?: number }) {
+      return API.post('/mail/send', payload);
+    },
+    read(mailId: string) {
+      return API.post('/mail/read', { mailId });
+    },
+    claim(mailId: string, charName: string) {
+      return API.post<{ character?: { gold: number; inventory: unknown[] } }>('/mail/claim', { mailId, charName });
+    },
+    remove(mailId: string) {
+      return API.delete(`/mail/${mailId}`);
+    }
+  },
+
+  market: {
+    listings(params: { rarity?: string; numId?: number } = {}) {
+      const query = new URLSearchParams();
+      if (params.rarity) query.set('rarity', params.rarity);
+      if (params.numId) query.set('numId', String(params.numId));
+      const suffix = query.toString() ? `?${query.toString()}` : '';
+      return API.get<{ listings: unknown[] }>(`/market/listings${suffix}`);
+    },
+    my(sellerName: string) {
+      return API.get<{ listings: unknown[] }>(`/market/my?sellerName=${encodeURIComponent(sellerName)}`);
+    },
+    list(payload: { charName: string; itemRef: string; price: number; rarity?: string }) {
+      return API.post('/market/list', payload);
+    },
+    buy(payload: { listingId: string; charName: string }) {
+      return API.post<{ character?: { gold: number; inventory: unknown[] } }>('/market/buy', payload);
+    },
+    cancel(payload: { listingId: string; charName: string }) {
+      return API.post('/market/cancel', payload);
+    }
+  },
+
   player: {
     get<T = unknown>() {
       return API.get<T>('/player/me');

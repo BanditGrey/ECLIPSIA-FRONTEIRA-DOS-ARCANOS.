@@ -592,7 +592,10 @@ export const combatEngine = {
     }
 
     reducePlayerMp(skill.mp);
-    combat.setCooldown(skillId, skill.cd);
+
+    // HASTE (59): reduz o cooldown da skill (fração 0-1)
+    const haste = getResolvedEffects() ? getConditionalValue(getResolvedEffects() as ResolvedEffects, EFFECT.HASTE) : 0;
+    combat.setCooldown(skillId, Math.max(1, Math.round(skill.cd * (1 - haste))));
 
     if (skill.healPercent) {
       // HEAL_BONUS (26) amplifica a cura recebida de skills

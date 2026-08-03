@@ -33,8 +33,14 @@ export interface Equipment {
   mount: string | null;
 }
 
+/**
+ * Entrada de inventário no formato do sistema ItemEffects.
+ * `itemStr` ("numId|e1:v1|...") é o formato canônico (correio/mercado);
+ * `id` (id de catálogo) é mantido por retrocompatibilidade.
+ */
 export interface InventoryItem {
-  id: string;
+  itemStr?: string;
+  id?: string;
   qty: number;
 }
 
