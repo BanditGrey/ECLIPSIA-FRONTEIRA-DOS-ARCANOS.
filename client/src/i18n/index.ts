@@ -694,7 +694,8 @@ export const translations: Record<LangCode, TranslationTree> = {
       "cancel": "Cancelar",
       "status": { "active": "Ativa", "sold": "Vendida", "cancelled": "Cancelada" },
       "offline": "Mercado indisponível (servidor offline).",
-      "error": "Erro no mercado"
+      "error": "Erro no mercado",
+      "taxNote": "Taxas: 2 🪙 para listar (não reembolsável) e 5% sobre a venda."
     },
     "crafting": {
       "craft": "Forjar",
@@ -1705,7 +1706,8 @@ export const translations: Record<LangCode, TranslationTree> = {
       "cancel": "Cancel",
       "status": { "active": "Active", "sold": "Sold", "cancelled": "Cancelled" },
       "offline": "Market unavailable (server offline).",
-      "error": "Market error"
+      "error": "Market error",
+      "taxNote": "Fees: 2 🪙 listing fee (non-refundable) and 5% tax on sale."
     },
     "crafting": {
       "craft": "Forge",
@@ -2663,7 +2665,8 @@ export const translations: Record<LangCode, TranslationTree> = {
       "cancel": "Cancelar",
       "status": { "active": "Activa", "sold": "Vendida", "cancelled": "Cancelada" },
       "offline": "Mercado no disponible (servidor offline).",
-      "error": "Error de mercado"
+      "error": "Error de mercado",
+      "taxNote": "Tasas: 2 🪙 por listar (no reembolsable) y 5% sobre la venta."
     },
     "crafting": {
       "craft": "Forjar",
@@ -3710,7 +3713,8 @@ export const translations: Record<LangCode, TranslationTree> = {
       "cancel": "取消",
       "status": { "active": "出品中", "sold": "売却済", "cancelled": "取消済" },
       "offline": "市場は利用できません（サーバーオフライン）。",
-      "error": "市場エラー"
+      "error": "市場エラー",
+      "taxNote": "手数料：出品2🪙（返金不可）＋売却額5%の税金。"
     },
     "crafting": {
       "craft": "鍛造",

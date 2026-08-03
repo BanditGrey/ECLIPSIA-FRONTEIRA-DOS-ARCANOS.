@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import http from 'http';
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 import cors from 'cors';
 import helmet from 'helmet';
 import { Server } from 'socket.io';
@@ -57,6 +58,43 @@ const corsOptions = {
 app.use(helmet());
 app.use(cors(corsOptions));
 app.use(express.json({ limit: '1mb' }));
+
+// ── Rate limiting (hardening) ──
+const TOO_MANY = { message: 'Muitas requisições. Aguarde alguns instantes.' };
+
+// Global: 600 req / 15 min por IP
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 600,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: TOO_MANY
+});
+
+// Auth: 20 tentativas / 15 min (login/register)
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: TOO_MANY
+});
+
+// Ações de economia (enviar carta, listar/comprar): 60 / min
+const actionLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  limit: 60,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: TOO_MANY
+});
+
+app.use('/api', apiLimiter);
+app.use('/api/auth/login', authLimiter);
+app.use('/api/auth/register', authLimiter);
+app.use('/api/mail/send', actionLimiter);
+app.use('/api/market/list', actionLimiter);
+app.use('/api/market/buy', actionLimiter);
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', online: onlinePlayers.size });
@@ -249,6 +287,16 @@ const tradeHandlers = (socket) => {
 
     if (!trade || trade.status !== 'active' || (who !== trade.from && who !== trade.to)) return;
 
+    // Throttle anti-spam: máx. 10 atualizações por 10s
+    const now = Date.now();
+    socket.data.tradeTimes = (socket.data.tradeTimes ?? []).filter((stamp) => now - stamp < 10_000);
+
+    if (socket.data.tradeTimes.length >= 10) {
+      return;
+    }
+
+    socket.data.tradeTimes.push(now);
+
     trade.offers[who] = sanitizeTradeOffer(payload);
     trade.confirmed = new Set();
     emitToBoth(trade, 'trade:updated');
@@ -311,6 +359,16 @@ io.on('connection', (socket) => {
   });
 
   socket.on('chat:message', (payload = {}) => {
+    // Throttle anti-spam: máx. 5 mensagens por 10s por socket
+    const now = Date.now();
+    socket.data.chatTimes = (socket.data.chatTimes ?? []).filter((stamp) => now - stamp < 10_000);
+
+    if (socket.data.chatTimes.length >= 5) {
+      return;
+    }
+
+    socket.data.chatTimes.push(now);
+
     const playerId = socket.data.playerId;
     const onlinePlayer = playerId ? onlinePlayers.get(playerId) : null;
     const text = sanitizeMessage(payload.text ?? payload.message);
@@ -381,5 +439,16 @@ const startServer = async () => {
     console.log(`Servidor Eclipsia ouvindo na porta ${port}`);
   });
 };
+
+// Graceful shutdown (Railway/Docker enviam SIGTERM)
+const shutdown = (signal) => {
+  console.log(`Recebido ${signal}, encerrando...`);
+
+  server.close(() => process.exit(0));
+  setTimeout(() => process.exit(0), 5000).unref();
+};
+
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT', () => shutdown('SIGINT'));
 
 startServer();

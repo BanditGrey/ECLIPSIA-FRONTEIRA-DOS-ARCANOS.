@@ -11,6 +11,12 @@ marketRoutes.use(authMiddleware);
 
 const RARITIES = new Set(['common', 'uncommon', 'rare', 'epic', 'legendary', 'relic']);
 
+// ── Economia (gold sinks) ──
+/** Imposto sobre a venda: vendedor recebe (1 - taxa). */
+export const MARKET_TAX_RATE = 0.05;
+/** Taxa de listagem (não reembolsada no cancelamento). */
+export const MARKET_LISTING_FEE = 2;
+
 /** GET /api/market/listings?rarity=&numId=&q= — listagens ativas */
 marketRoutes.get('/listings', async (req, res) => {
   try {
@@ -77,9 +83,16 @@ marketRoutes.post('/list', async (req, res) => {
       return res.status(400).json({ message: 'Preço inválido' });
     }
 
+    // Taxa de listagem (gold sink; não reembolsável)
+    if (character.gold < MARKET_LISTING_FEE) {
+      return res.status(400).json({ message: `Ouro insuficiente para a taxa de listagem (${MARKET_LISTING_FEE})` });
+    }
+
     if (!removeFromInventory(character, ref, 1)) {
       return res.status(400).json({ message: 'Item não está no inventário' });
     }
+
+    character.gold -= MARKET_LISTING_FEE;
 
     const listing = await MarketListing.create({
       sellerId: player._id.toString(),
@@ -132,14 +145,16 @@ marketRoutes.post('/buy', async (req, res) => {
     listing.soldTo = buyer.name;
     await listing.save();
 
-    // Pagamento ao vendedor via correio (sistema de mail já existente)
+    // Pagamento ao vendedor via correio, líquido do imposto de MARKET_TAX_RATE
+    const netAmount = Math.floor(listing.price * (1 - MARKET_TAX_RATE));
+
     await Mail.create({
       fromName: 'Mercado de Eclipsia',
       toName: listing.sellerName,
       subject: 'Item vendido',
-      message: `Seu item foi vendido por ${listing.price} de ouro.`,
+      message: `Seu item foi vendido por ${listing.price} de ouro (recebido: ${netAmount}, imposto: ${listing.price - netAmount}).`,
       itemStr: null,
-      gold: listing.price
+      gold: netAmount
     });
 
     await player.save();

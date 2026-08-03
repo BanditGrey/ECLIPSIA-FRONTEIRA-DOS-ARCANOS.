@@ -194,6 +194,7 @@ export const MarketPanel = () => {
 
         {tab === 'sell' && (
           <div className="grid gap-2 rounded-xl border border-game-border bg-game-card p-3">
+            <p className="font-mono text-[11px] text-game-muted">{t('market.taxNote')}</p>
             <select className="input-field" value={sellRef} onChange={(event) => setSellRef(event.target.value)}>
               <option value="">{t('crafting.selectItem')}</option>
               {bagRefs.map((ref) => {

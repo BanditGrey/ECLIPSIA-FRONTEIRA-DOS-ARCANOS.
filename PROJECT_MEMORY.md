@@ -1,7 +1,7 @@
 # 🧠 MEMÓRIA DO PROJETO — ECLIPSIA: FRONTEIRA DOS ARCANOS
 
 > **Leia este arquivo primeiro.** Ele existe para você se localizar sem varrer o repo inteiro.
-> Última atualização: 2026-08-03 (após mochila 60 + baú 500 — ver §5.6 "Inventário itemStr + BAÚ").
+> Última atualização: 2026-08-03 (após deploy config + rate limiting + taxa de mercado — ver §5.6 "Deploy, segurança e economia" e DEPLOY.md).
 
 ---
 
@@ -292,8 +292,15 @@ Feito nesta leva: ✅ correio, ✅ mercado (leilão simples), ✅ links de item 
 
 Feito na segunda leva: ✅ trade P2P via socket, ✅ encantamento (98) + 2 conjuntos (100), ✅ chat persistente, ✅ testes de servidor (11/11), ✅ notificações push (mail:new/market:sold), ✅ regex itemStr endurecida.
 
+### Deploy, segurança e economia (terceira leva)
+- **Deploy**: `railway.json` na raiz (build/start em `server/`, healthcheck `/api/health`) + `DEPLOY.md` com passo a passo (Railway + MongoDB Atlas + Vercel). Client já suporta `VITE_API_URL` (default prod: `https://eclipsia-server.railway.app/api`).
+- **Rate limiting** (`express-rate-limit`): API global 600/15min · auth 20/15min · mail/send + market/list/buy 60/min. Socket: chat 5 msgs/10s, trade:update 10/10s por conexão.
+- **Graceful shutdown**: SIGTERM/SIGINT fecham o server com timeout de 5s.
+- **Economia do mercado (gold sinks)** em `market.routes.js`: `MARKET_TAX_RATE = 0.05` (vendedor recebe líquido via carta) e `MARKET_LISTING_FEE = 2` (listagem, não reembolsável). UI avisa na aba de venda (`market.taxNote`).
+- ⚠ Server é stateless exceto trades em memória — reiniciar derruba trades pendentes.
+
 Restante:
-1. 🏛 **Leilão com bids** (mercado hoje é preço fixo) e **rate limiting** nas rotas
+1. 🏛 **Leilão com bids** (mercado hoje é preço fixo)
 2. 🧪 Testes de integração das rotas mail/market (precisa mongodb-memory-server) e do fluxo de trade
 3. 💾 Trade state está em memória no server (reiniciou = trades pendentes somem) — mover p/ Mongo se necessário
 4. 🎛 Balancear economia (preços de mercado, custos de craft/upgrade) com dados reais de jogo
