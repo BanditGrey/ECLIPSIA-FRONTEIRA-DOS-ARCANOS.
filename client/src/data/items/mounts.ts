@@ -16,6 +16,12 @@ export const mounts = {
       "bonusStats": {
         "agility": 1
       }
+    },
+    "effects": {
+      "e1": 91,
+      "v1": 20,
+      "e2": 4,
+      "v2": 1
     }
   },
   "forest_deer": {
@@ -33,6 +39,12 @@ export const mounts = {
       "bonusStats": {
         "perception": 2
       }
+    },
+    "effects": {
+      "e1": 91,
+      "v1": 25,
+      "e2": 7,
+      "v2": 2
     }
   },
   "sky_griffin": {
@@ -51,6 +63,14 @@ export const mounts = {
         "agility": 3,
         "will": 2
       }
+    },
+    "effects": {
+      "e1": 91,
+      "v1": 35,
+      "e2": 4,
+      "v2": 3,
+      "e3": 8,
+      "v3": 2
     }
   },
   "abyss_turtle_mount": {
@@ -69,6 +89,14 @@ export const mounts = {
         "vitality": 4,
         "def": 10
       }
+    },
+    "effects": {
+      "e1": 91,
+      "v1": 40,
+      "e2": 2,
+      "v2": 10,
+      "e3": 5,
+      "v3": 4
     }
   },
   "eclipse_stag": {
@@ -87,6 +115,14 @@ export const mounts = {
         "luck": 8,
         "agility": 5
       }
+    },
+    "effects": {
+      "e1": 91,
+      "v1": 50,
+      "e2": 4,
+      "v2": 5,
+      "e3": 9,
+      "v3": 8
     }
   }
 } satisfies Record<string, Item>;

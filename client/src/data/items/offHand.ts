@@ -16,6 +16,12 @@ export const offHand = {
     "stats": {
       "def": 12,
       "vitality": 1
+    },
+    "effects": {
+      "e1": 2,
+      "v1": 12,
+      "e2": 5,
+      "v2": 1
     }
   },
   "dagger_off_basic": {
@@ -33,6 +39,12 @@ export const offHand = {
     "stats": {
       "atk": 5,
       "agility": 1
+    },
+    "effects": {
+      "e1": 1,
+      "v1": 5,
+      "e2": 4,
+      "v2": 1
     }
   },
   "orb_basic": {
@@ -50,6 +62,12 @@ export const offHand = {
     "stats": {
       "arcana": 2,
       "mp": 30
+    },
+    "effects": {
+      "e1": 6,
+      "v1": 2,
+      "e2": 11,
+      "v2": 30
     }
   },
   "tome_basic": {
@@ -67,6 +85,12 @@ export const offHand = {
     "stats": {
       "will": 2,
       "mp": 20
+    },
+    "effects": {
+      "e1": 8,
+      "v1": 2,
+      "e2": 11,
+      "v2": 20
     }
   },
   "shield_valedouro_uncommon": {
@@ -84,6 +108,12 @@ export const offHand = {
     "stats": {
       "def": 24,
       "vitality": 3
+    },
+    "effects": {
+      "e1": 2,
+      "v1": 24,
+      "e2": 5,
+      "v2": 3
     }
   }
 } satisfies Record<string, Item>;

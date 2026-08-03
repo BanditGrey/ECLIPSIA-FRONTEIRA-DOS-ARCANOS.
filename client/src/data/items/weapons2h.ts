@@ -16,6 +16,12 @@ export const weapons2h = {
     "stats": {
       "atk": 28,
       "strength": 3
+    },
+    "effects": {
+      "e1": 1,
+      "v1": 28,
+      "e2": 3,
+      "v2": 3
     }
   },
   "bow_long_basic_2h": {
@@ -33,6 +39,12 @@ export const weapons2h = {
     "stats": {
       "atk": 26,
       "perception": 3
+    },
+    "effects": {
+      "e1": 1,
+      "v1": 26,
+      "e2": 7,
+      "v2": 3
     }
   },
   "hammer_basic_2h": {
@@ -50,6 +62,12 @@ export const weapons2h = {
     "stats": {
       "atk": 30,
       "def": 3
+    },
+    "effects": {
+      "e1": 1,
+      "v1": 30,
+      "e2": 2,
+      "v2": 3
     }
   },
   "spear_basic_2h": {
@@ -68,6 +86,14 @@ export const weapons2h = {
       "atk": 27,
       "agility": 1,
       "perception": 1
+    },
+    "effects": {
+      "e1": 1,
+      "v1": 27,
+      "e2": 4,
+      "v2": 1,
+      "e3": 7,
+      "v3": 1
     }
   },
   "staff_two_uncommon_2h": {
@@ -86,6 +112,14 @@ export const weapons2h = {
       "atk": 35,
       "arcana": 5,
       "mp": 80
+    },
+    "effects": {
+      "e1": 1,
+      "v1": 35,
+      "e2": 6,
+      "v2": 5,
+      "e3": 11,
+      "v3": 80
     }
   },
   "great_sword_rare_2h": {
@@ -104,6 +138,14 @@ export const weapons2h = {
       "atk": 58,
       "strength": 6,
       "critDmg": 12
+    },
+    "effects": {
+      "e1": 1,
+      "v1": 58,
+      "e2": 3,
+      "v2": 6,
+      "e3": 22,
+      "v3": 12
     }
   },
   "eclipse_halberd_epic_2h": {
@@ -123,6 +165,16 @@ export const weapons2h = {
       "strength": 7,
       "arcana": 4,
       "critChance": 5
+    },
+    "effects": {
+      "e1": 1,
+      "v1": 90,
+      "e2": 3,
+      "v2": 7,
+      "e3": 6,
+      "v3": 4,
+      "e4": 21,
+      "v4": 5
     }
   }
 } satisfies Record<string, Item>;

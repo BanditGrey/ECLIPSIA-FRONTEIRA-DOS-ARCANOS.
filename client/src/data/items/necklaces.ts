@@ -14,6 +14,12 @@ export const necklaces = {
     "stats": {
       "will": 1,
       "mp": 15
+    },
+    "effects": {
+      "e1": 8,
+      "v1": 1,
+      "e2": 11,
+      "v2": 15
     }
   }
 } satisfies Record<string, Item>;

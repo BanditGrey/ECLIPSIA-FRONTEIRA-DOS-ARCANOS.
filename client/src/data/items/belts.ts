@@ -13,6 +13,10 @@ export const belts = {
     "descKey": "itemNames.belt_basic_accessory.desc",
     "stats": {
       "vitality": 1
+    },
+    "effects": {
+      "e1": 5,
+      "v1": 1
     }
   }
 } satisfies Record<string, Item>;

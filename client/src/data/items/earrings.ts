@@ -13,6 +13,10 @@ export const earrings = {
     "descKey": "itemNames.earring_basic_accessory.desc",
     "stats": {
       "luck": 1
+    },
+    "effects": {
+      "e1": 9,
+      "v1": 1
     }
   },
   "misty_ring": {
@@ -28,6 +32,12 @@ export const earrings = {
     "stats": {
       "luck": 6,
       "perception": 3
+    },
+    "effects": {
+      "e1": 7,
+      "v1": 3,
+      "e2": 9,
+      "v2": 6
     }
   }
 } satisfies Record<string, Item>;

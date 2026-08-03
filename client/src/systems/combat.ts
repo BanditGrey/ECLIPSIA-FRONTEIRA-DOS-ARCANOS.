@@ -1,5 +1,7 @@
 import { bosses } from '../data/bosses';
 import { translations } from '../i18n';
+import { EFFECT } from '../data/effectRegistry';
+import { getEffectName } from '../data/effectNames';
 import { monsters } from '../data/monsters';
 import { regions } from '../data/regions';
 import { skills } from '../data/skills';
@@ -10,6 +12,7 @@ import { usePetStore } from '../store/usePetStore';
 import { usePlayerStore } from '../store/usePlayerStore';
 import type { Enemy, LootEntry } from '../types/combat.types';
 import type { PartyMember } from '../types/party.types';
+import { calculatePlayerStats, getConditionalValue, type ResolvedEffects } from './effectEngine';
 import { hiddenEventsSystem } from './hiddenEvents';
 import { impulseSystem } from './impulse';
 import { rollLoot } from './loot';
@@ -124,22 +127,140 @@ const getRegionMonsterId = (regionId: string) => {
   return pickRandom(monsterIds.length > 0 ? monsterIds : ['rat']);
 };
 
-const getCritMultiplier = () => {
+// ────────────────────────────────────────────────────────────────
+// Integração com o effectEngine (Parte 7): os effects numéricos do
+// equipamento são resolvidos no início do combate e aplicados em
+// cada fase (ataque, defesa, kill, HP crítico, crítico).
+// ────────────────────────────────────────────────────────────────
+let activeEffects: ResolvedEffects | null = null;
+let shieldPool = 0; // effect 57 (SHIELD) — HP restante do escudo absorvente
+let barrierPool = 0; // effect 58 (BARRIER) — MP restante da barreira mágica
+
+/** Efeitos resolvidos do equipamento atual (com fallback seguro). */
+const getResolvedEffects = (): ResolvedEffects | null => {
+  if (activeEffects) return activeEffects;
+
+  const player = usePlayerStore.getState().data;
+
+  if (!player) return null;
+
+  activeEffects = calculatePlayerStats(player.stats, player.equipment);
+  return activeEffects;
+};
+
+const LOW_HP_THRESHOLD = 0.2;
+
+const isPlayerLowHp = (): boolean => {
+  const player = usePlayerStore.getState().data;
+
+  return Boolean(player && player.maxHp > 0 && player.hp / player.maxHp < LOW_HP_THRESHOLD);
+};
+
+const rollCrit = (): { isCrit: boolean; multiplier: number } => {
   const player = usePlayerStore.getState().data;
   const perception = player?.stats.perception ?? 0;
-  const chance = 0.05 + perception * 0.002;
+  const resolved = getResolvedEffects();
+  const critChance = resolved?.critChance ?? 0;
+  const chance = 0.05 + perception * 0.002 + critChance / 100;
 
-  return Math.random() < chance ? 2 : 1;
+  if (Math.random() >= chance) {
+    return { isCrit: false, multiplier: 1 };
+  }
+
+  const critDmg = resolved?.critDmg ?? 0;
+  const onCritDmg = resolved ? getConditionalValue(resolved, EFFECT.ON_CRIT_DMG) : 0;
+
+  return { isCrit: true, multiplier: 2 * (1 + (critDmg + onCritDmg) / 100) };
+};
+
+/**
+ * Rola os effects "ao acertar" (61–66) do equipamento contra o
+ * inimigo. Chance = value (inteiro em %).
+ */
+const rollOnHitEffects = () => {
+  const resolved = getResolvedEffects();
+
+  if (!resolved || resolved.onHitEffects.length === 0) return;
+
+  const combat = useCombatStore.getState();
+  const playerStore = usePlayerStore.getState();
+  const dotDamage = Math.max(3, Math.floor(playerStore.getTotalAtk() * 0.15));
+
+  for (const onHit of resolved.onHitEffects) {
+    if (Math.random() * 100 >= onHit.chance) continue;
+
+    switch (onHit.effectId) {
+      case EFFECT.ON_HIT_BURN:
+        combat.addEnemyEffect({ type: 'dot', turns: 2, damage: dotDamage });
+        break;
+      case EFFECT.ON_HIT_BLEED:
+        combat.addEnemyEffect({ type: 'dot', turns: 2, damage: dotDamage });
+        break;
+      case EFFECT.ON_HIT_POISON:
+        combat.addEnemyEffect({ type: 'dot', turns: 3, damage: dotDamage });
+        break;
+      case EFFECT.ON_HIT_FREEZE:
+      case EFFECT.ON_HIT_STUN:
+        combat.addEnemyEffect({ type: 'stun', turns: Math.max(1, onHit.value) });
+        break;
+      case EFFECT.ON_HIT_SLOW:
+        combat.addEnemyEffect({ type: 'slow', turns: Math.max(1, onHit.value), value: 20 });
+        break;
+      default:
+        break;
+    }
+
+    combat.addLog('attack', `${getEffectName(onHit.effectId, getLang())}!`);
+  }
+};
+
+/** Cura flat direta no jogador (usado pelo effect 55 — REGENERATE). */
+const healPlayerFlat = (amount: number) => {
+  usePlayerStore.setState((state) => {
+    if (!state.data || amount <= 0) return state;
+
+    return {
+      data: {
+        ...state.data,
+        hp: Math.min(state.data.maxHp, state.data.hp + amount)
+      }
+    };
+  });
 };
 
 const getPlayerDamage = (percent = 100) => {
   const playerStore = usePlayerStore.getState();
   const combat = useCombatStore.getState();
-  const base = playerStore.getTotalAtk() * (percent / 100) * impulseSystem.getBonus('damage');
-  const crit = getCritMultiplier();
-  const defenseReduction = Math.max(0, combat.enemy?.def ?? 0) * 0.35;
+  const resolved = getResolvedEffects();
 
-  return Math.max(1, Math.floor(base * crit - defenseReduction));
+  // Bônus percentuais de dano: DMG_BONUS (24), VS_BOSS_DMG (77),
+  // ON_LOW_HP_ATK (69, com HP < 20%)
+  let bonusPercent = resolved?.dmgBonus ?? 0;
+
+  if (combat.isBoss && resolved) {
+    bonusPercent += getConditionalValue(resolved, EFFECT.VS_BOSS_DMG);
+  }
+
+  if (isPlayerLowHp() && resolved) {
+    bonusPercent += getConditionalValue(resolved, EFFECT.ON_LOW_HP_ATK);
+  }
+
+  const base = playerStore.getTotalAtk() * (percent / 100) * impulseSystem.getBonus('damage') * (1 + bonusPercent / 100);
+  const { isCrit, multiplier } = rollCrit();
+  const defenseReduction = Math.max(0, combat.enemy?.def ?? 0) * 0.35;
+  const damage = Math.max(1, Math.floor(base * multiplier - defenseReduction));
+
+  // ON_CRIT_BLEED (71): ao criticar aplica sangramento (value = dano)
+  if (isCrit && resolved) {
+    const critBleed = getConditionalValue(resolved, EFFECT.ON_CRIT_BLEED);
+
+    if (critBleed > 0) {
+      combat.addEnemyEffect({ type: 'dot', turns: 2, damage: critBleed });
+      combat.addLog('attack', `${getEffectName(EFFECT.ON_CRIT_BLEED, getLang())}!`);
+    }
+  }
+
+  return damage;
 };
 
 const reducePlayerMp = (amount: number) => {
@@ -248,13 +369,31 @@ const handleVictory = () => {
   }
 
   const xpMultiplier = partyStore.getXpMultiplier();
-  const xp = Math.floor(enemy.xp * xpMultiplier * impulseSystem.getBonus('xp'));
-  const gold = Math.floor(enemy.gold * impulseSystem.getBonus('gold'));
+  const resolved = getResolvedEffects();
+  const xpBonus = resolved?.xpBonus ?? 0;
+  const goldBonus = resolved?.goldBonus ?? 0;
+  const xp = Math.floor(enemy.xp * xpMultiplier * impulseSystem.getBonus('xp') * (1 + xpBonus / 100));
+  const gold = Math.floor(enemy.gold * impulseSystem.getBonus('gold') * (1 + goldBonus / 100));
 
   playerStore.gainXp(xp);
   playerStore.gainGold(gold);
   playerStore.addKill(enemy.id);
   questSystem.onKill(enemy.id);
+
+  // 4. Ao matar: ON_KILL_HEAL (67) e ON_KILL_MP (68)
+  if (resolved) {
+    const onKillHeal = getConditionalValue(resolved, EFFECT.ON_KILL_HEAL);
+
+    if (onKillHeal > 0) {
+      playerStore.recoverHp(onKillHeal);
+    }
+
+    const onKillMp = getConditionalValue(resolved, EFFECT.ON_KILL_MP);
+
+    if (onKillMp > 0) {
+      playerStore.recoverMp(onKillMp);
+    }
+  }
 
   const loot = rollLoot(enemy, playerStore.getLuck(), combat.autoConfig.lootFilter);
   loot.forEach((entry) => playerStore.addItem(entry.itemId, entry.qty));
@@ -323,6 +462,13 @@ export const combatEngine = {
       ? createEnemyFromBoss(options.bossId)
       : createEnemyFromMonster(options.enemyId ?? getRegionMonsterId(region));
 
+    // 1. Ao iniciar combate: resolve os stats reais do equipamento
+    //    e registra os onHitEffects / pools defensivos.
+    const player = usePlayerStore.getState().data;
+    activeEffects = player ? calculatePlayerStats(player.stats, player.equipment) : null;
+    shieldPool = activeEffects ? getConditionalValue(activeEffects, EFFECT.SHIELD) : 0;
+    barrierPool = activeEffects ? getConditionalValue(activeEffects, EFFECT.BARRIER) : 0;
+
     useCombatStore.setState({
       active: true,
       phase: 'player',
@@ -354,6 +500,14 @@ export const combatEngine = {
     useCombatStore.getState().addLog('attack', `${t('combat.attack')} ${damage}`);
 
     if (hp <= 0) {
+      handleVictory();
+      return;
+    }
+
+    // 2. Ao atacar: rola os onHitEffects (61–66) do equipamento.
+    rollOnHitEffects();
+
+    if (useCombatStore.getState().enemyHp <= 0) {
       handleVictory();
       return;
     }
@@ -436,6 +590,22 @@ export const combatEngine = {
       return;
     }
 
+    // Inimigo atordoado (stun de skills ou ON_HIT_FREEZE/ON_HIT_STUN):
+    // perde o turno.
+    const isStunned = combat.enemyEffects.some((effect) => effect.type === 'stun');
+
+    if (isStunned) {
+      combat.addLog('enemy', getEffectName(EFFECT.STUN, getLang()));
+      usePetStore.getState().tickCooldown();
+      combat.tickCooldowns();
+      useCombatStore.setState({ turn: combat.turn + 1, phase: 'player', isDefending: false });
+
+      if (useCombatStore.getState().autoFight) {
+        this.autoAction();
+      }
+      return;
+    }
+
     const hpPercent = (combat.enemyHp / Math.max(1, combat.enemyMaxHp)) * 100;
     let bossBoost = 1;
 
@@ -466,13 +636,80 @@ export const combatEngine = {
     }
 
     damage = Math.max(1, Math.floor(damage / impulseSystem.getBonus('defense')));
-    damagePartyOrPlayer(damage);
-    usePetStore.getState().petTakeDmg(Math.floor(damage * 0.25));
-    combat.addLog('enemy', `${t('combat.log.playerTook').replace('{damage}', String(damage))}`);
+
+    // ── Effects defensivos do equipamento ──
+    const resolved = getResolvedEffects();
+
+    if (resolved) {
+      // Inimigo com slow (47/66) causa 10% menos dano
+      if (combat.enemyEffects.some((effect) => effect.type === 'slow')) {
+        damage *= 0.9;
+      }
+
+      // DEF_BONUS (25) e ON_LOW_HP_DEF (70, com HP < 20%)
+      let defBonus = resolved.defBonus;
+
+      if (isPlayerLowHp()) {
+        defBonus += getConditionalValue(resolved, EFFECT.ON_LOW_HP_DEF);
+      }
+
+      if (defBonus > 0) {
+        damage /= 1 + defBonus / 100;
+      }
+
+      damage = Math.max(1, Math.floor(damage));
+
+      // REFLECT (56): reflete parte do dano de volta ao inimigo
+      const reflectPct = getConditionalValue(resolved, EFFECT.REFLECT);
+
+      if (reflectPct > 0) {
+        const reflected = Math.floor((damage * reflectPct) / 100);
+
+        if (reflected > 0) {
+          applyEnemyDamage(reflected);
+          combat.addLog('parry', `${getEffectName(EFFECT.REFLECT, getLang())} ${reflected}`);
+        }
+      }
+
+      // SHIELD (57): escudo absorve dano (pool de HP)
+      const shieldAbsorb = Math.min(shieldPool, damage);
+
+      if (shieldAbsorb > 0) {
+        shieldPool -= shieldAbsorb;
+        damage -= shieldAbsorb;
+        combat.addLog('defend', `${getEffectName(EFFECT.SHIELD, getLang())} ${shieldAbsorb}`);
+      }
+
+      // BARRIER (58): barreira mágica absorve o restante (pool de MP)
+      const barrierAbsorb = Math.min(barrierPool, damage);
+
+      if (barrierAbsorb > 0) {
+        barrierPool -= barrierAbsorb;
+        damage -= barrierAbsorb;
+        combat.addLog('defend', `${getEffectName(EFFECT.BARRIER, getLang())} ${barrierAbsorb}`);
+      }
+    }
+
+    damage = Math.max(0, Math.floor(damage));
+
+    if (damage > 0) {
+      damagePartyOrPlayer(damage);
+      usePetStore.getState().petTakeDmg(Math.floor(damage * 0.25));
+      combat.addLog('enemy', `${t('combat.log.playerTook').replace('{damage}', String(damage))}`);
+    }
 
     if (isDefeated()) {
       handleDefeat();
       return;
+    }
+
+    // REGENERATE (55): regenera HP por turno
+    if (resolved) {
+      const regen = getConditionalValue(resolved, EFFECT.REGENERATE);
+
+      if (regen > 0) {
+        healPlayerFlat(regen);
+      }
     }
 
     usePetStore.getState().tickCooldown();

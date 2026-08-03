@@ -16,6 +16,12 @@ export const weapons1h = {
     "stats": {
       "atk": 12,
       "strength": 1
+    },
+    "effects": {
+      "e1": 1,
+      "v1": 12,
+      "e2": 3,
+      "v2": 1
     }
   },
   "dagger_basic": {
@@ -33,6 +39,12 @@ export const weapons1h = {
     "stats": {
       "atk": 9,
       "agility": 2
+    },
+    "effects": {
+      "e1": 1,
+      "v1": 9,
+      "e2": 4,
+      "v2": 2
     }
   },
   "staff_one_basic": {
@@ -50,6 +62,12 @@ export const weapons1h = {
     "stats": {
       "atk": 7,
       "arcana": 2
+    },
+    "effects": {
+      "e1": 1,
+      "v1": 7,
+      "e2": 6,
+      "v2": 2
     }
   },
   "bow_short_basic": {
@@ -67,6 +85,12 @@ export const weapons1h = {
     "stats": {
       "atk": 10,
       "perception": 1
+    },
+    "effects": {
+      "e1": 1,
+      "v1": 10,
+      "e2": 7,
+      "v2": 1
     }
   },
   "sword_one_uncommon": {
@@ -84,6 +108,12 @@ export const weapons1h = {
     "stats": {
       "atk": 22,
       "strength": 2
+    },
+    "effects": {
+      "e1": 1,
+      "v1": 22,
+      "e2": 3,
+      "v2": 2
     }
   },
   "dagger_nythera_uncommon": {
@@ -102,6 +132,14 @@ export const weapons1h = {
       "atk": 24,
       "agility": 3,
       "perception": 1
+    },
+    "effects": {
+      "e1": 1,
+      "v1": 24,
+      "e2": 4,
+      "v2": 3,
+      "e3": 7,
+      "v3": 1
     }
   },
   "arcane_rod_rare": {
@@ -120,6 +158,14 @@ export const weapons1h = {
       "atk": 30,
       "arcana": 5,
       "mp": 60
+    },
+    "effects": {
+      "e1": 1,
+      "v1": 30,
+      "e2": 6,
+      "v2": 5,
+      "e3": 11,
+      "v3": 60
     }
   },
   "long_sword": {
@@ -137,6 +183,12 @@ export const weapons1h = {
     "stats": {
       "atk": 24,
       "strength": 2
+    },
+    "effects": {
+      "e1": 1,
+      "v1": 24,
+      "e2": 3,
+      "v2": 2
     }
   }
 } satisfies Record<string, Item>;

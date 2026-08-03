@@ -1,8 +1,13 @@
 import { useMemo, useState } from 'react';
+import { describeEffect, getEffectIcon } from '../../data/effectNames';
+import { getEffectPairs } from '../../data/effectRegistry';
+import { itemNames } from '../../data/itemNames';
 import { useI18n } from '../../hooks/useI18n';
 import { useGameStore } from '../../store/useGameStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
+import type { ItemEffect } from '../../types/item.types';
 import type { Equipment, InventoryItem } from '../../types/player.types';
+import { resolveItemRef, serializeItem } from '../../utils/itemSerializer';
 import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
 
@@ -18,6 +23,14 @@ interface ItemMeta {
   isTwoHanded: boolean;
   stats: Record<string, number>;
   spiritChance?: number;
+  /** numId do catálogo (quando o item está registrado). */
+  numId?: number;
+  /** Effects numéricos — fonte de verdade dos bônus. */
+  effects?: ItemEffect;
+  /** Id base no catálogo (para nomes/descrições). */
+  catalogId?: string;
+  /** Item serializado ("numId|e:v|...") para correio/mercado/chat. */
+  itemStr?: string;
 }
 
 const tabs: ItemsTab[] = ['equipped', 'bag', 'crafting', 'market'];
@@ -109,6 +122,31 @@ const isTwoHanded = (itemId: string) => {
 };
 
 const getItemMeta = (itemId: string): ItemMeta => {
+  // 1) Catálogo real (com effects) — suporta id ou itemStr serializada
+  const catalogItem = resolveItemRef(itemId);
+
+  if (catalogItem) {
+    const slot = allSlots.includes(catalogItem.slot as EquipmentSlot) ? (catalogItem.slot as EquipmentSlot) : null;
+    const stats: Record<string, number> = catalogItem.stats
+      ? Object.fromEntries(Object.entries(catalogItem.stats).filter(([, value]) => typeof value === 'number'))
+      : {};
+
+    return {
+      id: itemId,
+      icon: catalogItem.icon,
+      slot,
+      rarity: catalogItem.rarity,
+      isTwoHanded: Boolean(catalogItem.isTwoHanded),
+      stats,
+      spiritChance: catalogItem.spiritStone ? Math.round(catalogItem.spiritStone.effectChance * 100) : undefined,
+      numId: catalogItem.numId,
+      effects: catalogItem.effects,
+      catalogId: catalogItem.id,
+      itemStr: serializeItem(catalogItem)
+    };
+  }
+
+  // 2) Fallback legado: item não registrado no catálogo
   const slot = inferSlot(itemId);
   const twoHanded = isTwoHanded(itemId);
 
@@ -124,7 +162,7 @@ const getItemMeta = (itemId: string): ItemMeta => {
 };
 
 export const ItemsPanel = () => {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const [tab, setTab] = useState<ItemsTab>('equipped');
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
   const openModal = useGameStore((state) => state.openModal);
@@ -141,8 +179,40 @@ export const ItemsPanel = () => {
     openModal(DETAIL_MODAL);
   };
 
-  const itemName = () => t('items.unknownItem');
-  const itemDesc = () => t('items.genericDesc');
+  const itemName = (meta: ItemMeta | null) => {
+    if (meta?.catalogId) {
+      const entry = itemNames[meta.catalogId]?.[lang];
+
+      if (entry?.name) {
+        return entry.name;
+      }
+    }
+
+    return t('items.unknownItem');
+  };
+
+  const itemDesc = (meta: ItemMeta | null) => {
+    if (meta?.catalogId) {
+      const entry = itemNames[meta.catalogId]?.[lang];
+
+      if (entry?.desc) {
+        return entry.desc;
+      }
+    }
+
+    return t('items.genericDesc');
+  };
+
+  /** Resumo compacto dos effects (até 2 pares) para os slots equipados. */
+  const effectSummary = (meta: ItemMeta) => {
+    const pairs = getEffectPairs(meta.effects);
+
+    if (pairs.length > 0) {
+      return pairs.slice(0, 2).map(({ effectId, value }) => describeEffect(effectId, value, lang).text).join(' • ');
+    }
+
+    return Object.entries(meta.stats).map(([key, value]) => `${t(key === 'atk' ? 'charCreate.stats.atk' : 'charCreate.stats.def')} +${value}`).join(' • ');
+  };
 
   const renderSlot = (slot: EquipmentSlot) => {
     const itemId = player?.equipment[slot];
@@ -158,13 +228,9 @@ export const ItemsPanel = () => {
               <h3 className="font-title text-sm text-game-gold">{t(`items.slots.${slot}`)}</h3>
               {meta?.isTwoHanded && <span className="rounded bg-game-gold px-1.5 py-0.5 font-mono text-[10px] text-game-dark">{t('items.twoHandedBadge')}</span>}
             </div>
-            <p className="truncate text-sm text-game-text">{itemId ? itemName() : t('items.slotEmpty')}</p>
+            <p className="truncate text-sm text-game-text">{itemId && meta ? itemName(meta) : t('items.slotEmpty')}</p>
             {blocked && <p className="text-xs text-red-300">{t('items.twoHandedBlocked')}</p>}
-            {meta && (
-              <p className="font-mono text-xs text-game-muted">
-                {Object.entries(meta.stats).map(([key, value]) => `${t(key === 'atk' ? 'charCreate.stats.atk' : 'charCreate.stats.def')} +${value}`).join(' • ')}
-              </p>
-            )}
+            {meta && <p className="font-mono text-xs text-game-muted">{effectSummary(meta)}</p>}
           </div>
           {itemId && (
             <button
@@ -245,30 +311,48 @@ export const ItemsPanel = () => {
         )}
       </section>
 
-      <Modal id={DETAIL_MODAL} title={selectedMeta ? itemName() : t('items.unknownItem')}>
+      <Modal id={DETAIL_MODAL} title={selectedMeta ? itemName(selectedMeta) : t('items.unknownItem')}>
         {selectedItem && selectedMeta && (
           <div className="grid gap-3">
             <header className="flex items-center gap-3 rounded-xl border border-game-border bg-game-card p-3">
               <span className="text-4xl">{selectedMeta.icon}</span>
               <div>
-                <h2 className="font-title text-xl text-game-gold">{itemName()}</h2>
+                <h2 className="font-title text-xl text-game-gold">{itemName(selectedMeta)}</h2>
                 <p className={['font-mono text-xs', rarityText[selectedMeta.rarity]].join(' ')}>
                   {t(`items.rarities.${selectedMeta.rarity}`)} • {selectedMeta.slot ? t(`items.slots.${selectedMeta.slot}`) : t('game.unknown')}
+                  {selectedMeta.numId !== undefined && <> • #{selectedMeta.numId}</>}
                 </p>
               </div>
             </header>
 
-            <p className="text-game-muted">{itemDesc()}</p>
+            <p className="text-game-muted">{itemDesc(selectedMeta)}</p>
 
+            {/* Tabela de effects — fonte de verdade dos bônus */}
             <section className="rounded-xl border border-game-border bg-game-card p-3">
-              <h3 className="mb-2 font-title text-game-gold">{t('items.mainStats')}</h3>
-              <div className="grid gap-1 font-mono text-sm">
-                {Object.entries(selectedMeta.stats).map(([key, value]) => (
-                  <span key={key} className={value >= 0 ? 'text-green-300' : 'text-red-300'}>
-                    {t(key === 'atk' ? 'charCreate.stats.atk' : 'charCreate.stats.def')}: {value > 0 ? '+' : ''}{value}
-                  </span>
-                ))}
-              </div>
+              <h3 className="mb-2 font-title text-game-gold">{t('items.effects')}</h3>
+              {getEffectPairs(selectedMeta.effects).length > 0 ? (
+                <div className="grid gap-1 font-mono text-sm">
+                  {getEffectPairs(selectedMeta.effects).map(({ effectId, value }, index) => {
+                    const line = describeEffect(effectId, value, lang);
+
+                    return (
+                      <span key={`${effectId}-${index}`} className={['flex items-center gap-2', line.colorClass].join(' ')}>
+                        <span aria-hidden>{getEffectIcon(effectId)}</span>
+                        <span>{line.text}</span>
+                      </span>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="grid gap-1 font-mono text-sm">
+                  {Object.entries(selectedMeta.stats).map(([key, value]) => (
+                    <span key={key} className={value >= 0 ? 'text-green-300' : 'text-red-300'}>
+                      {t(key === 'atk' ? 'charCreate.stats.atk' : 'charCreate.stats.def')}: {value > 0 ? '+' : ''}{value}
+                    </span>
+                  ))}
+                  {Object.keys(selectedMeta.stats).length === 0 && <span className="text-game-muted">{t('items.noEffects')}</span>}
+                </div>
+              )}
             </section>
 
             {selectedMeta.spiritChance && (
@@ -281,8 +365,14 @@ export const ItemsPanel = () => {
 
             <section className="rounded-xl border border-game-border bg-game-card p-3 text-sm text-game-muted">
               <h3 className="mb-1 font-title text-game-gold">{t('items.comparison')}</h3>
-              {t('items.currentEquipped')}: {equippedCurrent ? t('items.unknownItem') : t('panels.none')}
+              {t('items.currentEquipped')}: {equippedCurrent ? itemName(getItemMeta(equippedCurrent)) : t('panels.none')}
             </section>
+
+            {selectedMeta.itemStr && (
+              <p className="break-all rounded-lg border border-game-border bg-game-dark p-2 font-mono text-[10px] text-game-muted">
+                {t('items.itemCode')}: {selectedMeta.itemStr}
+              </p>
+            )}
 
             <div className="grid grid-cols-2 gap-2">
               <Button

@@ -14,6 +14,12 @@ export const legs = {
     "stats": {
       "def": 8,
       "hp": 20
+    },
+    "effects": {
+      "e1": 2,
+      "v1": 8,
+      "e2": 10,
+      "v2": 20
     }
   }
 } satisfies Record<string, Item>;

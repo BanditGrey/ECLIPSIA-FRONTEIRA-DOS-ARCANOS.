@@ -14,6 +14,12 @@ export const head = {
     "stats": {
       "def": 6,
       "hp": 20
+    },
+    "effects": {
+      "e1": 2,
+      "v1": 6,
+      "e2": 10,
+      "v2": 20
     }
   },
   "hood_nythera_uncommon": {
@@ -29,6 +35,12 @@ export const head = {
     "stats": {
       "def": 10,
       "perception": 2
+    },
+    "effects": {
+      "e1": 2,
+      "v1": 10,
+      "e2": 7,
+      "v2": 2
     }
   }
 } satisfies Record<string, Item>;

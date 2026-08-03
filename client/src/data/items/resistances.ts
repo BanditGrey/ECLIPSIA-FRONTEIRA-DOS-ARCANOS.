@@ -13,6 +13,10 @@ export const resistances = {
     "descKey": "itemNames.resistance_basic_accessory.desc",
     "stats": {
       "def": 5
+    },
+    "effects": {
+      "e1": 2,
+      "v1": 5
     }
   }
 } satisfies Record<string, Item>;

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import './index.css';
+import { ITEMS } from './data/items';
+import { registerPlayerItems } from './store/usePlayerStore';
 import { GameLayout } from './components/layout/GameLayout';
 import { CharCreateScreen } from './components/screens/CharCreateScreen';
 import { CharacterSelectScreen } from './components/screens/CharacterSelectScreen';
@@ -22,6 +24,9 @@ import { HiddenEvents } from './systems/hiddenEvents';
 import { Impulse } from './systems/impulse';
 import { Quests } from './systems/quests';
 import { useGameStore } from './store/useGameStore';
+
+// Registra o catálogo de itens (com effects) no store do jogador.
+registerPlayerItems(Object.values(ITEMS));
 
 const ActivePanel = () => {
   const panel = useGameStore((state) => state.panel);

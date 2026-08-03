@@ -23,6 +23,15 @@ const LuckSchema = new mongoose.Schema(
   { _id: false }
 );
 
+/**
+ * Equipamento: cada slot armazena uma String — ou o id de catálogo
+ * (legado) ou a itemStr serializada do sistema ItemEffects:
+ *
+ *    "numId|e1:v1|e2:v2|...|e10:v10"   ex.: "1005|1:65|4:5|7:3"
+ *
+ * Formato compacto: menos espaço no banco, transferência fácil entre
+ * jogadores (correio/mercado/trades) e serialização direta.
+ */
 const EquipmentSchema = new mongoose.Schema(
   {
     weapon_main: { type: String, default: null },
@@ -44,9 +53,18 @@ const EquipmentSchema = new mongoose.Schema(
   { _id: false }
 );
 
+/**
+ * Inventário (sistema ItemEffects): itens como string serializada.
+ *
+ *    { itemStr: "1005|1:65|4:5|7:3", qty: 1 }
+ *
+ * O campo legado `id` é mantido (opcional) para compatibilidade com
+ * personagens antigos; novos itens devem usar `itemStr`.
+ */
 const InventoryItemSchema = new mongoose.Schema(
   {
-    id: { type: String, required: true },
+    itemStr: { type: String, default: null },
+    id: { type: String, default: null },
     qty: { type: Number, default: 1 }
   },
   { _id: false }

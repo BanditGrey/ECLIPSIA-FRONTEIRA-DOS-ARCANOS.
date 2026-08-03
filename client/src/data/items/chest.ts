@@ -14,6 +14,12 @@ export const chest = {
     "stats": {
       "def": 12,
       "hp": 35
+    },
+    "effects": {
+      "e1": 2,
+      "v1": 12,
+      "e2": 10,
+      "v2": 35
     }
   },
   "chest_uncommon_shop": {
@@ -29,6 +35,12 @@ export const chest = {
     "stats": {
       "def": 22,
       "vitality": 2
+    },
+    "effects": {
+      "e1": 2,
+      "v1": 22,
+      "e2": 5,
+      "v2": 2
     }
   }
 } satisfies Record<string, Item>;

@@ -1,9 +1,11 @@
 import { create } from 'zustand';
+import { countEffects } from '../data/effectRegistry';
+import { resolveEffects, resolvedToItemStats } from '../systems/effectEngine';
 import type { Item, ItemStats, Slot } from '../types/item.types';
 import type { Equipment, InventoryItem, PlayerData, Stats } from '../types/player.types';
 
 type EquipmentSlot = keyof Equipment;
-type RegisteredItem = Pick<Item, 'id' | 'slot' | 'isTwoHanded' | 'stats'>;
+type RegisteredItem = Pick<Item, 'id' | 'slot' | 'isTwoHanded' | 'stats' | 'effects'>;
 
 const MAX_LUCK = 200;
 const DEFAULT_MAX_INVENTORY = 20;
@@ -112,7 +114,15 @@ const getEquipmentItemStats = (equipment: Equipment): ItemStats => {
     }
 
     const item = getRegisteredItem(itemId);
-    const stats = item?.stats;
+
+    if (!item) {
+      return total;
+    }
+
+    // `effects` é a fonte de verdade dos bônus; `stats` é o fallback legado.
+    const stats = item.effects && countEffects(item.effects) > 0
+      ? resolvedToItemStats(resolveEffects(item))
+      : item.stats;
 
     if (!stats) {
       return total;

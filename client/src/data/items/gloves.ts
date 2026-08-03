@@ -14,6 +14,12 @@ export const gloves = {
     "stats": {
       "def": 5,
       "agility": 1
+    },
+    "effects": {
+      "e1": 2,
+      "v1": 5,
+      "e2": 4,
+      "v2": 1
     }
   }
 } satisfies Record<string, Item>;

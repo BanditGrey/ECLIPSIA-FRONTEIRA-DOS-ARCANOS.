@@ -14,6 +14,12 @@ export const amulets = {
     "stats": {
       "luck": 2,
       "arcana": 1
+    },
+    "effects": {
+      "e1": 6,
+      "v1": 1,
+      "e2": 9,
+      "v2": 2
     }
   },
   "fortune_amulet": {
@@ -29,6 +35,12 @@ export const amulets = {
     "stats": {
       "luck": 12,
       "perception": 2
+    },
+    "effects": {
+      "e1": 7,
+      "v1": 2,
+      "e2": 9,
+      "v2": 12
     }
   }
 } satisfies Record<string, Item>;

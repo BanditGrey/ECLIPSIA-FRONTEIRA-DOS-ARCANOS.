@@ -17,6 +17,10 @@ export const spiritStones = {
       "maxLevel": 10,
       "effect": "burn",
       "effectChance": 0.12
+    },
+    "effects": {
+      "e1": 61,
+      "v1": 12
     }
   },
   "spirit_stone_ice_basic": {
@@ -35,6 +39,10 @@ export const spiritStones = {
       "maxLevel": 10,
       "effect": "freeze",
       "effectChance": 0.12
+    },
+    "effects": {
+      "e1": 62,
+      "v1": 12
     }
   },
   "spirit_stone_lightning_basic": {
@@ -53,6 +61,10 @@ export const spiritStones = {
       "maxLevel": 10,
       "effect": "paralyze",
       "effectChance": 0.12
+    },
+    "effects": {
+      "e1": 65,
+      "v1": 12
     }
   },
   "spirit_stone_nature_basic": {
@@ -71,6 +83,10 @@ export const spiritStones = {
       "maxLevel": 10,
       "effect": "regenerate",
       "effectChance": 0.12
+    },
+    "effects": {
+      "e1": 55,
+      "v1": 8
     }
   },
   "spirit_stone_shadow_basic": {
@@ -89,6 +105,10 @@ export const spiritStones = {
       "maxLevel": 10,
       "effect": "bleed",
       "effectChance": 0.12
+    },
+    "effects": {
+      "e1": 63,
+      "v1": 12
     }
   },
   "spirit_stone_arcane_basic": {
@@ -107,6 +127,10 @@ export const spiritStones = {
       "maxLevel": 10,
       "effect": "mana_drain",
       "effectChance": 0.12
+    },
+    "effects": {
+      "e1": 49,
+      "v1": 20
     }
   },
   "spirit_stone_pure_basic": {
@@ -125,6 +149,18 @@ export const spiritStones = {
       "maxLevel": 10,
       "effect": "all_boost",
       "effectChance": 0.12
+    },
+    "effects": {
+      "e1": 3,
+      "v1": 2,
+      "e2": 4,
+      "v2": 2,
+      "e3": 5,
+      "v3": 2,
+      "e4": 6,
+      "v4": 2,
+      "e5": 24,
+      "v5": 5
     }
   }
 } satisfies Record<string, Item>;

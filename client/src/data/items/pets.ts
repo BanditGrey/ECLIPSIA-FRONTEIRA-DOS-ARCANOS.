@@ -25,6 +25,12 @@ export const pets = {
       "abilityKey": "pet.abilities.wolf_pup_pet",
       "isAlive": true,
       "cooldown": 0
+    },
+    "effects": {
+      "e1": 81,
+      "v1": 11,
+      "e2": 82,
+      "v2": 110
     }
   },
   "forest_sprite_pet": {
@@ -51,6 +57,12 @@ export const pets = {
       "abilityKey": "pet.abilities.forest_sprite_pet",
       "isAlive": true,
       "cooldown": 0
+    },
+    "effects": {
+      "e1": 81,
+      "v1": 20,
+      "e2": 82,
+      "v2": 200
     }
   },
   "stone_turtle_pet": {
@@ -77,6 +89,14 @@ export const pets = {
       "abilityKey": "pet.abilities.stone_turtle_pet",
       "isAlive": true,
       "cooldown": 0
+    },
+    "effects": {
+      "e1": 81,
+      "v1": 30,
+      "e2": 82,
+      "v2": 300,
+      "e3": 25,
+      "v3": 25
     }
   },
   "luck_fox_pet": {
@@ -103,6 +123,14 @@ export const pets = {
       "abilityKey": "pet.abilities.luck_fox_pet",
       "isAlive": true,
       "cooldown": 0
+    },
+    "effects": {
+      "e1": 81,
+      "v1": 45,
+      "e2": 82,
+      "v2": 450,
+      "e3": 9,
+      "v3": 10
     }
   },
   "eclipse_drake_pet": {
@@ -129,6 +157,12 @@ export const pets = {
       "abilityKey": "pet.abilities.eclipse_drake_pet",
       "isAlive": true,
       "cooldown": 0
+    },
+    "effects": {
+      "e1": 81,
+      "v1": 70,
+      "e2": 82,
+      "v2": 700
     }
   },
   "nature_fawn_pet": {
@@ -155,6 +189,14 @@ export const pets = {
       "abilityKey": "pet.abilities.nature_fawn_pet",
       "isAlive": true,
       "cooldown": 0
+    },
+    "effects": {
+      "e1": 81,
+      "v1": 30,
+      "e2": 82,
+      "v2": 300,
+      "e3": 26,
+      "v3": 18
     }
   },
   "honey_bat_pet": {
@@ -181,6 +223,14 @@ export const pets = {
       "abilityKey": "pet.abilities.honey_bat_pet",
       "isAlive": true,
       "cooldown": 0
+    },
+    "effects": {
+      "e1": 81,
+      "v1": 20,
+      "e2": 82,
+      "v2": 200,
+      "e3": 29,
+      "v3": 8
     }
   },
   "scholar_owl_pet": {
@@ -207,6 +257,14 @@ export const pets = {
       "abilityKey": "pet.abilities.scholar_owl_pet",
       "isAlive": true,
       "cooldown": 0
+    },
+    "effects": {
+      "e1": 81,
+      "v1": 45,
+      "e2": 82,
+      "v2": 450,
+      "e3": 27,
+      "v3": 10
     }
   },
   "fragment_phoenix_pet": {
@@ -233,6 +291,14 @@ export const pets = {
       "abilityKey": "pet.abilities.fragment_phoenix_pet",
       "isAlive": true,
       "cooldown": 0
+    },
+    "effects": {
+      "e1": 81,
+      "v1": 85,
+      "e2": 82,
+      "v2": 850,
+      "e3": 26,
+      "v3": 30
     }
   }
 } satisfies Record<string, Item>;
