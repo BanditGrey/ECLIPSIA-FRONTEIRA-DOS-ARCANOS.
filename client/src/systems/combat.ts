@@ -453,7 +453,9 @@ const handleVictory = () => {
     }
   }
 
-  const loot = rollLoot(enemy, playerStore.getLuck(), combat.autoConfig.lootFilter);
+  // LOOT_BONUS (29, pets/montarias) aumenta a sorte efetiva do drop
+  const lootLuck = playerStore.getLuck() + (resolved?.lootBonus ?? 0) * 200;
+  const loot = rollLoot(enemy, lootLuck, combat.autoConfig.lootFilter);
   loot.forEach((entry) => playerStore.addItem(entry.itemId, entry.qty));
 
   impulseSystem.consumeCharge();
@@ -593,7 +595,10 @@ export const combatEngine = {
     combat.setCooldown(skillId, skill.cd);
 
     if (skill.healPercent) {
-      usePlayerStore.getState().recoverHp(skill.healPercent);
+      // HEAL_BONUS (26) amplifica a cura recebida de skills
+      const healBonus = getResolvedEffects()?.healBonus ?? 0;
+
+      usePlayerStore.getState().recoverHp(skill.healPercent * (1 + healBonus));
     }
 
     if (skill.dotDamage && skill.dotTurns) {

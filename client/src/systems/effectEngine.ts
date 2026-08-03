@@ -12,6 +12,7 @@ import { ITEMS } from '../data/items';
 import { EFFECT, getEffect, getEffectPairs } from '../data/effectRegistry';
 import type { Item, ItemStats } from '../types/item.types';
 import type { Equipment, Stats } from '../types/player.types';
+import { resolveItemRef } from '../utils/itemSerializer';
 
 /** Effect "ao acertar" (effectIds 61–66) já pronto para rolagem em combate. */
 export interface OnHitEffect {
@@ -300,7 +301,9 @@ export const calculatePlayerStats = (baseStats: Stats, equipment: Equipment): Re
 
     if (!itemId) continue;
 
-    const item = (ITEMS as Record<string, Item>)[itemId];
+    // Aceita id de catálogo OU itemStr serializada ("1005|1:65|4:5|7:3"),
+    // preparando correio/mercado/trades.
+    const item = resolveItemRef(itemId);
 
     if (!item) continue;
 

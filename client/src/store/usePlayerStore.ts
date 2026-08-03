@@ -3,6 +3,7 @@ import { countEffects } from '../data/effectRegistry';
 import { resolveEffects, resolvedToItemStats } from '../systems/effectEngine';
 import type { Item, ItemStats, Slot } from '../types/item.types';
 import type { Equipment, InventoryItem, PlayerData, Stats } from '../types/player.types';
+import { isSerializedItemStr, resolveItemRef } from '../utils/itemSerializer';
 
 type EquipmentSlot = keyof Equipment;
 type RegisteredItem = Pick<Item, 'id' | 'slot' | 'isTwoHanded' | 'stats' | 'effects'>;
@@ -84,6 +85,22 @@ const getRegisteredItem = (itemId: string): RegisteredItem | null => {
 
   if (registered) {
     return registered;
+  }
+
+  // itemStr serializada ("1005|1:65|4:5|7:3") — resolve pelo serializer,
+  // permitindo equipamento vindo de correio/mercado/trades.
+  if (isSerializedItemStr(itemId)) {
+    const item = resolveItemRef(itemId);
+
+    if (item) {
+      return {
+        id: itemId,
+        slot: item.slot,
+        isTwoHanded: Boolean(item.isTwoHanded),
+        stats: item.stats,
+        effects: item.effects
+      };
+    }
   }
 
   const slot = inferEquipmentSlot(itemId);
