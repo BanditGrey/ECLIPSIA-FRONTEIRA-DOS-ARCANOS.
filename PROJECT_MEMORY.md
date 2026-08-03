@@ -5,6 +5,14 @@
 
 ---
 
+## 0. ⭐ ONDE ESTÁ O PENDENTE
+
+**`ROADMAP.md` na raiz** — checklist mestra de tudo que falta, organizada em
+6 casos (Caso 1 = party real no combate, detalhado em sub-tarefas).
+Ao concluir itens, marque as checkboxes lá e atualize esta memória.
+
+---
+
 ## 1. O QUE É O PROJETO
 
 MMORPG idle/turn-based full-stack em PT-BR com 4 idiomas (pt-BR, en-US, es-ES, ja-JP).
