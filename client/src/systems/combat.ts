@@ -1,4 +1,5 @@
 import { bosses } from '../data/bosses';
+import { getDungeon } from '../data/dungeons';
 import { translations } from '../i18n';
 import { EFFECT } from '../data/effectRegistry';
 import { getEffectName } from '../data/effectNames';
@@ -20,6 +21,7 @@ import { questSystem } from './quests';
 
 export interface CombatStartOptions {
   dungeon?: boolean;
+  dungeonId?: string;
   floor?: number;
   maxFloor?: number;
   bossId?: string;
@@ -453,6 +455,17 @@ const handleVictory = () => {
     }
   }
 
+  // Recompensas garantidas ao limpar a dungeon (boss do último andar)
+  if (combat.isDungeon && combat.floor >= combat.maxFloor && combat.dungeonId) {
+    const dungeonDef = getDungeon(combat.dungeonId);
+
+    if (dungeonDef) {
+      playerStore.gainGold(dungeonDef.rewardGold);
+      dungeonDef.rewardItems.forEach((itemId) => playerStore.addItem(itemId, 1));
+      combat.addLog('victory', `${t('combat.dungeonCleared')} +${dungeonDef.rewardGold} 🪙`);
+    }
+  }
+
   // LOOT_BONUS (29, pets/montarias) aumenta a sorte efetiva do drop
   const lootLuck = playerStore.getLuck() + (resolved?.lootBonus ?? 0) * 200;
   const loot = rollLoot(enemy, lootLuck, combat.autoConfig.lootFilter);
@@ -486,10 +499,12 @@ const handleVictory = () => {
       useCombatStore.setState({ floor: nextFloor });
       combatEngine.start(combat.region, {
         dungeon: true,
+        dungeonId: combat.dungeonId ?? undefined,
         floor: nextFloor,
         maxFloor: combat.maxFloor
       });
-    } else if (!combat.autoConfig.stopBoss) {
+    } else if (!combat.isDungeon && !combat.autoConfig.stopBoss) {
+      // Dungeon limpa: permanece na tela de vitória (sem reiniciar caça)
       combatEngine.start(combat.region);
     }
   }
@@ -518,8 +533,16 @@ const afterPlayerAction = () => {
 
 export const combatEngine = {
   start(region: string, options: CombatStartOptions = {}) {
-    const enemy = options.bossId
-      ? createEnemyFromBoss(options.bossId)
+    const isDungeon = Boolean(options.dungeon);
+    const floor = options.floor ?? 1;
+    const maxFloor = options.maxFloor ?? 1;
+    const dungeonDef = options.dungeonId ? getDungeon(options.dungeonId) : undefined;
+
+    // Dungeon: o boss aparece automaticamente no último andar
+    const bossId = options.bossId ?? (isDungeon && floor >= maxFloor ? dungeonDef?.bossId : undefined);
+
+    const enemy = bossId
+      ? createEnemyFromBoss(bossId)
       : createEnemyFromMonster(options.enemyId ?? getRegionMonsterId(region));
 
     // 1. Ao iniciar combate: resolve os stats reais do equipamento
@@ -534,9 +557,10 @@ export const combatEngine = {
       phase: 'player',
       turn: 1,
       region,
-      floor: options.floor ?? 1,
-      maxFloor: options.maxFloor ?? 1,
-      isDungeon: Boolean(options.dungeon),
+      floor,
+      maxFloor,
+      isDungeon,
+      dungeonId: options.dungeonId ?? null,
       isBoss: Boolean(enemy.mechanics),
       enemy,
       enemyHp: enemy.hp,

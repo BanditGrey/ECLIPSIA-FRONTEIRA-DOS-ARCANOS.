@@ -1,7 +1,7 @@
 # 🧠 MEMÓRIA DO PROJETO — ECLIPSIA: FRONTEIRA DOS ARCANOS
 
 > **Leia este arquivo primeiro.** Ele existe para você se localizar sem varrer o repo inteiro.
-> Última atualização: 2026-08-03 (após sistema de Guildas completo — ver §5.6 "Guildas").
+> Última atualização: 2026-08-03 (após Dungeons completas — ver §5.6 "Guildas" e "Dungeons").
 
 ---
 
@@ -304,6 +304,13 @@ Feito na segunda leva: ✅ trade P2P via socket, ✅ encantamento (98) + 2 conju
 - **Chat de guilda**: room socket `guild:<id>` — cliente emite `guild:room` (servidor valida membership antes do join), `chat:guild` com throttle 5/10s.
 - **Client**: `GuildPanel.tsx` completo (criar/diretório/entrar, cargos com badges, promover/rebaixar/expulsar por permissão, MOTD editável, chat da guilda, sair/dissolver) + `API.guild.*` + `socketService.joinGuildRoom/sendGuildMessage`.
 - i18n: `guild.*` completo nos 4 idiomas (incl. `guild.role.{leader,officer,member}`).
+
+### Dungeons (sistema completo)
+- `data/dungeons.ts`: 7 dungeons guiadas por dados — bandit_camp (5 andares, lvl 5), root_crypt (8, lvl 15), mirror_sanctum (12, lvl 30), azhur_pit (15, lvl 40), velkaryn_spire (18, lvl 55), thal_mora_abyss (20, lvl 60 + título mist_bearer), fragment_nexus (25, lvl 65 + título eclipse_awakened). Cada uma: região (monstros dos andares), bossId, rewardGold e rewardItems (materiais de boss garantidos).
+- **Motor**: `combatEngine.start(region, { dungeon, dungeonId, maxFloor })` — o boss entra automaticamente no último andar (`bossId` resolvido da def); `dungeonId` persiste entre andares no CombatState; autoAdvance carrega o dungeonId; ao limpar: ouro+itens garantidos e NÃO reinicia caça (fica na vitória).
+- **UI**: aba dungeons do TravelPanel reescrita (cards com boss/região/andares/recompensas, gate por nível/título). O antigo `enterDungeon` hack (setState manual) foi substituído pelo motor real.
+- i18n: `travel.dungeons.<id>.name/desc` (mesclado no bloco existente) + dungeonFloors/dungeonBoss/dungeonReward + `combat.dungeonCleared` em 4 idiomas.
+- ⚠ Regex da auditoria bloco 8 usa janela de 1200 chars (código de dungeon afastou o calculatePlayerStats do start()).
 
 Restante:
 1. 🏛 **Leilão com bids** (mercado hoje é preço fixo)

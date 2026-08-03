@@ -16,6 +16,7 @@ const initialCombatState: CombatState = {
   floor: 0,
   maxFloor: 0,
   isDungeon: false,
+  dungeonId: null,
   isBoss: false,
   enemy: null,
   enemyHp: 0,

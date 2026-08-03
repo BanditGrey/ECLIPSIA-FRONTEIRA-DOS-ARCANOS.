@@ -62,6 +62,8 @@ export interface CombatState {
   floor: number;
   maxFloor: number;
   isDungeon: boolean;
+  /** Id da dungeon em andamento (data/dungeons.ts) — persiste entre andares. */
+  dungeonId: string | null;
   isBoss: boolean;
   enemy: Enemy | null;
   enemyHp: number;

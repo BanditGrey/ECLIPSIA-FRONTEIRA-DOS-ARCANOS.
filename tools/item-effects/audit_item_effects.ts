@@ -317,7 +317,7 @@ rec(6, 'ResolvedEffects com todos os 25 campos', reMissing.length === 0 ? 'OK' :
 
 // ── Bloco 8: combate ──
 const combatSrc = read('client/src/systems/combat.ts');
-rec(8, 'calculatePlayerStats chamado ao iniciar combate', /start\([\s\S]{0,600}?calculatePlayerStats/.test(combatSrc) ? 'OK' : 'CRITICAL');
+rec(8, 'calculatePlayerStats chamado ao iniciar combate', /start\([\s\S]{0,1200}?calculatePlayerStats/.test(combatSrc) ? 'OK' : 'CRITICAL');
 rec(8, 'onHitEffects (61-66) rolados ao atacar', combatSrc.includes('rollOnHitEffects') && /ON_HIT_BURN[\s\S]*ON_HIT_SLOW/.test(combatSrc) ? 'OK' : 'CRITICAL');
 rec(8, 'Log de combate mostra o effect (getEffectName)', combatSrc.includes('getEffectName(onHit.effectId') ? 'OK' : 'MISSING');
 rec(8, 'REGENERATE (55) recupera HP por turno', combatSrc.includes('EFFECT.REGENERATE') && combatSrc.includes('healPlayerFlat') ? 'OK' : 'MISSING');

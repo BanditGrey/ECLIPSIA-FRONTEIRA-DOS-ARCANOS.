@@ -196,7 +196,14 @@ export const translations: Record<LangCode, TranslationTree> = {
           "name": "Masmorra Secreta",
           "level": "Nível variável",
           "desc": "Entrada rara revelada por eventos ocultos."
-        }
+        },
+        "bandit_camp": { "name": "Acampamento dos Bandidos", "desc": "Bandidos saqueiam as estradas de Valedouro. O líder espera no último andar." },
+        "root_crypt": { "name": "Cripta das Raízes", "desc": "As raízes da floresta invadiram uma cripta antiga. O Guardião desperta." },
+        "mirror_sanctum": { "name": "Santuário do Espelho", "desc": "Um espelho amaldiçoado aprisiona reflexos famintos nas profundezas de Nythera." },
+        "azhur_pit": { "name": "Fosso de Azhur", "desc": "Nas dunas de Ormara, a areia engoliu um fosso onde Azhur devora os fracos." },
+        "velkaryn_spire": { "name": "Pináculo de Velkaryn", "desc": "Acima das nuvens de Céu-Partido, o pináculo guarda os segredos de Velkaryn." },
+        "thal_mora_abyss": { "name": "Abismo de Thal'Mora", "desc": "Nas profundezas abissais, Thal'Mora canta para afogar os incautos." },
+        "fragment_nexus": { "name": "Nexo do Fragmento", "desc": "O coração partido de Eclipsia pulsa atrás do véu. Apenas os despertos o encontram." }
       },
       "enter": "Entrar",
       "go": "Ir",
@@ -234,10 +241,15 @@ export const translations: Record<LangCode, TranslationTree> = {
           "name": "???",
           "condition": "Condição oculta"
         }
-      }
+      },
+      "dungeonFloors": "andares",
+      "dungeonBoss": "Chefe",
+      "dungeonReward": "Recompensa",
+
     },
     "combat": {
       "title": "Combate",
+      "dungeonCleared": "Dungeon limpa!",
       "attack": "Atacar",
       "defend": "Defender",
       "skills": "Habilidades",
@@ -1276,7 +1288,14 @@ export const translations: Record<LangCode, TranslationTree> = {
           "name": "Secret Dungeon",
           "level": "Variable level",
           "desc": "Rare entrance revealed by hidden events."
-        }
+        },
+        "bandit_camp": { "name": "Bandit Camp", "desc": "Bandits plunder the roads of Valedouro. Their leader waits on the last floor." },
+        "root_crypt": { "name": "Root Crypt", "desc": "Forest roots have overtaken an ancient crypt. The Guardian stirs." },
+        "mirror_sanctum": { "name": "Mirror Sanctum", "desc": "A cursed mirror traps hungry reflections in the depths of Nythera." },
+        "azhur_pit": { "name": "Pit of Azhur", "desc": "In the dunes of Ormara, the sand swallowed a pit where Azhur devours the weak." },
+        "velkaryn_spire": { "name": "Velkaryn's Spire", "desc": "Above the clouds of Skyrent, the spire guards Velkaryn's secrets." },
+        "thal_mora_abyss": { "name": "Thal'Mora's Abyss", "desc": "In the abyssal depths, Thal'Mora sings to drown the unwary." },
+        "fragment_nexus": { "name": "Fragment Nexus", "desc": "The shattered heart of Eclipsia beats behind the veil. Only the awakened find it." }
       },
       "enter": "Enter",
       "go": "Go",
@@ -1314,10 +1333,15 @@ export const translations: Record<LangCode, TranslationTree> = {
           "name": "???",
           "condition": "Hidden condition"
         }
-      }
+      },
+      "dungeonFloors": "floors",
+      "dungeonBoss": "Boss",
+      "dungeonReward": "Reward",
+
     },
     "combat": {
       "title": "Combat",
+      "dungeonCleared": "Dungeon cleared!",
       "attack": "Attack",
       "defend": "Defend",
       "skills": "Skills",
@@ -2354,7 +2378,14 @@ export const translations: Record<LangCode, TranslationTree> = {
           "name": "Mazmorra Secreta",
           "level": "Nivel variable",
           "desc": "Entrada rara revelada por eventos ocultos."
-        }
+        },
+        "bandit_camp": { "name": "Campamento de Bandidos", "desc": "Los bandidos saquean los caminos de Valedouro. Su líder espera en el último piso." },
+        "root_crypt": { "name": "Cripta de las Raíces", "desc": "Las raíces del bosque invadieron una cripta antigua. El Guardián despierta." },
+        "mirror_sanctum": { "name": "Santuario del Espejo", "desc": "Un espejo maldito atrapa reflejos hambrientos en las profundidades de Nythera." },
+        "azhur_pit": { "name": "Foso de Azhur", "desc": "En las dunas de Ormara, la arena tragó un foso donde Azhur devora a los débiles." },
+        "velkaryn_spire": { "name": "Pináculo de Velkaryn", "desc": "Sobre las nubes de Cielo Roto, el pináculo guarda los secretos de Velkaryn." },
+        "thal_mora_abyss": { "name": "Abismo de Thal'Mora", "desc": "En las profundidades abisales, Thal'Mora canta para ahogar a los incautos." },
+        "fragment_nexus": { "name": "Nexo del Fragmento", "desc": "El corazón roto de Eclipsia late tras el velo. Solo los despertados lo encuentran." }
       },
       "enter": "Entrar",
       "go": "Ir",
@@ -2392,10 +2423,15 @@ export const translations: Record<LangCode, TranslationTree> = {
           "name": "???",
           "condition": "Condición oculta"
         }
-      }
+      },
+      "dungeonFloors": "pisos",
+      "dungeonBoss": "Jefe",
+      "dungeonReward": "Recompensa",
+
     },
     "combat": {
       "title": "Combate",
+      "dungeonCleared": "¡Mazmorra completada!",
       "attack": "Atacar",
       "defend": "Defender",
       "skills": "Habilidades",
@@ -3432,7 +3468,14 @@ export const translations: Record<LangCode, TranslationTree> = {
           "name": "秘密のダンジョン",
           "level": "可変レベル",
           "desc": "隠しイベントで現れる入口。"
-        }
+        },
+        "bandit_camp": { "name": "盗賊の野営地", "desc": "ヴァレドウロの街道を荒らす盗賊たち。頭目は最上階で待つ。" },
+        "root_crypt": { "name": "根の地下墓所", "desc": "森の根が古代の地下墓所を覆った。守護者が目覚める。" },
+        "mirror_sanctum": { "name": "鏡の聖域", "desc": "呪われた鏡がニセラの深奥で飢えた影を閉じ込めている。" },
+        "azhur_pit": { "name": "アズールの穴蔵", "desc": "オルマラの砂丘に砂が飲み込んだ穴蔵。アズールが弱き者を貪る。" },
+        "velkaryn_spire": { "name": "ヴェルカリンの尖塔", "desc": "割れ空の雲の上に、尖塔はヴェルカリンの秘密を守っている。" },
+        "thal_mora_abyss": { "name": "サル＝モーラの深淵", "desc": "深淵の底でサル＝モーラは油断した者を沈める歌を歌う。" },
+        "fragment_nexus": { "name": "欠片の中枢", "desc": "エクリプシアの砕けた心臓がヴェールの向こうで脈打つ。目覚めし者だけが辿り着く。" }
       },
       "enter": "入る",
       "go": "行く",
@@ -3470,10 +3513,15 @@ export const translations: Record<LangCode, TranslationTree> = {
           "name": "???",
           "condition": "隠し条件"
         }
-      }
+      },
+      "dungeonFloors": "階",
+      "dungeonBoss": "ボス",
+      "dungeonReward": "報酬",
+
     },
     "combat": {
       "title": "戦闘",
+      "dungeonCleared": "ダンジョン攻略！",
       "attack": "攻撃",
       "defend": "防御",
       "skills": "スキル",
