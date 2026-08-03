@@ -239,6 +239,126 @@ const executeTrade = async (trade) => {
   trades.delete(trade.id);
 };
 
+// ────────────────────────────────────────────────────────────────
+//  PARTY REAL: grupos de jogadores online (convite/aceite/leave/kick)
+// ────────────────────────────────────────────────────────────────
+const MAX_PARTY_SIZE = 5;
+const parties = new Map();
+let partySeq = 0;
+
+const findPartyOf = (name) => [...parties.values()].find((party) => party.members.includes(name));
+
+const partySnapshot = (party) => ({ partyId: party.id, leader: party.leader, members: [...party.members] });
+
+const broadcastParty = (party) => {
+  party.members.forEach((name) => notifyPlayer(name, 'party:updated', partySnapshot(party)));
+};
+
+const removeFromParty = (name, notifyLeft = false) => {
+  const party = findPartyOf(name);
+
+  if (!party) return;
+
+  party.members = party.members.filter((member) => member !== name);
+
+  if (party.members.length === 0) {
+    parties.delete(party.id);
+  } else {
+    if (party.leader === name) {
+      party.leader = party.members[0];
+    }
+
+    broadcastParty(party);
+  }
+
+  if (notifyLeft) {
+    notifyPlayer(name, 'party:left', {});
+  }
+};
+
+const partyHandlers = (socket) => {
+  socket.on('party:invite', (payload = {}) => {
+    const fromName = socket.data.playerId;
+    const toName = sanitizeMessage(payload.toName ?? '');
+
+    if (!fromName || !toName || fromName === toName) return;
+
+    if (!onlinePlayers.has(toName)) {
+      notifyPlayer(fromName, 'party:failed', { reason: 'offline' });
+      return;
+    }
+
+    const myParty = findPartyOf(fromName);
+
+    if (myParty && myParty.leader !== fromName) {
+      notifyPlayer(fromName, 'party:failed', { reason: 'not_leader' });
+      return;
+    }
+
+    if (findPartyOf(toName)) {
+      notifyPlayer(fromName, 'party:failed', { reason: 'busy' });
+      return;
+    }
+
+    let party = myParty;
+
+    if (!party) {
+      partySeq += 1;
+      party = { id: `party-${partySeq}`, leader: fromName, members: [fromName] };
+      parties.set(party.id, party);
+    }
+
+    if (party.members.length >= MAX_PARTY_SIZE) {
+      notifyPlayer(fromName, 'party:failed', { reason: 'full' });
+      return;
+    }
+
+    notifyPlayer(toName, 'party:invited', { partyId: party.id, fromName });
+  });
+
+  socket.on('party:respond', (payload = {}) => {
+    const who = socket.data.playerId;
+    const party = parties.get(payload.partyId);
+
+    if (!party || !who) return;
+
+    if (!payload.accept) {
+      notifyPlayer(party.leader, 'party:declined', { name: who });
+      return;
+    }
+
+    if (findPartyOf(who)) {
+      notifyPlayer(who, 'party:failed', { reason: 'busy' });
+      return;
+    }
+
+    if (party.members.length >= MAX_PARTY_SIZE) {
+      notifyPlayer(who, 'party:failed', { reason: 'full' });
+      return;
+    }
+
+    party.members.push(who);
+    broadcastParty(party);
+  });
+
+  socket.on('party:leave', () => {
+    removeFromParty(socket.data.playerId, true);
+  });
+
+  socket.on('party:kick', (payload = {}) => {
+    const who = socket.data.playerId;
+    const target = sanitizeMessage(payload.targetName ?? '');
+    const party = findPartyOf(who);
+
+    if (!party || !target || party.leader !== who || target === who) return;
+
+    if (!party.members.includes(target)) return;
+
+    removeFromParty(target, false);
+    notifyPlayer(target, 'party:kicked', {});
+  });
+};
+
 const tradeHandlers = (socket) => {
   socket.on('trade:request', (payload = {}) => {
     const fromName = socket.data.playerId;
@@ -337,6 +457,7 @@ const tradeHandlers = (socket) => {
 
 io.on('connection', (socket) => {
   tradeHandlers(socket);
+  partyHandlers(socket);
 
   socket.on('player:identify', (payload = {}) => {
     const playerId = sanitizeMessage(payload.playerId ?? payload.id ?? socket.id);
@@ -466,6 +587,7 @@ io.on('connection', (socket) => {
 
     if (leaver) {
       cancelTradesOf(leaver, 'desconectado');
+      removeFromParty(leaver, false);
     }
 
     if (socket.data.playerId) {

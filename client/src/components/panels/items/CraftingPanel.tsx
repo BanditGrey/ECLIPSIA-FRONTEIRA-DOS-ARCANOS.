@@ -83,6 +83,7 @@ export const CraftingPanel = () => {
       return;
     }
 
+    usePlayerStore.getState().recordDailyEvent('craft');
     addNotification(`${t('crafting.success')}: ${itemNameOf(recipe.outputId, lang)}`, 'gold');
   };
 

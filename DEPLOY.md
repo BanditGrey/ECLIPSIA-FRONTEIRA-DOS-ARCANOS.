@@ -36,8 +36,12 @@ Se o client sair da Vercel, ajuste `CLIENT_URL` no server.
 - Abra o client → login → chat global e correio devem conectar (socket).
 
 ## Economia do mercado (ajustável em `server/src/routes/market.routes.js`)
-- `MARKET_TAX_RATE = 0.05` → imposto de 5% sobre vendas (gold sink).
-- `MARKET_LISTING_FEE = 2` → taxa de listagem, não reembolsável.
+- **O mercado mundial usa 💎 Cristais (moeda paga)** — o ouro do jogo fica isolado da economia P2P.
+- `MARKET_TAX_RATE = 0.05` → imposto de 5% sobre vendas (pago em crystals).
+- `MARKET_LISTING_FEE = 2` → taxa de listagem em crystals, não reembolsável.
+- **Concessão de crystals (vendas)**: `POST /api/player/crystals/grant` com header
+  `x-admin-key: $ADMIN_KEY` e body `{ charName, amount }`. Configure `ADMIN_KEY`
+  no ambiente do servidor (ver `.env.example`) e use para vendas out-of-band (PIX etc.).
 
 ## Segurança ativa
 - Rate limiting: API global 600/15min · auth 20/15min · ações de economia 60/min.

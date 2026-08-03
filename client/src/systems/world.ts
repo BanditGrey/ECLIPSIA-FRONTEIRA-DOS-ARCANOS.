@@ -97,6 +97,7 @@ const getRegionMaterial = (regionId: string) => {
 
 const feedExplorationSystems = (region: string) => {
   questSystem.onExplore(region);
+  usePlayerStore.getState().recordDailyEvent('explore');
   hiddenEventsSystem.recordExplore(region);
 };
 

@@ -4,6 +4,42 @@ import { Player } from '../models/Player.js';
 
 export const playerRoutes = Router();
 
+/**
+ * Concessão de crystals (moeda paga). Protegida por ADMIN_KEY —
+ * usar para vendas out-of-band (PIX, loja externa etc.).
+ */
+playerRoutes.post('/crystals/grant', async (req, res) => {
+  try {
+    const adminKey = process.env.ADMIN_KEY;
+    const providedKey = String(req.headers['x-admin-key'] ?? req.body?.adminKey ?? '');
+
+    if (!adminKey || providedKey !== adminKey) {
+      return res.status(403).json({ message: 'Chave de administração inválida' });
+    }
+
+    const { charName } = req.body ?? {};
+    const amount = Math.floor(Number(req.body?.amount));
+
+    if (!Number.isFinite(amount) || amount < 1 || amount > 1_000_000) {
+      return res.status(400).json({ message: 'Quantidade inválida' });
+    }
+
+    const player = await Player.findOne({ 'characters.name': String(charName ?? '').trim() });
+    const character = player?.characters.find((c) => c.name === String(charName ?? '').trim());
+
+    if (!character) {
+      return res.status(404).json({ message: 'Personagem não encontrado' });
+    }
+
+    character.crystals = (character.crystals ?? 0) + amount;
+    await player.save();
+
+    return res.json({ charName: character.name, crystals: character.crystals });
+  } catch (error) {
+    return res.status(500).json({ message: 'Erro ao conceder crystals', error: error.message });
+  }
+});
+
 const MAX_CHARACTERS = 5;
 
 const archetypeDefaults = {
@@ -139,6 +175,8 @@ playerRoutes.post('/create', async (req, res) => {
       xp: 0,
       xpToNext: 100,
       gold: 100,
+      crystals: 0,
+      daily: null,
       hp: defaults.hp,
       maxHp: defaults.hp,
       mp: defaults.mp,
@@ -198,6 +236,8 @@ playerRoutes.put('/save', async (req, res) => {
       'xp',
       'xpToNext',
       'gold',
+      'crystals',
+      'daily',
       'hp',
       'maxHp',
       'mp',

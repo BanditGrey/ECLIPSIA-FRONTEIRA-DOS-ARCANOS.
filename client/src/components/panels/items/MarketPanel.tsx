@@ -180,7 +180,7 @@ export const MarketPanel = () => {
                       </p>
                     </div>
                     <div className="grid justify-items-end gap-1">
-                      <span className="font-mono text-sm text-game-gold">{listing.price} 🪙</span>
+                      <span className="font-mono text-sm text-cyan-300">{listing.price} 💎</span>
                       <Button disabled={(player?.gold ?? 0) < listing.price} onClick={() => buy(listing._id)}>
                         {t('market.buy')}
                       </Button>
@@ -195,6 +195,7 @@ export const MarketPanel = () => {
         {tab === 'sell' && (
           <div className="grid gap-2 rounded-xl border border-game-border bg-game-card p-3">
             <p className="font-mono text-[11px] text-game-muted">{t('market.taxNote')}</p>
+            <p className="font-mono text-[11px] text-cyan-300">💎 {player?.crystals ?? 0} • {t('market.crystalsCurrency')}</p>
             <select className="input-field" value={sellRef} onChange={(event) => setSellRef(event.target.value)}>
               <option value="">{t('crafting.selectItem')}</option>
               {bagRefs.map((ref) => {
@@ -228,7 +229,7 @@ export const MarketPanel = () => {
                   <div className="min-w-0 flex-1">
                     <h3 className="truncate font-title text-sm text-game-gold">{nameOf(item, lang)}</h3>
                     <p className="font-mono text-xs text-game-muted">
-                      {listing.price} 🪙 · {t(`market.status.${listing.status}`)}
+                      {listing.price} 💎 · {t(`market.status.${listing.status}`)}
                     </p>
                   </div>
                   {listing.status === 'active' && (

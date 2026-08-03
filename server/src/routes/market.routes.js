@@ -83,16 +83,16 @@ marketRoutes.post('/list', async (req, res) => {
       return res.status(400).json({ message: 'Preço inválido' });
     }
 
-    // Taxa de listagem (gold sink; não reembolsável)
-    if (character.gold < MARKET_LISTING_FEE) {
-      return res.status(400).json({ message: `Ouro insuficiente para a taxa de listagem (${MARKET_LISTING_FEE})` });
+    // Taxa de listagem em crystals (não reembolsável)
+    if ((character.crystals ?? 0) < MARKET_LISTING_FEE) {
+      return res.status(400).json({ message: `Cristais insuficientes para a taxa de listagem (${MARKET_LISTING_FEE})` });
     }
 
     if (!removeFromInventory(character, ref, 1)) {
       return res.status(400).json({ message: 'Item não está no inventário' });
     }
 
-    character.gold -= MARKET_LISTING_FEE;
+    character.crystals = (character.crystals ?? 0) - MARKET_LISTING_FEE;
 
     const listing = await MarketListing.create({
       sellerId: player._id.toString(),
@@ -132,29 +132,30 @@ marketRoutes.post('/buy', async (req, res) => {
       return res.status(404).json({ message: 'Personagem não encontrado' });
     }
 
-    if (buyer.gold < listing.price) {
-      return res.status(400).json({ message: 'Ouro insuficiente' });
+    if ((buyer.crystals ?? 0) < listing.price) {
+      return res.status(400).json({ message: 'Cristais insuficientes' });
     }
 
     if (!addToInventory(buyer, listing.itemStr, 1, buyer.maxInventory)) {
       return res.status(400).json({ message: 'Inventário cheio' });
     }
 
-    buyer.gold -= listing.price;
+    buyer.crystals = (buyer.crystals ?? 0) - listing.price;
     listing.status = 'sold';
     listing.soldTo = buyer.name;
     await listing.save();
 
-    // Pagamento ao vendedor via correio, líquido do imposto de MARKET_TAX_RATE
+    // Pagamento ao vendedor via correio em CRYSTALS, líquido do imposto
     const netAmount = Math.floor(listing.price * (1 - MARKET_TAX_RATE));
 
     await Mail.create({
       fromName: 'Mercado de Eclipsia',
       toName: listing.sellerName,
       subject: 'Item vendido',
-      message: `Seu item foi vendido por ${listing.price} de ouro (recebido: ${netAmount}, imposto: ${listing.price - netAmount}).`,
+      message: `Seu item foi vendido por ${listing.price} 💎 (recebido: ${netAmount} 💎, imposto: ${listing.price - netAmount} 💎).`,
       itemStr: null,
-      gold: netAmount
+      gold: 0,
+      crystals: netAmount
     });
 
     await player.save();

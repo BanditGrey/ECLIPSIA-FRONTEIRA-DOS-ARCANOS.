@@ -105,6 +105,10 @@ const CharacterSchema = new mongoose.Schema(
     xp: { type: Number, default: 0 },
     xpToNext: { type: Number, default: 100 },
     gold: { type: Number, default: 100 },
+    // Moeda premium (paga): o mercado mundial usa crystals, não ouro
+    crystals: { type: Number, default: 0, min: 0 },
+    // Missões diárias (tracking client-side, persistido via save)
+    daily: { type: mongoose.Schema.Types.Mixed, default: null },
     hp: { type: Number, required: true },
     maxHp: { type: Number, required: true },
     mp: { type: Number, required: true },

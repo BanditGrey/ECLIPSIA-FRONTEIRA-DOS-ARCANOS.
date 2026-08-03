@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { dailyQuests } from '../../data/dailyQuests';
 import { useI18n } from '../../hooks/useI18n';
 import { useGameStore } from '../../store/useGameStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
@@ -6,7 +7,7 @@ import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
 import { ProgressBar } from '../ui/ProgressBar';
 
-type QuestTab = 'active' | 'completed';
+type QuestTab = 'daily' | 'active' | 'completed';
 
 interface QuestEntry {
   id: 'wolf_hunt_1' | 'goblin_slayer' | 'forest_explorer' | 'shadow_secret';
@@ -37,6 +38,7 @@ export const QuestPanel = () => {
   const [tab, setTab] = useState<QuestTab>('active');
   const [selectedQuest, setSelectedQuest] = useState<QuestEntry | null>(null);
   const openModal = useGameStore((state) => state.openModal);
+  const addNotification = useGameStore((state) => state.addNotification);
   const player = usePlayerStore((state) => state.data);
 
   const quests = useMemo<QuestEntry[]>(() => {
@@ -99,8 +101,8 @@ export const QuestPanel = () => {
 
   return (
     <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
-      <div className="grid grid-cols-2 gap-2 rounded-xl border border-game-border bg-game-panel p-2 font-mono text-sm">
-        {(['active', 'completed'] as QuestTab[]).map((item) => (
+      <div className="grid grid-cols-3 gap-2 rounded-xl border border-game-border bg-game-panel p-2 font-mono text-sm">
+        {(['daily', 'active', 'completed'] as QuestTab[]).map((item) => (
           <button
             key={item}
             type="button"
@@ -113,6 +115,58 @@ export const QuestPanel = () => {
       </div>
 
       <section className="min-h-0 overflow-hidden rounded-xl border border-game-border bg-game-panel p-3">
+        {tab === 'daily' && (
+          <div className="grid h-full gap-3 overflow-auto pr-1">
+            {dailyQuests.map((quest) => {
+              const today = new Date().toISOString().slice(0, 10);
+              const daily = player?.daily && player.daily.date === today ? player.daily : null;
+              const progress = Math.min(daily?.progress[quest.event] ?? 0, quest.goal);
+              const claimed = daily?.claimed.includes(quest.id) ?? false;
+              const complete = progress >= quest.goal;
+              const rewardParts: string[] = [];
+
+              if (quest.rewards.gold) rewardParts.push(`${quest.rewards.gold} 🪙`);
+              if (quest.rewards.xp) rewardParts.push(`${quest.rewards.xp} XP`);
+              quest.rewards.items?.forEach((item) => rewardParts.push(`${item.qty}× ${item.itemId}`));
+
+              return (
+                <article key={quest.id} className="rounded-xl border border-game-border bg-game-card p-3">
+                  <div className="grid grid-cols-[1fr_auto] gap-3">
+                    <div className="min-w-0">
+                      <h2 className="font-title text-lg text-game-gold">{t(`dailyQuests.${quest.id}.name`)}</h2>
+                      <p className="font-mono text-xs text-game-muted">
+                        {progress}/{quest.goal} · {rewardParts.join(' + ')}
+                      </p>
+                      <div className="mt-2">
+                        <ProgressBar current={progress} max={quest.goal} type="xp" showText={false} />
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      {claimed ? (
+                        <span className="font-mono text-xs text-green-300">✓ {t('dailyQuests.claimed')}</span>
+                      ) : (
+                        <Button
+                          size="sm"
+                          disabled={!complete}
+                          onClick={() => {
+                            if (!usePlayerStore.getState().claimDaily(quest.id)) {
+                              addNotification(t('dailyQuests.cannot'), 'warning');
+                            } else {
+                              addNotification(t('dailyQuests.rewardReceived'), 'gold');
+                            }
+                          }}
+                        >
+                          {t('dailyQuests.claim')}
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        )}
+
         {tab === 'active' && (
           <div className="grid h-full gap-3 overflow-auto pr-1">
             {activeQuests.map((quest) => (

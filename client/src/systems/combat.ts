@@ -439,6 +439,13 @@ const handleVictory = () => {
   playerStore.addKill(enemy.id);
   questSystem.onKill(enemy.id);
 
+  // Missões diárias
+  playerStore.recordDailyEvent('kill');
+
+  if (combat.isDungeon) {
+    playerStore.recordDailyEvent('dungeon_floor');
+  }
+
   // 4. Ao matar: ON_KILL_HEAL (67) e ON_KILL_MP (68) — frações 0-1,
   //    convertidas para porcentagem (0-100) esperada por recoverHp/recoverMp
   if (resolved) {

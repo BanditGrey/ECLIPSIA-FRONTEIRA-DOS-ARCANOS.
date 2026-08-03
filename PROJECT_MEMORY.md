@@ -1,7 +1,7 @@
 # 🧠 MEMÓRIA DO PROJETO — ECLIPSIA: FRONTEIRA DOS ARCANOS
 
 > **Leia este arquivo primeiro.** Ele existe para você se localizar sem varrer o repo inteiro.
-> Última atualização: 2026-08-03 (após Dungeons completas — ver §5.6 "Guildas" e "Dungeons").
+> Última atualização: 2026-08-03 (após 💎 Cristais + party real + daily quests — ver §5.6).
 
 ---
 
@@ -312,12 +312,22 @@ Feito na segunda leva: ✅ trade P2P via socket, ✅ encantamento (98) + 2 conju
 - i18n: `travel.dungeons.<id>.name/desc` (mesclado no bloco existente) + dungeonFloors/dungeonBoss/dungeonReward + `combat.dungeonCleared` em 4 idiomas.
 - ⚠ Regex da auditoria bloco 8 usa janela de 1200 chars (código de dungeon afastou o calculatePlayerStats do start()).
 
+### 💎 Cristais (moeda paga) + Party real + Daily quests
+- **Cristais (`crystals`)**: moeda premium separada do ouro. `PlayerData.crystals` (client) + schema/criação/allowedFields (server). Header mostra 💎 ao lado do ouro.
+- **Mercado mundial é 100% em crystals** (decisão de produto: protege o ouro da economia P2P): compra debita crystals do comprador; venda paga o vendedor em crystals líquidos (imposto 5%) via correio; taxa de listagem 2 💎.
+- **Mail suporta crystals**: enviar/resgatar 💎 (campo `crystals` no modelo Mail).
+- **Venda de crystals**: `POST /api/player/crystals/grant` protegido por `x-admin-key` = env `ADMIN_KEY` (vendas out-of-band: PIX etc.). Documentado no DEPLOY.md.
+- **Party real (socket)**: handlers `party:invite/respond/leave/kick` (estado em memória no server, máx. 5, limpeza no disconnect); PartyPanel tem seção "Grupo de jogadores" (convite por nome, aceitar/recusar, líder 👑, kick, sair) acima da lista de companheiros locais. ⚠ membros reais ainda NÃO participam do combate (companheiros locais seguem separados).
+- **Daily quests** (`data/dailyQuests.ts`): 4 diárias (20 kills, 15 explorações, 2 crafts, 3 andares de dungeon) rastreadas em `PlayerData.daily { date, progress, claimed }` via `recordDailyEvent()` (hooks em combat/world/CraftingPanel) e resgatadas com `claimDaily()`. Aba **DIÁRIAS** no QuestPanel. Reinício automático por data (YYYY-MM-DD).
+
 Restante:
 1. 🏛 **Leilão com bids** (mercado hoje é preço fixo)
 2. 🧪 Testes de integração das rotas mail/market (precisa mongodb-memory-server) e do fluxo de trade
-3. 💾 Trade state está em memória no server (reiniciou = trades pendentes somem) — mover p/ Mongo se necessário
-4. 🎛 Balancear economia (preços de mercado, custos de craft/upgrade) com dados reais de jogo
+3. 💾 Trade/party state em memória no server (reiniciou = pendências somem) — mover p/ Mongo se necessário
+4. 🎛 Balancear economia (preços em crystals, custos de craft/upgrade) com dados reais
 5. 🔎 Busca de itens no mercado por nome (hoje só filtro rarity/numId)
+6. ⚔ Membros da party real no combate (hoje só companheiros locais)
+7. 💳 Gateway de pagamento real para crystals (hoje a concessão é manual via ADMIN_KEY)
 
 ---
 

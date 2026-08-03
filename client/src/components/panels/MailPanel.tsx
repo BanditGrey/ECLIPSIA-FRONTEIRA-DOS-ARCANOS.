@@ -18,6 +18,7 @@ interface MailEntry {
   message: string;
   itemStr: string | null;
   gold: number;
+  crystals?: number;
   read: boolean;
   claimed: boolean;
   createdAt: string;
@@ -44,6 +45,7 @@ export const MailPanel = () => {
   const [message, setMessage] = useState('');
   const [attachRef, setAttachRef] = useState('');
   const [goldAmount, setGoldAmount] = useState('0');
+  const [crystalAmount, setCrystalAmount] = useState('0');
 
   const charName = player?.name ?? '';
 
@@ -121,7 +123,8 @@ export const MailPanel = () => {
       subject,
       message,
       itemRef: attachRef || null,
-      gold: Math.max(0, Math.floor(Number(goldAmount) || 0))
+      gold: Math.max(0, Math.floor(Number(goldAmount) || 0)),
+      crystals: Math.max(0, Math.floor(Number(crystalAmount) || 0))
     });
 
     if (!result.success) {
@@ -136,6 +139,7 @@ export const MailPanel = () => {
     setMessage('');
     setAttachRef('');
     setGoldAmount('0');
+    setCrystalAmount('0');
     void refresh();
   };
 
@@ -158,7 +162,7 @@ export const MailPanel = () => {
           {mails.length === 0 && <p className="text-xs text-game-muted">{t('mail.empty')}</p>}
           {mails.map((mail) => {
             const attachedItem = mail.itemStr ? resolveItemRef(mail.itemStr) : undefined;
-            const hasAttachment = Boolean(mail.itemStr || mail.gold > 0);
+            const hasAttachment = Boolean(mail.itemStr || mail.gold > 0 || (mail.crystals ?? 0) > 0);
 
             return (
               <article
@@ -210,6 +214,7 @@ export const MailPanel = () => {
                   </p>
                 )}
                 {mail.gold > 0 && <p className="mt-1 font-mono text-xs text-game-gold">{mail.gold} 🪙</p>}
+                {(mail.crystals ?? 0) > 0 && <p className="mt-1 font-mono text-xs text-cyan-300">{mail.crystals} 💎</p>}
               </article>
             );
           })}
@@ -228,7 +233,11 @@ export const MailPanel = () => {
               return item ? <option key={ref} value={ref}>{item.icon} {nameOf(item, lang)}</option> : null;
             })}
           </select>
-          <input className="input-field" type="number" min={0} value={goldAmount} onChange={(event) => setGoldAmount(event.target.value)} placeholder={t('mail.goldPlaceholder')} />
+          <div className="grid grid-cols-2 gap-2">
+            <input className="input-field" type="number" min={0} value={goldAmount} onChange={(event) => setGoldAmount(event.target.value)} placeholder={t('mail.goldPlaceholder')} />
+            <input className="input-field" type="number" min={0} value={crystalAmount} onChange={(event) => setCrystalAmount(event.target.value)} placeholder={t('mail.crystalsPlaceholder')} />
+          </div>
+          <p className="font-mono text-[10px] text-game-muted">💎 {player?.crystals ?? 0}</p>
           <Button onClick={() => void send()}>{t('mail.send')}</Button>
         </div>
       </Modal>

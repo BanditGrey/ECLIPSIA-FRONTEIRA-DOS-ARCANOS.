@@ -137,7 +137,7 @@ export const API = {
     inbox(charName: string) {
       return API.get<{ mails: unknown[] }>(`/mail/inbox?charName=${encodeURIComponent(charName)}`);
     },
-    send(payload: { charName: string; toName: string; subject?: string; message?: string; itemRef?: string | null; gold?: number }) {
+    send(payload: { charName: string; toName: string; subject?: string; message?: string; itemRef?: string | null; gold?: number; crystals?: number }) {
       return API.post('/mail/send', payload);
     },
     read(mailId: string) {

@@ -110,6 +110,12 @@ class SocketService {
       'guild:updated',
       'guild:kicked',
       'guild:disbanded',
+      'party:invited',
+      'party:updated',
+      'party:left',
+      'party:kicked',
+      'party:declined',
+      'party:failed',
       'trade:requested',
       'trade:waiting',
       'trade:start',
@@ -176,6 +182,23 @@ class SocketService {
     this.emit('chat:message', {
       text: sanitizeText(message)
     });
+  }
+
+  // ── Party real (jogadores online) ──
+  inviteToParty(toName: string) {
+    this.emit('party:invite', { toName });
+  }
+
+  respondPartyInvite(partyId: string, accept: boolean) {
+    this.emit('party:respond', { partyId, accept });
+  }
+
+  leaveParty() {
+    this.emit('party:leave', {});
+  }
+
+  kickPartyMember(targetName: string) {
+    this.emit('party:kick', { targetName });
   }
 
   // ── Guilda ──

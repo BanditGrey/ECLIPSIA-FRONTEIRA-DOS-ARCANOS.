@@ -4,6 +4,7 @@ import { resolveEffects, resolvedToItemStats } from '../systems/effectEngine';
 import type { Item, ItemStats, Slot } from '../types/item.types';
 import type { Equipment, InventoryItem, PlayerData, Stats } from '../types/player.types';
 import { isSerializedItemStr, resolveItemRef } from '../utils/itemSerializer';
+import { getDailyQuest } from '../data/dailyQuests';
 
 type EquipmentSlot = keyof Equipment;
 type RegisteredItem = Pick<Item, 'id' | 'slot' | 'isTwoHanded' | 'stats' | 'effects'>;
@@ -194,6 +195,8 @@ interface PlayerState {
   depositItem: (itemRef: string, qty?: number) => boolean;
   withdrawItem: (itemRef: string, qty?: number) => boolean;
   isStorageFull: () => boolean;
+  recordDailyEvent: (event: string, amount?: number) => void;
+  claimDaily: (questId: string) => boolean;
   equip: (itemId: string) => boolean;
   unequip: (slot: EquipmentSlot) => boolean;
   takeDamage: (amount: number) => number;
@@ -459,6 +462,75 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     }
 
     return (data.storage ?? []).length >= getMaxStorage(data);
+  },
+  recordDailyEvent: (event, amount = 1) => {
+    const data = get().data;
+
+    if (!data || amount <= 0) {
+      return;
+    }
+
+    const today = new Date().toISOString().slice(0, 10);
+    const current = data.daily && data.daily.date === today ? data.daily : { date: today, progress: {}, claimed: [] };
+
+    set({
+      data: {
+        ...data,
+        daily: {
+          ...current,
+          progress: {
+            ...current.progress,
+            [event]: (current.progress[event] ?? 0) + amount
+          }
+        }
+      }
+    });
+  },
+  claimDaily: (questId) => {
+    const data = get().data;
+    const quest = getDailyQuest(questId);
+
+    if (!data || !quest) {
+      return false;
+    }
+
+    const today = new Date().toISOString().slice(0, 10);
+    const daily = data.daily && data.daily.date === today ? data.daily : { date: today, progress: {}, claimed: [] };
+
+    if (daily.claimed.includes(questId) || (daily.progress[quest.event] ?? 0) < quest.goal) {
+      return false;
+    }
+
+    // Recompensas (ouro, xp e itens entram pelos fluxos normais do store)
+    if (quest.rewards.gold) {
+      get().gainGold(quest.rewards.gold);
+    }
+
+    if (quest.rewards.xp) {
+      get().gainXp(quest.rewards.xp);
+    }
+
+    quest.rewards.items?.forEach(({ itemId, qty }) => {
+      get().addItem(itemId, qty);
+    });
+
+    const fresh = get().data;
+
+    if (!fresh) {
+      return true;
+    }
+
+    set({
+      data: {
+        ...fresh,
+        daily: {
+          ...daily,
+          claimed: [...daily.claimed, questId]
+        }
+      }
+    });
+
+    return true;
   },
   equip: (itemId) => {
     const data = get().data;

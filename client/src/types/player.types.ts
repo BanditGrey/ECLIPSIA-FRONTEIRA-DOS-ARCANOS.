@@ -53,6 +53,16 @@ export interface Proficiencies {
   spectre: number;
 }
 
+/** Progresso das missões diárias (reinicia por data). */
+export interface DailyProgress {
+  /** Data no formato YYYY-MM-DD do ciclo atual. */
+  date: string;
+  /** Progresso por quest id (ex.: { kill_count: 12 }). */
+  progress: Record<string, number>;
+  /** Ids das diárias já resgatadas hoje. */
+  claimed: string[];
+}
+
 export interface PlayerData {
   name: string;
   archetype: string;
@@ -60,6 +70,8 @@ export interface PlayerData {
   xp: number;
   xpToNext: number;
   gold: number;
+  /** Moeda premium (paga) — usada no mercado mundial; separada do ouro. */
+  crystals: number;
   hp: number;
   maxHp: number;
   mp: number;
@@ -82,6 +94,7 @@ export interface PlayerData {
   discoveries: string[];
   weakPointHits: number;
   rareDrops: number;
+  daily?: DailyProgress;
   createdAt: string;
   lastLogin: string;
 }

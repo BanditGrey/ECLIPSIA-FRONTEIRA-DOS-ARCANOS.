@@ -128,6 +128,7 @@ export const translations: Record<LangCode, TranslationTree> = {
     },
     "header": {
       "gold": "Ouro",
+      "crystalsHint": "Cristais: moeda premium usada no mercado mundial e entre jogadores",
       "settings": "Configurações"
     },
     "nav": {
@@ -406,6 +407,28 @@ export const translations: Record<LangCode, TranslationTree> = {
       "activate": "Ativar",
       "dead": "Morto"
     },
+    "partyReal": {
+      "title": "Grupo de jogadores",
+      "namePlaceholder": "Nome do jogador online",
+      "invite": "Convidar",
+      "invitedBy": "Convite de grupo de",
+      "leave": "Sair do grupo",
+      "kick": "Expulsar",
+      "kicked": "Você foi expulso do grupo.",
+      "declined": "Convite recusado.",
+      "failed": "Não foi possível convidar",
+      "reason": { "offline": "jogador offline", "busy": "já está em um grupo", "full": "grupo cheio", "not_leader": "apenas o líder convida" }
+    },
+    "dailyQuests": {
+      "claim": "Resgatar",
+      "claimed": "Resgatada",
+      "cannot": "Missão diária ainda incompleta",
+      "rewardReceived": "Recompensa diária resgatada!",
+      "daily_kills": { "name": "Caçador do dia: derrote 20 inimigos" },
+      "daily_explorer": { "name": "Explorador do dia: explore 15 vezes" },
+      "daily_crafts": { "name": "Artesão do dia: forje 2 itens" },
+      "daily_dungeon": { "name": "Aventureiro do dia: avance 3 andares de dungeon" }
+    },
     "pet": {
       "title": "Pet",
       "level": "Nível",
@@ -607,6 +630,7 @@ export const translations: Record<LangCode, TranslationTree> = {
         "desc": "Derrote o líder da região."
       },
       "tabs": {
+        "daily": "DIÁRIAS",
         "active": "ATIVAS",
         "completed": "COMPLETAS"
       },
@@ -713,6 +737,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "messagePlaceholder": "Mensagem...",
       "noAttachment": "Sem anexo",
       "goldPlaceholder": "Ouro (opcional)",
+      "crystalsPlaceholder": "💎 Cristais (opcional)",
       "send": "Enviar",
       "sent": "Carta enviada!",
       "claim": "Resgatar",
@@ -737,7 +762,8 @@ export const translations: Record<LangCode, TranslationTree> = {
       "status": { "active": "Ativa", "sold": "Vendida", "cancelled": "Cancelada" },
       "offline": "Mercado indisponível (servidor offline).",
       "error": "Erro no mercado",
-      "taxNote": "Taxas: 2 🪙 para listar (não reembolsável) e 5% sobre a venda."
+      "taxNote": "Taxas: 2 💎 para listar (não reembolsável) e 5% sobre a venda.",
+      "crystalsCurrency": "O mercado mundial usa 💎 Cristais (moeda paga) — o ouro do jogo fica protegido da economia entre jogadores.",
     },
     "crafting": {
       "craft": "Forjar",
@@ -1220,6 +1246,7 @@ export const translations: Record<LangCode, TranslationTree> = {
     },
     "header": {
       "gold": "Gold",
+      "crystalsHint": "Crystals: premium currency used in the world market and between players",
       "settings": "Settings"
     },
     "nav": {
@@ -1498,6 +1525,28 @@ export const translations: Record<LangCode, TranslationTree> = {
       "activate": "Activate",
       "dead": "Dead"
     },
+    "partyReal": {
+      "title": "Player group",
+      "namePlaceholder": "Online player name",
+      "invite": "Invite",
+      "invitedBy": "Group invite from",
+      "leave": "Leave group",
+      "kick": "Kick",
+      "kicked": "You were kicked from the group.",
+      "declined": "Invite declined.",
+      "failed": "Could not invite",
+      "reason": { "offline": "player is offline", "busy": "already in a group", "full": "group is full", "not_leader": "only the leader can invite" }
+    },
+    "dailyQuests": {
+      "claim": "Claim",
+      "claimed": "Claimed",
+      "cannot": "Daily quest not complete yet",
+      "rewardReceived": "Daily reward claimed!",
+      "daily_kills": { "name": "Hunter of the day: defeat 20 enemies" },
+      "daily_explorer": { "name": "Explorer of the day: explore 15 times" },
+      "daily_crafts": { "name": "Crafter of the day: forge 2 items" },
+      "daily_dungeon": { "name": "Adventurer of the day: clear 3 dungeon floors" }
+    },
     "pet": {
       "title": "Pet",
       "level": "Level",
@@ -1699,6 +1748,7 @@ export const translations: Record<LangCode, TranslationTree> = {
         "desc": "Defeat the region leader."
       },
       "tabs": {
+        "daily": "DAILY",
         "active": "ACTIVE",
         "completed": "COMPLETE"
       },
@@ -1737,6 +1787,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "messagePlaceholder": "Message...",
       "noAttachment": "No attachment",
       "goldPlaceholder": "Gold (optional)",
+      "crystalsPlaceholder": "💎 Crystals (optional)",
       "send": "Send",
       "sent": "Letter sent!",
       "claim": "Claim",
@@ -1761,7 +1812,8 @@ export const translations: Record<LangCode, TranslationTree> = {
       "status": { "active": "Active", "sold": "Sold", "cancelled": "Cancelled" },
       "offline": "Market unavailable (server offline).",
       "error": "Market error",
-      "taxNote": "Fees: 2 🪙 listing fee (non-refundable) and 5% tax on sale."
+      "taxNote": "Fees: 2 💎 listing fee (non-refundable) and 5% tax on sale.",
+      "crystalsCurrency": "The world market uses 💎 Crystals (paid currency) — in-game gold stays protected from the player economy.",
     },
     "crafting": {
       "craft": "Forge",
@@ -2310,6 +2362,7 @@ export const translations: Record<LangCode, TranslationTree> = {
     },
     "header": {
       "gold": "Oro",
+      "crystalsHint": "Cristales: moneda premium usada en el mercado mundial y entre jugadores",
       "settings": "Ajustes"
     },
     "nav": {
@@ -2588,6 +2641,28 @@ export const translations: Record<LangCode, TranslationTree> = {
       "activate": "Activar",
       "dead": "Muerto"
     },
+    "partyReal": {
+      "title": "Grupo de jugadores",
+      "namePlaceholder": "Nombre del jugador en línea",
+      "invite": "Invitar",
+      "invitedBy": "Invitación de grupo de",
+      "leave": "Salir del grupo",
+      "kick": "Expulsar",
+      "kicked": "Te expulsaron del grupo.",
+      "declined": "Invitación rechazada.",
+      "failed": "No se pudo invitar",
+      "reason": { "offline": "jugador desconectado", "busy": "ya está en un grupo", "full": "grupo lleno", "not_leader": "solo el líder invita" }
+    },
+    "dailyQuests": {
+      "claim": "Reclamar",
+      "claimed": "Reclamada",
+      "cannot": "Misión diaria aún incompleta",
+      "rewardReceived": "¡Recompensa diaria reclamada!",
+      "daily_kills": { "name": "Cazador del día: derrota 20 enemigos" },
+      "daily_explorer": { "name": "Explorador del día: explora 15 veces" },
+      "daily_crafts": { "name": "Artesano del día: forja 2 objetos" },
+      "daily_dungeon": { "name": "Aventurero del día: avanza 3 pisos de mazmorra" }
+    },
     "pet": {
       "title": "Mascota",
       "level": "Nivel",
@@ -2738,6 +2813,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "messagePlaceholder": "Mensaje...",
       "noAttachment": "Sin adjunto",
       "goldPlaceholder": "Oro (opcional)",
+      "crystalsPlaceholder": "💎 Cristales (opcional)",
       "send": "Enviar",
       "sent": "¡Carta enviada!",
       "claim": "Reclamar",
@@ -2762,7 +2838,8 @@ export const translations: Record<LangCode, TranslationTree> = {
       "status": { "active": "Activa", "sold": "Vendida", "cancelled": "Cancelada" },
       "offline": "Mercado no disponible (servidor offline).",
       "error": "Error de mercado",
-      "taxNote": "Tasas: 2 🪙 por listar (no reembolsable) y 5% sobre la venta."
+      "taxNote": "Tasas: 2 💎 por listar (no reembolsable) y 5% sobre la venta.",
+      "crystalsCurrency": "El mercado mundial usa 💎 Cristales (moneda de pago): el oro del juego queda protegido de la economía entre jugadores.",
     },
     "crafting": {
       "craft": "Forjar",
@@ -2858,6 +2935,7 @@ export const translations: Record<LangCode, TranslationTree> = {
         "desc": "Derrota al líder regional."
       },
       "tabs": {
+        "daily": "DIARIAS",
         "active": "ACTIVAS",
         "completed": "COMPLETAS"
       },
@@ -3400,6 +3478,7 @@ export const translations: Record<LangCode, TranslationTree> = {
     },
     "header": {
       "gold": "ゴールド",
+      "crystalsHint": "クリスタル：世界市場とプレイヤー間で使うプレミアム通貨",
       "settings": "設定"
     },
     "nav": {
@@ -3678,6 +3757,28 @@ export const translations: Record<LangCode, TranslationTree> = {
       "activate": "有効化",
       "dead": "死亡"
     },
+    "partyReal": {
+      "title": "プレイヤーグループ",
+      "namePlaceholder": "オンラインプレイヤー名",
+      "invite": "招待",
+      "invitedBy": "グループ招待：",
+      "leave": "グループを抜ける",
+      "kick": "追放",
+      "kicked": "グループから追放されました。",
+      "declined": "招待は拒否されました。",
+      "failed": "招待できませんでした",
+      "reason": { "offline": "プレイヤーがオフライン", "busy": "既にグループ所属", "full": "グループが満員", "not_leader": "リーダーのみ招待可能" }
+    },
+    "dailyQuests": {
+      "claim": "受取",
+      "claimed": "受取済",
+      "cannot": "デイリークエストはまだ未達成です",
+      "rewardReceived": "デイリー報酬を受け取りました！",
+      "daily_kills": { "name": "今日の狩人：敵を20体倒す" },
+      "daily_explorer": { "name": "今日の探索者：15回探索する" },
+      "daily_crafts": { "name": "今日の職人：アイテムを2個鍛造する" },
+      "daily_dungeon": { "name": "今日の冒険者：ダンジョンを3階進める" }
+    },
     "pet": {
       "title": "ペット",
       "level": "レベル",
@@ -3828,6 +3929,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "messagePlaceholder": "メッセージ...",
       "noAttachment": "添付なし",
       "goldPlaceholder": "ゴールド（任意）",
+      "crystalsPlaceholder": "💎 クリスタル（任意）",
       "send": "送信",
       "sent": "手紙を送信しました！",
       "claim": "受取",
@@ -3852,7 +3954,8 @@ export const translations: Record<LangCode, TranslationTree> = {
       "status": { "active": "出品中", "sold": "売却済", "cancelled": "取消済" },
       "offline": "市場は利用できません（サーバーオフライン）。",
       "error": "市場エラー",
-      "taxNote": "手数料：出品2🪙（返金不可）＋売却額5%の税金。"
+      "taxNote": "手数料：出品2💎（返金不可）＋売却額5%の税金。",
+      "crystalsCurrency": "世界市場は💎クリスタル（有料通貨）を使用 — ゲーム内ゴールドはプレイヤー間経済から守られます。"
     },
     "crafting": {
       "craft": "鍛造",
@@ -3948,6 +4051,7 @@ export const translations: Record<LangCode, TranslationTree> = {
         "desc": "地域のリーダーを倒す。"
       },
       "tabs": {
+        "daily": "デイリー",
         "active": "進行中",
         "completed": "完了"
       },

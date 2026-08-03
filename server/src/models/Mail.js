@@ -20,6 +20,7 @@ const MailSchema = new mongoose.Schema({
     }
   },
   gold: { type: Number, default: 0, min: 0 },
+  crystals: { type: Number, default: 0, min: 0 },
   read: { type: Boolean, default: false },
   claimed: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now, index: true },

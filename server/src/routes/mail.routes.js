@@ -33,7 +33,7 @@ mailRoutes.get('/inbox', async (req, res) => {
 /** POST /api/mail/send — enviar carta (com anexo itemStr e/ou ouro) */
 mailRoutes.post('/send', async (req, res) => {
   try {
-    const { charName, toName, subject, message, itemRef, gold } = req.body ?? {};
+    const { charName, toName, subject, message, itemRef, gold, crystals } = req.body ?? {};
     const player = await Player.findById(req.playerId);
 
     if (!player) {
@@ -59,9 +59,14 @@ mailRoutes.post('/send', async (req, res) => {
     }
 
     const goldAmount = Math.max(0, Math.floor(Number(gold) || 0));
+    const crystalAmount = Math.max(0, Math.floor(Number(crystals) || 0));
 
     if (goldAmount > sender.gold) {
       return res.status(400).json({ message: 'Ouro insuficiente' });
+    }
+
+    if (crystalAmount > (sender.crystals ?? 0)) {
+      return res.status(400).json({ message: 'Cristais insuficientes' });
     }
 
     const attachment = itemRef ? String(itemRef) : null;
@@ -74,11 +79,12 @@ mailRoutes.post('/send', async (req, res) => {
       return res.status(400).json({ message: 'Item não está no inventário' });
     }
 
-    if (!attachment && goldAmount === 0 && !sanitize(message, 500)) {
+    if (!attachment && goldAmount === 0 && crystalAmount === 0 && !sanitize(message, 500)) {
       return res.status(400).json({ message: 'Carta vazia' });
     }
 
     sender.gold -= goldAmount;
+    sender.crystals = (sender.crystals ?? 0) - crystalAmount;
 
     const mail = await Mail.create({
       fromName: sender.name,
@@ -86,7 +92,8 @@ mailRoutes.post('/send', async (req, res) => {
       subject: sanitize(subject, 80),
       message: sanitize(message, 500),
       itemStr: attachment,
-      gold: goldAmount
+      gold: goldAmount,
+      crystals: crystalAmount
     });
 
     await player.save();
@@ -144,6 +151,7 @@ mailRoutes.post('/claim', async (req, res) => {
     }
 
     character.gold += Math.max(0, mail.gold ?? 0);
+    character.crystals = (character.crystals ?? 0) + Math.max(0, mail.crystals ?? 0);
     mail.claimed = true;
     mail.read = true;
     await mail.save();
@@ -164,7 +172,7 @@ mailRoutes.delete('/:mailId', async (req, res) => {
       return res.status(404).json({ message: 'Carta não encontrada' });
     }
 
-    if (!mail.claimed && (mail.itemStr || mail.gold > 0)) {
+    if (!mail.claimed && (mail.itemStr || mail.gold > 0 || mail.crystals > 0)) {
       return res.status(400).json({ message: 'Resgate o anexo antes de apagar' });
     }
 
