@@ -227,7 +227,7 @@ export const CombatPanel = () => {
               {BOSS_IDS.includes(combat.enemy.id) ? (
                 <Portrait kind="boss" id={combat.enemy.id} size={72} fallbackIcon={combat.enemy.icon} ring="red" />
               ) : (
-                <span className="sigil-disc h-16 w-16 text-4xl">{combat.enemy.icon}</span>
+                <Portrait kind="monster" id={combat.enemy.id} size={72} fallbackIcon={combat.enemy.icon} ring="arcane" />
               )}
               <div className="min-w-0 flex-1">
                 <h2 className="title-gold truncate font-title text-xl font-bold">{t(combat.enemy.nameKey)}</h2>

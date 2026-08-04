@@ -33,8 +33,17 @@ export const ART = {
     azhur: '/assets/boss-azhur.jpg',
     thal_mora: '/assets/boss-thal_mora.jpg',
     velkaryn: '/assets/boss-velkaryn.jpg'
+  },
+  monsters: {
+    goblin: '/assets/monster-goblin.jpg',
+    mist_wolf: '/assets/monster-mist_wolf.jpg',
+    shadow_sprite: '/assets/monster-shadow_sprite.jpg',
+    forest_golem: '/assets/monster-forest_golem.jpg',
+    storm_harpy: '/assets/monster-storm_harpy.jpg',
+    cloud_titan: '/assets/monster-cloud_titan.jpg'
   }
 } as const;
 
 export type ClassArtId = keyof typeof ART.classes;
 export type BossArtId = keyof typeof ART.bosses;
+export type MonsterArtId = keyof typeof ART.monsters;
