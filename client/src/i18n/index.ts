@@ -547,7 +547,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "noSkills": "Nenhuma habilidade desbloqueada.",
       "cast": "Usar",
       "noLoot": "Nenhum saque disponível.",
-      "outcome": {"victory": "VITÓRIA", "defeat": "DERROTA", "continue": "Continuar", "retry": "Recomeçar", "region": "Região", "turns": "Turnos", "foe": "Resultado"}
+      "outcome": {"victory": "VITÓRIA", "defeat": "DERROTA", "continue": "Continuar", "retry": "Recomeçar", "region": "Região", "turns": "Turnos", "foe": "Resultado", "loot": "Saques"}
     },
     "city": {
       "valedouro": "Valedouro",
@@ -2289,7 +2289,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "noSkills": "No skills unlocked.",
       "cast": "Cast",
       "noLoot": "No loot available.",
-      "outcome": {"victory": "VICTORY", "defeat": "DEFEAT", "continue": "Continue", "retry": "Try again", "region": "Region", "turns": "Turns", "foe": "Outcome"}
+      "outcome": {"victory": "VICTORY", "defeat": "DEFEAT", "continue": "Continue", "retry": "Try again", "region": "Region", "turns": "Turns", "foe": "Outcome", "loot": "Loot"}
     },
     "city": {
       "valedouro": "Valedouro",
@@ -4030,7 +4030,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "noSkills": "No hay habilidades desbloqueadas.",
       "cast": "Usar",
       "noLoot": "No hay botín disponible.",
-      "outcome": {"victory": "VICTORIA", "defeat": "DERROTA", "continue": "Continuar", "retry": "Reintentar", "region": "Región", "turns": "Turnos", "foe": "Resultado"}
+      "outcome": {"victory": "VICTORIA", "defeat": "DERROTA", "continue": "Continuar", "retry": "Reintentar", "region": "Región", "turns": "Turnos", "foe": "Resultado", "loot": "Botín"}
     },
     "city": {
       "valedouro": "Valedouro",
@@ -5771,7 +5771,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "noSkills": "解除されたスキルはありません。",
       "cast": "発動",
       "noLoot": "戦利品はありません。",
-      "outcome": {"victory": "勝利", "defeat": "敗北", "continue": "続ける", "retry": "再挑戦", "region": "地域", "turns": "ターン", "foe": "結果"}
+      "outcome": {"victory": "勝利", "defeat": "敗北", "continue": "続ける", "retry": "再挑戦", "region": "地域", "turns": "ターン", "foe": "結果", "loot": "戦利品"}
     },
     "city": {
       "valedouro": "ヴァレドウロ",

@@ -626,6 +626,7 @@ const handleVictory = () => {
   const lootLuck = playerStore.getLuck() + (resolved?.lootBonus ?? 0) * 200 + (sizeBonus?.loot ?? 0) * 5;
   const loot = rollLoot(enemy, lootLuck, combat.autoConfig.lootFilter);
   loot.forEach((entry) => playerStore.addItem(entry.itemId, entry.qty));
+  useCombatStore.setState({ lastLoot: loot });
 
   impulseSystem.consumeCharge();
 

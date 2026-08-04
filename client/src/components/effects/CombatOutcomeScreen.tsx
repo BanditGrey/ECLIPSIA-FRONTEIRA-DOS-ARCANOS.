@@ -3,16 +3,19 @@ import { useAudio } from '../../hooks/useAudio';
 import { useI18n } from '../../hooks/useI18n';
 import { useCombatStore } from '../../store/useCombatStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
+import { itemNames } from '../../data/itemNames';
+import { getItemByNumId } from '../../utils/itemSerializer';
 import { ParticleSystem } from './ParticleSystem';
 import { playLevelUp, playHeal } from '../../systems/audio/SFXEngine';
 import { Button } from '../ui/Button';
+import { ArcaneIcon } from '../ui/ArcaneIcon';
 
 /**
  * TELA CINEMATOGRÁFICA DE RESULTADO — Vitória (A17a) e Derrota/Game Over (A17b).
  * Overlay em tela cheia com fade, estatísticas animadas e partículas.
  */
 export const CombatOutcomeScreen: React.FC = () => {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const audio = useAudio();
   const phase = useCombatStore((state) => state.phase);
   const region = useCombatStore((state) => state.region);
@@ -25,8 +28,16 @@ export const CombatOutcomeScreen: React.FC = () => {
   const playerName = usePlayerStore((state) => state.data?.name);
   const playerLevel = usePlayerStore((state) => state.data?.level);
 
+  const lastLoot = useCombatStore((state) => state.lastLoot);
+
   const [visible, setVisible] = useState(false);
   const isVictory = phase === 'victory';
+
+  const lootedItems = (lastLoot || []).map((entry) => {
+    const item = entry.itemId ? getItemByNumId(Number(entry.itemId)) : undefined;
+    const name = item ? itemNames[item.id]?.[lang]?.name ?? item.id : entry.itemId;
+    return { ...entry, name, rarity: entry.rarity };
+  });
 
   useEffect(() => {
     if (phase === 'victory' || phase === 'defeat') {
@@ -74,6 +85,20 @@ export const CombatOutcomeScreen: React.FC = () => {
             </div>
           ))}
         </div>
+
+        {isVictory && lootedItems.length > 0 && (
+          <div className="mt-6 rounded-xl border border-game-gold/30 bg-night-900/70 p-3">
+            <div className="mb-2 font-mono text-[10px] uppercase tracking-wider text-game-faded">{t('combat.outcome.loot')}</div>
+            <div className="flex flex-wrap justify-center gap-2">
+              {lootedItems.map((entry, i) => (
+                <span key={i} className="chip gap-1 border-game-gold/40 text-game-text">
+                  <ArcaneIcon name="chest" size={14} className="text-game-gold" glow />
+                  {entry.name} ×{entry.qty}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="mt-8 flex justify-center">
           <Button variant={isVictory ? 'primary' : 'danger'} size="lg" onClick={() => { audio.playBgm(); resetCombat(); }}>
