@@ -72,6 +72,23 @@ for (const lang of langs) {
 }
 rec('leilao', 'auction.* completo nos 4 idiomas', auctionI18nOk ? 'OK' : 'MISSING', auctionMissing.join(', ') || undefined);
 
+// ── Caso 4: sussurros persistentes + mute + who ──
+const whisperModelOk = fs.existsSync(path.join(ROOT, 'server/src/models/Whisper.js'));
+rec('caso4', 'Modelo Whisper existe', whisperModelOk ? 'OK' : 'CRITICAL');
+const whisperSrc = fs.existsSync(path.join(ROOT, 'server/src/routes/whisper.routes.js')) ? read('server/src/routes/whisper.routes.js') : '';
+rec('caso4', 'Rotas whisper (inbox/send/read)', ['/inbox', '/send', '/read'].every((e) => whisperSrc.includes(`'${e}'`)) ? 'OK' : 'CRITICAL');
+rec('caso4', 'who:online no servidor', read('server/src/server.js').includes("socket.on('who:online'") ? 'OK' : 'MISSING');
+const chatSrcC4 = read('client/src/components/panels/ChatPanel.tsx');
+rec('caso4', 'Chat: inbox offline + fallback persistente', chatSrcC4.includes('API.whisper.inbox') && chatSrcC4.includes('API.whisper.send') ? 'OK' : 'MISSING');
+rec('caso4', 'Chat: mute (/mute, /unmute, localStorage)', chatSrcC4.includes('/mute') && chatSrcC4.includes('eclipsia_muted') ? 'OK' : 'MISSING');
+rec('caso4', 'Chat: /who', chatSrcC4.includes('requestWho') ? 'OK' : 'MISSING');
+rec('caso4', 'API.whisper no client', read('client/src/services/api.ts').includes('whisper: {') ? 'OK' : 'MISSING');
+
+// ── Caso 5 rápido: busca no mercado + meus lances ──
+rec('caso5', 'MarketPanel: busca por nome', read('client/src/components/panels/items/MarketPanel.tsx').includes('searchPlaceholder') ? 'OK' : 'MISSING');
+rec('caso5', 'Leilão: meus lances (server+client)', read('server/src/routes/auction.routes.js').includes("'/bids'") && read('client/src/services/api.ts').includes('myBids(') && read('client/src/components/panels/items/MarketPanel.tsx').includes('myBidsTitle') ? 'OK' : 'MISSING');
+rec('caso5', 'CI configurado (.github/workflows/ci.yml)', fs.existsSync(path.join(ROOT, '.github/workflows/ci.yml')) ? 'OK' : 'MISSING');
+
 // ── Client: caçada ──
 const storeSrc = read('client/src/store/usePartyCombatStore.ts');
 rec('client', 'Store da caçada com floor/sizeBonus/auras', ['floor', 'sizeBonus', 'auraAtk', 'auraDef', 'members'].every((k) => storeSrc.includes(k)) ? 'OK' : 'MISSING');

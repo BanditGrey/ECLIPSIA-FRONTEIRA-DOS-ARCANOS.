@@ -1,6 +1,7 @@
 import { FormEvent, ReactNode, useEffect, useRef, useState } from 'react';
 import { itemNames } from '../../data/itemNames';
 import { useI18n } from '../../hooks/useI18n';
+import { API } from '../../services/api';
 import { socketService } from '../../services/socket';
 import { useGameStore } from '../../store/useGameStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
@@ -47,6 +48,25 @@ export const ChatPanel = () => {
   const [text, setText] = useState('');
   const [actionTarget, setActionTarget] = useState<string | null>(null);
   const [lastWhisperFrom, setLastWhisperFrom] = useState<string | null>(null);
+  const mutedRef = useRef<Set<string>>(
+    new Set(JSON.parse((typeof window !== 'undefined' && window.localStorage.getItem('eclipsia_muted')) || '[]') as string[])
+  );
+
+  const isMuted = (name: string) => mutedRef.current.has(name.toLowerCase());
+
+  const setMuted = (name: string, muted: boolean) => {
+    const key = name.toLowerCase();
+
+    if (muted) {
+      mutedRef.current.add(key);
+    } else {
+      mutedRef.current.delete(key);
+    }
+
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('eclipsia_muted', JSON.stringify([...mutedRef.current]));
+    }
+  };
   const listRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -83,11 +103,14 @@ export const ChatPanel = () => {
 
     const handleChatMessage = (event: Event) => {
       const payload = (event as CustomEvent<{ id?: string; name?: string; text?: string; type?: string }>).detail;
+      const name = sanitizeText(payload.name ?? t('game.unknown'));
+
+      if (isMuted(name)) return;
 
       appendMessage({
         id: payload.id ?? createMessageId(),
         kind: 'global',
-        name: sanitizeText(payload.name ?? t('game.unknown')),
+        name,
         text: sanitizeText(payload.text ?? '')
       });
     };
@@ -96,24 +119,48 @@ export const ChatPanel = () => {
       const payload = (event as CustomEvent<{ fromName?: string; text?: string }>).detail;
       const fromName = sanitizeText(payload.fromName ?? '?');
 
+      if (isMuted(fromName)) return;
+
       setLastWhisperFrom(fromName);
       appendMessage({ id: createMessageId(), kind: 'whisper-in', name: fromName, text: sanitizeText(payload.text ?? '') });
     };
 
-    const handleWhisperFailed = (event: Event) => {
-      const payload = (event as CustomEvent<{ toName?: string }>).detail;
-      appendSystem(`${t('chat.whisperOffline')} (${sanitizeText(payload.toName ?? '?')})`);
+    const handleWhisperFailed = async (event: Event) => {
+      const payload = (event as CustomEvent<{ toName?: string; text?: string }>).detail;
+      const toName = sanitizeText(payload.toName ?? '?');
+
+      // Destinatário offline: persiste para entrega quando ele conectar
+      if (payload.text && me) {
+        const result = await API.whisper.send({ fromName: me, toName, text: sanitizeText(payload.text) });
+
+        if (result.success) {
+          appendSystem(`✉️ ${t('chat.whisperQueued')} (${toName})`);
+          return;
+        }
+      }
+
+      appendSystem(`${t('chat.whisperOffline')} (${toName})`);
     };
 
     const handlePartyChat = (event: Event) => {
       const payload = (event as CustomEvent<{ id?: string; name?: string; text?: string }>).detail;
+      const name = sanitizeText(payload.name ?? '?');
+
+      if (isMuted(name)) return;
 
       appendMessage({
         id: payload.id ?? createMessageId(),
         kind: 'party',
-        name: sanitizeText(payload.name ?? '?'),
+        name,
         text: sanitizeText(payload.text ?? '')
       });
+    };
+
+    const handleWho = (event: Event) => {
+      const payload = (event as CustomEvent<{ names?: string[]; count?: number }>).detail;
+      const names = payload?.names ?? [];
+
+      appendSystem(`👥 ${t('chat.whoOnline')} (${payload?.count ?? names.length}): ${names.join(', ') || '—'}`);
     };
 
     const handlePresence = (event: Event) => {
@@ -137,6 +184,38 @@ export const ChatPanel = () => {
       });
     };
 
+    // Sussurros recebidos offline (persistidos no servidor)
+    const loadOfflineWhispers = async () => {
+      if (!me) return;
+
+      const result = await API.whisper.inbox(me);
+
+      if (result.success && result.data) {
+        const whispers = (result.data as { whispers: Array<{ fromName: string; text: string; createdAt: string }> }).whispers ?? [];
+
+        if (whispers.length > 0) {
+          appendSystem(`✉️ ${whispers.length} ${t('chat.offlineWhispers')}`);
+
+          [...whispers].reverse().forEach((whisper) => {
+            if (!isMuted(whisper.fromName)) {
+              setLastWhisperFrom(whisper.fromName);
+              appendMessage({
+                id: createMessageId(),
+                kind: 'whisper-in',
+                name: sanitizeText(whisper.fromName),
+                text: sanitizeText(whisper.text)
+              });
+            }
+          });
+
+          void API.whisper.read(me);
+        }
+      }
+    };
+
+    void loadOfflineWhispers();
+
+    window.addEventListener('eclipsia:who:list', handleWho);
     window.addEventListener('eclipsia:chat-history', handleHistory);
     window.addEventListener('eclipsia:chat-message', handleChatMessage);
     window.addEventListener('eclipsia:chat:whisper', handleWhisper);
@@ -146,6 +225,7 @@ export const ChatPanel = () => {
     window.addEventListener('eclipsia:party:invited', handlePartyInvited);
 
     return () => {
+      window.removeEventListener('eclipsia:who:list', handleWho);
       window.removeEventListener('eclipsia:chat-history', handleHistory);
       window.removeEventListener('eclipsia:chat-message', handleChatMessage);
       window.removeEventListener('eclipsia:chat:whisper', handleWhisper);
@@ -208,6 +288,37 @@ export const ChatPanel = () => {
 
       socketService.sendWhisper(lastWhisperFrom, body);
       appendMessage({ id: createMessageId(), kind: 'whisper-out', name: lastWhisperFrom, text: body });
+      return true;
+    }
+
+    if (cmd === '/who' || cmd === '/online') {
+      socketService.requestWho();
+      return true;
+    }
+
+    if (cmd === '/mute' || cmd === '/bloquear') {
+      const target = sanitizeText(rest[0] ?? '');
+
+      if (!target || target === me) {
+        appendSystem(`${t('chat.badCommand')} — /mute <nome>`);
+        return true;
+      }
+
+      setMuted(target, true);
+      appendSystem(`🔇 ${target} ${t('chat.muted')}`);
+      return true;
+    }
+
+    if (cmd === '/unmute' || cmd === '/desbloquear') {
+      const target = sanitizeText(rest[0] ?? '');
+
+      if (!target) {
+        appendSystem(`${t('chat.badCommand')} — /unmute <nome>`);
+        return true;
+      }
+
+      setMuted(target, false);
+      appendSystem(`🔊 ${target} ${t('chat.unmuted')}`);
       return true;
     }
 
@@ -353,7 +464,7 @@ export const ChatPanel = () => {
     <div className="grid h-full grid-rows-[auto_1fr_auto] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
       <header className="rounded-xl border border-game-border bg-game-panel p-3">
         <h1 className="font-title text-2xl font-bold text-game-gold">{t('chat.title')}</h1>
-        <p className="font-mono text-[10px] text-game-faded">{t('chat.commandHint')}</p>
+        <p className="font-mono text-[10px] text-game-faded">{t('chat.commandHint')} · /who · /mute · /unmute</p>
       </header>
 
       <section ref={listRef} className="min-h-0 overflow-auto rounded-xl border border-game-border bg-game-panel p-3">
@@ -387,6 +498,17 @@ export const ChatPanel = () => {
               }}
             >
               💬 {t('chat.actionWhisper')}
+            </button>
+            <button
+              type="button"
+              className="rounded border border-game-border px-2 py-1 text-red-300 hover:bg-game-hover"
+              onClick={() => {
+                setMuted(actionTarget, true);
+                appendSystem(`🔇 ${actionTarget} ${t('chat.muted')}`);
+                setActionTarget(null);
+              }}
+            >
+              🔇 {t('chat.actionMute')}
             </button>
             <button type="button" className="ml-auto rounded border border-game-border px-2 py-1 text-game-muted hover:bg-game-hover" onClick={() => setActionTarget(null)}>
               ✕

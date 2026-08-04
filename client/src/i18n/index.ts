@@ -757,7 +757,13 @@ export const translations: Record<LangCode, TranslationTree> = {
       "actionInvite": "Convidar ao grupo",
       "actionWhisper": "Sussurrar",
       "noReplyTarget": "Ninguém para responder ainda — use /w <nome> <msg>",
-      "badCommand": "Comando inválido"
+      "badCommand": "Comando inválido",
+      "whoOnline": "Jogadores online",
+      "offlineWhispers": "sussurros recebidos enquanto você estava offline",
+      "whisperQueued": "Sussurro guardado para entrega quando o jogador conectar",
+      "muted": " silenciado",
+      "unmuted": " desbloqueado",
+      "actionMute": "Silenciar"
     },
     "mail": {
       "inbox": "Caixa de entrada",
@@ -795,6 +801,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "offline": "Mercado indisponível (servidor offline).",
       "error": "Erro no mercado",
       "taxNote": "Taxas: 2 💎 para listar (não reembolsável) e 5% sobre a venda.",
+      "searchPlaceholder": "🔎 Buscar item por nome...",
       "crystalsCurrency": "O mercado mundial usa 💎 Cristais (moeda paga) — o ouro do jogo fica protegido da economia entre jogadores."
     },
     "auction": {
@@ -815,7 +822,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "bidTooLow": "Lance abaixo do mínimo",
       "yours": "Seu leilão",
       "expired": "encerrado",
-      "error": "Erro no leilão"
+      "error": "Erro no leilão","myBidsTitle": "Meus lances","won": "VENCEU! 🎉","lost": "perdeu","winning": "ganhando","outbidState": "coberto"
     },
     "crafting": {
       "craft": "Forjar",
@@ -1883,6 +1890,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "offline": "Market unavailable (server offline).",
       "error": "Market error",
       "taxNote": "Fees: 2 💎 listing fee (non-refundable) and 5% tax on sale.",
+      "searchPlaceholder": "🔎 Search item by name...",
       "crystalsCurrency": "The world market uses 💎 Crystals (paid currency) — in-game gold stays protected from the player economy."
     },
     "auction": {
@@ -1903,7 +1911,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "bidTooLow": "Bid below the minimum",
       "yours": "Your auction",
       "expired": "ended",
-      "error": "Auction error"
+      "error": "Auction error","myBidsTitle": "My bids","won": "WON! 🎉","lost": "lost","winning": "winning","outbidState": "outbid"
     },
     "crafting": {
       "craft": "Forge",
@@ -2018,7 +2026,13 @@ export const translations: Record<LangCode, TranslationTree> = {
       "actionInvite": "Invite to party",
       "actionWhisper": "Whisper",
       "noReplyTarget": "No one to reply yet — use /w <name> <msg>",
-      "badCommand": "Invalid command"
+      "badCommand": "Invalid command",
+      "whoOnline": "Players online",
+      "offlineWhispers": "whispers received while you were offline",
+      "whisperQueued": "Whisper saved for delivery when the player connects",
+      "muted": " muted",
+      "unmuted": " unmuted",
+      "actionMute": "Mute"
     },
     "impulse": {
       "title": "Impulse",
@@ -2962,6 +2976,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "offline": "Mercado no disponible (servidor offline).",
       "error": "Error de mercado",
       "taxNote": "Tasas: 2 💎 por listar (no reembolsable) y 5% sobre la venta.",
+      "searchPlaceholder": "🔎 Buscar objeto por nombre...",
       "crystalsCurrency": "El mercado mundial usa 💎 Cristales (moneda de pago): el oro del juego queda protegido de la economía entre jugadores."
     },
     "auction": {
@@ -2982,7 +2997,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "bidTooLow": "Puja por debajo del mínimo",
       "yours": "Tu subasta",
       "expired": "terminada",
-      "error": "Error en la subasta"
+      "error": "Error en la subasta","myBidsTitle": "Mis pujas","won": "¡GANASTE! 🎉","lost": "perdiste","winning": "ganando","outbidState": "superado"
     },
     "crafting": {
       "craft": "Forjar",
@@ -3187,7 +3202,13 @@ export const translations: Record<LangCode, TranslationTree> = {
       "actionInvite": "Invitar al grupo",
       "actionWhisper": "Susurrar",
       "noReplyTarget": "Nadie a quien responder aún — usa /w <nombre> <msg>",
-      "badCommand": "Comando inválido"
+      "badCommand": "Comando inválido",
+      "whoOnline": "Jugadores en línea",
+      "offlineWhispers": "susurros recibidos mientras estabas desconectado",
+      "whisperQueued": "Susurro guardado para entregar cuando el jugador se conecte",
+      "muted": " silenciado",
+      "unmuted": " desbloqueado",
+      "actionMute": "Silenciar"
     },
     "impulse": {
       "title": "Impulso",
@@ -4131,6 +4152,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "offline": "市場は利用できません（サーバーオフライン）。",
       "error": "市場エラー",
       "taxNote": "手数料：出品2💎（返金不可）＋売却額5%の税金。",
+      "searchPlaceholder": "🔎 アイテムを名前で検索...",
       "crystalsCurrency": "世界市場は💎クリスタル（有料通貨）を使用 — ゲーム内ゴールドはプレイヤー間経済から守られます。"
     },
     "auction": {
@@ -4151,7 +4173,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "bidTooLow": "最低入札額未満です",
       "yours": "あなたのオークション",
       "expired": "終了",
-      "error": "オークションエラー"
+      "error": "オークションエラー","myBidsTitle": "私の入札","won": "落札！🎉","lost": "負け","winning": "現在最高額","outbidState": "上書き済み"
     },
     "crafting": {
       "craft": "鍛造",
@@ -4356,7 +4378,13 @@ export const translations: Record<LangCode, TranslationTree> = {
       "actionInvite": "グループに招待",
       "actionWhisper": "ささやく",
       "noReplyTarget": "返信相手がいません — /w <名前> <msg> を使って下さい",
-      "badCommand": "無効なコマンド"
+      "badCommand": "無効なコマンド",
+      "whoOnline": "オンラインのプレイヤー",
+      "offlineWhispers": "件のオフライン中に受けたささやき",
+      "whisperQueued": "相手が接続した時に届くようささやきを保存しました",
+      "muted": " をミュートしました",
+      "unmuted": " のミュートを解除しました",
+      "actionMute": "ミュート"
     },
     "impulse": {
       "title": "インパルス",

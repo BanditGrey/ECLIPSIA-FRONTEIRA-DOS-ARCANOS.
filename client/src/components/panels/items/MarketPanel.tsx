@@ -83,6 +83,8 @@ export const MarketPanel = () => {
   const [auctionItemRef, setAuctionItemRef] = useState('');
   const [auctionStart, setAuctionStart] = useState('50');
   const [auctionDuration, setAuctionDuration] = useState(24);
+  const [myBids, setMyBids] = useState<AuctionEntry[]>([]);
+  const [search, setSearch] = useState('');
 
   const charName = player?.name ?? '';
 
@@ -94,6 +96,14 @@ export const MarketPanel = () => {
 
     if (auctionResult.success && auctionResult.data) {
       setAuctions((auctionResult.data as { auctions: AuctionEntry[] }).auctions ?? []);
+    }
+
+    if (charName) {
+      const bidsResult = await API.auction.myBids(charName);
+
+      if (bidsResult.success && bidsResult.data) {
+        setMyBids((bidsResult.data as { auctions: AuctionEntry[] }).auctions ?? []);
+      }
     }
 
     setOffline(!marketResult.success);
@@ -263,9 +273,22 @@ export const MarketPanel = () => {
       <section className="min-h-0 overflow-auto pr-1">
         {tab === 'buy' && (
           <div className="grid gap-2">
+            <input
+              className="input-field"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              placeholder={t('market.searchPlaceholder')}
+            />
             {loading && <p className="text-xs text-game-muted">{t('game.loading')}</p>}
             {!loading && listings.length === 0 && <p className="text-xs text-game-muted">{t('market.empty')}</p>}
-            {listings.map((listing) => {
+            {listings.filter((listing) => {
+              if (!search.trim()) return true;
+
+              const item = resolveItemRef(listing.itemStr);
+              const name = item ? (itemNames[item.id]?.[lang]?.name ?? item.id) : listing.itemStr;
+
+              return name.toLowerCase().includes(search.trim().toLowerCase());
+            }).map((listing) => {
               const item = resolveItemRef(listing.itemStr) ?? getItemByNumId(listing.numId);
               const pairs = item ? getEffectPairs(item.effects) : [];
 
@@ -376,6 +399,31 @@ export const MarketPanel = () => {
 
             {/* Leilões ativos */}
             <h3 className="font-title text-sm text-game-gold">{t('auction.activeTitle')}</h3>
+            {/* Meus lances */}
+            {myBids.length > 0 && (
+              <section className="grid gap-1.5 rounded-xl border border-game-border bg-game-card p-3">
+                <h3 className="font-title text-sm text-game-gold">🎯 {t('auction.myBidsTitle')}</h3>
+                {myBids.slice(0, 10).map((auction) => {
+                  const item = resolveItemRef(auction.itemStr);
+                  const myLast = [...auction.bids].reverse().find((bid) => bid.name === charName);
+                  const winning = auction.currentBid?.name === charName;
+
+                  return (
+                    <p key={`bid-${auction.id}`} className="font-mono text-xs text-game-muted">
+                      {item?.icon} {nameOf(item, lang)} · {myLast?.amount ?? 0} 💎{' '}
+                      {auction.status === 'settled'
+                        ? winning
+                          ? <span className="text-green-300">{t('auction.won')}</span>
+                          : <span className="text-red-300">{t('auction.lost')}</span>
+                        : winning
+                          ? <span className="text-green-300">{t('auction.winning')}</span>
+                          : <span className="text-yellow-300">{t('auction.outbidState')}</span>}
+                    </p>
+                  );
+                })}
+              </section>
+            )}
+
             {auctions.length === 0 && <p className="text-xs text-game-muted">{t('auction.empty')}</p>}
             {auctions.map((auction) => {
               const item = resolveItemRef(auction.itemStr);

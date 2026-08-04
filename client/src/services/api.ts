@@ -186,8 +186,23 @@ export const API = {
     bid(payload: { auctionId: string; charName: string; amount: number }) {
       return API.post('/auction/bid', payload);
     },
+    myBids(name: string) {
+      return API.get(`/auction/bids?name=${encodeURIComponent(name)}`);
+    },
     cancel(payload: { auctionId: string; charName: string }) {
       return API.post('/auction/cancel', payload);
+    }
+  },
+
+  whisper: {
+    inbox(charName: string) {
+      return API.get(`/whisper/inbox?charName=${encodeURIComponent(charName)}`);
+    },
+    send(payload: { fromName: string; toName: string; text: string }) {
+      return API.post('/whisper/send', payload);
+    },
+    read(charName: string, fromName?: string) {
+      return API.post('/whisper/read', { charName, fromName });
     }
   },
 

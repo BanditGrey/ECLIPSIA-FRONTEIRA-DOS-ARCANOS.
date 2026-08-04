@@ -93,7 +93,7 @@ só os companheiros locais participam do combate. Meta: grupo lutar junto.
       bloqueado; expirado rejeita lance e liquida
 - [x] Notificar via socket: auction:outbid, auction:won, auction:sold
 
-## 💳 CASO 3 — Gateway de pagamento para crystals
+## 💳 CASO 3 — Gateway de pagamento para crystals (próxima etapa sugerida)
 
 - [ ] Escolher gateway (Mercado Pago / Stripe / Pagar.me — BR: Pix via
       Mercado Pago é o caminho natural)
@@ -105,27 +105,25 @@ só os companheiros locais participam do combate. Meta: grupo lutar junto.
 - [ ] Rota grant via ADMIN_KEY vira fallback interno (manter p/ suporte)
 - [ ] LGPD/básico: sem armazenar dados de cartão (provider tokeniza)
 
-## 🔔 CASO 4 — Persistência de sussurros + melhorias sociais
+## 🔔 CASO 4 — Persistência de sussurros + melhorias sociais (✅ CONCLUÍDO — falta histórico de party)
 
-- [ ] Modelo `Whisper` (from, to, text, read, createdAt) — caixa de entrada
-      de sussurros offline
-- [ ] Badge de não lidas no ChatPanel/Navbar
-- [ ] Histórico de chat de party persistente (opcional, como ChatMessage com
-      scope)
-- [ ] Bloquear/mutar jogador (client-side filter + flag no perfil)
-- [ ] `/who` lista jogadores online
+- [x] Modelo `Whisper` (from, to, text, read, createdAt) + rotas inbox/send/read
+- [x] Inbox offline carregada no ChatPanel ao conectar (sistema + mensagens + marcar lidas)
+- [ ] Histórico de chat de party persistente (opcional, como ChatMessage com scope) — segue aberto
+- [x] Mute: /mute /unmute + botão 🔇 na barra de ações + localStorage
+- [x] `/who` lista jogadores online (evento who:online → who:list)
 
 ## 🧪 CASO 5 — Robustez & qualidade (contínuo)
 
-- [ ] Testes de integração mail/market/guild com mongodb-memory-server
+- [ ] Testes de integração mail/market/guild com mongodb-memory-server — segue aberto
 - [ ] Teste do fluxo de trade (validação pré-mutação)
-- [ ] Persistir trades/parties em Mongo (hoje em memória — reiniciou, perdeu)
-- [ ] Busca/ordenação no mercado por nome
-- [ ] Code-splitting do bundle client (lazy-load dos painéis; bundle já ~480 kB)
+- [ ] Persistir trades/parties em Mongo (hoje em memória) — segue aberto
+- [x] Busca por nome no mercado (filtro client-side sobre o catálogo)
+- [ ] Code-splitting do bundle client (lazy-load dos painéis) — segue aberto
 - [ ] Logs estruturados no server (pino) + health detalhado
 - [ ] Balanceamento: preços 💎, custos craft/upgrade, drop rates (com dados
       reais após deploy)
-- [ ] CI: GitHub Actions (tsc + build + audit + npm test)
+- [x] CI escrito: tools/ci-workflow.yml (client: tsc+build+2 auditorias · server: tests+syntax) — para ativar, copiar para .github/workflows/ci.yml com conta que tenha permissão 'workflows' (o App da integração não tem)
 
 ## 📦 CASO 6 — Colocar no ar (bloqueia testes reais multiplayer)
 

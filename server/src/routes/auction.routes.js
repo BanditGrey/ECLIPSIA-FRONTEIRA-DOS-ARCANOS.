@@ -119,6 +119,25 @@ auctionRoutes.get('/my', async (req, res) => {
   }
 });
 
+/** GET /api/auction/bids?name= — leilões em que dei lance (ativos + liquidados). */
+auctionRoutes.get('/bids', async (req, res) => {
+  try {
+    const name = sanitize(req.query.name ?? '', 20);
+
+    if (!name) {
+      return res.status(400).json({ message: 'name obrigatório' });
+    }
+
+    await settleExpired();
+
+    const auctions = await Auction.find({ 'bids.name': name }).sort({ createdAt: -1 }).limit(50).lean();
+
+    return res.json({ auctions: auctions.map(publicAuction) });
+  } catch (error) {
+    return res.status(500).json({ message: 'Erro ao listar seus lances', error: error.message });
+  }
+});
+
 /** POST /api/auction/create — criar leilão (taxa em 💎, item custodiado). */
 auctionRoutes.post('/create', async (req, res) => {
   try {

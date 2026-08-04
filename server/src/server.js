@@ -12,6 +12,7 @@ import { rankingRoutes } from './routes/ranking.routes.js';
 import { mailRoutes } from './routes/mail.routes.js';
 import { marketRoutes } from './routes/market.routes.js';
 import { auctionRoutes } from './routes/auction.routes.js';
+import { whisperRoutes } from './routes/whisper.routes.js';
 import { guildRoutes } from './routes/guild.routes.js';
 import { ChatMessage } from './models/ChatMessage.js';
 import { Guild } from './models/Guild.js';
@@ -124,6 +125,7 @@ app.use('/api/ranking', rankingRoutes);
 app.use('/api/mail', mailRoutes);
 app.use('/api/market', marketRoutes);
 app.use('/api/auction', auctionRoutes);
+app.use('/api/whisper', whisperRoutes);
 app.use('/api/guild', guildRoutes);
 
 const io = new Server(server, {
@@ -835,7 +837,7 @@ io.on('connection', (socket) => {
     const targetEntry = onlinePlayers.get(toName);
 
     if (!targetEntry) {
-      socket.emit('chat:whisper_failed', { toName, reason: 'offline' });
+      socket.emit('chat:whisper_failed', { toName, reason: 'offline', text });
       return;
     }
 
@@ -875,6 +877,13 @@ io.on('connection', (socket) => {
       text,
       createdAt: new Date().toISOString()
     });
+  });
+
+  // /who: lista de jogadores online
+  socket.on('who:online', () => {
+    const names = [...onlinePlayers.values()].map((entry) => entry.name).slice(0, 50);
+
+    socket.emit('who:list', { names, count: onlinePlayers.size });
   });
 
   socket.on('world:boss_defeated', (payload = {}) => {

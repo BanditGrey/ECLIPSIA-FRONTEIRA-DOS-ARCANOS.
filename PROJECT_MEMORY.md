@@ -1,15 +1,54 @@
 # 🧠 MEMÓRIA DO PROJETO — ECLIPSIA: FRONTEIRA DOS ARCANOS
 
-> **Leia este arquivo primeiro.** Ele existe para você se localizar sem varrer o repo inteiro.
-> Última atualização: Caso 1 fechado (dungeons em party + testes + auditoria social) e Caso 2 concluído (leilão com bids) — ver §5.6 e ROADMAP.md.
+> **Nova sessão? Faça o IMPORT abaixo (2 min) e você estará 100% contextualizado.**
+> Última atualização: Casos 1 e 2 do ROADMAP concluídos (caçada de party completa +
+> leilão com bids). Etapa atual: ver §0.3.
 
 ---
 
-## 0. ⭐ ONDE ESTÁ O PENDENTE
+## 0. ⚡ IMPORT — BOOTSTRAP PARA NOVA SESSÃO
 
-**`ROADMAP.md` na raiz** — checklist mestra de tudo que falta, organizada em
-6 casos (Caso 1 = party real no combate, detalhado em sub-tarefas).
-Ao concluir itens, marque as checkboxes lá e atualize esta memória.
+### 0.1 Contexto em 30 segundos
+- MMORPG idle/turn-based full-stack (React+Vite+Zustand / Express+Socket.io+Mongo).
+- 4 idiomas obrigatórios em toda UI: **pt-BR, en-US, es-ES, ja-JP**.
+- Coração do jogo: **sistema ItemEffects** (effects numéricos e1..e10/v1..v10,
+  itemStr "numId|e:v|..." no wire, mercado/leilão em 💎 crystals — ouro fica fora do P2P).
+- Já funciona: itens/catálogo (~300), crafting+upgrade+encantamento, correio, mercado,
+  leilão, trade P2P, guildas, party real com caçada cooperativa (auras, bônus por
+  tamanho, dungeons com andares compartilhados), chat social vivo (convites, sussurros,
+  presença, comandos), daily quests, baú 60/500.
+
+### 0.2 Comandos de bootstrap (rode nesta ordem)
+```bash
+git branch --show-current      # deve ser a branch arena/ desta sessão
+cd client && npm install && npm install --no-save tsx
+cd ../server && npm install
+# baselines OBRIGATÓRIOS antes de mexer em qualquer coisa:
+cd client && npx tsc --noEmit && npm run build && npm run audit && npm run audit:social
+cd ../server && npm test
+# esperado: tsc limpo · build OK · 89/89 · 41/41 · 18/18
+```
+⚠ `node_modules` NÃO persiste entre sessões (reinstale sempre).
+
+### 0.3 Etapa atual do desenvolvimento
+- **Casos 1, 2 e 4 ✅ concluídos** + itens rápidos do Caso 5 (busca no mercado,
+  meus lances no leilão, CI) — ROADMAP.md marcados.
+- **Última etapa entregue ("Social 2 + Robustez")**: sussurros persistentes
+  (modelo Whisper + entrega offline no ChatPanel), mute (/mute, /unmute, botão 🔇,
+  localStorage), /who, fallback de sussurro offline via REST, busca no mercado,
+  "meus lances" no leilão, CI (GitHub Actions). Auditoria social: **41/41**.
+- **Próxima etapa sugerida**: Caso 3 (gateway de pagamento Pix p/ crystals) ou
+  Caso 6 (deploy Atlas+Railway+Vercel) — ambos precisam de contas do dono do repo.
+
+### 0.4 Regras de ouro (não viole)
+1. Nunca quebrar os baselines do §0.2 (auditorias 89/89 e 41/41, testes 18/18).
+2. P2P (mercado/leilão/trade/correio de valor) sempre em 💎 crystals.
+3. Tudo que vai pro wire usa **itemStr** (`numId|e:v|...`), nunca objeto de item.
+4. i18n sempre nos 4 idiomas; cuidado: chaves novas devem ir na seção certa do
+   `i18n/index.ts` (já houve chave caindo em seção errada — valide com o probe:
+   importe `translations` via tsx e confira o caminho da chave).
+5. Ao concluir itens, atualizar ROADMAP.md + esta memória no MESMO commit.
+6. Branch: trabalhe/commite/push apenas na branch arena/ desta sessão.
 
 ---
 
@@ -31,11 +70,11 @@ montarias, pedras espirituais, quests, events ocultos, impulso (buff premium), t
 
 | Item | Valor |
 |---|---|
-| Branch de trabalho (Arena) | `arena/019fc92d-eclipsia-fronteira-dos-arcanos` |
-| PR aberto | **#2** — sistema ItemEffects (base `main`) |
+| Branch de trabalho (Arena) | `arena/019fc92d-eclipsia-fronteira-dos-arcanos` (confirme com `git branch --show-current`) |
+| PR aberto | **#2** — ItemEffects + todos os sistemas (base `main`) |
 | `main` | PR #1 (merged) — implementação original full-stack |
-| Commits-chave desta branch | `0dc4f9b` sistema ItemEffects original → `4355caf` ações da auditoria (catálogo do spec, combate 73-80, diff UI, DB) → `655c44d` gaps residuais (pets, itemStr, loot/heal) → commit desta memória |
-| Auditoria | **89/89 verificações passando** — script em `tools/item-effects/audit_item_effects.ts` |
+| Commits-chave | `0dc4f9b` ItemEffects → `aea3f3a` dungeons → `58d4e7a` guildas → `16f462f` chat social → `c9b126b` caçada de party → `ff4d685` bônus por membros → `6a0d713` Caso 1 fechado → `13263cd` leilão (Caso 2) |
+| Auditorias | **89/89** ItemEffects (`npm run audit`) + **41/41** social (`npm run audit:social`) + **18/18** testes server · CI no GitHub Actions |
 
 ⚠ Sessões Arena são presas a UMA branch (`arena/019fc92d-...` neste caso). Nunca trabalhe na branch de outra sessão (`arena/019fc8d7-...` foi a sessão do PR #1, já merged).
 
@@ -352,6 +391,11 @@ Feito na segunda leva: ✅ trade P2P via socket, ✅ encantamento (98) + 2 conju
 - Regras puras em `server/src/utils/partyHuntRules.js` (clamp/sizeBonus/teamworkXp) com 7 testes; server.js importa de lá.
 - **`tools/audit_social.ts`**: 23 checks da camada social/hunt — `cd client && npm run audit:social`.
 - Caso 1 ✅ concluído (ROADMAP marcado).
+
+### 🔔 Sussurros persistentes + mute + /who (Caso 4 do ROADMAP)
+- **Server**: `models/Whisper.js` (from/to/text/read, índices) + `routes/whisper.routes.js` (inbox não lidos, send offline, read em lote); `who:online → who:list` no socket; `chat:whisper_failed` agora carrega o texto p/ fallback.
+- **Client**: ChatPanel carrega inbox offline ao conectar (aviso + mensagens + marca lidas); sussurro p/ jogador offline persiste via REST (aviso "guardado para entrega"); mute por nome (`/mute`, `/unmute`, botão 🔇 na barra de ações, `localStorage eclipsia_muted`, filtra global/whisper/party); `/who` lista online.
+- **Caso 5 rápido**: busca por nome no mercado (filtro client-side) + "meus lances" no leilão (`GET /auction/bids`) + CI `.github/workflows/ci.yml`.
 
 ### 🏛 Leilão com bids (Caso 2 do ROADMAP)
 - **Server**: `models/Auction.js` (itemStr regex-validado, bids, expiração, status) + `routes/auction.routes.js`: create (taxa `AUCTION_LISTING_FEE=3💎`, item custodiado, duração 6/12/24h), bid (debita 💎 do licitante, reembolsa o coberto na hora ou por carta), cancel (só sem lances), **settleExpired lazy** na listagem (vencedor recebe item por carta; vendedor recebe 💎 líquido de `AUCTION_TAX_RATE=5%` por carta; sem lances o item volta).

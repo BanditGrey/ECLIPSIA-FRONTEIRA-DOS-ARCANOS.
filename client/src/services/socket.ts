@@ -124,6 +124,7 @@ class SocketService {
       'party_combat:updated',
       'party_combat:ended',
       'party_combat:failed',
+      'who:list',
       'trade:requested',
       'trade:waiting',
       'trade:start',
@@ -199,6 +200,10 @@ class SocketService {
 
   sendPartyMessage(message: string) {
     this.emit('chat:party', { text: sanitizeText(message) });
+  }
+
+  requestWho() {
+    this.emit('who:online', {});
   }
 
   // ── Caçada de party (combate cooperativo) ──
