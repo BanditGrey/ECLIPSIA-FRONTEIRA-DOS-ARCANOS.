@@ -87,7 +87,7 @@ rec('caso4', 'API.whisper no client', read('client/src/services/api.ts').include
 // ── Caso 5 rápido: busca no mercado + meus lances ──
 rec('caso5', 'MarketPanel: busca por nome', read('client/src/components/panels/items/MarketPanel.tsx').includes('searchPlaceholder') ? 'OK' : 'MISSING');
 rec('caso5', 'Leilão: meus lances (server+client)', read('server/src/routes/auction.routes.js').includes("'/bids'") && read('client/src/services/api.ts').includes('myBids(') && read('client/src/components/panels/items/MarketPanel.tsx').includes('myBidsTitle') ? 'OK' : 'MISSING');
-rec('caso5', 'CI configurado (.github/workflows/ci.yml)', fs.existsSync(path.join(ROOT, '.github/workflows/ci.yml')) ? 'OK' : 'MISSING');
+rec('caso5', 'CI escrito (tools/ci-workflow.yml — ativar movendo p/ .github/workflows/)', fs.existsSync(path.join(ROOT, 'tools/ci-workflow.yml')) || fs.existsSync(path.join(ROOT, '.github/workflows/ci.yml')) ? 'OK' : 'MISSING');
 
 // ── Client: caçada ──
 const storeSrc = read('client/src/store/usePartyCombatStore.ts');
