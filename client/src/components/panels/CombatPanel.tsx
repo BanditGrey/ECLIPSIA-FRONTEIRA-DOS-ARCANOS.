@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useAudio } from '../../hooks/useAudio';
 import { SkillEffectPanel } from '../effects/SkillEffectPanel';
 import { ParticleSystem } from '../effects/ParticleSystem';
@@ -11,6 +12,7 @@ import { useCombatStore } from '../../store/useCombatStore';
 import { useGameStore } from '../../store/useGameStore';
 import { usePartyCombatStore } from '../../store/usePartyCombatStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
+import { useSkill } from '../../systems/combat';
 import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
 import { ProgressBar } from '../ui/ProgressBar';
@@ -45,6 +47,11 @@ const SkillsModal = () => {
               </span>
             </div>
             <p className="mt-1 text-sm text-game-muted">{t(`skills.${skillId}.desc`)}</p>
+            <div className="mt-2 flex justify-end">
+              <Button size="sm" disabled={Boolean(cooldowns[skillId])} onClick={() => useSkill(skillId)}>
+                {t('combat.cast')}
+              </Button>
+            </div>
           </div>
         ))}
       </div>
@@ -116,7 +123,8 @@ const LootModal = () => {
 export const CombatPanel = () => {
   const [showParticles, setShowParticles] = useState(false);
   const audio = useAudio();
-  const [activeSkillEffect, setActiveSkillEffect] = useState<{skillId: string; skillName: string; damagePercent: number; isCritical?: boolean} | null>(null);
+  const activeSkillEffect = useCombatStore((state) => state.skillEffect);
+  const setActiveSkillEffect = useCombatStore((state) => state.setSkillEffect);
   const { t } = useI18n();
   const player = usePlayerStore((state) => state.data);
   const setPanel = useGameStore((state) => state.setPanel);
@@ -239,7 +247,7 @@ export const CombatPanel = () => {
         <div className="grid grid-cols-2 gap-2">
           <ActionButton onClick={() => { audio.playSound('/assets/audio/sfx/attack.mp3'); setShowParticles(true); combat.addLog('attack', t('combat.attack')); }}>⚔ {t('combat.attack')}</ActionButton>
           <ActionButton onClick={() => combat.addLog('defend', t('combat.defend'))}>🛡 {t('combat.defend')}</ActionButton>
-          <ActionButton onClick={() => { openModal(SKILLS_MODAL); setActiveSkillEffect({ skillId: 'slash', skillName: 'Golpe Cortante', damagePercent: 150, isCritical: Math.random() > 0.7 }); }}>🔮 {t('combat.skills')}</ActionButton>
+          <ActionButton onClick={() => openModal(SKILLS_MODAL)}>🔮 {t('combat.skills')}</ActionButton>
           <ActionButton variant="danger" onClick={() => combat.resetCombat()}>🏃 {t('combat.flee')}</ActionButton>
         </div>
         <Button variant="ghost" fullWidth onClick={() => openModal(LOG_MODAL)}>

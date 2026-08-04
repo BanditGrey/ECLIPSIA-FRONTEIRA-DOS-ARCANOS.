@@ -537,6 +537,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "autoConfigModal": "Configuração automática",
       "lootModal": "Saque",
       "noSkills": "Nenhuma habilidade desbloqueada.",
+      "cast": "Usar",
       "noLoot": "Nenhum saque disponível."
     },
     "city": {
@@ -2268,6 +2269,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "autoConfigModal": "Auto configuration",
       "lootModal": "Loot",
       "noSkills": "No skills unlocked.",
+      "cast": "Cast",
       "noLoot": "No loot available."
     },
     "city": {
@@ -3998,6 +4000,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "autoConfigModal": "Configuración automática",
       "lootModal": "Botín",
       "noSkills": "No hay habilidades desbloqueadas.",
+      "cast": "Usar",
       "noLoot": "No hay botín disponible."
     },
     "city": {
@@ -5728,6 +5731,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "autoConfigModal": "自動設定",
       "lootModal": "戦利品",
       "noSkills": "解除されたスキルはありません。",
+      "cast": "発動",
       "noLoot": "戦利品はありません。"
     },
     "city": {

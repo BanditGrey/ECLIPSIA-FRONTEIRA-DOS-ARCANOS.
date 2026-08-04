@@ -783,6 +783,15 @@ export const combatEngine = {
     const cdReduce = resolved?.skillCdReduce ?? 0;
     combat.setCooldown(skillId, Math.max(1, Math.round(skill.cd * (1 - haste - cdReduce))));
 
+    // FX: dispara o painel de efeito da skill (partículas + som + narração)
+    useCombatStore.getState().setSkillEffect({
+      skillId,
+      skillName: t(`skills.${skillId}.name`),
+      damageType: skill.damageType,
+      damagePercent: skill.damagePercent,
+      isCritical: Math.random() < 0.1
+    });
+
     if (skill.healPercent) {
       // HEAL_BONUS (26) + SKILL_HEAL_BONUS (36) + PASSIVA amplificam a cura
       const healBonus = (resolved?.healBonus ?? 0) + (resolved?.skillHealBonus ?? 0) + getPassiveTotals().healBonus;

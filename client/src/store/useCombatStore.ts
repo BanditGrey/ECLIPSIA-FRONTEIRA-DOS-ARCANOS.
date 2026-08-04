@@ -35,8 +35,18 @@ const initialCombatState: CombatState = {
   barrierPool: 0
 };
 
+export interface SkillEffect {
+  skillId: string;
+  skillName: string;
+  damageType?: 'physical' | 'magical' | 'void';
+  damagePercent?: number;
+  isCritical?: boolean;
+}
+
 interface CombatStoreState extends CombatState {
   skillCooldowns: Record<string, number>;
+  skillEffect: SkillEffect | null;
+  setSkillEffect: (effect: SkillEffect | null) => void;
   setEnemy: (enemy: Enemy | null) => void;
   setEnemyHp: (hp: number) => void;
   setPhase: (phase: CombatPhase) => void;
@@ -65,6 +75,8 @@ const tickEffectList = (effects: Effect[]) => {
 export const useCombatStore = create<CombatStoreState>((set, get) => ({
   ...initialCombatState,
   skillCooldowns: {},
+  skillEffect: null,
+  setSkillEffect: (effect) => set({ skillEffect: effect }),
   setEnemy: (enemy) => {
     set({
       enemy,
@@ -140,6 +152,7 @@ export const useCombatStore = create<CombatStoreState>((set, get) => ({
       ...initialCombatState,
       autoConfig: state.autoConfig,
       skillCooldowns: {},
+      skillEffect: null,
       shieldPool: 0,
       barrierPool: 0
     }));
