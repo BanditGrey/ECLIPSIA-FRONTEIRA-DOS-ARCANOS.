@@ -125,12 +125,12 @@ export const CityPanel = () => {
 
   return (
     <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
-      <div className="grid grid-cols-7 gap-2 rounded-xl border border-game-border bg-game-panel p-2 font-mono text-xs">
+      <div className="grid grid-cols-7 gap-2 rounded-xl border border-night-600 bg-night-900/80 p-1.5 font-mono text-xs shadow-panel">
         {tabs.map((item) => (
           <button
             key={item}
             type="button"
-            className={[tab === item ? 'bg-game-gold text-game-dark' : 'text-game-muted hover:bg-game-hover', 'rounded-lg py-2 transition-colors active:scale-95'].join(' ')}
+            className={[tab === item ? 'btn-gold' : 'text-game-muted hover:bg-night-800/70 hover:text-game-text', 'rounded-lg py-2 transition-all active:scale-95'].join(' ')}
             onClick={() => setTab(item)}
           >
             {t(`city.tabs.${item}`)}
@@ -138,10 +138,10 @@ export const CityPanel = () => {
         ))}
       </div>
 
-      <section className="min-h-0 overflow-hidden rounded-xl border border-game-border bg-game-panel p-3">
+      <section className="min-h-0 overflow-hidden rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
         {tab === 'tavern' && (
           <div className="grid h-full gap-3 overflow-auto pr-1">
-            <blockquote className="rounded-xl border border-game-border bg-game-card p-4 text-center italic text-game-muted">
+            <blockquote className="rounded-xl border border-night-600 bg-gradient-to-b from-night-700/60 to-night-900/80 p-4 text-center italic text-game-muted shadow-panel">
               {t('city.tavernQuote')}
             </blockquote>
             <div className="grid grid-cols-2 gap-3">
@@ -150,12 +150,18 @@ export const CityPanel = () => {
                 const seen = seenDialogues.includes(npc.id);
 
                 return (
-                  <article key={npc.id} className="rounded-xl border border-game-border bg-game-card p-3">
+                  <article
+                    key={npc.id}
+                    className={[
+                      'rounded-xl border bg-gradient-to-b from-night-700/60 to-night-900/85 p-3 transition-all',
+                      unlocked ? 'border-night-600 hover:border-gold-600/60 hover:shadow-glow-sm' : 'border-night-700 opacity-75'
+                    ].join(' ')}
+                  >
                     <div className="flex items-center gap-3">
-                      <span className="text-3xl">{npc.icon}</span>
+                      <span className="sigil-disc h-12 w-12 text-2xl">{npc.icon}</span>
                       <div className="min-w-0 flex-1">
-                        <h2 className="truncate font-title text-lg text-game-gold">{t(`city.npcs.${npc.id}.name`)}</h2>
-                        <span className="rounded bg-game-primary px-2 py-0.5 font-mono text-[10px] text-game-muted">
+                        <h2 className="title-gold truncate font-title text-lg font-bold">{t(`city.npcs.${npc.id}.name`)}</h2>
+                        <span className="chip !px-2 !py-0 text-[10px] text-game-muted">
                           {seen ? t('panels.seen') : t('panels.newRumors')}
                         </span>
                       </div>

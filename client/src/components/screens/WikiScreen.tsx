@@ -8,6 +8,7 @@ import { useGameStore } from '../../store/useGameStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
 import { Button } from '../ui/Button';
 import { ProgressBar } from '../ui/ProgressBar';
+import { Portrait } from '../ui/Portrait';
 
 type WikiLanguage = typeof wikiTranslations['pt-BR'];
 
@@ -87,16 +88,23 @@ export const WikiScreen = () => {
               ))}
 
               {activeSection === 'character' && (
-                <article className="rounded-xl border border-game-border bg-game-card p-4">
-                  <h3 className="font-title text-xl text-game-gold">{t('charCreate.archetypeTitle')}</h3>
+                <article className="rounded-xl border border-night-600 bg-night-900/60 p-4 shadow-panel">
+                  <h3 className="title-gold font-title text-xl font-bold">{t('charCreate.archetypeTitle')}</h3>
                   <div className="mt-3 grid grid-cols-2 gap-3">
                     {archetypes.map((archetype) => (
-                      <div key={archetype.id} className="rounded-lg border border-game-border bg-game-primary p-3">
-                        <div className="flex items-center gap-2">
-                          <span className="text-2xl">{archetype.icon}</span>
-                          <strong className="font-title text-game-gold">{t(`charCreate.archetypes.${archetype.id}.name`)}</strong>
+                      <div key={archetype.id} className="rounded-lg border border-night-600 bg-gradient-to-b from-night-700/60 to-night-900/80 p-3 transition-colors hover:border-gold-600/50">
+                        <div className="flex items-center gap-3">
+                          <Portrait
+                            kind="class"
+                            id={archetype.id}
+                            size={52}
+                            fallbackIcon={archetype.icon}
+                            ring="gold"
+                            className="opacity-95"
+                          />
+                          <strong className="title-gold font-title">{t(`charCreate.archetypes.${archetype.id}.name`)}</strong>
                         </div>
-                        <p className="mt-1 text-sm text-game-muted">{t(`charCreate.archetypes.${archetype.id}.desc`)}</p>
+                        <p className="mt-1 text-sm italic text-game-muted">{t(`charCreate.archetypes.${archetype.id}.desc`)}</p>
                         <div className="mt-3 grid gap-2 font-mono text-xs">
                           <div className="grid grid-cols-[44px_1fr] items-center gap-2">
                             <span>{t('charCreate.stats.atk')}</span>

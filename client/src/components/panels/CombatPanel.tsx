@@ -120,7 +120,7 @@ export const CombatPanel = () => {
   if (!combat.active || !combat.enemy) {
     return (
       <div className="flex h-full items-center justify-center overflow-hidden bg-game-dark p-4 text-game-text">
-        <div className="grid max-w-sm gap-4 rounded-xl border border-game-border bg-game-panel p-6 text-center">
+        <div className="grid max-w-sm gap-4 rounded-xl border border-night-600 bg-night-900/70 p-6 shadow-panel text-center">
           <p className="text-game-muted">{t('panels.selectRegion')}</p>
           <Button onClick={() => setPanel('travel')}>{t('panels.goTravel')}</Button>
         </div>
@@ -131,7 +131,7 @@ export const CombatPanel = () => {
   return (
     <div className="grid h-full grid-rows-[auto_1fr_auto] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
       <div className="grid gap-2">
-        <header className="flex items-center justify-between rounded-lg border border-game-border bg-game-panel px-3 py-2 font-mono text-sm text-game-muted">
+        <header className="flex items-center justify-between rounded-lg border border-night-600 bg-night-900/70 px-3 py-2 font-mono text-sm text-game-muted">
           <span>{combat.region || t('game.unknown')}</span>
           {combat.isDungeon && (
             <span>
@@ -141,7 +141,7 @@ export const CombatPanel = () => {
         </header>
 
         {huntSession && (
-          <div className="rounded-lg border border-green-700 bg-game-panel px-3 py-1.5 font-mono text-xs text-green-300">
+          <div className="rounded-lg border border-green-700 bg-night-900/70 px-3 py-1.5 font-mono text-xs text-green-300">
             <p>
               🎯 {t('partyCombat.activeHunt')} · {t('partyCombat.round')} {huntSession.round} · ⚔ +{huntSession.auraAtk}% 🛡 +{huntSession.auraDef}%
               {huntSession.sizeBonus && (

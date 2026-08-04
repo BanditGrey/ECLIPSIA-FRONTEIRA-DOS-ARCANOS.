@@ -243,14 +243,14 @@ export const GuildPanel = () => {
   if (!guild) {
     return (
       <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
-        <header className="rounded-xl border border-game-border bg-game-panel p-3">
+        <header className="rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
           <h1 className="font-title text-2xl font-bold text-game-gold">{t('guild.title')}</h1>
         </header>
 
         {offline && <p className="rounded-lg border border-game-border bg-game-card p-2 text-xs text-game-muted">{t('guild.offline')}</p>}
 
         <div className="grid min-h-0 grid-rows-[auto_1fr] gap-3 overflow-hidden">
-          <section className="grid gap-2 rounded-xl border border-game-border bg-game-panel p-3">
+          <section className="grid gap-2 rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
             <h2 className="font-title text-game-gold">{t('guild.createTitle')}</h2>
             <div className="grid grid-cols-[1fr_auto] gap-2">
               <input
@@ -266,7 +266,7 @@ export const GuildPanel = () => {
             </div>
           </section>
 
-          <section className="min-h-0 overflow-auto rounded-xl border border-game-border bg-game-panel p-3">
+          <section className="min-h-0 overflow-auto rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
             <h2 className="mb-2 font-title text-game-gold">{t('guild.browse')}</h2>
             <div className="grid gap-2">
               {directory.length === 0 && <p className="text-xs text-game-muted">{t('guild.empty')}</p>}
@@ -296,7 +296,7 @@ export const GuildPanel = () => {
 
   return (
     <div className="grid h-full grid-rows-[auto_auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
-      <header className="flex items-center justify-between gap-2 rounded-xl border border-game-border bg-game-panel p-3">
+      <header className="flex items-center justify-between gap-2 rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
         <div>
           <h1 className="font-title text-2xl font-bold text-game-gold">{guild.name}</h1>
           <p className="font-mono text-xs text-game-muted">
@@ -316,7 +316,7 @@ export const GuildPanel = () => {
       </header>
 
       {/* MOTD */}
-      <section className="rounded-xl border border-game-border bg-game-panel p-3">
+      <section className="rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
         <h2 className="mb-1 font-title text-sm text-game-gold">{t('guild.motd')}</h2>
         {isOfficerOrBetter ? (
           <div className="grid grid-cols-[1fr_auto] gap-2">
@@ -330,7 +330,7 @@ export const GuildPanel = () => {
 
       <div className="grid min-h-0 grid-cols-2 gap-3 overflow-hidden">
         {/* Membros */}
-        <section className="min-h-0 overflow-auto rounded-xl border border-game-border bg-game-panel p-3">
+        <section className="min-h-0 overflow-auto rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
           <h2 className="mb-2 font-title text-sm text-game-gold">{t('guild.members')}</h2>
           <div className="grid gap-1.5">
             {sortedMembers.map((member) => (
@@ -338,7 +338,7 @@ export const GuildPanel = () => {
                 <span
                   className={[
                     'rounded px-1.5 py-0.5 font-mono text-[10px]',
-                    member.role === 'leader' ? 'bg-game-gold text-game-dark' : member.role === 'officer' ? 'bg-game-primary text-game-dark' : 'bg-game-hover text-game-muted'
+                    member.role === 'leader' ? 'btn-gold' : member.role === 'officer' ? 'bg-game-primary text-game-dark' : 'bg-game-hover text-game-muted'
                   ].join(' ')}
                 >
                   {t(`guild.role.${member.role}`)}
@@ -366,7 +366,7 @@ export const GuildPanel = () => {
         </section>
 
         {/* Chat da guilda */}
-        <section className="grid min-h-0 grid-rows-[auto_1fr_auto] gap-2 rounded-xl border border-game-border bg-game-panel p-3">
+        <section className="grid min-h-0 grid-rows-[auto_1fr_auto] gap-2 rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
           <h2 className="font-title text-sm text-game-gold">{t('guild.chatTitle')}</h2>
           <div ref={chatRef} className="min-h-0 overflow-auto font-mono text-xs">
             {messages.length === 0 && <p className="text-game-muted">{t('guild.empty')}</p>}

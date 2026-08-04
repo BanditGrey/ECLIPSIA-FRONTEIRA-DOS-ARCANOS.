@@ -258,7 +258,7 @@ export const MarketPanel = () => {
             key={marketTab}
             type="button"
             className={[
-              tab === marketTab ? 'bg-game-gold text-game-dark' : 'text-game-muted hover:bg-game-hover',
+              tab === marketTab ? 'btn-gold' : 'text-game-muted hover:bg-game-hover',
               'rounded-lg border border-game-border py-1.5 transition-colors'
             ].join(' ')}
             onClick={() => setTab(marketTab)}

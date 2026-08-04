@@ -220,7 +220,7 @@ export const CraftingPanel = () => {
 
       <div className="grid min-h-0 gap-3 overflow-auto pr-1">
       {/* Upgrade */}
-      <section className="rounded-xl border border-game-border bg-game-panel p-3">
+      <section className="rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
         <h3 className="mb-2 font-title text-game-gold">{t('crafting.upgradeTitle')}</h3>
         <div className="grid gap-2">
           <select
@@ -258,7 +258,7 @@ export const CraftingPanel = () => {
       </section>
 
       {/* Encantamento */}
-      <section className="rounded-xl border border-game-border bg-game-panel p-3">
+      <section className="rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
         <h3 className="mb-2 font-title text-game-gold">{t('crafting.enchantTitle')}</h3>
         <div className="grid gap-2">
           <select
