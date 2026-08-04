@@ -484,14 +484,9 @@ Feito na segunda leva: ✅ trade P2P via socket, ✅ encantamento (98) + 2 conju
 - Auditoria social cobre o leilão (8 checks). Pendente menor: tela "meus lances".
 
 Restante:
-1. 🖥 **Tela "meus lances"** no leilão (acompanhar lances cobertos/vencedores)
-2. 🧪 Testes de integração das rotas mail/market (precisa mongodb-memory-server) e do fluxo de trade
-3. 💾 Trade/party state em memória no server (reiniciou = pendências somem) — mover p/ Mongo se necessário
-4. 🎛 Balancear economia (preços em crystals, custos de craft/upgrade) com dados reais
-5. 🔎 Busca de itens no mercado por nome (hoje só filtro rarity/numId)
-6. ⚔ Membros da party real no combate (hoje só companheiros locais)
-7. 💳 Gateway de pagamento real para crystals (hoje a concessão é manual via ADMIN_KEY)
-8. 🔔 Histórico de sussurros/party persistente (hoje só global é persistido)
+1. 🧪 Testes de integração das rotas mail/market (precisa mongodb-memory-server) e do fluxo de trade
+2. 💾 Trade/party state em memória no server (reiniciou = pendências somem) — mover p/ Mongo se necessário
+3. 🎛 Balancear economia (preços em crystals, custos de craft/upgrade) com dados reais
 
 ---
 

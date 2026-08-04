@@ -95,15 +95,15 @@ só os companheiros locais participam do combate. Meta: grupo lutar junto.
 
 ## 💳 CASO 3 — Gateway de pagamento para crystals (próxima etapa sugerida)
 
-- [ ] Escolher gateway (Mercado Pago / Stripe / Pagar.me — BR: Pix via
+- [x] Escolher gateway (Mercado Pago / Stripe / Pagar.me — BR: Pix via
       Mercado Pago é o caminho natural)
-- [ ] Modelo `Purchase`: playerId, charName, amountCrystals, amountBRL,
+- [x] Modelo `Purchase`: playerId, charName, amountCrystals, amountBRL,
       provider, providerRef, status(pending/paid/failed), createdAt
-- [ ] Webhook do provider → valida assinatura → credita crystals (idempotente
+- [x] Webhook do provider → valida assinatura → credita crystals (idempotente
       por providerRef)
-- [ ] Tela de compra no client (pacotes: 100/550/1200/2600 💎 com bônus)
-- [ ] Rota grant via ADMIN_KEY vira fallback interno (manter p/ suporte)
-- [ ] LGPD/básico: sem armazenar dados de cartão (provider tokeniza)
+- [x] Tela de compra no client (pacotes: 100/550/1200/2600 💎 com bônus)
+- [x] Rota grant via ADMIN_KEY vira fallback interno (manter p/ suporte)
+- [x] LGPD/básico: sem armazenar dados de cartão (provider tokeniza)
 
 ## 🔔 CASO 4 — Persistência de sussurros + melhorias sociais (✅ CONCLUÍDO — falta histórico de party)
 

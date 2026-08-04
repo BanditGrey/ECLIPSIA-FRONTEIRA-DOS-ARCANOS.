@@ -10,6 +10,7 @@ import { ART } from '../../data/art';
 import { Notifications } from '../ui/Notifications';
 import { Header } from './Header';
 import { Navbar } from './Navbar';
+import { CrystalShopModal } from '../panels/shop/CrystalShopModal';
 
 interface GameLayoutProps {
   children: ReactNode;
@@ -113,6 +114,7 @@ export const GameLayout = ({ children }: GameLayoutProps) => {
         <Navbar />
       </div>
       <Notifications />
+      <CrystalShopModal />
     </div>
   );
 };

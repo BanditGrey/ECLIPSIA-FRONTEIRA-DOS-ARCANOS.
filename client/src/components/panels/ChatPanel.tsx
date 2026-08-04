@@ -215,8 +215,54 @@ export const ChatPanel = () => {
 
     void loadOfflineWhispers();
 
+    const handlePartyHistory = (event: Event) => {
+      const payload = (event as CustomEvent<{ messages?: Array<{ id?: string; name?: string; text?: string }> }>).detail;
+      const history = payload?.messages ?? [];
+
+      if (history.length > 0) {
+        setMessages((current) => {
+          // Avoid duplicates if reconnecting
+          const existingIds = new Set(current.map(m => m.id));
+          const newMessages = history
+            .filter(entry => !existingIds.has(entry.id))
+            .map((entry) => ({
+              id: entry.id ?? createMessageId(),
+              kind: 'party' as const,
+              name: sanitizeText(entry.name ?? t('game.unknown')),
+              text: sanitizeText(entry.text ?? '')
+            }));
+            
+          return [...current, ...newMessages];
+        });
+      }
+    };
+
+    const handleGuildHistory = (event: Event) => {
+      const payload = (event as CustomEvent<{ messages?: Array<{ id?: string; name?: string; text?: string }> }>).detail;
+      const history = payload?.messages ?? [];
+
+      if (history.length > 0) {
+        setMessages((current) => {
+          // Avoid duplicates if reconnecting
+          const existingIds = new Set(current.map(m => m.id));
+          const newMessages = history
+            .filter(entry => !existingIds.has(entry.id))
+            .map((entry) => ({
+              id: entry.id ?? createMessageId(),
+              kind: 'guild' as const,
+              name: sanitizeText(entry.name ?? t('game.unknown')),
+              text: sanitizeText(entry.text ?? '')
+            }));
+            
+          return [...current, ...newMessages];
+        });
+      }
+    };
+
     window.addEventListener('eclipsia:who:list', handleWho);
     window.addEventListener('eclipsia:chat-history', handleHistory);
+    window.addEventListener('eclipsia:chat-party-history', handlePartyHistory);
+    window.addEventListener('eclipsia:chat-guild-history', handleGuildHistory);
     window.addEventListener('eclipsia:chat-message', handleChatMessage);
     window.addEventListener('eclipsia:chat:whisper', handleWhisper);
     window.addEventListener('eclipsia:chat:whisper_failed', handleWhisperFailed);
@@ -227,6 +273,8 @@ export const ChatPanel = () => {
     return () => {
       window.removeEventListener('eclipsia:who:list', handleWho);
       window.removeEventListener('eclipsia:chat-history', handleHistory);
+      window.removeEventListener('eclipsia:chat-party-history', handlePartyHistory);
+      window.removeEventListener('eclipsia:chat-guild-history', handleGuildHistory);
       window.removeEventListener('eclipsia:chat-message', handleChatMessage);
       window.removeEventListener('eclipsia:chat:whisper', handleWhisper);
       window.removeEventListener('eclipsia:chat:whisper_failed', handleWhisperFailed);

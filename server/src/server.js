@@ -14,6 +14,7 @@ import { marketRoutes } from './routes/market.routes.js';
 import { auctionRoutes } from './routes/auction.routes.js';
 import { whisperRoutes } from './routes/whisper.routes.js';
 import { guildRoutes } from './routes/guild.routes.js';
+import { checkoutRoutes } from './routes/checkout.routes.js';
 import { ChatMessage } from './models/ChatMessage.js';
 import { Guild } from './models/Guild.js';
 import { Player } from './models/Player.js';
@@ -127,6 +128,7 @@ app.use('/api/market', marketRoutes);
 app.use('/api/auction', auctionRoutes);
 app.use('/api/whisper', whisperRoutes);
 app.use('/api/guild', guildRoutes);
+app.use('/api/checkout', checkoutRoutes);
 
 const io = new Server(server, {
   cors: corsOptions
@@ -721,10 +723,32 @@ io.on('connection', (socket) => {
 
     broadcastOnlineCount();
 
+    // Reingressa em salas ativas (Party)
+    const myParty = findPartyOf(playerId);
+    if (myParty) {
+      socket.join(`party:${myParty.id}`);
+      socket.data.partyId = myParty.id;
+      
+      ChatMessage.find({ scope: 'party', scopeId: myParty.id })
+        .sort({ createdAt: -1 })
+        .limit(50)
+        .lean()
+        .then((docs) => {
+          const pHistory = docs.map((doc) => ({
+            id: doc._id.toString(),
+            name: doc.name,
+            text: doc.text,
+            createdAt: doc.createdAt
+          }));
+          socket.emit('chat:party_history', { messages: pHistory.reverse() });
+        })
+        .catch(() => {});
+    }
+
     // Presença: avisa os demais que o jogador entrou na fronteira
     socket.broadcast.emit('chat:presence', { name, online: true });
 
-    ChatMessage.find()
+    ChatMessage.find({ scope: 'global' })
       .sort({ createdAt: -1 })
       .limit(50)
       .lean()
@@ -764,7 +788,7 @@ io.on('connection', (socket) => {
       createdAt: new Date().toISOString()
     });
 
-    ChatMessage.create({ playerId: playerId ?? null, name, text }).catch(() => {});
+    ChatMessage.create({ scope: 'global', playerId: playerId ?? null, name, text }).catch(() => {});
   });
 
   // ── Chat de guilda: entra na room validando membership ──
@@ -782,6 +806,21 @@ io.on('connection', (socket) => {
       socket.join(`guild:${guildId}`);
       socket.data.guildId = guildId;
       socket.emit('guild:room_joined', { guildId });
+
+      ChatMessage.find({ scope: 'guild', scopeId: guildId })
+        .sort({ createdAt: -1 })
+        .limit(50)
+        .lean()
+        .then((docs) => {
+          const gHistory = docs.map((doc) => ({
+            id: doc._id.toString(),
+            name: doc.name,
+            text: doc.text,
+            createdAt: doc.createdAt
+          }));
+          socket.emit('chat:guild_history', { messages: gHistory.reverse() });
+        })
+        .catch(() => {});
     } catch {
       // guild inexistente/erro de banco: ignora silenciosamente
     }
@@ -814,6 +853,8 @@ io.on('connection', (socket) => {
       text,
       createdAt: new Date().toISOString()
     });
+
+    ChatMessage.create({ scope: 'guild', scopeId: guildId, playerId: playerId ?? null, name: onlinePlayer?.name ?? sanitizeMessage(payload.name ?? 'Unknown'), text }).catch(() => {});
   });
 
   // ── Mensagens privadas (sussurros): entrega apenas ao alvo ──
@@ -877,6 +918,8 @@ io.on('connection', (socket) => {
       text,
       createdAt: new Date().toISOString()
     });
+
+    ChatMessage.create({ scope: 'party', scopeId: partyId, playerId: playerId ?? null, name: onlinePlayer?.name ?? 'Unknown', text }).catch(() => {});
   });
 
   // /who: lista de jogadores online

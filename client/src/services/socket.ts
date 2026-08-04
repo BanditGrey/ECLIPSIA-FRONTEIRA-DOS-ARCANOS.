@@ -103,6 +103,18 @@ class SocketService {
       }
     });
 
+    this.socket.on('chat:party_history', (payload: { messages?: ChatUiMessage[] }) => {
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('eclipsia:chat-party-history', { detail: payload }));
+      }
+    });
+
+    this.socket.on('chat:guild_history', (payload: { messages?: ChatUiMessage[] }) => {
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('eclipsia:chat-guild-history', { detail: payload }));
+      }
+    });
+
     // Notificações push (correio, mercado, trade) → eventos de janela
     const pushEvents = [
       'mail:new',
