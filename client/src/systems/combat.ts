@@ -472,6 +472,13 @@ const handleVictory = () => {
   reportHuntRound(true);
 
   const combat = useCombatStore.getState();
+
+  // Dungeon em party: andar limpo avança para todos os membros
+  const activeHunt = huntSession();
+
+  if (activeHunt?.dungeonId && combat.isDungeon) {
+    socketService.reportPartyFloor(combat.floor + 1);
+  }
   const playerStore = usePlayerStore.getState();
   const partyStore = usePartyStore.getState();
   const enemy = combat.enemy;

@@ -145,6 +145,11 @@ export const CombatPanel = () => {
                   {' '}· 👥 {huntSession.members.length} → +{huntSession.sizeBonus.xp}% XP · +{huntSession.sizeBonus.gold}% 🪙 · +{huntSession.sizeBonus.loot}% 🎁
                 </>
               )}
+              {huntSession.dungeonId && (
+                <>
+                  {' '}· 🏰 {t('partyCombat.floor')} {huntSession.floor ?? 1}
+                </>
+              )}
               {combat.region !== huntSession.region && <span className="text-yellow-300"> · {t('partyCombat.regionMismatch')}</span>}
             </p>
             <p className="text-green-200/80">

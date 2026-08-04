@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "node --test tests/gameUtils.test.js tests/schemas.test.js"
+    "test": "node --test tests/gameUtils.test.js tests/schemas.test.js tests/partyHuntRules.test.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

@@ -18,7 +18,7 @@
 
 ---
 
-## 🎯 CASO 1 — Party real DENTRO do combate (🚧 EM ANDAMENTO — núcleo pronto)
+## 🎯 CASO 1 — Party real DENTRO do combate (✅ CONCLUÍDO)
 
 Hoje a party real é social (chat/convites). Membros não lutam juntos —
 só os companheiros locais participam do combate. Meta: grupo lutar junto.
@@ -59,8 +59,8 @@ só os companheiros locais participam do combate. Meta: grupo lutar junto.
       devolve bônus efetivo que o client aplica via effectEngine
 - [x] XP da sessão aplicado via `gainXp` no PartyCombatBridge (GameLayout)
 - [x] Bônus progressivo por nº de membros (+10% XP / +5% ouro / +3% loot por membro, server-autoritativo)
-- [ ] Dungeons em party: andares compartilhados (todos avançam juntos) e
-      recompensa de dungeon para cada membro
+- [x] Dungeons em party: andares compartilhados via party_combat:floor
+      (recompensa de dungeon já é individual por membro no Modo A)
 
 ### 1.4 UI
 - [x] CombatPanel: barra de sessão (contribuições ⚔/💀 por membro, auras, aviso de região)
@@ -70,10 +70,10 @@ só os companheiros locais participam do combate. Meta: grupo lutar junto.
 - [x] Toast de XP de equipe no fim da sessão (loot segue individual)
 
 ### 1.5 Qualidade
-- [ ] Testes: sanity caps e divisão de XP (extrair lógica p/ função pura +
-      node:test)
+- [x] Testes: server/src/utils/partyHuntRules.js (funções puras) +
+      partyHuntRules.test.js (7 testes: clamp/sizeBonus/teamworkXp)
 - [x] i18n: `partyCombat.*` nos 4 idiomas
-- [ ] Auditoria: novos checks sociais/hunt
+- [x] Auditoria: tools/audit_social.ts (23 checks) + npm run audit:social
       (ou auditoria social separada)
 - [x] Atualizar PROJECT_MEMORY.md (§5.6, seção caçada)
 

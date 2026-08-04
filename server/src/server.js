@@ -17,6 +17,13 @@ import { Guild } from './models/Guild.js';
 import { Player } from './models/Player.js';
 import { addToInventory, isValidItemRef, removeFromInventory } from './utils/gameUtils.js';
 import { notifyPlayer, onlinePlayers, setIO } from './utils/notify.js';
+import {
+  HUNT_SUMMARY_INTERVAL_MS,
+  MAX_PARTY_SIZE,
+  clampReportNumber,
+  computeSizeBonus,
+  computeTeamworkXp
+} from './utils/partyHuntRules.js';
 
 const app = express();
 const server = http.createServer(app);
@@ -242,7 +249,6 @@ const executeTrade = async (trade) => {
 // ────────────────────────────────────────────────────────────────
 //  PARTY REAL: grupos de jogadores online (convite/aceite/leave/kick)
 // ────────────────────────────────────────────────────────────────
-const MAX_PARTY_SIZE = 5;
 const parties = new Map();
 let partySeq = 0;
 
@@ -399,19 +405,6 @@ const partyHandlers = (socket) => {
 //  servidor agrega contribuições, aplica auras coletivas e paga
 //  bônus de trabalho em equipe ao final.
 // ────────────────────────────────────────────────────────────────
-const MAX_TURN_DAMAGE = 200_000; // sanity cap por reporte
-const TEAMWORK_XP_PER_KILL = 8; // xp extra dividido entre membros
-const HUNT_SUMMARY_INTERVAL_MS = 1500;
-
-// Bônus de grupo por membro NA SESSÃO (ex.: 3 membros → +30% XP, +15% ouro, +9% loot)
-const SIZE_BONUS_PER_MEMBER = { xp: 10, gold: 5, loot: 3 };
-
-const computeSizeBonus = (memberCount) => ({
-  xp: memberCount * SIZE_BONUS_PER_MEMBER.xp,
-  gold: memberCount * SIZE_BONUS_PER_MEMBER.gold,
-  loot: memberCount * SIZE_BONUS_PER_MEMBER.loot
-});
-
 const partyHunts = new Map(); // partyId -> sessão
 
 const huntSnapshot = (hunt) => ({
@@ -420,6 +413,7 @@ const huntSnapshot = (hunt) => ({
   dungeonId: hunt.dungeonId ?? null,
   leader: hunt.leader,
   round: hunt.round,
+  floor: hunt.floor ?? 1,
   auraAtk: hunt.auraAtk,
   auraDef: hunt.auraDef,
   sizeBonus: computeSizeBonus(hunt.contributions.size),
@@ -438,12 +432,6 @@ const broadcastHunt = (hunt, event = 'party_combat:updated') => {
   targets.forEach((name) => notifyPlayer(name, event, huntSnapshot(hunt)));
 };
 
-const clampReportNumber = (value) => {
-  const parsed = Math.floor(Number(value) || 0);
-
-  return Math.max(0, Math.min(MAX_TURN_DAMAGE, parsed));
-};
-
 const endPartyHunt = (hunt, { aborted = false } = {}) => {
   if (hunt.ended) {
     return;
@@ -453,7 +441,7 @@ const endPartyHunt = (hunt, { aborted = false } = {}) => {
 
   const memberCount = Math.max(1, hunt.contributions.size);
   const totalKills = [...hunt.contributions.values()].reduce((sum, entry) => sum + entry.kills, 0);
-  const xpBonus = aborted ? 0 : Math.floor((totalKills * TEAMWORK_XP_PER_KILL) / memberCount);
+  const xpBonus = aborted ? 0 : computeTeamworkXp(totalKills, memberCount);
 
   const party = parties.get(hunt.partyId);
   const targets = party ? party.members : [...hunt.contributions.keys()];
@@ -487,6 +475,7 @@ const partyHuntHandlers = (socket) => {
       partyId: party.id,
       region,
       dungeonId,
+      floor: 1,
       leader: who,
       round: 0,
       auraAtk: 0,
@@ -557,6 +546,24 @@ const partyHuntHandlers = (socket) => {
 
     if (now - hunt.lastSummaryAt >= HUNT_SUMMARY_INTERVAL_MS) {
       hunt.lastSummaryAt = now;
+      broadcastHunt(hunt);
+    }
+  });
+
+  // Progresso de dungeon: andares compartilhados entre os membros
+  socket.on('party_combat:floor', (payload = {}) => {
+    const who = socket.data.playerId;
+
+    if (!who) return;
+
+    const hunt = [...partyHunts.values()].find((entry) => entry.contributions.has(who));
+
+    if (!hunt || hunt.ended || !hunt.dungeonId) return;
+
+    const floor = Math.max(1, Math.floor(Number(payload.floor) || 1));
+
+    if (floor > hunt.floor) {
+      hunt.floor = floor;
       broadcastHunt(hunt);
     }
   });

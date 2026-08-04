@@ -348,7 +348,10 @@ Feito na segunda leva: ✅ trade P2P via socket, ✅ encantamento (98) + 2 conju
 - **Client**: `store/usePartyCombatStore.ts` (sessão/contribuições/auras); `PartyCombatBridge` no GameLayout (auto-join com snapshot de auras via calculatePlayerStats, aplica XP final, toasts); combatEngine reporta turnos e aplica auraAtk/auraDef **apenas quando combat.region === sessão.region**; PartyPanel inicia (select de regiões com gate) e encerra; CombatPanel mostra barra da sessão com ranking de contribuições.
 - Regras: XP de equipe é EXTRA (cada um já ganha o seu do próprio combate); loot individual; auras coletivas são o benefício em tempo real.
 - **Bônus por tamanho do grupo** (autoritativo no server, `SIZE_BONUS_PER_MEMBER`): por membro na sessão → +10% XP, +5% ouro, +3% loot (5 membros = +50%/+25%/+15%). Aplicado em handleVictory apenas com região da sessão; `sizeBonus` viaja no snapshot (`huntSnapshot.sizeBonus`) e aparece nas barras de sessão do CombatPanel/PartyPanel.
-- Pendente no caso 1: dungeons com andares compartilhados, testes de sanity, checks de auditoria (ver ROADMAP.md).
+- Dungeons em party: andares compartilhados via `party_combat:floor` (server guarda hunt.floor; handleVictory reporta floor+1; PartyPanel tem botão 🏰 dungeon em grupo + entrar no andar).
+- Regras puras em `server/src/utils/partyHuntRules.js` (clamp/sizeBonus/teamworkXp) com 7 testes; server.js importa de lá.
+- **`tools/audit_social.ts`**: 23 checks da camada social/hunt — `cd client && npm run audit:social`.
+- Caso 1 ✅ concluído (ROADMAP marcado).
 
 Restante:
 1. 🏛 **Leilão com bids** (mercado hoje é preço fixo)

@@ -214,6 +214,10 @@ class SocketService {
     this.emit('party_combat:turn', payload);
   }
 
+  reportPartyFloor(floor: number) {
+    this.emit('party_combat:floor', { floor });
+  }
+
   endPartyHunt() {
     this.emit('party_combat:end', {});
   }

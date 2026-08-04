@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { dungeons, getDungeon } from '../../data/dungeons';
 import { regions } from '../../data/regions';
 import { useI18n } from '../../hooks/useI18n';
 import { socketService } from '../../services/socket';
@@ -6,6 +7,7 @@ import { useGameStore } from '../../store/useGameStore';
 import { usePartyCombatStore } from '../../store/usePartyCombatStore';
 import { usePartyStore } from '../../store/usePartyStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
+import { combatEngine } from '../../systems/combat';
 import { Button } from '../ui/Button';
 import { ProgressBar } from '../ui/ProgressBar';
 
@@ -85,6 +87,8 @@ export const PartyPanel = () => {
   const isLeader = realParty?.leader === playerName;
   const hunt = usePartyCombatStore((state) => state.session);
   const [huntRegion, setHuntRegion] = useState<string>(regions[0]?.id ?? '');
+  const [huntDungeon, setHuntDungeon] = useState<string>(dungeons[0]?.id ?? '');
+  const setPanel = useGameStore((state) => state.setPanel);
 
   const isRegionUnlocked = (regionId: string) => {
     const region = regions.find((entry) => entry.id === regionId);
@@ -102,6 +106,40 @@ export const PartyPanel = () => {
     }
 
     return true;
+  };
+
+  const isDungeonUnlocked = (dungeonId: string) => {
+    const dungeon = getDungeon(dungeonId);
+
+    if (!dungeon) {
+      return false;
+    }
+
+    if ((player?.level ?? 0) < dungeon.requireLevel) {
+      return false;
+    }
+
+    if (dungeon.requireTitle && !player?.titles.includes(dungeon.requireTitle)) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const enterHuntDungeon = () => {
+    if (!hunt?.dungeonId) return;
+
+    const dungeon = getDungeon(hunt.dungeonId);
+
+    if (!dungeon) return;
+
+    combatEngine.start(hunt.region, {
+      dungeon: true,
+      dungeonId: dungeon.id,
+      maxFloor: dungeon.floors,
+      floor: hunt.floor ?? 1
+    });
+    setPanel('combat');
   };
   const members = usePartyStore((state) => state.members);
   const activeId = usePartyStore((state) => state.activeId);
@@ -153,11 +191,23 @@ export const PartyPanel = () => {
                   </p>
                 )}
                 <p className="font-mono text-[10px] text-game-muted">{t('partyCombat.sizeBonusHint')}</p>
-                {isLeader && (
-                  <Button size="sm" variant="danger" onClick={() => socketService.endPartyHunt()}>
-                    {t('partyCombat.endHunt')}
-                  </Button>
+                {hunt.dungeonId && getDungeon(hunt.dungeonId) && (
+                  <p className="font-mono text-xs text-green-200/80">
+                    🏰 {t(`travel.dungeons.${hunt.dungeonId}.name`)} · {t('partyCombat.floor')} {Math.min(hunt.floor ?? 1, getDungeon(hunt.dungeonId)!.floors)}/{getDungeon(hunt.dungeonId)!.floors}
+                  </p>
                 )}
+                <div className="mt-1 flex gap-2">
+                  {hunt.dungeonId && getDungeon(hunt.dungeonId) && (
+                    <Button size="sm" onClick={enterHuntDungeon}>
+                      ⚔ {t('partyCombat.enterFloor')}
+                    </Button>
+                  )}
+                  {isLeader && (
+                    <Button size="sm" variant="danger" onClick={() => socketService.endPartyHunt()}>
+                      {t('partyCombat.endHunt')}
+                    </Button>
+                  )}
+                </div>
               </div>
             ) : (
               <div className="mb-1 grid grid-cols-[1fr_auto] gap-2">
@@ -176,6 +226,33 @@ export const PartyPanel = () => {
                 ) : (
                   <span className="self-center font-mono text-[10px] text-game-muted">{t('partyCombat.waitLeader')}</span>
                 )}
+              </div>
+            )}
+
+            {/* Dungeon em grupo (líder inicia) */}
+            {!hunt && isLeader && (
+              <div className="mb-1 grid grid-cols-[1fr_auto] gap-2">
+                <select className="input-field" value={huntDungeon} onChange={(event) => setHuntDungeon(event.target.value)}>
+                  {dungeons.map((dungeon) => (
+                    <option key={dungeon.id} value={dungeon.id} disabled={!isDungeonUnlocked(dungeon.id)}>
+                      🏰 {t(`travel.dungeons.${dungeon.id}.name`)} ({dungeon.floors} {t('travel.dungeonFloors')})
+                      {!isDungeonUnlocked(dungeon.id) ? ' 🔒' : ''}
+                    </option>
+                  ))}
+                </select>
+                <Button
+                  variant="secondary"
+                  disabled={!isDungeonUnlocked(huntDungeon)}
+                  onClick={() => {
+                    const dungeon = getDungeon(huntDungeon);
+
+                    if (dungeon) {
+                      socketService.startPartyHunt(dungeon.regionId, dungeon.id);
+                    }
+                  }}
+                >
+                  🏰 {t('partyCombat.startDungeon')}
+                </Button>
               </div>
             )}
 

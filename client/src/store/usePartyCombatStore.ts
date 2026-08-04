@@ -13,6 +13,8 @@ export interface PartyHuntSnapshot {
   dungeonId?: string | null;
   leader: string;
   round: number;
+  /** Andar compartilhado (dungeons de party). */
+  floor?: number;
   auraAtk: number;
   auraDef: number;
   /** Bônus por tamanho do grupo (autoritativo do servidor): % XP/ouro/loot. */
