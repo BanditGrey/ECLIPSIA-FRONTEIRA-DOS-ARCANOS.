@@ -85,6 +85,77 @@ class SocketService {
       });
     });
 
+    // Histórico persistido do chat (enviado pelo servidor ao identificar)
+    // Chat da guilda (room validada no servidor)
+    this.socket.on('chat:guild', (payload: ChatUiMessage) => {
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(
+          new CustomEvent('eclipsia:guild-message', {
+            detail: { ...payload, name: sanitizeText(payload.name), text: sanitizeText(payload.text) }
+          })
+        );
+      }
+    });
+
+    this.socket.on('chat:history', (payload: { messages?: ChatUiMessage[] }) => {
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('eclipsia:chat-history', { detail: payload }));
+      }
+    });
+
+    // Notificações push (correio, mercado, trade) → eventos de janela
+    const pushEvents = [
+      'mail:new',
+      'market:sold',
+      'guild:updated',
+      'guild:kicked',
+      'guild:disbanded',
+      'party:invited',
+      'party:updated',
+      'party:left',
+      'party:kicked',
+      'party:declined',
+      'party:failed',
+      'chat:whisper',
+      'chat:whisper_failed',
+      'chat:party',
+      'chat:presence',
+      'party_combat:started',
+      'party_combat:updated',
+      'party_combat:ended',
+      'party_combat:failed',
+      'who:list',
+      'trade:requested',
+      'trade:waiting',
+      'trade:start',
+      'trade:updated',
+      'trade:confirmed',
+      'trade:completed',
+      'trade:declined',
+      'trade:cancelled',
+      'trade:failed'
+    ];
+
+    pushEvents.forEach((event) => {
+      this.socket?.on(event, (payload: unknown) => {
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent(`eclipsia:${event}`, { detail: payload }));
+        }
+      });
+    });
+
+    const addNotification = (text: string, kind: 'info' | 'gold' | 'error' | 'warning') => {
+      useGameStore.getState().addNotification(text, kind);
+    };
+
+    this.socket.on('mail:new', (payload: { fromName?: string }) => {
+      addNotification(`${t('socket.newMail')}: ${sanitizeText(payload?.fromName ?? '')}`, 'gold');
+    });
+
+    this.socket.on('market:sold', (payload: { price?: number }) => {
+      addNotification(`${t('socket.itemSold')} (${payload?.price ?? 0} 🪙)`, 'gold');
+    });
+
     this.socket.on('world:boss_defeated', (payload: { bossId?: string; bossName?: string; playerName?: string }) => {
       const bossName = sanitizeText(payload.bossName ?? payload.bossId ?? t('game.unknown'));
       useGameStore.getState().addNotification(`${t('socket.bossDefeated')}: ${bossName}`, 'gold');
@@ -120,6 +191,91 @@ class SocketService {
     this.emit('chat:message', {
       text: sanitizeText(message)
     });
+  }
+
+  // ── Social: sussurros, chat de party ──
+  sendWhisper(toName: string, message: string) {
+    this.emit('chat:whisper', { toName, text: sanitizeText(message) });
+  }
+
+  sendPartyMessage(message: string) {
+    this.emit('chat:party', { text: sanitizeText(message) });
+  }
+
+  requestWho() {
+    this.emit('who:online', {});
+  }
+
+  // ── Caçada de party (combate cooperativo) ──
+  startPartyHunt(region: string, dungeonId?: string | null) {
+    this.emit('party_combat:start', { region, dungeonId });
+  }
+
+  joinPartyHunt(partyId: string, auraAtk: number, auraDef: number) {
+    this.emit('party_combat:join', { partyId, auraAtk, auraDef });
+  }
+
+  reportPartyTurn(payload: { dmgDealt?: number; dmgTaken?: number; killed?: boolean }) {
+    this.emit('party_combat:turn', payload);
+  }
+
+  reportPartyFloor(floor: number) {
+    this.emit('party_combat:floor', { floor });
+  }
+
+  endPartyHunt() {
+    this.emit('party_combat:end', {});
+  }
+
+  leavePartyHunt() {
+    this.emit('party_combat:leave', {});
+  }
+
+  // ── Party real (jogadores online) ──
+  inviteToParty(toName: string) {
+    this.emit('party:invite', { toName });
+  }
+
+  respondPartyInvite(partyId: string, accept: boolean) {
+    this.emit('party:respond', { partyId, accept });
+  }
+
+  leaveParty() {
+    this.emit('party:leave', {});
+  }
+
+  kickPartyMember(targetName: string) {
+    this.emit('party:kick', { targetName });
+  }
+
+  // ── Guilda ──
+  joinGuildRoom(guildId: string) {
+    this.emit('guild:room', { guildId });
+  }
+
+  sendGuildMessage(message: string) {
+    this.emit('chat:guild', { text: sanitizeText(message) });
+  }
+
+  // ── Trade P2P ──
+  requestTrade(toName: string) {
+    this.emit('trade:request', { toName });
+  }
+
+  respondTrade(tradeId: string, accept: boolean) {
+    this.emit('trade:respond', { tradeId, accept });
+  }
+
+  updateTrade(tradeId: string, items: string[], gold: number) {
+    this.emit('trade:update', { tradeId, items, gold });
+  }
+
+  confirmTrade(tradeId: string) {
+    this.emit('trade:confirm', { tradeId });
+  }
+
+  cancelTrade(tradeId: string) {
+    this.emit('trade:cancel', { tradeId });
   }
 
   notifyBossDefeated(bossId: string) {

@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
 import './index.css';
+import { ITEMS } from './data/items';
+import { registerPetData } from './store/usePetStore';
+import { registerPlayerItems } from './store/usePlayerStore';
+import type { Item } from './types/item.types';
 import { GameLayout } from './components/layout/GameLayout';
 import { CharCreateScreen } from './components/screens/CharCreateScreen';
 import { CharacterSelectScreen } from './components/screens/CharacterSelectScreen';
@@ -22,6 +26,17 @@ import { HiddenEvents } from './systems/hiddenEvents';
 import { Impulse } from './systems/impulse';
 import { Quests } from './systems/quests';
 import { useGameStore } from './store/useGameStore';
+
+// Registra o catálogo de itens (com effects) no store do jogador.
+registerPlayerItems(Object.values(ITEMS));
+
+// Registra os dados reais dos pets do catálogo (sem isso, equipPet
+// usaria o fallback genérico de 50 HP / 5 ATK para todos).
+for (const item of Object.values(ITEMS) as Item[]) {
+  if (item.petData) {
+    registerPetData(item.id, item.petData);
+  }
+}
 
 const ActivePanel = () => {
   const panel = useGameStore((state) => state.panel);

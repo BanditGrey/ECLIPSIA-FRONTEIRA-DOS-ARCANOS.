@@ -33,8 +33,14 @@ export interface Equipment {
   mount: string | null;
 }
 
+/**
+ * Entrada de inventário no formato do sistema ItemEffects.
+ * `itemStr` ("numId|e1:v1|...") é o formato canônico (correio/mercado);
+ * `id` (id de catálogo) é mantido por retrocompatibilidade.
+ */
 export interface InventoryItem {
-  id: string;
+  itemStr?: string;
+  id?: string;
   qty: number;
 }
 
@@ -47,6 +53,16 @@ export interface Proficiencies {
   spectre: number;
 }
 
+/** Progresso das missões diárias (reinicia por data). */
+export interface DailyProgress {
+  /** Data no formato YYYY-MM-DD do ciclo atual. */
+  date: string;
+  /** Progresso por quest id (ex.: { kill_count: 12 }). */
+  progress: Record<string, number>;
+  /** Ids das diárias já resgatadas hoje. */
+  claimed: string[];
+}
+
 export interface PlayerData {
   name: string;
   archetype: string;
@@ -54,6 +70,8 @@ export interface PlayerData {
   xp: number;
   xpToNext: number;
   gold: number;
+  /** Moeda premium (paga) — usada no mercado mundial; separada do ouro. */
+  crystals: number;
   hp: number;
   maxHp: number;
   mp: number;
@@ -64,6 +82,9 @@ export interface PlayerData {
   equipment: Equipment;
   inventory: InventoryItem[];
   maxInventory: number;
+  /** Baú do personagem (armazenamento estendido). */
+  storage: InventoryItem[];
+  maxStorage?: number;
   skills: string[];
   skillCooldowns: Record<string, number>;
   titles: string[];
@@ -73,6 +94,7 @@ export interface PlayerData {
   discoveries: string[];
   weakPointHits: number;
   rareDrops: number;
+  daily?: DailyProgress;
   createdAt: string;
   lastLogin: string;
 }

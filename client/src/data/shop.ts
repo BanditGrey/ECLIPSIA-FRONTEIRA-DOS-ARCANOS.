@@ -9,141 +9,207 @@ export interface ShopEntry {
 
 export const shop: ShopEntry[] = [
   {
-    itemId: 'sword_one_basic',
+    itemId: 'w1h_1000',
     price: 120,
     category: 'weapon',
     requireLevel: 1
   },
   {
-    itemId: 'dagger_basic',
+    itemId: 'w1h_1100',
     price: 100,
     category: 'weapon',
     requireLevel: 1
   },
   {
-    itemId: 'staff_one_basic',
+    itemId: 'w1h_1150',
     price: 140,
     category: 'weapon',
     requireLevel: 1
   },
   {
-    itemId: 'great_sword_basic_2h',
+    itemId: 'w1h_1200',
+    price: 120,
+    category: 'weapon',
+    requireLevel: 1
+  },
+  {
+    itemId: 'w2h_1500',
     price: 260,
     category: 'weapon',
     requireLevel: 5
   },
   {
-    itemId: 'bow_long_basic_2h',
+    itemId: 'w2h_1700',
     price: 260,
     category: 'weapon',
     requireLevel: 5
   },
   {
-    itemId: 'sword_one_uncommon',
+    itemId: 'w1h_1002',
     price: 420,
     category: 'weapon',
-    requireLevel: 10
+    requireLevel: 8
   },
   {
-    itemId: 'staff_two_uncommon_2h',
+    itemId: 'w2h_1751',
+    price: 520,
+    category: 'weapon',
+    requireLevel: 12
+  },
+  {
+    itemId: 'w1h_1003',
+    price: 650,
+    category: 'weapon',
+    requireLevel: 12
+  },
+  {
+    itemId: 'w1h_1004',
+    price: 1200,
+    category: 'weapon',
+    requireLevel: 18
+  },
+  {
+    itemId: 'oh_2000',
+    price: 160,
+    category: 'weapon',
+    requireLevel: 1
+  },
+  {
+    itemId: 'oh_2002',
     price: 520,
     category: 'weapon',
     requireLevel: 10
   },
   {
-    itemId: 'head_basic_armor',
-    price: 90,
+    itemId: 'oh_2150',
+    price: 480,
+    category: 'weapon',
+    requireLevel: 8
+  },
+  {
+    itemId: 'hd_2500',
+    price: 150,
     category: 'armor',
     requireLevel: 1
   },
   {
-    itemId: 'chest_basic_armor',
-    price: 160,
+    itemId: 'ch_3000',
+    price: 220,
     category: 'armor',
     requireLevel: 1
   },
   {
-    itemId: 'legs_basic_armor',
-    price: 130,
+    itemId: 'lg_3500',
+    price: 180,
     category: 'armor',
     requireLevel: 1
   },
   {
-    itemId: 'gloves_basic_armor',
-    price: 80,
-    category: 'armor',
-    requireLevel: 1
-  },
-  {
-    itemId: 'boots_basic_armor',
-    price: 90,
-    category: 'armor',
-    requireLevel: 1
-  },
-  {
-    itemId: 'earring_basic_accessory',
+    itemId: 'gl_4000',
     price: 140,
+    category: 'armor',
+    requireLevel: 1
+  },
+  {
+    itemId: 'bt_4500',
+    price: 140,
+    category: 'armor',
+    requireLevel: 1
+  },
+  {
+    itemId: 'hd_2502',
+    price: 480,
+    category: 'armor',
+    requireLevel: 8
+  },
+  {
+    itemId: 'ch_3002',
+    price: 620,
+    category: 'armor',
+    requireLevel: 10
+  },
+  {
+    itemId: 'lg_3502',
+    price: 520,
+    category: 'armor',
+    requireLevel: 10
+  },
+  {
+    itemId: 'er_5000',
+    price: 200,
     category: 'accessory',
     requireLevel: 1
   },
   {
-    itemId: 'necklace_basic_accessory',
+    itemId: 'nk_5500',
+    price: 220,
+    category: 'accessory',
+    requireLevel: 1
+  },
+  {
+    itemId: 'bt_6000',
     price: 180,
     category: 'accessory',
     requireLevel: 1
   },
   {
-    itemId: 'belt_basic_accessory',
-    price: 120,
+    itemId: 'rs_6500',
+    price: 240,
     category: 'accessory',
-    requireLevel: 1
+    requireLevel: 2
   },
   {
-    itemId: 'resistance_basic_accessory',
-    price: 220,
-    category: 'accessory',
-    requireLevel: 5
-  },
-  {
-    itemId: 'amulet_basic_accessory',
+    itemId: 'am_7000',
     price: 260,
     category: 'accessory',
+    requireLevel: 1
+  },
+  {
+    itemId: 'ss_7500',
+    price: 800,
+    category: 'accessory',
+    requireLevel: 10
+  },
+  {
+    itemId: 'ss_7550',
+    price: 800,
+    category: 'accessory',
+    requireLevel: 10
+  },
+  {
+    itemId: 'pt_8000',
+    price: 400,
+    category: 'pet',
+    requireLevel: 1
+  },
+  {
+    itemId: 'pt_8001',
+    price: 450,
+    category: 'pet',
     requireLevel: 5
   },
   {
-    itemId: 'spirit_stone_fire_basic',
-    price: 350,
-    category: 'accessory',
-    requireLevel: 10
-  },
-  {
-    itemId: 'spirit_stone_ice_basic',
-    price: 350,
-    category: 'accessory',
-    requireLevel: 10
-  },
-  {
-    itemId: 'wolf_pup_pet',
-    price: 800,
-    category: 'pet',
-    requireLevel: 1
-  },
-  {
-    itemId: 'forest_sprite_pet',
-    price: 1400,
+    itemId: 'pt_8050',
+    price: 900,
     category: 'pet',
     requireLevel: 10
   },
   {
-    itemId: 'brown_horse',
-    price: 1200,
+    itemId: 'mt_8500',
+    price: 600,
     category: 'mount',
     requireLevel: 1
   },
   {
-    itemId: 'forest_deer',
-    price: 2200,
+    itemId: 'mt_8501',
+    price: 1100,
     category: 'mount',
     requireLevel: 10
+  },
+  {
+    itemId: 'mt_8502',
+    price: 2400,
+    category: 'mount',
+    requireLevel: 20
   }
 ];

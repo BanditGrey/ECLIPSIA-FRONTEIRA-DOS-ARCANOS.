@@ -10,7 +10,11 @@ export const specials = {
     "slot": "special",
     "requireLevel": 40,
     "nameKey": "itemNames.cosmetic_eclipse_cloak.name",
-    "descKey": "itemNames.cosmetic_eclipse_cloak.desc"
+    "descKey": "itemNames.cosmetic_eclipse_cloak.desc",
+    "effects": {
+      "e1": 96,
+      "v1": 1
+    }
   },
   "emote_moonhowl": {
     "id": "emote_moonhowl",
@@ -21,7 +25,11 @@ export const specials = {
     "slot": "special",
     "requireLevel": 20,
     "nameKey": "itemNames.emote_moonhowl.name",
-    "descKey": "itemNames.emote_moonhowl.desc"
+    "descKey": "itemNames.emote_moonhowl.desc",
+    "effects": {
+      "e1": 96,
+      "v1": 1
+    }
   },
   "portrait_fragmented_star": {
     "id": "portrait_fragmented_star",
@@ -32,6 +40,10 @@ export const specials = {
     "slot": "special",
     "requireLevel": 60,
     "nameKey": "itemNames.portrait_fragmented_star.name",
-    "descKey": "itemNames.portrait_fragmented_star.desc"
+    "descKey": "itemNames.portrait_fragmented_star.desc",
+    "effects": {
+      "e1": 96,
+      "v1": 1
+    }
   }
 } satisfies Record<string, Item>;

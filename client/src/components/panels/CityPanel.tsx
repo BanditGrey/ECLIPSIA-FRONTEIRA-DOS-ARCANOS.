@@ -5,8 +5,10 @@ import { usePlayerStore } from '../../store/usePlayerStore';
 import type { Equipment } from '../../types/player.types';
 import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
+import { MailPanel } from './MailPanel';
+import { TradePanel } from './TradePanel';
 
-type CityTab = 'tavern' | 'shop' | 'blacksmith' | 'sage' | 'board';
+type CityTab = 'tavern' | 'shop' | 'blacksmith' | 'sage' | 'board' | 'mail' | 'trade';
 type ShopFilter = 'all' | 'weapons' | 'armor' | 'accessories' | 'pet' | 'mount';
 type NpcId = 'old_merchant' | 'adventurer' | 'mysterious' | 'beast_tamer';
 
@@ -30,7 +32,7 @@ interface ShopEntry {
   stats: string;
 }
 
-const tabs: CityTab[] = ['tavern', 'shop', 'blacksmith', 'sage', 'board'];
+const tabs: CityTab[] = ['tavern', 'shop', 'blacksmith', 'sage', 'board', 'mail', 'trade'];
 const filters: ShopFilter[] = ['all', 'weapons', 'armor', 'accessories', 'pet', 'mount'];
 const equipmentSlots: EquipmentSlot[] = ['weapon_main', 'weapon_off', 'head', 'chest', 'legs', 'gloves', 'boots', 'earring', 'necklace', 'belt', 'resistance', 'amulet', 'spirit_stone', 'pet', 'mount'];
 const NPC_MODAL = 'modal-city-npc';
@@ -44,7 +46,7 @@ const npcs: NpcEntry[] = [
 
 const shopItems: ShopEntry[] = [
   { id: 'sword_one_common_shop', icon: '⚔', category: 'weapons', rarity: 'common', price: 100, level: 1, stats: '+10' },
-  { id: 'chest_uncommon_shop', icon: '🥋', category: 'armor', rarity: 'uncommon', price: 160, level: 5, stats: '+8' },
+  { id: 'ch_3001', icon: '🥋', category: 'armor', rarity: 'uncommon', price: 160, level: 5, stats: '+8' },
   { id: 'amulet_rare_shop', icon: '🔮', category: 'accessories', rarity: 'rare', price: 300, level: 10, stats: '+5' },
   { id: 'pet_common_shop', icon: '🐾', category: 'pet', rarity: 'common', price: 250, level: 1, stats: '+1' },
   { id: 'mount_common_shop', icon: '🐴', category: 'mount', rarity: 'common', price: 500, level: 15, stats: '10%'
@@ -123,7 +125,7 @@ export const CityPanel = () => {
 
   return (
     <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
-      <div className="grid grid-cols-5 gap-2 rounded-xl border border-game-border bg-game-panel p-2 font-mono text-xs">
+      <div className="grid grid-cols-7 gap-2 rounded-xl border border-game-border bg-game-panel p-2 font-mono text-xs">
         {tabs.map((item) => (
           <button
             key={item}
@@ -263,6 +265,10 @@ export const CityPanel = () => {
             ))}
           </div>
         )}
+
+        {tab === 'mail' && <MailPanel />}
+
+        {tab === 'trade' && <TradePanel />}
       </section>
 
       <Modal id={NPC_MODAL} title={selectedNpc ? t(`city.npcs.${selectedNpc.id}.name`) : t('city.tavern')}>

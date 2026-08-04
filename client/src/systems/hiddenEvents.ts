@@ -121,7 +121,7 @@ export const hiddenEventDefinitions: HiddenEventDefinition[] = [
   {
     id: 'hidden_weapon',
     check: (tracker) => (tracker.explores.valedouro ?? 0) >= 10,
-    reward: () => usePlayerStore.getState().addItem('sword_one_uncommon', 1)
+    reward: () => usePlayerStore.getState().addItem('w1h_1002', 1)
   },
   {
     id: 'forbidden_boss',

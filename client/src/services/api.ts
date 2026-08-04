@@ -133,6 +133,109 @@ export const API = {
     }
   },
 
+  mail: {
+    inbox(charName: string) {
+      return API.get<{ mails: unknown[] }>(`/mail/inbox?charName=${encodeURIComponent(charName)}`);
+    },
+    send(payload: { charName: string; toName: string; subject?: string; message?: string; itemRef?: string | null; gold?: number; crystals?: number }) {
+      return API.post('/mail/send', payload);
+    },
+    read(mailId: string) {
+      return API.post('/mail/read', { mailId });
+    },
+    claim(mailId: string, charName: string) {
+      return API.post<{ character?: { gold: number; inventory: unknown[] } }>('/mail/claim', { mailId, charName });
+    },
+    remove(mailId: string) {
+      return API.delete(`/mail/${mailId}`);
+    }
+  },
+
+  market: {
+    listings(params: { rarity?: string; numId?: number } = {}) {
+      const query = new URLSearchParams();
+      if (params.rarity) query.set('rarity', params.rarity);
+      if (params.numId) query.set('numId', String(params.numId));
+      const suffix = query.toString() ? `?${query.toString()}` : '';
+      return API.get<{ listings: unknown[] }>(`/market/listings${suffix}`);
+    },
+    my(sellerName: string) {
+      return API.get<{ listings: unknown[] }>(`/market/my?sellerName=${encodeURIComponent(sellerName)}`);
+    },
+    list(payload: { charName: string; itemRef: string; price: number; rarity?: string }) {
+      return API.post('/market/list', payload);
+    },
+    buy(payload: { listingId: string; charName: string }) {
+      return API.post<{ character?: { gold: number; inventory: unknown[] } }>('/market/buy', payload);
+    },
+    cancel(payload: { listingId: string; charName: string }) {
+      return API.post('/market/cancel', payload);
+    }
+  },
+
+  auction: {
+    list() {
+      return API.get('/auction/list');
+    },
+    my(sellerName: string) {
+      return API.get(`/auction/my?sellerName=${encodeURIComponent(sellerName)}`);
+    },
+    create(payload: { charName: string; itemRef: string; startPrice: number; minIncrement?: number; durationHours?: number }) {
+      return API.post('/auction/create', payload);
+    },
+    bid(payload: { auctionId: string; charName: string; amount: number }) {
+      return API.post('/auction/bid', payload);
+    },
+    myBids(name: string) {
+      return API.get(`/auction/bids?name=${encodeURIComponent(name)}`);
+    },
+    cancel(payload: { auctionId: string; charName: string }) {
+      return API.post('/auction/cancel', payload);
+    }
+  },
+
+  whisper: {
+    inbox(charName: string) {
+      return API.get(`/whisper/inbox?charName=${encodeURIComponent(charName)}`);
+    },
+    send(payload: { fromName: string; toName: string; text: string }) {
+      return API.post('/whisper/send', payload);
+    },
+    read(charName: string, fromName?: string) {
+      return API.post('/whisper/read', { charName, fromName });
+    }
+  },
+
+  guild: {
+    list() {
+      return API.get('/guild/list');
+    },
+    my(charName: string) {
+      return API.get(`/guild/my?charName=${encodeURIComponent(charName)}`);
+    },
+    create(payload: { charName: string; name: string }) {
+      return API.post('/guild/create', payload);
+    },
+    join(payload: { charName: string; guildId: string }) {
+      return API.post('/guild/join', payload);
+    },
+    leave(payload: { charName: string }) {
+      return API.post('/guild/leave', payload);
+    },
+    kick(payload: { charName: string; targetName: string }) {
+      return API.post('/guild/kick', payload);
+    },
+    promote(payload: { charName: string; targetName: string }) {
+      return API.post('/guild/promote', payload);
+    },
+    motd(payload: { charName: string; motd: string }) {
+      return API.post('/guild/motd', payload);
+    },
+    disband(payload: { charName: string }) {
+      return API.post('/guild/disband', payload);
+    }
+  },
+
   player: {
     get<T = unknown>() {
       return API.get<T>('/player/me');

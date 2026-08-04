@@ -33,6 +33,9 @@ export const Header = () => {
         <span className="text-game-gold">
           {t('header.gold')}: {player?.gold ?? 0}
         </span>
+        <span className="text-cyan-300" title={t('header.crystalsHint')}>
+          💎 {player?.crystals ?? 0}
+        </span>
         <button
           type="button"
           className="flex h-8 w-8 items-center justify-center rounded-md border border-game-border bg-game-card transition-colors hover:bg-game-hover active:scale-95"

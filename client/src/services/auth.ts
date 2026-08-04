@@ -31,6 +31,8 @@ interface ServerCharacter {
   xp?: number;
   xpToNext?: number;
   gold?: number;
+  crystals?: number;
+  daily?: { date: string; progress: Record<string, number>; claimed: string[] };
   hp?: number;
   maxHp?: number;
   mp?: number;
@@ -39,6 +41,7 @@ interface ServerCharacter {
   luck?: Partial<PlayerData['luck']>;
   freePoints?: number;
   equipment?: Partial<Equipment>;
+  storage?: Array<{ itemStr?: string; id?: string; qty: number }>;
   inventory?: PlayerData['inventory'];
   skills?: string[];
   skillCooldowns?: Record<string, number>;
@@ -148,6 +151,8 @@ const characterToPlayerData = (character: ServerCharacter): PlayerData => {
     xp: character.xp ?? 0,
     xpToNext: character.xpToNext ?? 100,
     gold: character.gold ?? 100,
+    crystals: character.crystals ?? 0,
+    daily: character.daily ?? { date: '', progress: {}, claimed: [] },
     hp: character.hp ?? character.maxHp ?? 100,
     maxHp: character.maxHp ?? character.hp ?? 100,
     mp: character.mp ?? character.maxMp ?? 50,
@@ -170,7 +175,9 @@ const characterToPlayerData = (character: ServerCharacter): PlayerData => {
       ...character.equipment
     },
     inventory: character.inventory ?? [],
-    maxInventory: 20,
+    maxInventory: 60,
+    storage: character.storage ?? [],
+    maxStorage: 500,
     skills: character.skills ?? [],
     skillCooldowns: character.skillCooldowns ?? {},
     titles: character.titles ?? [],

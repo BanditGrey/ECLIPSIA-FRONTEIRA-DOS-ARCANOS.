@@ -1,0 +1,44 @@
+# ⚠ CI pronto mas não instalado: o token do GitHub App desta integração
+# não tem permissão 'workflows'. Para ativar, copie este arquivo para
+# .github/workflows/ci.yml (via conta com permissão) — ou conceda a
+# permissão 'workflows' ao App e mova o arquivo.
+name: CI
+
+on:
+  push:
+    branches: [main, 'arena/**']
+  pull_request:
+
+jobs:
+  client:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-audit --no-fund
+      - run: npm install --no-save tsx
+      - run: npx tsc --noEmit
+      - run: npm run build
+      - run: npm run audit
+      - run: npm run audit:social
+
+  server:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-audit --no-fund
+      - run: npm test
+      - name: Syntax check (node --check)
+        run: |
+          find src -name '*.js' -exec node --check {} \;

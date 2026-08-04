@@ -23,6 +23,15 @@ const LuckSchema = new mongoose.Schema(
   { _id: false }
 );
 
+/**
+ * Equipamento: cada slot armazena uma String — ou o id de catálogo
+ * (legado) ou a itemStr serializada do sistema ItemEffects:
+ *
+ *    "numId|e1:v1|e2:v2|...|e10:v10"   ex.: "1005|1:65|4:5|7:3"
+ *
+ * Formato compacto: menos espaço no banco, transferência fácil entre
+ * jogadores (correio/mercado/trades) e serialização direta.
+ */
 const EquipmentSchema = new mongoose.Schema(
   {
     weapon_main: { type: String, default: null },
@@ -44,9 +53,33 @@ const EquipmentSchema = new mongoose.Schema(
   { _id: false }
 );
 
+/**
+ * Formato itemStr (sistema ItemEffects):
+ *    "numId"                     → item base sem effects customizados
+ *    "numId|e1:v1|e2:v2|..."     → com effects (values podem ser negativos)
+ * Ex.: "1005|1:65|4:5|7:3"
+ */
+const ITEM_STR_REGEX = /^\d+(\|[1-9]\d*:-?\d+)*$/;
+
+/**
+ * Inventário (sistema ItemEffects): itens como string serializada.
+ *
+ *    { itemStr: "1005|1:65|4:5|7:3", qty: 1 }
+ *
+ * O campo legado `id` é mantido (opcional) para compatibilidade com
+ * personagens antigos; novos itens devem usar `itemStr`.
+ */
 const InventoryItemSchema = new mongoose.Schema(
   {
-    id: { type: String, required: true },
+    itemStr: {
+      type: String,
+      default: null,
+      validate: {
+        validator: (value) => value === null || ITEM_STR_REGEX.test(value),
+        message: (props) => `itemStr inválida: "${props.value}"`
+      }
+    },
+    id: { type: String, default: null },
     qty: { type: Number, default: 1 }
   },
   { _id: false }
@@ -72,6 +105,10 @@ const CharacterSchema = new mongoose.Schema(
     xp: { type: Number, default: 0 },
     xpToNext: { type: Number, default: 100 },
     gold: { type: Number, default: 100 },
+    // Moeda premium (paga): o mercado mundial usa crystals, não ouro
+    crystals: { type: Number, default: 0, min: 0 },
+    // Missões diárias (tracking client-side, persistido via save)
+    daily: { type: mongoose.Schema.Types.Mixed, default: null },
     hp: { type: Number, required: true },
     maxHp: { type: Number, required: true },
     mp: { type: Number, required: true },
@@ -81,7 +118,10 @@ const CharacterSchema = new mongoose.Schema(
     freePoints: { type: Number, default: 3 },
     equipment: { type: EquipmentSchema, default: () => ({}) },
     inventory: { type: [InventoryItemSchema], default: [] },
-    maxInventory: { type: Number, default: 20 },
+    maxInventory: { type: Number, default: 60 },
+    // Baú: armazenamento estendido do personagem (até 500 entradas)
+    storage: { type: [InventoryItemSchema], default: [] },
+    maxStorage: { type: Number, default: 500 },
     skills: { type: [String], default: [] },
     skillCooldowns: { type: Map, of: Number, default: {} },
     titles: { type: [String], default: [] },
@@ -106,5 +146,9 @@ const PlayerSchema = new mongoose.Schema({
   activeCharId: { type: String, default: null },
   createdAt: { type: Date, default: Date.now }
 });
+
+// Índices para busca eficiente de personagens (ranking, listagem)
+PlayerSchema.index({ 'characters.name': 1 });
+PlayerSchema.index({ 'characters.level': -1 });
 
 export const Player = mongoose.model('Player', PlayerSchema);

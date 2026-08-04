@@ -1,5 +1,8 @@
 import { bosses } from '../data/bosses';
+import { getDungeon } from '../data/dungeons';
 import { translations } from '../i18n';
+import { EFFECT } from '../data/effectRegistry';
+import { getEffectName } from '../data/effectNames';
 import { monsters } from '../data/monsters';
 import { regions } from '../data/regions';
 import { skills } from '../data/skills';
@@ -7,9 +10,12 @@ import { useCombatStore } from '../store/useCombatStore';
 import { useGameStore } from '../store/useGameStore';
 import { usePartyStore } from '../store/usePartyStore';
 import { usePetStore } from '../store/usePetStore';
+import { usePartyCombatStore } from '../store/usePartyCombatStore';
 import { usePlayerStore } from '../store/usePlayerStore';
+import { socketService } from '../services/socket';
 import type { Enemy, LootEntry } from '../types/combat.types';
 import type { PartyMember } from '../types/party.types';
+import { calculatePlayerStats, getConditionalValue, type ResolvedEffects } from './effectEngine';
 import { hiddenEventsSystem } from './hiddenEvents';
 import { impulseSystem } from './impulse';
 import { rollLoot } from './loot';
@@ -17,6 +23,7 @@ import { questSystem } from './quests';
 
 export interface CombatStartOptions {
   dungeon?: boolean;
+  dungeonId?: string;
   floor?: number;
   maxFloor?: number;
   bossId?: string;
@@ -68,6 +75,7 @@ const createEnemyFromMonster = (monsterId: string): Enemy => {
     id: monster.id,
     icon: monster.icon,
     nameKey: `monsters.${monster.id}.name`,
+    race: monster.race,
     level: monster.level,
     hp: monster.hp,
     maxHp: monster.hp,
@@ -99,6 +107,7 @@ const createEnemyFromBoss = (bossId: string): Enemy => {
     id: boss.id,
     icon: boss.icon,
     nameKey: boss.nameKey,
+    race: boss.race,
     level: boss.level,
     hp: boss.hp,
     maxHp: boss.hp,
@@ -124,22 +133,223 @@ const getRegionMonsterId = (regionId: string) => {
   return pickRandom(monsterIds.length > 0 ? monsterIds : ['rat']);
 };
 
-const getCritMultiplier = () => {
+// ────────────────────────────────────────────────────────────────
+// Integração com o effectEngine (Parte 7): os effects numéricos do
+// equipamento são resolvidos no início do combate e aplicados em
+// cada fase (ataque, defesa, kill, HP crítico, crítico).
+// ────────────────────────────────────────────────────────────────
+let activeEffects: ResolvedEffects | null = null;
+let shieldPool = 0; // effect 57 (SHIELD) — HP restante do escudo absorvente
+let barrierPool = 0; // effect 58 (BARRIER) — MP restante da barreira mágica
+
+/** Efeitos resolvidos do equipamento atual (com fallback seguro). */
+const getResolvedEffects = (): ResolvedEffects | null => {
+  if (activeEffects) return activeEffects;
+
+  const player = usePlayerStore.getState().data;
+
+  if (!player) return null;
+
+  activeEffects = calculatePlayerStats(player.stats, player.equipment);
+  return activeEffects;
+};
+
+const LOW_HP_THRESHOLD = 0.2;
+
+const isPlayerLowHp = (): boolean => {
+  const player = usePlayerStore.getState().data;
+
+  return Boolean(player && player.maxHp > 0 && player.hp / player.maxHp < LOW_HP_THRESHOLD);
+};
+
+const rollCrit = (): { isCrit: boolean; multiplier: number } => {
   const player = usePlayerStore.getState().data;
   const perception = player?.stats.perception ?? 0;
-  const chance = 0.05 + perception * 0.002;
+  const resolved = getResolvedEffects();
+  // critChance já é fração 0-1 (ex.: 0.06 = 6%)
+  const critChance = resolved?.critChance ?? 0;
+  const chance = 0.05 + perception * 0.002 + critChance;
 
-  return Math.random() < chance ? 2 : 1;
+  if (Math.random() >= chance) {
+    return { isCrit: false, multiplier: 1 };
+  }
+
+  // critDmg e ON_CRIT_DMG são frações 0-1
+  const critDmg = resolved?.critDmg ?? 0;
+  const onCritDmg = resolved ? getConditionalValue(resolved, EFFECT.ON_CRIT_DMG) : 0;
+
+  return { isCrit: true, multiplier: 2 * (1 + critDmg + onCritDmg) };
+};
+
+/**
+ * Rola os effects "ao acertar" (61–66) do equipamento contra o
+ * inimigo. Chance = value (inteiro em %).
+ */
+const rollOnHitEffects = () => {
+  const resolved = getResolvedEffects();
+
+  if (!resolved || resolved.onHitEffects.length === 0) return;
+
+  const combat = useCombatStore.getState();
+  const playerStore = usePlayerStore.getState();
+  const dotDamage = Math.max(3, Math.floor(playerStore.getTotalAtk() * 0.15));
+
+  for (const onHit of resolved.onHitEffects) {
+    // chance é fração 0-1 (ex.: 0.25 = 25%)
+    if (Math.random() >= onHit.chance) continue;
+
+    switch (onHit.effectId) {
+      case EFFECT.ON_HIT_BURN:
+        combat.addEnemyEffect({ type: 'dot', turns: 2, damage: dotDamage });
+        break;
+      case EFFECT.ON_HIT_BLEED:
+        combat.addEnemyEffect({ type: 'dot', turns: 2, damage: dotDamage });
+        break;
+      case EFFECT.ON_HIT_POISON:
+        combat.addEnemyEffect({ type: 'dot', turns: 3, damage: dotDamage });
+        break;
+      case EFFECT.ON_HIT_FREEZE:
+      case EFFECT.ON_HIT_STUN:
+        combat.addEnemyEffect({ type: 'stun', turns: Math.max(1, onHit.value) });
+        break;
+      case EFFECT.ON_HIT_SLOW:
+        combat.addEnemyEffect({ type: 'slow', turns: Math.max(1, onHit.value), value: 20 });
+        break;
+      default:
+        break;
+    }
+
+    combat.addLog('attack', `${getEffectName(onHit.effectId, getLang())}!`);
+  }
+};
+
+/** Finaliza o turno do inimigo: ticks de cooldown, avanço de turno e auto-batalha. */
+const endEnemyTurn = () => {
+  reportHuntRound(false);
+
+  const combat = useCombatStore.getState();
+
+  usePetStore.getState().tickCooldown();
+  combat.tickCooldowns();
+  useCombatStore.setState({
+    turn: combat.turn + 1,
+    phase: 'player',
+    isDefending: false
+  });
+
+  if (useCombatStore.getState().autoFight) {
+    combatEngine.autoAction();
+  }
+};
+
+/** Cura flat direta no jogador (usado pelo effect 55 — REGENERATE). */
+const healPlayerFlat = (amount: number) => {
+  usePlayerStore.setState((state) => {
+    if (!state.data || amount <= 0) return state;
+
+    return {
+      data: {
+        ...state.data,
+        hp: Math.min(state.data.maxHp, state.data.hp + amount)
+      }
+    };
+  });
+};
+
+// ── Caçada de party: acumuladores do round e reporte ──
+let roundDealt = 0;
+let roundTaken = 0;
+
+const huntSession = () => {
+  const state = usePartyCombatStore.getState();
+
+  return state.active ? state.session : null;
+};
+
+/** Auras da caçada só valem lutando na região da sessão. */
+const huntRegionMatches = (): boolean => {
+  const session = huntSession();
+
+  return Boolean(session && session.region === useCombatStore.getState().region);
+};
+
+const reportHuntRound = (killed: boolean) => {
+  if (!huntSession()) {
+    roundDealt = 0;
+    roundTaken = 0;
+    return;
+  }
+
+  if (roundDealt > 0 || roundTaken > 0 || killed) {
+    socketService.reportPartyTurn({ dmgDealt: roundDealt, dmgTaken: roundTaken, killed });
+  }
+
+  roundDealt = 0;
+  roundTaken = 0;
 };
 
 const getPlayerDamage = (percent = 100) => {
   const playerStore = usePlayerStore.getState();
   const combat = useCombatStore.getState();
-  const base = playerStore.getTotalAtk() * (percent / 100) * impulseSystem.getBonus('damage');
-  const crit = getCritMultiplier();
-  const defenseReduction = Math.max(0, combat.enemy?.def ?? 0) * 0.35;
+  const resolved = getResolvedEffects();
 
-  return Math.max(1, Math.floor(base * crit - defenseReduction));
+  // Bônus de dano (frações 0-1): DMG_BONUS (24), VS_* (75-78),
+  // ON_LOW_HP_ATK (69, com HP < 20%), PARTY_ATK_AURA (79 com party ativa)
+  let bonusFraction = resolved?.dmgBonus ?? 0;
+
+  // Aura coletiva da caçada de party (soma dos PARTY_ATK_AURA dos membros)
+  const session = huntSession();
+
+  if (session && huntRegionMatches()) {
+    bonusFraction += session.auraAtk / 100;
+  }
+
+  if (resolved && combat.enemy) {
+    if (combat.enemy.race === 'beast') {
+      bonusFraction += getConditionalValue(resolved, EFFECT.VS_BEAST_DMG);
+    }
+
+    if (combat.enemy.race === 'undead') {
+      bonusFraction += getConditionalValue(resolved, EFFECT.VS_UNDEAD_DMG);
+    }
+
+    // VS_WEAK_DMG (78): inimigo comprometido (atordoado/lento) expõe o ponto fraco
+    const enemyCompromised = combat.enemyEffects.some((effect) => effect.type === 'stun' || effect.type === 'slow');
+
+    if (enemyCompromised) {
+      bonusFraction += getConditionalValue(resolved, EFFECT.VS_WEAK_DMG);
+    }
+  }
+
+  if (combat.isBoss && resolved) {
+    bonusFraction += getConditionalValue(resolved, EFFECT.VS_BOSS_DMG);
+  }
+
+  if (isPlayerLowHp() && resolved) {
+    bonusFraction += getConditionalValue(resolved, EFFECT.ON_LOW_HP_ATK);
+  }
+
+  // PARTY_ATK_AURA (79): bônus enquanto houver party ativa
+  if (resolved && usePartyStore.getState().getAlive().length > 0) {
+    bonusFraction += getConditionalValue(resolved, EFFECT.PARTY_ATK_AURA);
+  }
+
+  const base = playerStore.getTotalAtk() * (percent / 100) * impulseSystem.getBonus('damage') * (1 + bonusFraction);
+  const { isCrit, multiplier } = rollCrit();
+  const defenseReduction = Math.max(0, combat.enemy?.def ?? 0) * 0.35;
+  const damage = Math.max(1, Math.floor(base * multiplier - defenseReduction));
+
+  // ON_CRIT_BLEED (71): ao criticar aplica sangramento (value = dano)
+  if (isCrit && resolved) {
+    const critBleed = getConditionalValue(resolved, EFFECT.ON_CRIT_BLEED);
+
+    if (critBleed > 0) {
+      combat.addEnemyEffect({ type: 'dot', turns: 2, damage: critBleed });
+      combat.addLog('attack', `${getEffectName(EFFECT.ON_CRIT_BLEED, getLang())}!`);
+    }
+  }
+
+  return damage;
 };
 
 const reducePlayerMp = (amount: number) => {
@@ -162,7 +372,12 @@ const healPlayerPercent = (hpPercent: number, mpPercent: number) => {
 
 const applyEnemyDamage = (amount: number) => {
   const combat = useCombatStore.getState();
+  const applied = Math.min(Math.max(0, amount), Math.max(0, combat.enemyHp));
   const enemyHp = Math.max(0, combat.enemyHp - amount);
+
+  if (huntSession()) {
+    roundDealt += applied;
+  }
 
   useCombatStore.getState().setEnemyHp(enemyHp);
 
@@ -201,16 +416,32 @@ const selectPartyTarget = (): PartyMember | null => {
 const damagePartyOrPlayer = (damage: number) => {
   const party = usePartyStore.getState();
   const target = selectPartyTarget();
+  const resolved = getResolvedEffects();
+
+  // PARTY_DEF_AURA (80): party ativa reduz o dano recebido do grupo
+  let finalDamage = damage;
+
+  if (resolved && party.getAlive().length > 0) {
+    const defAura = getConditionalValue(resolved, EFFECT.PARTY_DEF_AURA);
+
+    if (defAura > 0) {
+      finalDamage = Math.max(1, Math.floor(finalDamage * (1 - defAura)));
+    }
+  }
+
+  if (huntSession()) {
+    roundTaken += Math.max(0, finalDamage);
+  }
 
   if (!target) {
-    usePlayerStore.getState().takeDamage(damage);
+    usePlayerStore.getState().takeDamage(finalDamage);
     return;
   }
 
-  party.takeDamage(target.id, damage);
+  party.takeDamage(target.id, finalDamage);
 
   if (target.id === party.activeId) {
-    usePlayerStore.getState().takeDamage(damage);
+    usePlayerStore.getState().takeDamage(finalDamage);
   }
 };
 
@@ -238,7 +469,16 @@ const handleDefeat = () => {
 };
 
 const handleVictory = () => {
+  reportHuntRound(true);
+
   const combat = useCombatStore.getState();
+
+  // Dungeon em party: andar limpo avança para todos os membros
+  const activeHunt = huntSession();
+
+  if (activeHunt?.dungeonId && combat.isDungeon) {
+    socketService.reportPartyFloor(combat.floor + 1);
+  }
   const playerStore = usePlayerStore.getState();
   const partyStore = usePartyStore.getState();
   const enemy = combat.enemy;
@@ -248,15 +488,60 @@ const handleVictory = () => {
   }
 
   const xpMultiplier = partyStore.getXpMultiplier();
-  const xp = Math.floor(enemy.xp * xpMultiplier * impulseSystem.getBonus('xp'));
-  const gold = Math.floor(enemy.gold * impulseSystem.getBonus('gold'));
+  const resolved = getResolvedEffects();
+  const xpBonus = resolved?.xpBonus ?? 0;
+  const goldBonus = resolved?.goldBonus ?? 0;
+
+  // Bônus de grupo por nº de membros na caçada (autoritativo do servidor)
+  const activeSession = huntSession();
+  const sizeBonus = activeSession && huntRegionMatches() ? activeSession.sizeBonus : undefined;
+
+  // xpBonus/goldBonus são frações 0-1; sizeBonus vem em % inteiro
+  const xp = Math.floor(enemy.xp * xpMultiplier * impulseSystem.getBonus('xp') * (1 + xpBonus + (sizeBonus?.xp ?? 0) / 100));
+  const gold = Math.floor(enemy.gold * impulseSystem.getBonus('gold') * (1 + goldBonus + (sizeBonus?.gold ?? 0) / 100));
 
   playerStore.gainXp(xp);
   playerStore.gainGold(gold);
   playerStore.addKill(enemy.id);
   questSystem.onKill(enemy.id);
 
-  const loot = rollLoot(enemy, playerStore.getLuck(), combat.autoConfig.lootFilter);
+  // Missões diárias
+  playerStore.recordDailyEvent('kill');
+
+  if (combat.isDungeon) {
+    playerStore.recordDailyEvent('dungeon_floor');
+  }
+
+  // 4. Ao matar: ON_KILL_HEAL (67) e ON_KILL_MP (68) — frações 0-1,
+  //    convertidas para porcentagem (0-100) esperada por recoverHp/recoverMp
+  if (resolved) {
+    const onKillHeal = getConditionalValue(resolved, EFFECT.ON_KILL_HEAL);
+
+    if (onKillHeal > 0) {
+      playerStore.recoverHp(onKillHeal * 100);
+    }
+
+    const onKillMp = getConditionalValue(resolved, EFFECT.ON_KILL_MP);
+
+    if (onKillMp > 0) {
+      playerStore.recoverMp(onKillMp * 100);
+    }
+  }
+
+  // Recompensas garantidas ao limpar a dungeon (boss do último andar)
+  if (combat.isDungeon && combat.floor >= combat.maxFloor && combat.dungeonId) {
+    const dungeonDef = getDungeon(combat.dungeonId);
+
+    if (dungeonDef) {
+      playerStore.gainGold(dungeonDef.rewardGold);
+      dungeonDef.rewardItems.forEach((itemId) => playerStore.addItem(itemId, 1));
+      combat.addLog('victory', `${t('combat.dungeonCleared')} +${dungeonDef.rewardGold} 🪙`);
+    }
+  }
+
+  // LOOT_BONUS (29, pets/montarias) + bônus de grupo aumentam a sorte do drop
+  const lootLuck = playerStore.getLuck() + (resolved?.lootBonus ?? 0) * 200 + (sizeBonus?.loot ?? 0) * 5;
+  const loot = rollLoot(enemy, lootLuck, combat.autoConfig.lootFilter);
   loot.forEach((entry) => playerStore.addItem(entry.itemId, entry.qty));
 
   impulseSystem.consumeCharge();
@@ -287,10 +572,12 @@ const handleVictory = () => {
       useCombatStore.setState({ floor: nextFloor });
       combatEngine.start(combat.region, {
         dungeon: true,
+        dungeonId: combat.dungeonId ?? undefined,
         floor: nextFloor,
         maxFloor: combat.maxFloor
       });
-    } else if (!combat.autoConfig.stopBoss) {
+    } else if (!combat.isDungeon && !combat.autoConfig.stopBoss) {
+      // Dungeon limpa: permanece na tela de vitória (sem reiniciar caça)
       combatEngine.start(combat.region);
     }
   }
@@ -319,18 +606,34 @@ const afterPlayerAction = () => {
 
 export const combatEngine = {
   start(region: string, options: CombatStartOptions = {}) {
-    const enemy = options.bossId
-      ? createEnemyFromBoss(options.bossId)
+    const isDungeon = Boolean(options.dungeon);
+    const floor = options.floor ?? 1;
+    const maxFloor = options.maxFloor ?? 1;
+    const dungeonDef = options.dungeonId ? getDungeon(options.dungeonId) : undefined;
+
+    // Dungeon: o boss aparece automaticamente no último andar
+    const bossId = options.bossId ?? (isDungeon && floor >= maxFloor ? dungeonDef?.bossId : undefined);
+
+    const enemy = bossId
+      ? createEnemyFromBoss(bossId)
       : createEnemyFromMonster(options.enemyId ?? getRegionMonsterId(region));
+
+    // 1. Ao iniciar combate: resolve os stats reais do equipamento
+    //    e registra os onHitEffects / pools defensivos.
+    const player = usePlayerStore.getState().data;
+    activeEffects = player ? calculatePlayerStats(player.stats, player.equipment) : null;
+    shieldPool = activeEffects ? getConditionalValue(activeEffects, EFFECT.SHIELD) : 0;
+    barrierPool = activeEffects ? getConditionalValue(activeEffects, EFFECT.BARRIER) : 0;
 
     useCombatStore.setState({
       active: true,
       phase: 'player',
       turn: 1,
       region,
-      floor: options.floor ?? 1,
-      maxFloor: options.maxFloor ?? 1,
-      isDungeon: Boolean(options.dungeon),
+      floor,
+      maxFloor,
+      isDungeon,
+      dungeonId: options.dungeonId ?? null,
       isBoss: Boolean(enemy.mechanics),
       enemy,
       enemyHp: enemy.hp,
@@ -358,6 +661,14 @@ export const combatEngine = {
       return;
     }
 
+    // 2. Ao atacar: rola os onHitEffects (61–66) do equipamento.
+    rollOnHitEffects();
+
+    if (useCombatStore.getState().enemyHp <= 0) {
+      handleVictory();
+      return;
+    }
+
     afterPlayerAction();
   },
 
@@ -378,10 +689,16 @@ export const combatEngine = {
     }
 
     reducePlayerMp(skill.mp);
-    combat.setCooldown(skillId, skill.cd);
+
+    // HASTE (59): reduz o cooldown da skill (fração 0-1)
+    const haste = getResolvedEffects() ? getConditionalValue(getResolvedEffects() as ResolvedEffects, EFFECT.HASTE) : 0;
+    combat.setCooldown(skillId, Math.max(1, Math.round(skill.cd * (1 - haste))));
 
     if (skill.healPercent) {
-      usePlayerStore.getState().recoverHp(skill.healPercent);
+      // HEAL_BONUS (26) amplifica a cura recebida de skills
+      const healBonus = getResolvedEffects()?.healBonus ?? 0;
+
+      usePlayerStore.getState().recoverHp(skill.healPercent * (1 + healBonus));
     }
 
     if (skill.dotDamage && skill.dotTurns) {
@@ -436,6 +753,16 @@ export const combatEngine = {
       return;
     }
 
+    // Inimigo atordoado (stun de skills ou ON_HIT_FREEZE/ON_HIT_STUN):
+    // perde o turno.
+    const isStunned = combat.enemyEffects.some((effect) => effect.type === 'stun');
+
+    if (isStunned) {
+      combat.addLog('enemy', getEffectName(EFFECT.STUN, getLang()));
+      endEnemyTurn();
+      return;
+    }
+
     const hpPercent = (combat.enemyHp / Math.max(1, combat.enemyMaxHp)) * 100;
     let bossBoost = 1;
 
@@ -454,6 +781,34 @@ export const combatEngine = {
       useCombatStore.setState({ enraged: true });
     }
 
+    const resolved = getResolvedEffects();
+    const player = usePlayerStore.getState().data;
+
+    // ── Esquiva: base por AGI; ON_DODGE_ATK (74) contra-ataca ao esquivar ──
+    const dodgeChance = 0.03 + (player?.stats.agility ?? 0) * 0.002;
+
+    if (Math.random() < dodgeChance) {
+      combat.addLog('defend', t('combat.log.missed'));
+
+      if (resolved) {
+        const onDodgeAtk = getConditionalValue(resolved, EFFECT.ON_DODGE_ATK);
+
+        if (onDodgeAtk > 0) {
+          const counter = Math.max(1, Math.floor(usePlayerStore.getState().getTotalAtk() * onDodgeAtk));
+          applyEnemyDamage(counter);
+          combat.addLog('parry', `${getEffectName(EFFECT.ON_DODGE_ATK, getLang())} ${counter}`);
+        }
+      }
+
+      if (useCombatStore.getState().enemyHp <= 0) {
+        handleVictory();
+        return;
+      }
+
+      endEnemyTurn();
+      return;
+    }
+
     const isStrongBossAttack = combat.isBoss && combat.turn % 3 === 0;
     let damage = enemy.atk * bossBoost * (isStrongBossAttack ? 1.5 : 1);
 
@@ -463,29 +818,107 @@ export const combatEngine = {
       combat.addLog('parry', t('combat.log.defended'));
     } else if (combat.isDefending) {
       damage *= 0.5;
+
+      // ON_BLOCK_COUNTER (73): ao bloquear, chance de contra-atacar com % do ATK
+      if (resolved) {
+        const onBlockCounter = getConditionalValue(resolved, EFFECT.ON_BLOCK_COUNTER);
+
+        if (onBlockCounter > 0 && Math.random() < 0.4) {
+          const counter = Math.max(1, Math.floor(usePlayerStore.getState().getTotalAtk() * onBlockCounter));
+          applyEnemyDamage(counter);
+          combat.addLog('parry', `${getEffectName(EFFECT.ON_BLOCK_COUNTER, getLang())} ${counter}`);
+        }
+      }
+    }
+
+    if (useCombatStore.getState().enemyHp <= 0) {
+      handleVictory();
+      return;
     }
 
     damage = Math.max(1, Math.floor(damage / impulseSystem.getBonus('defense')));
-    damagePartyOrPlayer(damage);
-    usePetStore.getState().petTakeDmg(Math.floor(damage * 0.25));
-    combat.addLog('enemy', `${t('combat.log.playerTook').replace('{damage}', String(damage))}`);
+
+    // ── Effects defensivos do equipamento ──
+    if (resolved) {
+      // Inimigo com slow (47/66) causa 10% menos dano
+      if (combat.enemyEffects.some((effect) => effect.type === 'slow')) {
+        damage *= 0.9;
+      }
+
+      // DEF_BONUS (25) e ON_LOW_HP_DEF (70, com HP < 20%) — frações 0-1
+      let defBonus = resolved.defBonus;
+
+      if (isPlayerLowHp()) {
+        defBonus += getConditionalValue(resolved, EFFECT.ON_LOW_HP_DEF);
+      }
+
+      // Aura coletiva de defesa da caçada de party
+      const activeSession = huntSession();
+
+      if (activeSession && huntRegionMatches() && activeSession.auraDef > 0) {
+        defBonus += activeSession.auraDef;
+      }
+
+      if (defBonus > 0) {
+        damage /= 1 + defBonus;
+      }
+
+      damage = Math.max(1, Math.floor(damage));
+
+      // REFLECT (56): reflete parte do dano de volta ao inimigo (fração 0-1)
+      const reflect = getConditionalValue(resolved, EFFECT.REFLECT);
+
+      if (reflect > 0) {
+        const reflected = Math.floor(damage * reflect);
+
+        if (reflected > 0) {
+          applyEnemyDamage(reflected);
+          combat.addLog('parry', `${getEffectName(EFFECT.REFLECT, getLang())} ${reflected}`);
+        }
+      }
+
+      // SHIELD (57): escudo absorve dano (pool de HP)
+      const shieldAbsorb = Math.min(shieldPool, damage);
+
+      if (shieldAbsorb > 0) {
+        shieldPool -= shieldAbsorb;
+        damage -= shieldAbsorb;
+        combat.addLog('defend', `${getEffectName(EFFECT.SHIELD, getLang())} ${shieldAbsorb}`);
+      }
+
+      // BARRIER (58): barreira mágica absorve o restante (pool de MP)
+      const barrierAbsorb = Math.min(barrierPool, damage);
+
+      if (barrierAbsorb > 0) {
+        barrierPool -= barrierAbsorb;
+        damage -= barrierAbsorb;
+        combat.addLog('defend', `${getEffectName(EFFECT.BARRIER, getLang())} ${barrierAbsorb}`);
+      }
+    }
+
+    damage = Math.max(0, Math.floor(damage));
+
+    if (damage > 0) {
+      damagePartyOrPlayer(damage);
+      usePetStore.getState().petTakeDmg(Math.floor(damage * 0.25));
+      combat.addLog('enemy', `${t('combat.log.playerTook').replace('{damage}', String(damage))}`);
+    }
 
     if (isDefeated()) {
       handleDefeat();
       return;
     }
 
-    usePetStore.getState().tickCooldown();
-    combat.tickCooldowns();
-    useCombatStore.setState({
-      turn: combat.turn + 1,
-      phase: 'player',
-      isDefending: false
-    });
+    // REGENERATE (55): regenera HP por turno (valor flat)
+    if (resolved) {
+      const regen = getConditionalValue(resolved, EFFECT.REGENERATE);
 
-    if (useCombatStore.getState().autoFight) {
-      this.autoAction();
+      if (regen > 0) {
+        healPlayerFlat(regen);
+      }
     }
+
+    endEnemyTurn();
   },
 
   autoAction() {

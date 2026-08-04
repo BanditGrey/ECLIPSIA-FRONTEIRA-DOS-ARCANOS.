@@ -1,9 +1,15 @@
 import { useState } from 'react';
+import { bosses } from '../../data/bosses';
+import { dungeons } from '../../data/dungeons';
+import type { DungeonDef } from '../../data/dungeons';
+import { ITEMS } from '../../data/items';
 import { useI18n } from '../../hooks/useI18n';
 import { useCombatStore } from '../../store/useCombatStore';
 import { useGameStore } from '../../store/useGameStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
+import { combatEngine } from '../../systems/combat';
 import type { Enemy } from '../../types/combat.types';
+import type { Item } from '../../types/item.types';
 import { Button } from '../ui/Button';
 
 type TravelTab = 'regions' | 'dungeons';
@@ -101,16 +107,25 @@ export const TravelPanel = () => {
     setPanel('combat');
   };
 
-  const enterDungeon = () => {
-    const region = regions[1];
-    useCombatStore.setState({
-      region: t('travel.dungeonInfo.rootCrypt.name'),
-      floor: 1,
-      maxFloor: 10,
-      isDungeon: true,
-      phase: 'player'
+  const isDungeonUnlocked = (dungeon: DungeonDef) => {
+    if ((player?.level ?? 0) < dungeon.requireLevel) {
+      return false;
+    }
+
+    if (dungeon.requireTitle && !player?.titles.includes(dungeon.requireTitle)) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const enterDungeonDef = (dungeon: DungeonDef) => {
+    combatEngine.start(dungeon.regionId, {
+      dungeon: true,
+      dungeonId: dungeon.id,
+      maxFloor: dungeon.floors,
+      floor: 1
     });
-    setEnemy(createEnemyForRegion(region));
     setPanel('combat');
   };
 
@@ -166,36 +181,43 @@ export const TravelPanel = () => {
           </div>
         ) : (
           <div className="grid h-full gap-3 overflow-auto pr-1">
-            <article className="grid grid-cols-[1fr_auto] gap-3 rounded-xl border border-game-border bg-game-card p-3">
-              <div className="flex gap-3">
-                <span className="text-3xl">🏚</span>
-                <div>
-                  <h2 className="font-title text-lg font-bold text-game-gold">{t('travel.dungeonInfo.rootCrypt.name')}</h2>
-                  <p className="font-mono text-xs text-game-muted">
-                    {t('travel.dungeonInfo.rootCrypt.level')} • {t('travel.dungeonInfo.rootCrypt.floors')} • {t('travel.dungeonInfo.rootCrypt.region')}
-                  </p>
-                </div>
-              </div>
-              {(player?.level ?? 0) >= 15 ? (
-                <Button size="sm" onClick={enterDungeon}>{t('travel.enter')}</Button>
-              ) : (
-                <span className="rounded-md border border-game-border bg-game-primary px-3 py-2 text-center font-mono text-xs text-game-muted">
-                  🔒 {t('travel.requireLevel')} 15
-                </span>
-              )}
-            </article>
-            <article className="grid grid-cols-[1fr_auto] gap-3 rounded-xl border border-game-border bg-game-card p-3 opacity-70">
-              <div className="flex gap-3">
-                <span className="text-3xl">❓</span>
-                <div>
-                  <h2 className="font-title text-lg font-bold text-game-gold">{t('travel.dungeonInfo.hidden.name')}</h2>
-                  <p className="font-mono text-xs text-game-muted">{t('travel.dungeonInfo.hidden.condition')}</p>
-                </div>
-              </div>
-              <span className="rounded-md border border-game-border bg-game-primary px-3 py-2 text-center font-mono text-xs text-game-muted">
-                🔒 {t('travel.requirements.hidden')}
-              </span>
-            </article>
+            {dungeons.map((dungeon) => {
+              const boss = bosses.find((entry) => entry.id === dungeon.bossId);
+              const regionEntry = regions.find((entry) => entry.id === dungeon.regionId);
+              const unlocked = isDungeonUnlocked(dungeon);
+              const rewardItems = dungeon.rewardItems
+                .map((itemId) => (ITEMS as Record<string, Item>)[itemId])
+                .filter(Boolean);
+
+              return (
+                <article key={dungeon.id} className="grid grid-cols-[1fr_auto] gap-3 rounded-xl border border-game-border bg-game-card p-3">
+                  <div className="flex min-w-0 gap-3">
+                    <span className="text-3xl">{boss?.icon ?? '🏚'}</span>
+                    <div className="min-w-0">
+                      <h2 className="truncate font-title text-lg font-bold text-game-gold">
+                        {t(`travel.dungeons.${dungeon.id}.name`)}
+                      </h2>
+                      <p className="font-mono text-xs text-game-muted">
+                        {regionEntry?.icon} {t(`travel.regions.${dungeon.regionId}.name`)} · {dungeon.floors} {t('travel.dungeonFloors')} ·{' '}
+                        {t('travel.dungeonBoss')}: {boss ? t(boss.nameKey) : '?'}
+                      </p>
+                      <p className="mt-1 text-sm text-game-muted">{t(`travel.dungeons.${dungeon.id}.desc`)}</p>
+                      <p className="mt-1 font-mono text-xs text-game-gold">
+                        {t('travel.dungeonReward')}: {dungeon.rewardGold} 🪙{rewardItems.map((item) => ` · ${item.icon} ${t(item.nameKey)}`).join('')}
+                      </p>
+                    </div>
+                  </div>
+                  {unlocked ? (
+                    <Button size="sm" onClick={() => enterDungeonDef(dungeon)}>{t('travel.enter')}</Button>
+                  ) : (
+                    <span className="rounded-md border border-game-border bg-game-primary px-3 py-2 text-center font-mono text-xs text-game-muted">
+                      🔒 {t('travel.requireLevel')} {dungeon.requireLevel}
+                      {dungeon.requireTitle ? ` + ${t('titles.' + dungeon.requireTitle)}` : ''}
+                    </span>
+                  )}
+                </article>
+              );
+            })}
           </div>
         )}
       </section>

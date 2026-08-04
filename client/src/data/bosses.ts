@@ -17,6 +17,8 @@ export interface BossMechanicsData {
 
 export interface BossData {
   id: string;
+  /** Raça do boss — usada pelos effects VS_* (75-78). */
+  race: import('./monsters').MonsterRace;
   icon: string;
   level: number;
   hp: number;
@@ -44,6 +46,7 @@ const loot = (items: string[]): MonsterLootEntry[] =>
 export const bosses: BossData[] = [
   {
     id: 'bandit_leader',
+    race: 'humanoid',
     icon: '🗡',
     level: 8,
     hp: 1200,
@@ -53,7 +56,7 @@ export const bosses: BossData[] = [
     gold: 220,
     nameKey: 'bosses.bandit_leader.name',
     skills: ['double_slash', 'battle_cry'],
-    lootTable: loot(['long_sword', 'mat_9003']),
+    lootTable: loot(['w1h_1003', 'mat_9003']),
     mechanics: {
       phases: 2,
       phase2Trigger: 50,
@@ -64,6 +67,7 @@ export const bosses: BossData[] = [
   },
   {
     id: 'root_guardian',
+    race: 'elemental',
     icon: '🌳',
     level: 20,
     hp: 3500,
@@ -85,6 +89,7 @@ export const bosses: BossData[] = [
   },
   {
     id: 'void_mirror',
+    race: 'aberration',
     icon: '🪞',
     level: 35,
     hp: 6000,
@@ -103,6 +108,7 @@ export const bosses: BossData[] = [
   },
   {
     id: 'azhur',
+    race: 'beast',
     icon: '🐺',
     level: 50,
     hp: 25000,
@@ -125,6 +131,7 @@ export const bosses: BossData[] = [
   },
   {
     id: 'thal_mora',
+    race: 'beast',
     icon: '🐍',
     level: 65,
     hp: 40000,
@@ -147,6 +154,7 @@ export const bosses: BossData[] = [
   },
   {
     id: 'velkaryn',
+    race: 'aberration',
     icon: '⚔',
     level: 55,
     hp: 18000,

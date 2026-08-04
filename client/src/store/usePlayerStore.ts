@@ -1,12 +1,17 @@
 import { create } from 'zustand';
+import { countEffects } from '../data/effectRegistry';
+import { resolveEffects, resolvedToItemStats } from '../systems/effectEngine';
 import type { Item, ItemStats, Slot } from '../types/item.types';
 import type { Equipment, InventoryItem, PlayerData, Stats } from '../types/player.types';
+import { isSerializedItemStr, resolveItemRef } from '../utils/itemSerializer';
+import { getDailyQuest } from '../data/dailyQuests';
 
 type EquipmentSlot = keyof Equipment;
-type RegisteredItem = Pick<Item, 'id' | 'slot' | 'isTwoHanded' | 'stats'>;
+type RegisteredItem = Pick<Item, 'id' | 'slot' | 'isTwoHanded' | 'stats' | 'effects'>;
 
 const MAX_LUCK = 200;
-const DEFAULT_MAX_INVENTORY = 20;
+const DEFAULT_MAX_INVENTORY = 60;
+const DEFAULT_MAX_STORAGE = 500;
 
 const equipmentSlots: EquipmentSlot[] = [
   'weapon_main',
@@ -84,6 +89,22 @@ const getRegisteredItem = (itemId: string): RegisteredItem | null => {
     return registered;
   }
 
+  // itemStr serializada ("1005|1:65|4:5|7:3") — resolve pelo serializer,
+  // permitindo equipamento vindo de correio/mercado/trades.
+  if (isSerializedItemStr(itemId)) {
+    const item = resolveItemRef(itemId);
+
+    if (item) {
+      return {
+        id: itemId,
+        slot: item.slot,
+        isTwoHanded: Boolean(item.isTwoHanded),
+        stats: item.stats,
+        effects: item.effects
+      };
+    }
+  }
+
   const slot = inferEquipmentSlot(itemId);
 
   if (!slot) {
@@ -101,7 +122,15 @@ const clamp = (value: number, min: number, max: number) => Math.min(Math.max(val
 
 const getMaxInventory = (data: PlayerData) => Math.min(data.maxInventory || DEFAULT_MAX_INVENTORY, DEFAULT_MAX_INVENTORY);
 
-const hasInventoryItem = (inventory: InventoryItem[], itemId: string) => inventory.some((item) => item.id === itemId && item.qty > 0);
+const getMaxStorage = (data: PlayerData) => Math.min(data.maxStorage || DEFAULT_MAX_STORAGE, DEFAULT_MAX_STORAGE);
+
+/** Referência canônica de uma entrada de inventário (itemStr ou id legado). */
+export const refOf = (entry: InventoryItem): string => entry.itemStr ?? entry.id ?? '';
+
+const makeInventoryEntry = (ref: string, qty: number): InventoryItem =>
+  isSerializedItemStr(ref) ? { itemStr: ref, qty } : { id: ref, qty };
+
+const hasInventoryItem = (inventory: InventoryItem[], ref: string) => inventory.some((item) => refOf(item) === ref && item.qty > 0);
 
 const getEquipmentItemStats = (equipment: Equipment): ItemStats => {
   return equipmentSlots.reduce<ItemStats>((total, slot) => {
@@ -112,7 +141,15 @@ const getEquipmentItemStats = (equipment: Equipment): ItemStats => {
     }
 
     const item = getRegisteredItem(itemId);
-    const stats = item?.stats;
+
+    if (!item) {
+      return total;
+    }
+
+    // `effects` é a fonte de verdade dos bônus; `stats` é o fallback legado.
+    const stats = item.effects && countEffects(item.effects) > 0
+      ? resolvedToItemStats(resolveEffects(item))
+      : item.stats;
 
     if (!stats) {
       return total;
@@ -153,8 +190,13 @@ interface PlayerState {
   gainGold: (amount: number) => number;
   spendGold: (amount: number) => boolean;
   addStat: (stat: keyof Stats, amount?: number) => boolean;
-  addItem: (itemId: string, qty?: number) => boolean;
-  removeItem: (itemId: string, qty?: number) => boolean;
+  addItem: (itemRef: string, qty?: number) => boolean;
+  removeItem: (itemRef: string, qty?: number) => boolean;
+  depositItem: (itemRef: string, qty?: number) => boolean;
+  withdrawItem: (itemRef: string, qty?: number) => boolean;
+  isStorageFull: () => boolean;
+  recordDailyEvent: (event: string, amount?: number) => void;
+  claimDaily: (questId: string) => boolean;
   equip: (itemId: string) => boolean;
   unequip: (slot: EquipmentSlot) => boolean;
   takeDamage: (amount: number) => number;
@@ -268,7 +310,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
 
     return true;
   },
-  addItem: (itemId, qty = 1) => {
+  addItem: (itemRef, qty = 1) => {
     const data = get().data;
     const amount = Math.max(1, qty);
 
@@ -277,7 +319,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     }
 
     const inventory = [...data.inventory];
-    const existingIndex = inventory.findIndex((item) => item.id === itemId);
+    const existingIndex = inventory.findIndex((item) => refOf(item) === itemRef);
 
     if (existingIndex >= 0) {
       inventory[existingIndex] = {
@@ -289,7 +331,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
         return false;
       }
 
-      inventory.push({ id: itemId, qty: amount });
+      inventory.push(makeInventoryEntry(itemRef, amount));
     }
 
     set({
@@ -301,7 +343,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
 
     return true;
   },
-  removeItem: (itemId, qty = 1) => {
+  removeItem: (itemRef, qty = 1) => {
     const data = get().data;
     const amount = Math.max(1, qty);
 
@@ -310,7 +352,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     }
 
     const inventory = [...data.inventory];
-    const existingIndex = inventory.findIndex((item) => item.id === itemId);
+    const existingIndex = inventory.findIndex((item) => refOf(item) === itemRef);
 
     if (existingIndex < 0 || inventory[existingIndex].qty < amount) {
       return false;
@@ -331,6 +373,160 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       data: {
         ...data,
         inventory
+      }
+    });
+
+    return true;
+  },
+  depositItem: (itemRef, qty = 1) => {
+    const data = get().data;
+    const amount = Math.max(1, qty);
+
+    if (!data) {
+      return false;
+    }
+
+    // Remove do inventário (valida posse)
+    const inventory = [...data.inventory];
+    const invIndex = inventory.findIndex((item) => refOf(item) === itemRef);
+
+    if (invIndex < 0 || inventory[invIndex].qty < amount) {
+      return false;
+    }
+
+    // Capacidade do baú (entradas distintas)
+    const storage = [...(data.storage ?? [])];
+    const stoIndex = storage.findIndex((item) => refOf(item) === itemRef);
+
+    if (stoIndex < 0 && storage.length >= getMaxStorage(data)) {
+      return false;
+    }
+
+    inventory[invIndex] = { ...inventory[invIndex], qty: inventory[invIndex].qty - amount };
+
+    if (inventory[invIndex].qty <= 0) {
+      inventory.splice(invIndex, 1);
+    }
+
+    if (stoIndex >= 0) {
+      storage[stoIndex] = { ...storage[stoIndex], qty: storage[stoIndex].qty + amount };
+    } else {
+      storage.push(makeInventoryEntry(itemRef, amount));
+    }
+
+    set({ data: { ...data, inventory, storage } });
+    return true;
+  },
+  withdrawItem: (itemRef, qty = 1) => {
+    const data = get().data;
+    const amount = Math.max(1, qty);
+
+    if (!data) {
+      return false;
+    }
+
+    const storage = [...(data.storage ?? [])];
+    const stoIndex = storage.findIndex((item) => refOf(item) === itemRef);
+
+    if (stoIndex < 0 || storage[stoIndex].qty < amount) {
+      return false;
+    }
+
+    const inventory = [...data.inventory];
+    const invIndex = inventory.findIndex((item) => refOf(item) === itemRef);
+
+    if (invIndex < 0 && inventory.length >= getMaxInventory(data)) {
+      return false;
+    }
+
+    storage[stoIndex] = { ...storage[stoIndex], qty: storage[stoIndex].qty - amount };
+
+    if (storage[stoIndex].qty <= 0) {
+      storage.splice(stoIndex, 1);
+    }
+
+    if (invIndex >= 0) {
+      inventory[invIndex] = { ...inventory[invIndex], qty: inventory[invIndex].qty + amount };
+    } else {
+      inventory.push(makeInventoryEntry(itemRef, amount));
+    }
+
+    set({ data: { ...data, inventory, storage } });
+    return true;
+  },
+  isStorageFull: () => {
+    const data = get().data;
+
+    if (!data) {
+      return false;
+    }
+
+    return (data.storage ?? []).length >= getMaxStorage(data);
+  },
+  recordDailyEvent: (event, amount = 1) => {
+    const data = get().data;
+
+    if (!data || amount <= 0) {
+      return;
+    }
+
+    const today = new Date().toISOString().slice(0, 10);
+    const current = data.daily && data.daily.date === today ? data.daily : { date: today, progress: {}, claimed: [] };
+
+    set({
+      data: {
+        ...data,
+        daily: {
+          ...current,
+          progress: {
+            ...current.progress,
+            [event]: (current.progress[event] ?? 0) + amount
+          }
+        }
+      }
+    });
+  },
+  claimDaily: (questId) => {
+    const data = get().data;
+    const quest = getDailyQuest(questId);
+
+    if (!data || !quest) {
+      return false;
+    }
+
+    const today = new Date().toISOString().slice(0, 10);
+    const daily = data.daily && data.daily.date === today ? data.daily : { date: today, progress: {}, claimed: [] };
+
+    if (daily.claimed.includes(questId) || (daily.progress[quest.event] ?? 0) < quest.goal) {
+      return false;
+    }
+
+    // Recompensas (ouro, xp e itens entram pelos fluxos normais do store)
+    if (quest.rewards.gold) {
+      get().gainGold(quest.rewards.gold);
+    }
+
+    if (quest.rewards.xp) {
+      get().gainXp(quest.rewards.xp);
+    }
+
+    quest.rewards.items?.forEach(({ itemId, qty }) => {
+      get().addItem(itemId, qty);
+    });
+
+    const fresh = get().data;
+
+    if (!fresh) {
+      return true;
+    }
+
+    set({
+      data: {
+        ...fresh,
+        daily: {
+          ...daily,
+          claimed: [...daily.claimed, questId]
+        }
       }
     });
 

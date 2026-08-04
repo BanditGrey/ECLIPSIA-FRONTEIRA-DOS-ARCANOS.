@@ -12,9 +12,13 @@ export interface MonsterGoldRange {
   max: number;
 }
 
+export type MonsterRace = 'beast' | 'humanoid' | 'undead' | 'elemental' | 'aberration';
+
 export interface MonsterData {
   id: string;
   icon: string;
+  /** Raça do monstro — usada pelos effects VS_BEAST/VS_UNDEAD (75/76). */
+  race: MonsterRace;
   level: number;
   hp: number;
   atk: number;
@@ -40,6 +44,7 @@ const loot = (items: string[]): MonsterLootEntry[] =>
 export const monsters: MonsterData[] = [
   {
     id: 'rat',
+    race: 'beast',
     icon: '🐀',
     level: 1,
     hp: 80,
@@ -55,6 +60,7 @@ export const monsters: MonsterData[] = [
   },
   {
     id: 'goblin',
+    race: 'humanoid',
     icon: '👺',
     level: 3,
     hp: 150,
@@ -70,6 +76,7 @@ export const monsters: MonsterData[] = [
   },
   {
     id: 'wolf_pup',
+    race: 'beast',
     icon: '🐺',
     level: 5,
     hp: 200,
@@ -85,6 +92,7 @@ export const monsters: MonsterData[] = [
   },
   {
     id: 'bandit_leader',
+    race: 'humanoid',
     icon: '🗡',
     level: 8,
     hp: 1200,
@@ -96,12 +104,13 @@ export const monsters: MonsterData[] = [
       max: 220
     },
     skills: ['double_slash', 'battle_cry'],
-    lootTable: loot(['long_sword', 'mat_9003']),
+    lootTable: loot(['w1h_1003', 'mat_9003']),
     boss: true,
     phases: 2
   },
   {
     id: 'mist_wolf',
+    race: 'beast',
     icon: '🐺',
     level: 12,
     hp: 800,
@@ -117,6 +126,7 @@ export const monsters: MonsterData[] = [
   },
   {
     id: 'shadow_sprite',
+    race: 'undead',
     icon: '👻',
     level: 14,
     hp: 600,
@@ -132,6 +142,7 @@ export const monsters: MonsterData[] = [
   },
   {
     id: 'forest_golem',
+    race: 'elemental',
     icon: '🪨',
     level: 18,
     hp: 1500,
@@ -147,6 +158,7 @@ export const monsters: MonsterData[] = [
   },
   {
     id: 'root_guardian',
+    race: 'elemental',
     icon: '🌳',
     level: 20,
     hp: 3500,
@@ -164,6 +176,7 @@ export const monsters: MonsterData[] = [
   },
   {
     id: 'sand_scorpion',
+    race: 'beast',
     icon: '🦂',
     level: 22,
     hp: 1300,
@@ -179,6 +192,7 @@ export const monsters: MonsterData[] = [
   },
   {
     id: 'mirage_beast',
+    race: 'beast',
     icon: '🐆',
     level: 26,
     hp: 1800,
@@ -194,6 +208,7 @@ export const monsters: MonsterData[] = [
   },
   {
     id: 'dune_crawler',
+    race: 'beast',
     icon: '🪱',
     level: 30,
     hp: 2400,
@@ -209,6 +224,7 @@ export const monsters: MonsterData[] = [
   },
   {
     id: 'sea_wraith',
+    race: 'undead',
     icon: '👻',
     level: 42,
     hp: 3600,
@@ -224,6 +240,7 @@ export const monsters: MonsterData[] = [
   },
   {
     id: 'deep_leviathan_jr',
+    race: 'beast',
     icon: '🐍',
     level: 48,
     hp: 5200,
@@ -239,6 +256,7 @@ export const monsters: MonsterData[] = [
   },
   {
     id: 'storm_harpy',
+    race: 'beast',
     icon: '🦅',
     level: 56,
     hp: 4800,
@@ -254,6 +272,7 @@ export const monsters: MonsterData[] = [
   },
   {
     id: 'cloud_titan',
+    race: 'elemental',
     icon: '☁',
     level: 64,
     hp: 9000,
