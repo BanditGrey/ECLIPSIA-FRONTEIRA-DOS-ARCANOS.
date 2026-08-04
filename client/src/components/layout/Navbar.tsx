@@ -7,6 +7,7 @@ const navItems: Array<{ panel: GamePanel; icon: ArcaneIconName; labelKey: string
   { panel: 'hub', icon: 'hub', labelKey: 'nav.hub' },
   { panel: 'travel', icon: 'map', labelKey: 'nav.travel' },
   { panel: 'combat', icon: 'sword', labelKey: 'nav.hunt' },
+  { panel: 'boss', icon: 'tower', labelKey: 'nav.boss' },
   { panel: 'items', icon: 'bag', labelKey: 'nav.items' },
   { panel: 'profile', icon: 'profile', labelKey: 'nav.profile' }
 ];
@@ -17,7 +18,7 @@ export const Navbar = () => {
   const setPanel = useGameStore((state) => state.setPanel);
 
   return (
-    <nav className="relative grid h-nav shrink-0 grid-cols-5 border-t border-night-700 bg-night-900/90 backdrop-blur">
+    <nav className="relative grid h-nav shrink-0 grid-cols-6 border-t border-night-700 bg-night-900/90 backdrop-blur">
       {navItems.map((item) => {
         const isActive = panel === item.panel;
 

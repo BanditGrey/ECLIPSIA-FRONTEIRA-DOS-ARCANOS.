@@ -373,8 +373,16 @@ export const translations: Record<LangCode, TranslationTree> = {
       "hub": "Central",
       "travel": "Viagem",
       "hunt": "Caça",
+      "boss": "Boss",
       "items": "Itens",
       "profile": "Perfil"
+    },
+    "bossRoom": {
+      "title": "Sala de Boss",
+      "fight": "Enfrentar",
+      "lockedLevel": "Nível baixo",
+      "cooldown": "Recarga",
+      "arena": "Sala de Boss"
     },
     "hub": {
       "travel": "Viajar",
@@ -2107,8 +2115,16 @@ export const translations: Record<LangCode, TranslationTree> = {
       "hub": "Hub",
       "travel": "Travel",
       "hunt": "Hunt",
+      "boss": "Boss",
       "items": "Items",
       "profile": "Profile"
+    },
+    "bossRoom": {
+      "title": "Boss Room",
+      "fight": "Fight",
+      "lockedLevel": "Level too low",
+      "cooldown": "Cooldown",
+      "arena": "Boss Room"
     },
     "hub": {
       "travel": "Travel",
@@ -3840,8 +3856,16 @@ export const translations: Record<LangCode, TranslationTree> = {
       "hub": "Centro",
       "travel": "Viaje",
       "hunt": "Caza",
+      "boss": "Jefe",
       "items": "Objetos",
       "profile": "Perfil"
+    },
+    "bossRoom": {
+      "title": "Sala de Jefes",
+      "fight": "Luchar",
+      "lockedLevel": "Nivel bajo",
+      "cooldown": "Reutilización",
+      "arena": "Sala de Jefes"
     },
     "hub": {
       "travel": "Viajar",
@@ -5573,8 +5597,16 @@ export const translations: Record<LangCode, TranslationTree> = {
       "hub": "拠点",
       "travel": "旅",
       "hunt": "狩り",
+      "boss": "ボス",
       "items": "アイテム",
       "profile": "プロフィール"
+    },
+    "bossRoom": {
+      "title": "ボス部屋",
+      "fight": "挑む",
+      "lockedLevel": "レベル不足",
+      "cooldown": "再使用",
+      "arena": "ボス部屋"
     },
     "hub": {
       "travel": "旅",

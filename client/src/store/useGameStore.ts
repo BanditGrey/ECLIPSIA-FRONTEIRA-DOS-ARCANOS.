@@ -6,6 +6,7 @@ export type GamePanel =
   | 'hub'
   | 'travel'
   | 'combat'
+  | 'boss'
   | 'city'
   | 'items'
   | 'profile'

@@ -8,7 +8,8 @@ export type ArcaneIconName =
   | 'sword' | 'shield' | 'magic' | 'flee' | 'auto' | 'advance'
   | 'gem' | 'coin' | 'mail' | 'chest' | 'map' | 'star' | 'quest'
   | 'bag' | 'tower' | 'scroll' | 'flame' | 'potion' | 'soul'
-  | 'guild' | 'party' | 'hub' | 'profile' | 'market' | 'hammer';
+  | 'guild' | 'party' | 'hub' | 'profile' | 'market' | 'hammer'
+  | 'settings' | 'volume' | 'muted';
 
 interface ArcaneIconProps {
   name: ArcaneIconName;
@@ -45,7 +46,10 @@ const ICONS: Record<ArcaneIconName, React.ReactNode> = {
   hub: F(<><circle cx="12" cy="12" r="3" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2" /></>),
   profile: F(<><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6" /></>),
   market: F(<path d="M4 7h16l-1 13H5zM8 7a4 4 0 008 0" />),
-  hammer: F(<path d="M4 20l8-8M15 9l4-4-1-1-4 4 1 1zM17 7l3 3" />)
+  hammer: F(<path d="M4 20l8-8M15 9l4-4-1-1-4 4 1 1zM17 7l3 3" />),
+  settings: F(<><circle cx="12" cy="12" r="3" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" /></>),
+  volume: F(<><path d="M3 9v6h4l5 4V5L7 9z" /><path d="M17 9a4 4 0 010 6M19.5 6.5a8 8 0 010 11" /></>),
+  muted: F(<><path d="M3 9v6h4l5 4V5L7 9z" /><path d="M17 9l5 6M22 9l-5 6" /></>)
 };
 
 export const ArcaneIcon: React.FC<ArcaneIconProps> = ({ name, size = 20, className = '', glow = false, strokeWidth = 1.8 }) => {

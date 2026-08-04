@@ -467,6 +467,19 @@ select {
   }
 }
 
+@keyframes eclipsiaPanelIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.995);
+    filter: brightness(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: brightness(1);
+  }
+}
+
 .anim-fade {
   animation: fadeIn 180ms ease-out both;
 }

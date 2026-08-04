@@ -19,6 +19,7 @@ import { PartyPanel } from './components/panels/PartyPanel';
 import { ProfilePanel } from './components/panels/ProfilePanel';
 import { QuestPanel } from './components/panels/QuestPanel';
 import { RankingPanel } from './components/panels/RankingPanel';
+import { BossPanel } from './components/panels/BossPanel';
 import { TravelPanel } from './components/panels/TravelPanel';
 import { useI18n } from './hooks/useI18n';
 import { Auth } from './services/auth';
@@ -48,6 +49,8 @@ const ActivePanel = () => {
       return <TravelPanel />;
     case 'combat':
       return <CombatPanel />;
+    case 'boss':
+      return <BossPanel />;
     case 'items':
       return <ItemsPanel />;
     case 'profile':
