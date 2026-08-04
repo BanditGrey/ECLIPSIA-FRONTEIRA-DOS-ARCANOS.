@@ -12,10 +12,15 @@
 - **Não existe classe fixa.** O jogador é definido pelas **2 armas equipadas**
   (principal + secundária). Trocar de arma = trocar de build, sem custo, sem
   criar outro personagem.
+- **Toda arma pode ser equipada em QUALQUER mão** (main ou off) — não há arma
+  exclusiva de mão. Espadão + escudo, cajado + espadão, adaga + arco: tudo vale.
+  Exceção (regra de ouro): **a MESMA categoria de arma não pode ocupar as duas
+  mãos** (ex.: 2 espadas de uma mão). Armas de "duas mãos" não bloqueiam mais a
+  outra mão — o termo vira só flavor.
 - As **Origens** (6 antigos arquétipos) são **cosméticas** (retrato, sigilo,
   título) — zero efeito mecânico.
 - Cada arma tem: **proficiência** (progressão de pontos), **passivas** (marcos)
-  e **skills ativas** (desbloqueadas por marcos).
+  e **7 skills ativas** (desbloqueadas por marcos).
 - **Sorte** (teto 1000) dá +0,1% de XP por ponto e melhora loot — nunca é vendida.
 
 ---
@@ -77,39 +82,28 @@ danoFinal = max(1, floor(danoBase × multiplicador − defInimigo×0.35))
 
 ---
 
-## 4. SKILLS POR ARMA (29 skills — 2 a 3 por arma)
+## 4. SKILLS POR ARMA (98 skills — **7 por arma**, obrigatório)
 
-| Arma | Skill | Marco | MP | CD | Efeito |
-|---|---|---|---|---|---|
-| **Espada 1H** | Spin Slash | 10 | 30 | 2 | 150% físico |
-| | Dash Cut | 25 | 45 | 3 | 200% físico |
-| | Thousand Cuts | 80 | 80 | 5 | 5×40% físico |
-| **Espada Longa** | Bleed | 40 | 50 | 3 | DoT 40×3 turnos |
-| | Cross Slash | 80 | 55 | 4 | 180% físico |
-| **Espadão** | Execute | 60 | 100 | 8 | 400% físico (executa <20% HP) |
-| | Blade Storm | 120 | 90 | 6 | 3×90% físico |
-| **Adaga** | Death Mark | 10 | 40 | 4 | Marca +50% dano 3 turnos |
-| | Shadow Step | 60 | 60 | 5 | 180% + esquiva |
-| **Adaga de Apoio** | Riposte | 30 | 35 | 3 | 140% + esquiva |
-| | Twin Fang | 70 | 45 | 4 | 2×80% físico |
-| **Arco Curto** | Piercing Shot | 10 | 30 | 2 | 160% ignora defesa |
-| | Quick Shot | 40 | 30 | 2 | 100% + slow 1 |
-| **Arco Longo** | Rain of Arrows | 50 | 70 | 5 | 4×55% físico |
-| | Sniper Shot | 90 | 65 | 5 | 220% físico, ignora defesa |
-| **Cajado** | Arcane Burst | 10 | 30 | 2 | 150% mágico |
-| | Heal Pulse | 40 | 50 | 4 | cura 45% |
-| **Cajado Arcano** | Ice Nova | 40 | 55 | 4 | 130% mágico + slow 2 |
-| | Chain Lightning | 100 | 90 | 6 | 170% mágico |
-| **Orbe** | Astral Barrier | 60 | 40 | 5 | def +35% 3 turnos |
-| | Void Gate | 120 | 110 | 8 | 300% void |
-| **Grimório** | Root | 25 | 40 | 4 | 60% mágico + stun 1 |
-| | Arcane Ward | 60 | 45 | 4 | def +30% 3t + cura 25% |
-| **Martelo** | Fortress | 40 | 45 | 5 | def +40% 3 turnos |
-| | Seismic Slam | 100 | 80 | 6 | 250% físico + stun 1 |
-| **Lança** | Thorns | 30 | 40 | 4 | reflete 35% 3 turnos |
-| | Nature Burst | 80 | 75 | 5 | 200% mágico |
-| **Escudo** | Shield Bash | 10 | 25 | 3 | 120% físico + stun 1 |
-| | Aegis Guard | 60 | 50 | 6 | def +50% 2t + cura 15% |
+> ⚙️ **Fonte de verdade: `tools/gen_skills.mjs`** — o gerador cria
+> `client/src/data/skills.ts` + o bloco i18n "skills" (4 idiomas).
+> **Regra de ouro: toda arma tem exatamente 7 skills ativas.**
+> Para alterar skills, edite o gerador e rode `node tools/gen_skills.mjs`.
+
+Cada arma segue o template de 7 papéis:
+
+| # | Papel | Exemplo (Espada 1H) |
+|---|---|---|
+| 1 | Dano básico (CD baixo) | Quick Slash (130%, CD 1) |
+| 2 | Dano forte / gap | Dash Cut (200%) |
+| 3 | Controle (stun/slow) | Parry Counter (120% + stun) |
+| 4 | Utilidade defensiva | War Cry (def +25% + cura 10%) |
+| 5 | Multi-hit / DoT | Blade Flurry (4×45%) |
+| 6 | Skill existente (mantida) | Spin Slash (150%) |
+| 7 | Ultimate / execução | Thousand Cuts (5×40%) |
+
+Lista completa das 98: gerada em `client/src/data/skills.ts` (id, proficiência,
+threshold, mp, cd, dano, hits, DoT, cura, stun/slow, defesa, reflexo, marca,
+esquiva, ignoreDef, execute) — tudo documentado no próprio arquivo e no gerador.
 
 ---
 
@@ -150,8 +144,9 @@ Bônus adicional de **ATK: +0,2% por ponto** em cada arma equipada (soma das dua
 ## 7. CHECKLIST DE STATUS
 
 - [x] 14 proficiências com XP por uso (ataque/skill/abate) e cap 1000
-- [x] Skills derivadas da arma equipada + proficiência (29 skills, todas as 14
-      armas com kit ≥2)
+- [x] **98 skills — exatamente 7 por arma** (geradas por `tools/gen_skills.mjs`)
+- [x] **Toda arma equipável em qualquer mão** (main/off); mesma categoria
+      bloqueada nas duas mãos; "duas mãos" não bloqueia mais a off
 - [x] Passivas por marcos (50/150/300) integradas (dano, crítico, cura, defesa)
 - [x] Bônus de ATK por ponto (+0,2%)
 - [x] Nomes de combinação (210) com i18n + UI (Perfil + Wiki)

@@ -57,11 +57,16 @@ cd ../server && npm test
 - **⚔ Caso 9 ✅ — Sistema completo de proficiências & skills (v1.0)**: doc
   mestre `SKILLS_SYSTEM.md` (contrato de cálculo, XP, marcos, balanceamento).
   **210 nomes de combinação** (`data/weaponCombos.ts`, matriz main×off + arma
-  única, i18n 4 idiomas) exibidos no Perfil e na Wiki. **28 skills** (todas as
-  14 armas com kit ≥2 — novas: cross_slash, twin_fang, quick_shot,
-  astral_barrier, arcane_ward, seismic_slam, aegis_guard). **Passivas por
-  marcos 50/150/300** por arma (dmg/crit/critDmg/cura/defesa) integradas em
-  combate/cura/defesa. Pendente: balanceamento com telemetria real (Caso 5).
+  única, i18n 4 idiomas) exibidos no Perfil e na Wiki. **Passivas por marcos
+  50/150/300** por arma (dmg/crit/critDmg/cura/defesa) integradas em
+  combate/cura/defesa.
+- **⚔ Caso 10 ✅ — Equipamento livre + 7 skills por arma**: toda arma é
+  equipável em qualquer mão (fim da restrição de "duas mãos"; espadão+escudo
+  vale); **mesma categoria de arma bloqueada nas duas mãos**. UI de equip com
+  escolha de mão (i18n 4 idiomas). **98 skills (7 por arma)** geradas por
+  `tools/gen_skills.mjs` — FONTE DE VERDADE (editar o gerador, rodar, commit).
+  Baselines intactos (89/89, 41/41, 18/18, build, smoke tests).
+  Pendente: balanceamento com telemetria real (Caso 5).
 - **🎨 Identidade visual "Fronteira Arcana" ✅ (Caso 7)**: design system novo
   (paleta azul-noite + dourado ritual + teal arcano; painéis `panel-arcane` com
   borda dourada e cantoneiras; `title-gold`; botões `btn-gold`/`btn-glass`;

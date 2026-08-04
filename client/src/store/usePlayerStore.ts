@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { countEffects } from '../data/effectRegistry';
-import { getProficiencyPassiveTotals, PROFICIENCY_CAP } from '../data/proficiencies';
+import { getProficiencyPassiveTotals, PROFICIENCY_CAP, weaponCategoryOf } from '../data/proficiencies';
 import { skills } from '../data/skills';
 import { resolveEffects, resolvedToItemStats } from '../systems/effectEngine';
 import type { Item, ItemStats, Slot, WeaponCategory } from '../types/item.types';
@@ -199,7 +199,7 @@ interface PlayerState {
   isStorageFull: () => boolean;
   recordDailyEvent: (event: string, amount?: number) => void;
   claimDaily: (questId: string) => boolean;
-  equip: (itemId: string) => boolean;
+  equip: (itemId: string, preferredSlot?: 'weapon_main' | 'weapon_off') => boolean;
   unequip: (slot: EquipmentSlot) => boolean;
   takeDamage: (amount: number) => number;
   recoverHp: (percent: number) => void;
@@ -539,7 +539,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
 
     return true;
   },
-  equip: (itemId) => {
+  equip: (itemId, preferredSlot) => {
     const data = get().data;
 
     if (!data || !hasInventoryItem(data.inventory, itemId)) {
@@ -552,23 +552,47 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       return false;
     }
 
-    if (item.slot === 'weapon_off') {
-      const mainWeaponId = data.equipment.weapon_main;
-      const mainWeapon = mainWeaponId ? getRegisteredItem(mainWeaponId) : null;
+    // ARMAS: podem ir em QUALQUER mão (main ou off) — escolha do jogador.
+    // Regra: a MESMA categoria de arma não pode ocupar as duas mãos.
+    const weaponCategory = weaponCategoryOf(itemId);
+    const isWeapon = Boolean(weaponCategory);
 
-      if (mainWeapon?.isTwoHanded) {
+    if (isWeapon) {
+      const requestedSlot = preferredSlot === 'weapon_main' || preferredSlot === 'weapon_off'
+        ? preferredSlot
+        : (item.slot === 'weapon_main' || item.slot === 'weapon_off' ? item.slot : 'weapon_main');
+      const otherSlot = requestedSlot === 'weapon_main' ? 'weapon_off' : 'weapon_main';
+      const otherId = data.equipment[otherSlot];
+      const otherCategory = otherId ? weaponCategoryOf(otherId) : null;
+
+      if (otherCategory && otherCategory === weaponCategory) {
         return false;
       }
+
+      const equipment: Equipment = {
+        ...data.equipment,
+        [requestedSlot]: itemId
+      };
+
+      set({
+        data: {
+          ...data,
+          equipment,
+          luck: {
+            ...data.luck,
+            equipment: getEquipmentLuck(equipment)
+          }
+        }
+      });
+
+      return true;
     }
 
+    // ARMADURAS/ACESSÓRIOS: slot fixo (comportamento original).
     const equipment: Equipment = {
       ...data.equipment,
       [item.slot]: itemId
     };
-
-    if (item.slot === 'weapon_main' && item.isTwoHanded) {
-      equipment.weapon_off = null;
-    }
 
     set({
       data: {

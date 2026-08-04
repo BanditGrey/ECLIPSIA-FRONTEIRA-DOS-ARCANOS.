@@ -201,6 +201,20 @@ só os companheiros locais participam do combate. Meta: grupo lutar junto.
       18/18 · build)
 - [ ] Balanceamento fino com telemetria real (Caso 5) — ver SKILLS_SYSTEM.md §7
 
+## ⚔ CASO 10 — Equipamento livre + 7 skills por arma (✅ CONCLUÍDO)
+
+- [x] **Toda arma equipável em qualquer mão** (main/off) — fim da exclusividade
+      de slot e da restrição de "duas mãos" (espadão + escudo agora é válido)
+- [x] **Regra: mesma categoria de arma não pode nas duas mãos** (ex.: 2 espadas
+      1H) — validada no `usePlayerStore.equip` com smoke test
+- [x] UI: modal de item de arma mostra "Equipar (mão principal)" e
+      "Equipar (mão secundária)" + aviso de categoria duplicada (i18n 4 idiomas)
+- [x] **98 skills — exatamente 7 por arma** (14 × 7), geradas por
+      `tools/gen_skills.mjs` (fonte de verdade: editar o gerador e rodar)
+- [x] i18n 4 idiomas (98 skills com descrições por template + 3 chaves de equip)
+- [x] Baselines intactos: tsc · build · 89/89 · 41/41 · 18/18 · smoke tests
+- [ ] Balanceamento fino com telemetria real (Caso 5)
+
 ## 📏 REGRAS DE OURO (para qualquer item acima)
 
 1. Nunca quebrar a auditoria: `cd client && npm run audit` → 89/89
