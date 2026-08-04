@@ -4,6 +4,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ════════════════════════════════════════════════════════════════
+   ECLIPSIA — Design System "Fronteira Arcana"
+   Paleta: azul-noite profundo · dourado ritual · teal arcano
+   ════════════════════════════════════════════════════════════════ */
+
+:root {
+  --night-950: #04060d;
+  --night-900: #070b16;
+  --night-800: #0c1326;
+  --night-700: #131c36;
+  --night-600: #1c2948;
+  --gold-200: #fbe8b7;
+  --gold-400: #f0c04a;
+  --gold-600: #a87b1f;
+  --arcane-400: #3fd9c4;
+  --text: #e6ecf7;
+  --muted: #8fa3c2;
+  --faded: #5b6d8c;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -15,9 +35,14 @@ body,
   height: 100%;
   margin: 0;
   overflow: hidden;
-  background: #060a14;
-  color: #e0e6f0;
+  background: var(--night-950);
+  color: var(--text);
   font-family: 'Crimson Text', serif;
+}
+
+::selection {
+  background: rgb(240 192 74 / 0.35);
+  color: #fff;
 }
 
 button,
@@ -27,28 +52,305 @@ select {
   font: inherit;
 }
 
+/* ── Scrollbars ─────────────────────────────────────────────── */
+
 ::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #060a14;
+  background: rgb(7 11 22 / 0.6);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2a3f5f;
+  background: linear-gradient(180deg, #2a3a63, #a87b1f);
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #f0c040;
+  background: #f0c04a;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #2a3f5f #060a14;
+  scrollbar-color: #2a3a63 #070b16;
 }
+
+/* ── Camada ambiente (mundo do jogo) ───────────────────────── */
+
+.bg-eclipsia {
+  position: relative;
+  background:
+    radial-gradient(120% 90% at 72% 8%, #101b3a 0%, #070b16 48%, #04060d 100%);
+}
+
+/* estrelas cintilantes */
+.bg-eclipsia::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 14% 18%, rgb(255 255 255 / 0.9) 50%, transparent 51%),
+    radial-gradient(1px 1px at 32% 64%, rgb(255 255 255 / 0.6) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 58% 12%, rgb(248 216 134 / 0.9) 50%, transparent 51%),
+    radial-gradient(1px 1px at 72% 44%, rgb(255 255 255 / 0.7) 50%, transparent 51%),
+    radial-gradient(1px 1px at 86% 24%, rgb(255 255 255 / 0.8) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 44% 82%, rgb(168 245 234 / 0.7) 50%, transparent 51%),
+    radial-gradient(1px 1px at 92% 78%, rgb(255 255 255 / 0.5) 50%, transparent 51%),
+    radial-gradient(1px 1px at 8% 88%, rgb(255 255 255 / 0.6) 50%, transparent 51%),
+    radial-gradient(1px 1px at 66% 92%, rgb(255 255 255 / 0.45) 50%, transparent 51%);
+  background-size: 260px 260px;
+  opacity: 0.55;
+  animation: twinkle 7s ease-in-out infinite alternate;
+}
+
+/* granulação sutil (efeito pintado) */
+.bg-eclipsia::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='0.7'/></svg>");
+}
+
+/* vinheta */
+.vignette {
+  pointer-events: none;
+  background: radial-gradient(120% 100% at 50% 40%, transparent 55%, rgb(2 4 10 / 0.72) 100%);
+}
+
+/* ── Painéis ornamentados ──────────────────────────────────── */
+
+.panel-arcane {
+  position: relative;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(180deg, rgb(13 21 42 / 0.94), rgb(7 11 22 / 0.96)) padding-box,
+    linear-gradient(180deg, #2a3a63 0%, #a87b1f 32%, #f0c04a 50%, #a87b1f 68%, #2a3a63 100%) border-box;
+  box-shadow:
+    0 16px 48px -16px rgb(0 0 0 / 0.9),
+    inset 0 1px 0 rgb(255 255 255 / 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.panel-arcane::before,
+.panel-arcane::after {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.panel-arcane::before {
+  top: 5px;
+  left: 5px;
+  border-top: 2px solid var(--gold-400);
+  border-left: 2px solid var(--gold-400);
+  border-top-left-radius: 4px;
+}
+
+.panel-arcane::after {
+  bottom: 5px;
+  right: 5px;
+  border-bottom: 2px solid var(--gold-400);
+  border-right: 2px solid var(--gold-400);
+  border-bottom-right-radius: 4px;
+}
+
+/* ── Tipografia ────────────────────────────────────────────── */
+
+.title-gold {
+  background: linear-gradient(180deg, #fbe8b7 0%, #f0c04a 45%, #b57f1c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 8px rgb(0 0 0 / 0.65));
+}
+
+.text-glow {
+  text-shadow: 0 0 14px rgb(240 192 74 / 0.5);
+}
+
+.text-glow-arcane {
+  text-shadow: 0 0 14px rgb(63 217 196 / 0.5);
+}
+
+.title-arcane {
+  background: linear-gradient(180deg, #d9fff8 0%, #3fd9c4 55%, #0e8a7c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 8px rgb(0 0 0 / 0.6));
+}
+
+/* ── Divisor ornamental ────────────────────────────────────── */
+
+.divider-ornate {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.divider-ornate::before,
+.divider-ornate::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(240 192 74 / 0.65), transparent);
+}
+
+.divider-ornate::after {
+  background: linear-gradient(270deg, transparent, rgb(240 192 74 / 0.65), transparent);
+}
+
+.divider-ornate .diamond {
+  width: 7px;
+  height: 7px;
+  transform: rotate(45deg);
+  border: 1px solid var(--gold-400);
+  background: var(--night-800);
+  box-shadow: 0 0 8px rgb(240 192 74 / 0.4);
+  flex-shrink: 0;
+}
+
+/* ── Componentes de UI ─────────────────────────────────────── */
+
+.icon-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(240 192 74 / 0.35);
+  background: linear-gradient(160deg, #17233f, #0c1326);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.07),
+    0 0 14px rgb(240 192 74 / 0.1);
+  border-radius: 0.55rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid rgb(240 192 74 / 0.28);
+  background: linear-gradient(180deg, rgb(23 35 63 / 0.92), rgb(12 19 38 / 0.92));
+  border-radius: 999px;
+  padding: 0.18rem 0.7rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
+  white-space: nowrap;
+}
+
+/* anel de sigilo (retratos/monstros) */
+.sigil-disc {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background:
+    radial-gradient(120% 120% at 50% 28%, #1c2948 0%, #0c1326 55%, #070b16 100%);
+  border: 1px solid rgb(240 192 74 / 0.45);
+  box-shadow:
+    inset 0 0 22px rgb(0 0 0 / 0.7),
+    0 0 22px rgb(240 192 74 / 0.14);
+}
+
+.sigil-disc::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 999px;
+  border: 1px dashed rgb(240 192 74 / 0.35);
+}
+
+/* ── Botões ────────────────────────────────────────────────── */
+
+.btn-gold {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgb(248 216 134 / 0.75);
+  background: linear-gradient(180deg, #f8d886 0%, #f0c04a 55%, #c9932a 100%);
+  color: #241703;
+  font-weight: 700;
+  box-shadow:
+    0 4px 18px -4px rgb(240 192 74 / 0.5),
+    inset 0 1px 0 rgb(255 255 255 / 0.5);
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.3);
+}
+
+.btn-gold:hover {
+  filter: brightness(1.07);
+  box-shadow:
+    0 6px 26px -4px rgb(240 192 74 / 0.65),
+    inset 0 1px 0 rgb(255 255 255 / 0.5);
+}
+
+.btn-gold::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.55), transparent);
+  transform: translateX(-160%);
+}
+
+.btn-gold:hover::after {
+  animation: shineSweep 0.8s ease-out;
+}
+
+.btn-glass {
+  border: 1px solid #2a3a63;
+  background: linear-gradient(180deg, rgb(23 35 63 / 0.85), rgb(12 19 38 / 0.92));
+  color: var(--text);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
+}
+
+.btn-glass:hover {
+  border-color: rgb(240 192 74 / 0.7);
+  color: #f8d886;
+  box-shadow: 0 0 18px rgb(240 192 74 / 0.16);
+}
+
+/* ── Inputs ────────────────────────────────────────────────── */
+
+.input-field {
+  width: 100%;
+  border-radius: 0.55rem;
+  border: 1px solid #1c2948;
+  background: linear-gradient(180deg, rgb(7 11 22 / 0.92), rgb(10 16 32 / 0.92));
+  padding: 0.6rem 0.85rem;
+  color: var(--text);
+  outline: none;
+  box-shadow: inset 0 2px 8px rgb(0 0 0 / 0.4);
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.input-field::placeholder {
+  color: var(--faded);
+}
+
+.input-field:focus {
+  border-color: var(--gold-400);
+  background: #0c1326;
+  box-shadow:
+    0 0 0 3px rgb(240 192 74 / 0.13),
+    0 0 20px rgb(240 192 74 / 0.12);
+}
+
+.input-field:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* ── Animações ─────────────────────────────────────────────── */
 
 @keyframes fadeIn {
   from {
@@ -107,12 +409,22 @@ select {
   }
 }
 
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
 .anim-fade {
   animation: fadeIn 180ms ease-out both;
 }
 
 .anim-up {
-  animation: slideUp 220ms ease-out both;
+  animation: slideUp 240ms ease-out both;
 }
 
 .anim-shake {
@@ -125,30 +437,4 @@ select {
 
 .anim-flash {
   animation: flash 420ms ease-in-out both;
-}
-
-.input-field {
-  width: 100%;
-  border-radius: 0.5rem;
-  border: 1px solid #1e2a3a;
-  background: #0a0e1a;
-  padding: 0.625rem 0.75rem;
-  color: #e0e6f0;
-  outline: none;
-  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
-}
-
-.input-field::placeholder {
-  color: #556677;
-}
-
-.input-field:focus {
-  border-color: #f0c040;
-  background: #111827;
-  box-shadow: 0 0 0 2px rgb(240 192 64 / 0.18);
-}
-
-.input-field:disabled {
-  cursor: not-allowed;
-  opacity: 0.4;
 }

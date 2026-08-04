@@ -150,7 +150,7 @@ export const PartyPanel = () => {
 
   return (
     <div className="grid h-full grid-rows-[auto_auto_1fr_auto] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
-      <header className="flex items-center justify-between rounded-xl border border-game-border bg-game-panel p-3">
+      <header className="flex items-center justify-between rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
         <h1 className="font-title text-2xl font-bold text-game-gold">{t('party.title')}</h1>
         <div className="font-mono text-sm text-game-muted">
           {members.length}/{maxSize} • {t('party.xpMultiplier')} {Math.round(getXpMultiplier() * 100)}%
@@ -158,7 +158,7 @@ export const PartyPanel = () => {
       </header>
 
       {/* Party real (jogadores online) */}
-      <section className="rounded-xl border border-game-border bg-game-panel p-3">
+      <section className="rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
         <h2 className="mb-2 font-title text-lg text-game-gold">🌐 {t('partyReal.title')}</h2>
 
         {invite && (
@@ -293,7 +293,7 @@ export const PartyPanel = () => {
         )}
       </section>
 
-      <section className="min-h-0 overflow-hidden rounded-xl border border-game-border bg-game-panel p-3">
+      <section className="min-h-0 overflow-hidden rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
         {members.length === 0 ? (
           <div className="flex h-full items-center justify-center text-game-muted">{t('party.empty')}</div>
         ) : (
@@ -336,7 +336,7 @@ export const PartyPanel = () => {
         )}
       </section>
 
-      <footer className="rounded-xl border border-game-border bg-game-panel p-3 text-sm text-game-muted">
+      <footer className="rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel text-sm text-game-muted">
         {t('party.crossInfo')}
       </footer>
     </div>

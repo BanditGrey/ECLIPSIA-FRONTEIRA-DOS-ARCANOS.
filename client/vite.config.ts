@@ -3,6 +3,18 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    host: true,
+    // Dev/preview: aceitar qualquer host (inclui o host do preview online).
+    allowedHosts: true,
+    proxy: {
+      '/api': 'http://localhost:5000',
+      '/socket.io': {
+        target: 'http://localhost:5000',
+        ws: true
+      }
+    }
+  },
   resolve: {
     alias: {
       '@': new URL('./src', import.meta.url).pathname,

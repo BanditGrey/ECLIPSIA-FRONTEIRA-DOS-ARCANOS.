@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react';
 import { archetypes } from '../../data/archetypes';
+import { PROFICIENCIES, PROFICIENCY_ICONS } from '../../data/proficiencies';
 import { skills } from '../../data/skills';
+import { getComboKey } from '../../data/weaponCombos';
 import { useI18n } from '../../hooks/useI18n';
 import { wikiSectionOrder, wikiTranslations } from '../../i18n/wiki';
 import type { WikiBlock, WikiFaqItem, WikiSectionKey } from '../../i18n/wiki';
@@ -8,6 +10,7 @@ import { useGameStore } from '../../store/useGameStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
 import { Button } from '../ui/Button';
 import { ProgressBar } from '../ui/ProgressBar';
+import { Portrait } from '../ui/Portrait';
 
 type WikiLanguage = typeof wikiTranslations['pt-BR'];
 
@@ -35,10 +38,10 @@ export const WikiScreen = () => {
   };
 
   return (
-    <div className="grid h-screen grid-rows-[auto_1fr] overflow-hidden bg-game-dark text-game-text">
-      <header className="flex h-header items-center justify-between border-b border-game-border bg-game-primary px-4">
+    <div className="bg-eclipsia grid h-screen grid-rows-[auto_1fr] overflow-hidden text-game-text">
+      <header className="relative flex h-header items-center justify-between border-b border-night-700 bg-night-900/85 px-4 backdrop-blur">
         <div>
-          <h1 className="font-title text-xl font-black text-game-gold">{String(wiki.ui.title)}</h1>
+          <h1 className="title-gold font-title text-xl font-black">{String(wiki.ui.title)}</h1>
           <p className="font-mono text-xs text-game-muted">{String(wiki.ui.subtitle)}</p>
         </div>
         <Button size="sm" variant="secondary" onClick={goBack}>
@@ -47,18 +50,18 @@ export const WikiScreen = () => {
       </header>
 
       <main className="grid min-h-0 grid-cols-[260px_1fr] gap-3 overflow-hidden p-3">
-        <aside className="grid min-h-0 grid-rows-[auto_1fr] rounded-xl border border-game-border bg-game-panel p-3">
-          <h2 className="mb-3 font-title text-game-gold">{String(wiki.ui.sections)}</h2>
+        <aside className="grid min-h-0 grid-rows-[auto_1fr] rounded-xl border border-night-600 bg-night-900/70 p-3 shadow-panel">
+          <h2 className="mb-3 font-title text-gold-300">{String(wiki.ui.sections)}</h2>
           <nav className="grid min-h-0 gap-2 overflow-auto pr-1">
             {wikiSectionOrder.map((key) => (
               <button
                 key={key}
                 type="button"
                 className={[
-                  'rounded-lg border px-3 py-2 text-left font-mono text-xs transition-colors active:scale-95',
+                  'rounded-lg border px-3 py-2 text-left font-mono text-xs transition-all active:scale-95',
                   activeSection === key
-                    ? 'border-game-gold bg-game-card text-game-gold'
-                    : 'border-game-border bg-game-primary text-game-muted hover:bg-game-hover hover:text-game-text'
+                    ? 'btn-gold'
+                    : 'border-night-600 bg-night-900/80 text-game-muted hover:border-gold-600/50 hover:text-game-text'
                 ].join(' ')}
                 onClick={() => setActiveSection(key)}
               >
@@ -68,7 +71,7 @@ export const WikiScreen = () => {
           </nav>
         </aside>
 
-        <section className="min-h-0 overflow-hidden rounded-xl border border-game-border bg-game-panel">
+        <section className="min-h-0 overflow-hidden rounded-xl border border-night-600 bg-night-900/60 shadow-panel">
           <div className="h-full overflow-auto p-4 pr-2">
             <h2 className="font-title text-3xl font-black text-game-gold">{section.title}</h2>
 
@@ -87,33 +90,24 @@ export const WikiScreen = () => {
               ))}
 
               {activeSection === 'character' && (
-                <article className="rounded-xl border border-game-border bg-game-card p-4">
-                  <h3 className="font-title text-xl text-game-gold">{t('charCreate.archetypeTitle')}</h3>
-                  <div className="mt-3 grid grid-cols-2 gap-3">
+                <article className="rounded-xl border border-night-600 bg-night-900/60 p-4 shadow-panel">
+                  <h3 className="title-gold font-title text-xl font-bold">{t('charCreate.originTitle')}</h3>
+                  <p className="mt-1 font-mono text-xs text-game-muted">{t('charCreate.originHint')}</p>
+                  <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
                     {archetypes.map((archetype) => (
-                      <div key={archetype.id} className="rounded-lg border border-game-border bg-game-primary p-3">
-                        <div className="flex items-center gap-2">
-                          <span className="text-2xl">{archetype.icon}</span>
-                          <strong className="font-title text-game-gold">{t(`charCreate.archetypes.${archetype.id}.name`)}</strong>
+                      <div key={archetype.id} className="rounded-lg border border-night-600 bg-gradient-to-b from-night-700/60 to-night-900/80 p-3 transition-colors hover:border-gold-600/50">
+                        <div className="flex items-center gap-3">
+                          <Portrait
+                            kind="class"
+                            id={archetype.id}
+                            size={52}
+                            fallbackIcon={archetype.icon}
+                            ring="gold"
+                            className="opacity-95"
+                          />
+                          <strong className="title-gold font-title">{t(`charCreate.archetypes.${archetype.id}.name`)}</strong>
                         </div>
-                        <p className="mt-1 text-sm text-game-muted">{t(`charCreate.archetypes.${archetype.id}.desc`)}</p>
-                        <div className="mt-3 grid gap-2 font-mono text-xs">
-                          <div className="grid grid-cols-[44px_1fr] items-center gap-2">
-                            <span>{t('charCreate.stats.atk')}</span>
-                            <ProgressBar current={archetype.atkBar} max={100} type="hp" />
-                          </div>
-                          <div className="grid grid-cols-[44px_1fr] items-center gap-2">
-                            <span>{t('charCreate.stats.def')}</span>
-                            <ProgressBar current={archetype.defBar} max={100} type="mp" />
-                          </div>
-                          <div className="grid grid-cols-[44px_1fr] items-center gap-2">
-                            <span>{t('charCreate.stats.arc')}</span>
-                            <ProgressBar current={archetype.arcBar} max={100} type="luck" />
-                          </div>
-                        </div>
-                        <p className="mt-2 font-mono text-xs text-game-muted">
-                          {String(wiki.ui.hp)} {archetype.startHp} • {String(wiki.ui.mp)} {archetype.startMp}
-                        </p>
+                        <p className="mt-1 text-sm italic text-game-muted">{t(`charCreate.archetypes.${archetype.id}.desc`)}</p>
                       </div>
                     ))}
                   </div>
@@ -121,8 +115,65 @@ export const WikiScreen = () => {
               )}
 
               {activeSection === 'combat' && (
-                <article className="rounded-xl border border-game-border bg-game-card p-4">
-                  <h3 className="font-title text-xl text-game-gold">{t('combat.skills')}</h3>
+                <article className="rounded-xl border border-night-600 bg-night-900/60 p-4 shadow-panel">
+                  <h3 className="title-gold font-title text-xl font-bold">{t('profile.proficiencies')}</h3>
+                  <p className="mt-1 font-mono text-xs text-game-muted">{t('profile.proficiencyHint')}</p>
+                  <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                    {PROFICIENCIES.map((category) => {
+                      const firstSkill = skills.find((skill) => skill.proficiency === category);
+
+                      return (
+                        <div key={category} className="rounded-lg border border-night-600 bg-gradient-to-b from-night-700/50 to-night-900/70 p-2.5">
+                          <div className="flex items-center gap-2">
+                            <span className="text-lg">{PROFICIENCY_ICONS[category]}</span>
+                            <strong className="truncate font-title text-sm text-gold-300">
+                              {t(`proficiencies.${category}.name`)}
+                            </strong>
+                          </div>
+                          {firstSkill && (
+                            <p className="mt-1 font-mono text-[10px] text-game-muted">
+                              {t('profile.nextSkill')}: {t(`skills.${firstSkill.id}.name`)} · {firstSkill.requireProficiency}
+                            </p>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </article>
+              )}
+
+              {activeSection === 'combat' && (
+                <article className="rounded-xl border border-night-600 bg-night-900/60 p-4 shadow-panel">
+                  <h3 className="title-gold font-title text-xl font-bold">{t('wiki.combosTitle')}</h3>
+                  <p className="mt-1 font-mono text-xs text-game-muted">{t('wiki.combosHint')}</p>
+                  <div className="mt-3 grid gap-4 sm:grid-cols-2">
+                    {PROFICIENCIES.map((main) => (
+                      <div key={main} className="rounded-lg border border-night-600 bg-night-900/60 p-3">
+                        <h4 className="mb-2 flex items-center gap-2 font-title text-sm font-bold text-gold-300">
+                          <span>{PROFICIENCY_ICONS[main]}</span>
+                          {t(`proficiencies.${main}.name`)}
+                        </h4>
+                        <div className="grid gap-1">
+                          {PROFICIENCIES.map((off) => (
+                            <div key={off} className="flex items-center justify-between gap-2 rounded border border-night-700 bg-night-900/50 px-2 py-1 font-mono text-[11px]">
+                              <span className="truncate text-game-muted">
+                                {PROFICIENCY_ICONS[off]} {t(`proficiencies.${off}.name`)}
+                              </span>
+                              <span className="title-gold shrink-0 font-title text-xs font-bold">
+                                {t(`combos.${getComboKey(main, off)}.name`)}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </article>
+              )}
+
+              {activeSection === 'combat' && (
+                <article className="rounded-xl border border-night-600 bg-night-900/60 p-4 shadow-panel">
+                  <h3 className="title-gold font-title text-xl font-bold">{t('combat.skills')}</h3>
                   <div className="mt-3 grid grid-cols-2 gap-2">
                     {skills.map((skill) => (
                       <div key={skill.id} className="rounded-lg border border-game-border bg-game-primary p-3">

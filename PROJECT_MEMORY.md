@@ -37,8 +37,62 @@ cd ../server && npm test
   (modelo Whisper + entrega offline no ChatPanel), mute (/mute, /unmute, botão 🔇,
   localStorage), /who, fallback de sussurro offline via REST, busca no mercado,
   "meus lances" no leilão, CI (GitHub Actions). Auditoria social: **41/41**.
-- **Próxima etapa sugerida**: Caso 3 (gateway de pagamento Pix p/ crystals) ou
-  Caso 6 (deploy Atlas+Railway+Vercel) — ambos precisam de contas do dono do repo.
+- **Caso 6 parcial ✅ — jogo ONLINE para testes**: ambiente de preview com
+  frontend (Vite, proxy `/api`+`/socket.io` e URL relativa fora de localhost) +
+  backend (Express/Socket.io) + MongoDB real (4.4.10 local; fallback
+  `mongodb-memory-server` sem `MONGO_URI`). Fluxo verificado ponta a ponta:
+  registro → login → chat global → sussurro → presence via socket.
+  Pendente (precisa de contas do dono): Atlas + Railway + Vercel — ver DEPLOY.md.
+- **⚔ Sistema de PROEFICIÊNCIA DE ARMAS ✅ (Caso 8)**: os 6 arquétipos viraram
+  **Origens cosméticas** (retrato/sigilo/descrição, zero mecânica; stats neutros
+  8/8/8/8/8/8, HP 480, MP 300, 5 pontos livres). As **14 categorias de arma do
+  catálogo são proficiências** (`data/proficiencies.ts`): ganha XP usando a arma
+  (ataque +1, skill +2, abate +3; cap 1000), bônus passivo +0,2% ATK/ponto,
+  e **skills desbloqueadas pela proficiência da arma equipada** (20 skills
+  redistribuídas em `data/skills.ts` com thresholds 10–120; trocou de arma,
+  trocou de arsenal). Criação: nome + origem + arma inicial (4 opções nível 1;
+  servidor equipa e dá 5 pts de proficiência). Escudo equipado = papel de tanque
+  na party (substitui o antigo vanguard). **SORTE: teto 1000** (+0,1% XP/ponto,
+  fator de loot /1000). Baselines intactos (89/89, 41/41, 18/18, build).
+- **⚔ Caso 11 ✅ — Passivas balanceadas + effects de skill/arma (31–40)**: tetos
+  de passivas por arma (dmg 12% · crit 8% · critDmg 25% · def 12% · heal 10%),
+  sem regressão, identidade por arma; auditoria automática `tools/audit_balance.ts`
+  (`npm run audit:balance`) valida passivas + 98 skills. **10 effects novos**:
+  SKILL_DMG(31), BASIC_ATK_DMG(32), SKILL_CD_REDUCE(33), SKILL_MP_REDUCE(34),
+  DOT_DMG_BONUS(35), SKILL_HEAL_BONUS(36), CONTROL_DURATION(37),
+  EXECUTE_THRESHOLD(38), REFLECT_BONUS(39), CRIT_SKILL_DMG(40) — registry,
+  engine (ResolvedEffects/resolve/calculate), nomes 4 idiomas, integrados no
+  combate (skill/attack/cd/mp/dot/heal/controle/execução/reflexo/crítico) e em
+  itens relic de exemplo (espadão 1505 + amuleto 7005). Auditoria item-effects
+  agora 84 definidos + 16 reservados (89/89 OK).
+- **⚔ Caso 9 ✅ — Sistema completo de proficiências & skills (v1.0)**: doc
+  mestre `SKILLS_SYSTEM.md` (contrato de cálculo, XP, marcos, balanceamento).
+  **210 nomes de combinação** (`data/weaponCombos.ts`, matriz main×off + arma
+  única, i18n 4 idiomas) exibidos no Perfil e na Wiki. **Passivas por marcos
+  50/150/300** por arma (dmg/crit/critDmg/cura/defesa) integradas em
+  combate/cura/defesa.
+- **⚔ Caso 10 ✅ — Equipamento livre + 7 skills por arma**: toda arma é
+  equipável em qualquer mão (fim da restrição de "duas mãos"; espadão+escudo
+  vale); **mesma categoria de arma bloqueada nas duas mãos**. UI de equip com
+  escolha de mão (i18n 4 idiomas). **98 skills (7 por arma)** geradas por
+  `tools/gen_skills.mjs` — FONTE DE VERDADE (editar o gerador, rodar, commit).
+  Baselines intactos (89/89, 41/41, 18/18, build, smoke tests).
+  Pendente: balanceamento com telemetria real (Caso 5).
+- **🎨 Identidade visual "Fronteira Arcana" ✅ (Caso 7)**: design system novo
+  (paleta azul-noite + dourado ritual + teal arcano; painéis `panel-arcane` com
+  borda dourada e cantoneiras; `title-gold`; botões `btn-gold`/`btn-glass`;
+  barras com gradiente e glow; estrelas/granulação em `.bg-eclipsia`; vinheta).
+  Arte em `client/public/assets/` (**20 imagens geradas**: emblema,
+  login/hub/combat/world, 6 regiões (incl. Fragmento), 6 retratos de
+  arquétipos, 3 bosses pintados). Componente `Portrait.tsx` emoldura as
+  pinturas em anel de sigilo com fallback para emoji quando não há arte.
+  Telas redesenhadas: login, criar/selecionar personagem (retratos),
+  hub, header/navbar, combate (campo de batalha + arte do boss), viagem
+  (cards de região + dungeon com boss), perfil (retrato), wiki, loading.
+  Mapa de artes centralizado em `client/src/data/art.ts`.
+  ⚠ Pendente (limite de 10 imagens/sessão): pinturas de azhur, thal_mora e
+  velkaryn (usam anel de sigilo com emoji) e os 15 monstros.
+  Baselines intactos (89/89, 41/41, 18/18, build OK).
 
 ### 0.4 Regras de ouro (não viole)
 1. Nunca quebrar os baselines do §0.2 (auditorias 89/89 e 41/41, testes 18/18).

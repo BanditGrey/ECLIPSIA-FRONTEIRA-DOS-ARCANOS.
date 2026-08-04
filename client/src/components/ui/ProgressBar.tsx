@@ -8,12 +8,12 @@ interface ProgressBarProps {
   className?: string;
 }
 
-const colorClasses: Record<ProgressBarType, string> = {
-  hp: 'bg-bar-hp',
-  mp: 'bg-bar-mp',
-  xp: 'bg-bar-xp',
-  luck: 'bg-bar-luck',
-  quest: 'bg-game-gold'
+const gradientClasses: Record<ProgressBarType, string> = {
+  hp: 'bg-gradient-to-r from-red-950 via-red-600 to-red-400 shadow-[0_0_10px_rgb(224_64_64_/_0.55)]',
+  mp: 'bg-gradient-to-r from-blue-950 via-blue-600 to-sky-400 shadow-[0_0_10px_rgb(64_128_224_/_0.55)]',
+  xp: 'bg-gradient-to-r from-yellow-800 via-amber-500 to-yellow-300 shadow-[0_0_10px_rgb(240_192_74_/_0.55)]',
+  luck: 'bg-gradient-to-r from-purple-950 via-purple-600 to-fuchsia-400 shadow-[0_0_10px_rgb(168_85_247_/_0.55)]',
+  quest: 'bg-gradient-to-r from-amber-700 via-gold-500 to-gold-300 shadow-[0_0_10px_rgb(240_192_74_/_0.5)]'
 };
 
 export const ProgressBar = ({ current, max, type, showText = false, className = '' }: ProgressBarProps) => {
@@ -22,9 +22,14 @@ export const ProgressBar = ({ current, max, type, showText = false, className = 
   const percent = Math.round((safeCurrent / safeMax) * 100);
 
   return (
-    <div className={["relative h-3 overflow-hidden rounded-full border border-game-border bg-game-dark", className].join(' ')}>
+    <div
+      className={[
+        'relative h-3 overflow-hidden rounded-full border border-night-600 bg-night-900 shadow-[inset_0_2px_6px_rgb(0_0_0_/_0.6)]',
+        className
+      ].join(' ')}
+    >
       <div
-        className={["h-full rounded-full transition-all duration-300", colorClasses[type]].join(' ')}
+        className={['h-full rounded-full transition-all duration-300', gradientClasses[type]].join(' ')}
         style={{ width: `${percent}%` }}
       />
       {showText && (

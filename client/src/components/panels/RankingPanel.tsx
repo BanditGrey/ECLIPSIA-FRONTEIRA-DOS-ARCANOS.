@@ -89,12 +89,12 @@ export const RankingPanel = () => {
 
   return (
     <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
-      <div className="grid grid-cols-3 gap-2 rounded-xl border border-game-border bg-game-panel p-2 font-mono text-sm">
+      <div className="grid grid-cols-3 gap-2 rounded-xl border border-night-600 bg-night-900/80 p-1.5 font-mono shadow-panel text-sm">
         {(['level', 'pvp', 'discovery'] as RankingTab[]).map((item) => (
           <button
             key={item}
             type="button"
-            className={[tab === item ? 'bg-game-gold text-game-dark' : 'text-game-muted hover:bg-game-hover', 'rounded-lg py-2 transition-colors active:scale-95'].join(' ')}
+            className={[tab === item ? 'btn-gold' : 'text-game-muted hover:bg-game-hover', 'rounded-lg py-2 transition-colors active:scale-95'].join(' ')}
             onClick={() => setTab(item)}
           >
             {t(`ranking.tabs.${item}`)}
@@ -102,7 +102,7 @@ export const RankingPanel = () => {
         ))}
       </div>
 
-      <section className="min-h-0 overflow-hidden rounded-xl border border-game-border bg-game-panel p-3">
+      <section className="min-h-0 overflow-hidden rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
         {tab === 'pvp' ? (
           <div className="flex h-full items-center justify-center text-game-muted">{t('ranking.soon.pvp')}</div>
         ) : loading ? (

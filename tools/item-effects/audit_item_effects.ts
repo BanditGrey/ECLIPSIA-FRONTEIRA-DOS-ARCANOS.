@@ -16,6 +16,7 @@ const rec = (block: number, item: string, status: Status, note?: string) => resu
 const REQUIRED: Array<[number, string]> = [
   [1, 'ATK'], [2, 'DEF'], [3, 'STR'], [4, 'AGI'], [5, 'VIT'], [6, 'ARC'], [7, 'PER'], [8, 'WIL'], [9, 'LCK'], [10, 'HP'], [11, 'MP'],
   [21, 'CRIT_CHANCE'], [22, 'CRIT_DMG'], [23, 'ELEM_RES'], [24, 'DMG_BONUS'], [25, 'DEF_BONUS'], [26, 'HEAL_BONUS'], [27, 'XP_BONUS'], [28, 'GOLD_BONUS'], [29, 'LOOT_BONUS'], [30, 'SPEED'],
+  [31, 'SKILL_DMG'], [32, 'BASIC_ATK_DMG'], [33, 'SKILL_CD_REDUCE'], [34, 'SKILL_MP_REDUCE'], [35, 'DOT_DMG_BONUS'], [36, 'SKILL_HEAL_BONUS'], [37, 'CONTROL_DURATION'], [38, 'EXECUTE_THRESHOLD'], [39, 'REFLECT_BONUS'], [40, 'CRIT_SKILL_DMG'],
   [41, 'BURN'], [42, 'FREEZE'], [43, 'PARALYZE'], [44, 'BLEED'], [45, 'POISON'], [46, 'STUN'], [47, 'SLOW'], [48, 'SILENCE'], [49, 'MANA_DRAIN'], [50, 'WEAKEN'], [51, 'BLIND'], [52, 'SLEEP'], [53, 'FEAR'], [54, 'CURSE'], [55, 'REGENERATE'], [56, 'REFLECT'], [57, 'SHIELD'], [58, 'BARRIER'], [59, 'HASTE'], [60, 'BERSERK'],
   [61, 'ON_HIT_BURN'], [62, 'ON_HIT_FREEZE'], [63, 'ON_HIT_BLEED'], [64, 'ON_HIT_POISON'], [65, 'ON_HIT_STUN'], [66, 'ON_HIT_SLOW'], [67, 'ON_KILL_HEAL'], [68, 'ON_KILL_MP'], [69, 'ON_LOW_HP_ATK'], [70, 'ON_LOW_HP_DEF'], [71, 'ON_CRIT_BLEED'], [72, 'ON_CRIT_DMG'], [73, 'ON_BLOCK_COUNTER'], [74, 'ON_DODGE_ATK'], [75, 'VS_BEAST_DMG'], [76, 'VS_UNDEAD_DMG'], [77, 'VS_BOSS_DMG'], [78, 'VS_WEAK_DMG'], [79, 'PARTY_ATK_AURA'], [80, 'PARTY_DEF_AURA'],
   [81, 'PET_ATK_BONUS'], [82, 'PET_HP_BONUS'], [83, 'PET_CD_REDUCE'], [84, 'PET_XP_BONUS'], [85, 'PET_REVIVE_SPEED'],
@@ -29,8 +30,8 @@ for (const [id, code] of REQUIRED) {
 }
 rec(1, `Effects obrigatórios presentes (${REQUIRED.length - missingRequired.length}/${REQUIRED.length})`, missingRequired.length === 0 ? 'OK' : 'CRITICAL', missingRequired.length ? `faltando: ${missingRequired.join(', ')}` : undefined);
 const registryCount = Object.keys(EFFECT_REGISTRY).length;
-const RESERVED_SLOTS = [...Array.from({ length: 9 }, (_, i) => 12 + i), ...Array.from({ length: 10 }, (_, i) => 31 + i), ...Array.from({ length: 5 }, (_, i) => 86 + i), 94, 95];
-rec(1, 'Espaço numérico 1-100 completo (74 definidos pelo spec + 26 slots reservados)', registryCount === 74 && RESERVED_SLOTS.length === 26 && RESERVED_SLOTS.every((id) => !EFFECT_REGISTRY[id]) ? 'OK' : 'PARTIAL', `${registryCount} definidos + ${RESERVED_SLOTS.length} reservados`);
+const RESERVED_SLOTS = [...Array.from({ length: 9 }, (_, i) => 12 + i), ...Array.from({ length: 5 }, (_, i) => 86 + i), 94, 95];
+rec(1, 'Espaço numérico 1-100 completo (84 definidos pelo spec + 16 slots reservados)', registryCount === 84 && RESERVED_SLOTS.length === 16 && RESERVED_SLOTS.every((id) => !EFFECT_REGISTRY[id]) ? 'OK' : 'PARTIAL', `${registryCount} definidos + ${RESERVED_SLOTS.length} reservados`);
 const constValues = Object.values(EFFECT);
 const dupConst = constValues.length !== new Set(constValues).size;
 const dupIds = Object.keys(EFFECT_REGISTRY).length !== new Set(Object.keys(EFFECT_REGISTRY)).size;

@@ -6,6 +6,7 @@ import { getEffectName } from '../data/effectNames';
 import { monsters } from '../data/monsters';
 import { regions } from '../data/regions';
 import { skills } from '../data/skills';
+import { equippedWeaponCategories, getProficiencyPassiveTotals, PROFICIENCY_ATK_BONUS_PER_POINT, PROF_XP, weaponCategoryOf } from '../data/proficiencies';
 import { useCombatStore } from '../store/useCombatStore';
 import { useGameStore } from '../store/useGameStore';
 import { usePartyStore } from '../store/usePartyStore';
@@ -168,17 +169,34 @@ const rollCrit = (): { isCrit: boolean; multiplier: number } => {
   const resolved = getResolvedEffects();
   // critChance já é fração 0-1 (ex.: 0.06 = 6%)
   const critChance = resolved?.critChance ?? 0;
-  const chance = 0.05 + perception * 0.002 + critChance;
+  const passiveCrit = getPassiveCritChance();
+  const chance = 0.05 + perception * 0.002 + critChance + passiveCrit;
 
   if (Math.random() >= chance) {
     return { isCrit: false, multiplier: 1 };
   }
 
   // critDmg e ON_CRIT_DMG são frações 0-1
-  const critDmg = resolved?.critDmg ?? 0;
+  const critDmg = (resolved?.critDmg ?? 0) + getPassiveCritDamage();
   const onCritDmg = resolved ? getConditionalValue(resolved, EFFECT.ON_CRIT_DMG) : 0;
 
   return { isCrit: true, multiplier: 2 * (1 + critDmg + onCritDmg) };
+};
+
+/**
+ * Rola o crítico de uma SKILL — inclui CRIT_SKILL_DMG (40) no multiplicador.
+ */
+const rollSkillCrit = (): { isCrit: boolean; multiplier: number } => {
+  const base = rollCrit();
+
+  if (!base.isCrit) {
+    return base;
+  }
+
+  const skillCritDmg = (getResolvedEffects() as ResolvedEffects | null)?.critSkillDmg ?? 0;
+  const multiplier = 2 * (1 + ((getResolvedEffects() as ResolvedEffects | null)?.critDmg ?? 0) + getPassiveCritDamage() + skillCritDmg);
+
+  return { isCrit: true, multiplier };
 };
 
 /**
@@ -288,7 +306,54 @@ const reportHuntRound = (killed: boolean) => {
   roundTaken = 0;
 };
 
-const getPlayerDamage = (percent = 100) => {
+/**
+ * Passivas das armas equipadas (dmg/crit/heal) — veja PROFICIENCY_PASSIVES.
+ */
+const getPassiveTotals = () => {
+  const data = usePlayerStore.getState().data;
+
+  return data ? getProficiencyPassiveTotals(data.equipment, data.proficiencies) : { dmgBonus: 0, critChance: 0, critDamage: 0, healBonus: 0, defBonus: 0 };
+};
+
+const getPassiveCritChance = (): number => getPassiveTotals().critChance;
+const getPassiveCritDamage = (): number => getPassiveTotals().critDamage;
+
+/**
+ * Soma dos bônus de ATK das proficiências das armas equipadas.
+ * +0,2% por ponto (100 pts = +20%).
+ */
+const getEquippedProficiencyBonus = (): number => {
+  const data = usePlayerStore.getState().data;
+
+  if (!data) {
+    return 0;
+  }
+
+  const categories = equippedWeaponCategories(data.equipment);
+
+  return categories.reduce((sum, category) => {
+    const points = data.proficiencies[category] ?? 0;
+
+    return sum + points * PROFICIENCY_ATK_BONUS_PER_POINT;
+  }, 0);
+};
+
+/**
+ * Concede XP de proficiência às armas equipadas (por ataque/skill/kill).
+ */
+const gainProficiencyXp = (amount: number) => {
+  const data = usePlayerStore.getState().data;
+
+  if (!data) {
+    return;
+  }
+
+  for (const category of equippedWeaponCategories(data.equipment)) {
+    usePlayerStore.getState().addProficiency(category, amount);
+  }
+};
+
+const getPlayerDamage = (percent = 100, extraMultiplier = 1, isSkill = false) => {
   const playerStore = usePlayerStore.getState();
   const combat = useCombatStore.getState();
   const resolved = getResolvedEffects();
@@ -335,9 +400,17 @@ const getPlayerDamage = (percent = 100) => {
   }
 
   const base = playerStore.getTotalAtk() * (percent / 100) * impulseSystem.getBonus('damage') * (1 + bonusFraction);
-  const { isCrit, multiplier } = rollCrit();
+
+  // PROEFICIÊNCIA DE ARMA: +0,2% de ATK por ponto na categoria da arma equipada.
+  const weaponBonus = getEquippedProficiencyBonus();
+
+  // PASSIVAS de proficiência (marcos 50/150/300): bônus de dano.
+  const passiveDmg = getPassiveTotals().dmgBonus;
+  const finalBase = base * (1 + weaponBonus + passiveDmg) * extraMultiplier;
+
+  const { isCrit, multiplier } = isSkill ? rollSkillCrit() : rollCrit();
   const defenseReduction = Math.max(0, combat.enemy?.def ?? 0) * 0.35;
-  const damage = Math.max(1, Math.floor(base * multiplier - defenseReduction));
+  const damage = Math.max(1, Math.floor(finalBase * multiplier - defenseReduction));
 
   // ON_CRIT_BLEED (71): ao criticar aplica sangramento (value = dano)
   if (isCrit && resolved) {
@@ -404,10 +477,17 @@ const selectPartyTarget = (): PartyMember | null => {
     return null;
   }
 
-  const vanguards = alive.filter((member) => member.archetype === 'vanguard');
+  // PROEFICIÊNCIA DE ARMA: quem empunha ESCUDO assume o papel de tanque
+  // e tem 60% de chance de absorver o golpe pelos aliados.
+  const shielded = alive.filter((member) => {
+    const main = weaponCategoryOf(member.equipment?.weapon_main);
+    const off = weaponCategoryOf(member.equipment?.weapon_off);
 
-  if (vanguards.length > 0 && Math.random() < 0.6) {
-    return pickRandom(vanguards);
+    return main === 'shield' || off === 'shield';
+  });
+
+  if (shielded.length > 0 && Math.random() < 0.6) {
+    return pickRandom(shielded);
   }
 
   return pickRandom(alive);
@@ -503,6 +583,7 @@ const handleVictory = () => {
   playerStore.gainXp(xp);
   playerStore.gainGold(gold);
   playerStore.addKill(enemy.id);
+  gainProficiencyXp(PROF_XP.kill);
   questSystem.onKill(enemy.id);
 
   // Missões diárias
@@ -651,7 +732,10 @@ export const combatEngine = {
   },
 
   attack() {
-    const damage = getPlayerDamage(100);
+    gainProficiencyXp(PROF_XP.attack);
+    // BASIC_ATK_DMG (32): amplifica o dano do ataque básico
+    const basicDmgBonus = (getResolvedEffects() as ResolvedEffects | null)?.basicAtkDmg ?? 0;
+    const damage = getPlayerDamage(100, 1 + basicDmgBonus);
     const hp = applyEnemyDamage(damage);
 
     useCombatStore.getState().addLog('attack', `${t('combat.attack')} ${damage}`);
@@ -682,35 +766,72 @@ export const combatEngine = {
     const skill = skills.find((entry) => entry.id === skillId);
     const player = usePlayerStore.getState().data;
     const combat = useCombatStore.getState();
+    const resolved = getResolvedEffects() as ResolvedEffects | null;
 
     if (!skill || !player || player.mp < skill.mp || combat.skillCooldowns[skillId]) {
       this.attack();
       return;
     }
 
-    reducePlayerMp(skill.mp);
+    gainProficiencyXp(PROF_XP.skill);
 
-    // HASTE (59): reduz o cooldown da skill (fração 0-1)
-    const haste = getResolvedEffects() ? getConditionalValue(getResolvedEffects() as ResolvedEffects, EFFECT.HASTE) : 0;
-    combat.setCooldown(skillId, Math.max(1, Math.round(skill.cd * (1 - haste))));
+    // SKILL_MP_REDUCE (34): reduz o custo de MP da skill (mín 1)
+    const mpCost = Math.max(1, Math.round(skill.mp * (1 - (resolved?.skillMpReduce ?? 0))));
+    reducePlayerMp(mpCost);
+
+    // HASTE (59) + SKILL_CD_REDUCE (33): reduzem o cooldown (mín 1)
+    const haste = resolved ? getConditionalValue(resolved, EFFECT.HASTE) : 0;
+    const cdReduce = resolved?.skillCdReduce ?? 0;
+    combat.setCooldown(skillId, Math.max(1, Math.round(skill.cd * (1 - haste - cdReduce))));
 
     if (skill.healPercent) {
-      // HEAL_BONUS (26) amplifica a cura recebida de skills
-      const healBonus = getResolvedEffects()?.healBonus ?? 0;
+      // HEAL_BONUS (26) + SKILL_HEAL_BONUS (36) + PASSIVA amplificam a cura
+      const healBonus = (resolved?.healBonus ?? 0) + (resolved?.skillHealBonus ?? 0) + getPassiveTotals().healBonus;
 
       usePlayerStore.getState().recoverHp(skill.healPercent * (1 + healBonus));
     }
 
     if (skill.dotDamage && skill.dotTurns) {
-      combat.addEnemyEffect({ type: 'dot', turns: skill.dotTurns, damage: skill.dotDamage });
+      // DOT_DMG_BONUS (35): amplifica o dano de DoT
+      const dotDmg = Math.max(1, Math.round(skill.dotDamage * (1 + (resolved?.dotDmgBonus ?? 0))));
+      combat.addEnemyEffect({ type: 'dot', turns: skill.dotTurns, damage: dotDmg });
     }
 
     if (skill.damagePercent) {
-      applyEnemyDamage(getPlayerDamage(skill.damagePercent));
+      // SKILL_DMG (31): amplifica o dano de skills (soma com passiva dmg)
+      const skillDmgBonus = (resolved?.skillDmg ?? 0) + getPassiveTotals().dmgBonus;
+      applyEnemyDamage(getPlayerDamage(skill.damagePercent, 1 + skillDmgBonus, true));
     }
 
     if (skill.stunTurns) {
-      combat.addEnemyEffect({ type: 'stun', turns: skill.stunTurns });
+      // CONTROL_DURATION (37): amplifica a duração de stun
+      const turns = Math.max(1, Math.round(skill.stunTurns * (1 + (resolved?.controlDuration ?? 0))));
+      combat.addEnemyEffect({ type: 'stun', turns });
+    }
+
+    if (skill.slowTurns) {
+      // CONTROL_DURATION (37): amplifica a duração de slow
+      const turns = Math.max(1, Math.round(skill.slowTurns * (1 + (resolved?.controlDuration ?? 0))));
+      combat.addEnemyEffect({ type: 'slow', turns });
+    }
+
+    if (skill.reflectPercent && skill.reflectTurns) {
+      // REFLECT_BONUS (39): amplifica o reflexo
+      const reflect = Math.min(1, skill.reflectPercent / 100 * (1 + (resolved?.reflectBonus ?? 0)));
+      combat.addEnemyEffect({ type: 'reflect', turns: skill.reflectTurns, damage: reflect });
+    }
+
+    if (skill.executeBelowHpPercent) {
+      // EXECUTE_THRESHOLD (38): aumenta o limiar de execução (cap 50%)
+      const threshold = Math.min(50, skill.executeBelowHpPercent * (1 + (resolved?.executeThreshold ?? 0)));
+      const enemyHp = useCombatStore.getState().enemyHp;
+      const enemyMaxHp = useCombatStore.getState().enemyMaxHp;
+      const isExecutable = enemyHp > 0 && enemyHp <= enemyMaxHp * (threshold / 100);
+
+      if (isExecutable) {
+        applyEnemyDamage(999999);
+        useCombatStore.getState().addLog('execute', t('combat.log.execute'));
+      }
     }
 
     combat.addLog('skill', t(`skills.${skillId}.name`));
@@ -929,8 +1050,9 @@ export const combatEngine = {
       return;
     }
 
+    const usableSkillIds = usePlayerStore.getState().getUsableSkillIds();
     const availableSkill = skills
-      .filter((skill) => player.skills.includes(skill.id))
+      .filter((skill) => usableSkillIds.includes(skill.id))
       .filter((skill) => player.mp >= skill.mp && !combat.skillCooldowns[skill.id])
       .filter(() => player.mp >= combat.autoConfig.mpThreshold)
       .sort((a, b) => (b.damagePercent ?? 0) - (a.damagePercent ?? 0))[0];

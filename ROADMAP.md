@@ -127,15 +127,115 @@ só os companheiros locais participam do combate. Meta: grupo lutar junto.
 
 ## 📦 CASO 6 — Colocar no ar (bloqueia testes reais multiplayer)
 
-- [ ] Criar cluster MongoDB Atlas (M0) + user + IP liberado
+- [x] **Ambiente de teste online no ar (preview)** — frontend + backend + banco
+      rodando com URL pública: registro → login → chat global → sussurro →
+      party → mercado funcionando ponta a ponta (verificado com REST + socket)
+- [x] Servidor roda sem Atlas: fallback `mongodb-memory-server` (efêmero) e
+      suporte a `mongod` local (MongoDB 4.4+ testado) — ver `DEPLOY.md` §6
+- [x] Client dev com proxy `/api` + `/socket.io` e URL relativa fora de
+      localhost (preview) — `vite.config.ts` + `api.ts`
+- [ ] Criar cluster MongoDB Atlas (M0) + user + IP liberado — **conta do dono**
 - [ ] Subir server no Railway com as envs (MONGO_URI, JWT_SECRET, CLIENT_URL,
-      ADMIN_KEY) — `railway.json` já pronto
-- [ ] Vercel: importar repo + env `VITE_API_URL` apontando pro Railway
-- [ ] Testar fluxo ponta a ponta: registro → criar char → chat global com 2
-      navegadores → sussurro → convite de party → mercado
+      ADMIN_KEY) — `railway.json` já pronto — **conta do dono**
+- [ ] Vercel: importar repo + env `VITE_API_URL` apontando pro Railway — **conta do dono**
+- [ ] Testar fluxo ponta a ponta com 2 navegadores no ambiente definitivo
 - [ ] Definir URL final e atualizar defaults no `api.ts` se necessário
 
 ---
+
+## 🎨 CASO 7 — Identidade visual "Fronteira Arcana" (✅ QUASE COMPLETO)
+
+- [x] Design system novo: paleta azul-noite/dourado/teal arcano, painéis
+      ornamentados (`panel-arcane`), tipografia dourada (`title-gold`), botões
+      `btn-gold`/`btn-glass`, barras com gradiente/glow, estrelas + granulação
+      (`bg-eclipsia`), vinheta
+- [x] Arte gerada (20): emblema · login · hub · combate · mundo · 6 regiões
+      (incl. Fragmento) · 6 retratos de arquétipos · 3 bosses (bandit_leader,
+      root_guardian, void_mirror) — em `client/public/assets/` (mapa
+      centralizado em `client/src/data/art.ts`)
+- [x] Componente `Portrait.tsx` (pintura em anel de sigilo + fallback emoji)
+      + `ClassSigil.tsx` (sigilos SVG heráldicos)
+- [x] Telas redesenhadas: login (hero + emblema + online count), criar/selecionar
+      personagem (retratos), hub, header/navbar, combate (campo de batalha +
+      arte do boss quando aplicável), viagem (regiões + dungeons com boss),
+      perfil (retrato), wiki, loading
+- [x] Baselines intactos após a reforma (89/89 · 41/41 · 18/18 · build)
+- [ ] Pinturas pendentes (limite de 10 imagens/sessão): bosses azhur,
+      thal_mora e velkaryn (hoje: anel de sigilo com emoji) — gerar em
+      sessão futura
+- [ ] Monstros (15) sem pintura dedicada (hoje: emoji em anel de sigilo) —
+      opcional, sessão futura
+
+## ⚔ CASO 8 — Sistema de Proficiência de Armas (✅ CONCLUÍDO)
+
+- [x] Arquétipos → **Origens cosméticas** (retrato/sigilo/título; zero mecânica;
+      criação com stats neutros + 5 pontos livres)
+- [x] 14 proficiências (uma por categoria de arma do catálogo) em
+      `data/proficiencies.ts`: XP por uso (ataque/skill/abate), cap 1000,
+      bônus passivo +0,2% ATK/ponto
+- [x] 20 skills redistribuídas por proficiência com thresholds (10–120);
+      skills = f(arma equipada + proficiência) — trocar de arma troca o arsenal
+- [x] Criação de personagem: nome + origem + arma inicial (4 opções nível 1);
+      servidor equipa a arma e concede 5 pts de proficiência (itemStr por numId)
+- [x] Escudo equipado = tanque na party (substitui o antigo "vanguard")
+- [x] Sorte: teto 1000 (+0,1% XP/ponto; loot fator /1000)
+- [x] UI: criação, perfil (14 profs com progresso/next skill), wiki (origens +
+      proficiências), skills derivadas no combate e modal
+- [x] Baselines intactos: 89/89 · 41/41 · 18/18 · build · smoke test client
+- [ ] Balancear thresholds/XP de proficiência com dados reais (Caso 5)
+
+## ⚔ CASO 9 — Sistema completo de proficiências & skills (✅ v1.0 — ver SKILLS_SYSTEM.md)
+
+- [x] Documento mestre criado: `SKILLS_SYSTEM.md` (contrato de cálculo, XP,
+      marcos, 28 skills, passivas, combinações, checklist futuro)
+- [x] Nomes de combinação para **todas as 210 combinações** (matriz 15×15 com
+      arma única) em `data/weaponCombos.ts` + i18n 4 idiomas
+- [x] UI: Perfil mostra arma principal + secundária + **nome da combinação**;
+      Wiki ganhou tabela completa de combinações
+- [x] 7 novas skills (Cross Slash, Twin Fang, Quick Shot, Astral Barrier,
+      Arcane Ward, Seismic Slam, Aegis Guard) — **todas as 14 armas com kit**
+      (28 skills no total)
+- [x] **Passivas por marcos** (50/150/300): cada arma concede dmg/crit/critDmg/
+      cura/defesa — integradas em combate, cura e defesa total
+- [x] i18n 4 idiomas (combos + 7 skills) · baselines intactos (89/89 · 41/41 ·
+      18/18 · build)
+- [ ] Balanceamento fino com telemetria real (Caso 5) — ver SKILLS_SYSTEM.md §7
+
+## ⚔ CASO 10 — Equipamento livre + 7 skills por arma (✅ CONCLUÍDO)
+
+- [x] **Toda arma equipável em qualquer mão** (main/off) — fim da exclusividade
+      de slot e da restrição de "duas mãos" (espadão + escudo agora é válido)
+- [x] **Regra: mesma categoria de arma não pode nas duas mãos** (ex.: 2 espadas
+      1H) — validada no `usePlayerStore.equip` com smoke test
+- [x] UI: modal de item de arma mostra "Equipar (mão principal)" e
+      "Equipar (mão secundária)" + aviso de categoria duplicada (i18n 4 idiomas)
+- [x] **98 skills — exatamente 7 por arma** (14 × 7), geradas por
+      `tools/gen_skills.mjs` (fonte de verdade: editar o gerador e rodar)
+- [x] **Revisão completa de balanceamento (v2)**: burst nunca regride por arma,
+      DPS ≥ 30, MP ≈ 20-35% do burst, controles/DoTs pagam em dano — auditoria
+      automática embutida no gerador (falha se violar)
+- [x] i18n 4 idiomas (98 skills com descrições por template + 3 chaves de equip)
+- [x] Baselines intactos: tsc · build · 89/89 · 41/41 · 18/18 · smoke tests
+- [ ] Balanceamento fino com telemetria real (Caso 5)
+
+## ⚔ CASO 11 — Balanceamento de passivas + sistema de effects de skill/arma (✅ CONCLUÍDO)
+
+- [x] **Passivas rebalanceadas**: tetos por arma (dmg ≤ 12% · crit ≤ 8% ·
+      critDmg ≤ 25% · def ≤ 12% · heal ≤ 10%), tiers sem regressão, identidade
+      por arma (espadão=dmg/critDmg, adaga=crit, arco longo=critDmg, escudo=def)
+- [x] **Auditoria de balanceamento automática** (`tools/audit_balance.ts` +
+      `npm run audit:balance`) — valida passivas + 98 skills, falha se regra violada
+- [x] **10 effects novos (slots 31–40)** que afetam skills/armas:
+      SKILL_DMG, BASIC_ATK_DMG, SKILL_CD_REDUCE, SKILL_MP_REDUCE, DOT_DMG_BONUS,
+      SKILL_HEAL_BONUS, CONTROL_DURATION, EXECUTE_THRESHOLD, REFLECT_BONUS,
+      CRIT_SKILL_DMG
+- [x] Registry + engine (ResolvedEffects/resolveEffects/calculatePlayerStats) + nomes 4 idiomas
+- [x] Integração completa no combate (skill/attack/cooldown/MP/DoT/cura/controle/execução/reflexo/crítico)
+- [x] Itens exemplo: espadão relic (SKILL_DMG+12%, EXECUTE_THRESHOLD+10%) e amuleto relic
+      (SKILL_DMG+10%, CD-REDUCE+8%, MP-REDUCE+5%)
+- [x] Auditoria item-effects atualizada (74→84 definidos, 26→16 reservados) — 89/89 OK
+- [x] Baselines intactos: tsc · build · 89/89 · 41/41 · 18/18 · smoke tests
+- [ ] Balanceamento fino com telemetria real (Caso 5)
 
 ## 📏 REGRAS DE OURO (para qualquer item acima)
 

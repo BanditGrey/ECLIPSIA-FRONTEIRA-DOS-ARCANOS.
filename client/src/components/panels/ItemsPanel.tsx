@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { describeEffect, getEffectIcon, getEffectName } from '../../data/effectNames';
 import { getEffect, getEffectPairs } from '../../data/effectRegistry';
 import { itemNames } from '../../data/itemNames';
+import { weaponCategoryOf } from '../../data/proficiencies';
 import { useI18n } from '../../hooks/useI18n';
 import { useGameStore } from '../../store/useGameStore';
 import { refOf, usePlayerStore } from '../../store/usePlayerStore';
@@ -44,11 +45,11 @@ const DETAIL_MODAL = 'modal-item-detail';
 
 const rarityBorder: Record<Rarity, string> = {
   common: 'border-rarity-common',
-  uncommon: 'border-rarity-uncommon',
-  rare: 'border-rarity-rare',
-  epic: 'border-rarity-epic',
-  legendary: 'border-rarity-legendary',
-  relic: 'border-rarity-relic'
+  uncommon: 'border-rarity-uncommon shadow-[0_0_12px_rgb(34_197_94_/_0.18)]',
+  rare: 'border-rarity-rare shadow-[0_0_12px_rgb(59_130_246_/_0.22)]',
+  epic: 'border-rarity-epic shadow-[0_0_14px_rgb(168_85_247_/_0.25)]',
+  legendary: 'border-rarity-legendary shadow-[0_0_18px_rgb(245_158_11_/_0.35)]',
+  relic: 'border-rarity-relic shadow-[0_0_18px_rgb(239_68_68_/_0.35)]'
 };
 
 const rarityText: Record<Rarity, string> = {
@@ -280,15 +281,16 @@ export const ItemsPanel = () => {
 
   const selectedMeta = selectedItem ? getItemMeta(refOf(selectedItem)) : null;
   const equippedCurrent = selectedMeta?.slot && player ? player.equipment[selectedMeta.slot] : null;
+  const selectedWeaponCategory = selectedItem ? weaponCategoryOf(refOf(selectedItem)) : null;
 
   return (
     <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
-      <div className="grid grid-cols-5 gap-2 rounded-xl border border-game-border bg-game-panel p-2 font-mono text-sm">
+      <div className="grid grid-cols-5 gap-2 rounded-xl border border-night-600 bg-night-900/80 p-1.5 font-mono shadow-panel text-sm">
         {tabs.map((item) => (
           <button
             key={item}
             type="button"
-            className={[tab === item ? 'bg-game-gold text-game-dark' : 'text-game-muted hover:bg-game-hover', 'rounded-lg py-2 transition-colors active:scale-95'].join(' ')}
+            className={[tab === item ? 'btn-gold' : 'text-game-muted hover:bg-game-hover', 'rounded-lg py-2 transition-colors active:scale-95'].join(' ')}
             onClick={() => setTab(item)}
           >
             {t(`items.tabs.${item}`)}
@@ -296,7 +298,7 @@ export const ItemsPanel = () => {
         ))}
       </div>
 
-      <section className="min-h-0 overflow-hidden rounded-xl border border-game-border bg-game-panel p-3">
+      <section className="min-h-0 overflow-hidden rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
         {tab === 'equipped' && (
           <div className="grid h-full gap-4 overflow-auto pr-1">
             {renderEquipmentGroup('items.groups.weapons', weaponSlots)}
@@ -417,7 +419,7 @@ export const ItemsPanel = () => {
               </section>
             )}
 
-            {selectedMeta.isTwoHanded && <p className="rounded-lg border border-game-gold bg-game-primary p-2 text-sm text-game-gold">{t('items.twoHandedWarning')}</p>}
+
 
             <section className="rounded-xl border border-game-border bg-game-card p-3 text-sm text-game-muted">
               <h3 className="mb-1 font-title text-game-gold">{t('items.comparison')}</h3>
@@ -455,16 +457,32 @@ export const ItemsPanel = () => {
 
             {selectedSource === 'bag' ? (
               <div className="grid grid-cols-3 gap-2">
-                <Button
-                  disabled={!selectedMeta.slot}
-                  onClick={() => {
-                    if (!equip(refOf(selectedItem))) {
-                      addNotification(t('items.twoHandedBlocked'), 'warning');
-                    }
-                  }}
-                >
-                  {t('items.equip')}
-                </Button>
+                {selectedWeaponCategory ? (
+                  <>
+                    <Button
+                      onClick={() => {
+                        if (!equip(refOf(selectedItem), 'weapon_main')) {
+                          addNotification(t('items.sameWeaponCategory'), 'warning');
+                        }
+                      }}
+                    >
+                      {t('items.equipMain')}
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        if (!equip(refOf(selectedItem), 'weapon_off')) {
+                          addNotification(t('items.sameWeaponCategory'), 'warning');
+                        }
+                      }}
+                    >
+                      {t('items.equipOff')}
+                    </Button>
+                  </>
+                ) : (
+                  <Button disabled={!selectedMeta.slot} onClick={() => equip(refOf(selectedItem))}>
+                    {t('items.equip')}
+                  </Button>
+                )}
                 <Button
                   onClick={() => {
                     if (!depositItem(refOf(selectedItem), 1)) {

@@ -11,7 +11,8 @@ export type ApiResult<T = unknown> =
     };
 
 const env = (import.meta as unknown as { env?: { DEV?: boolean; VITE_API_URL?: string } }).env;
-const isDev = env?.DEV ?? (typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname));
+const isLocalhost = typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname);
+const isViteDev = env?.DEV === true;
 
 const normalizeBaseUrl = (url: string) => {
   const trimmed = url.replace(/\/$/, '');
@@ -19,8 +20,15 @@ const normalizeBaseUrl = (url: string) => {
   return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
 };
 
+// Resolução da URL da API (nesta ordem):
+// 1. VITE_API_URL explícita (produção: Vercel → Railway) tem prioridade.
+// 2. Dev (vite) fora de localhost (ex.: preview online) → caminho relativo,
+//    proxied pelo vite dev server (ver vite.config.ts → server.proxy).
+// 3. Dev local em localhost → API local direta.
+// 4. Build de produção sem env → default Railway documentado.
 export const BASE_URL = normalizeBaseUrl(
-  env?.VITE_API_URL ?? (isDev ? 'http://localhost:5000/api' : 'https://eclipsia-server.railway.app/api')
+  env?.VITE_API_URL ??
+    (isViteDev && !isLocalhost ? '/api' : isLocalhost ? 'http://localhost:5000/api' : 'https://eclipsia-server.railway.app/api')
 );
 export const SERVER_URL = BASE_URL.replace(/\/api\/?$/, '');
 

@@ -462,12 +462,12 @@ export const ChatPanel = () => {
 
   return (
     <div className="grid h-full grid-rows-[auto_1fr_auto] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
-      <header className="rounded-xl border border-game-border bg-game-panel p-3">
+      <header className="rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
         <h1 className="font-title text-2xl font-bold text-game-gold">{t('chat.title')}</h1>
         <p className="font-mono text-[10px] text-game-faded">{t('chat.commandHint')} · /who · /mute · /unmute</p>
       </header>
 
-      <section ref={listRef} className="min-h-0 overflow-auto rounded-xl border border-game-border bg-game-panel p-3">
+      <section ref={listRef} className="min-h-0 overflow-auto rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
         <div className="grid gap-2 font-mono text-sm">
           {messages.map(renderMessage)}
         </div>
@@ -516,7 +516,7 @@ export const ChatPanel = () => {
           </div>
         )}
 
-        <form className="grid grid-cols-[1fr_auto] gap-2 rounded-xl border border-game-border bg-game-panel p-3" onSubmit={sendMessage}>
+        <form className="grid grid-cols-[1fr_auto] gap-2 rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel" onSubmit={sendMessage}>
           <input
             ref={inputRef}
             className="input-field"

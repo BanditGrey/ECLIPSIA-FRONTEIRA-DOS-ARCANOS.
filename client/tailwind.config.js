@@ -4,18 +4,46 @@ export default {
   theme: {
     extend: {
       colors: {
+        night: {
+          950: '#04060d',
+          900: '#070b16',
+          850: '#0a1020',
+          800: '#0c1326',
+          700: '#131c36',
+          600: '#1c2948',
+          500: '#2a3a63'
+        },
+        gold: {
+          200: '#fbe8b7',
+          300: '#f8d886',
+          400: '#f0c04a',
+          500: '#d9a52e',
+          600: '#a87b1f'
+        },
+        arcane: {
+          200: '#a8f5ea',
+          300: '#7ef0e0',
+          400: '#3fd9c4',
+          500: '#17b8a5',
+          600: '#0e8a7c'
+        },
+        violet: {
+          300: '#c4b5fd',
+          400: '#a78bfa',
+          500: '#8b5cf6'
+        },
         game: {
-          dark: '#060a14',
-          primary: '#0a0e1a',
-          panel: '#111827',
-          card: '#1a2236',
-          hover: '#212d45',
-          gold: '#f0c040',
-          text: '#e0e6f0',
-          muted: '#8899aa',
-          faded: '#556677',
-          border: '#1e2a3a',
-          light: '#2a3f5f'
+          dark: '#04060d',
+          primary: '#070b16',
+          panel: '#0a1020',
+          card: '#0f1830',
+          hover: '#17233f',
+          gold: '#f0c04a',
+          text: '#e6ecf7',
+          muted: '#8fa3c2',
+          faded: '#5b6d8c',
+          border: '#1c2948',
+          light: '#2a3a63'
         },
         rarity: {
           common: '#9ca3af',
@@ -37,9 +65,50 @@ export default {
         body: ['Crimson Text', 'serif'],
         mono: ['Share Tech Mono', 'monospace']
       },
+      boxShadow: {
+        'glow-gold': '0 0 20px rgb(240 192 74 / 0.25)',
+        'glow-arcane': '0 0 20px rgb(63 217 196 / 0.25)',
+        'glow-sm': '0 0 10px rgb(240 192 74 / 0.18)',
+        panel: '0 14px 44px -14px rgb(0 0 0 / 0.85)'
+      },
+      animation: {
+        floaty: 'floaty 6s ease-in-out infinite',
+        twinkle: 'twinkle 4s ease-in-out infinite',
+        glowpulse: 'glowPulse 2.4s ease-in-out infinite',
+        shine: 'shineSweep 3.2s ease-in-out infinite',
+        slowspin: 'slowspin 48s linear infinite',
+        kenburns: 'kenburns 32s ease-in-out infinite alternate',
+        'fade-in': 'fadeIn 180ms ease-out both',
+        'slide-up': 'slideUp 240ms ease-out both'
+      },
+      keyframes: {
+        floaty: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-6px)' }
+        },
+        twinkle: {
+          '0%, 100%': { opacity: '0.3' },
+          '50%': { opacity: '1' }
+        },
+        glowPulse: {
+          '0%, 100%': { opacity: '0.75' },
+          '50%': { opacity: '1' }
+        },
+        shineSweep: {
+          '0%': { transform: 'translateX(-140%)' },
+          '60%, 100%': { transform: 'translateX(240%)' }
+        },
+        slowspin: {
+          to: { transform: 'rotate(360deg)' }
+        },
+        kenburns: {
+          '0%': { transform: 'scale(1) translateY(0)' },
+          '100%': { transform: 'scale(1.08) translateY(-1.5%)' }
+        }
+      },
       height: {
-        header: '48px',
-        nav: '56px'
+        header: '52px',
+        nav: '60px'
       }
     }
   },

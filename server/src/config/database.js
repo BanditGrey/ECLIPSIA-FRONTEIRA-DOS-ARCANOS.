@@ -2,10 +2,15 @@ import mongoose from 'mongoose';
 
 export const connectDatabase = async () => {
   try {
-    const mongoUri = process.env.MONGO_URI;
+    let mongoUri = process.env.MONGO_URI;
 
+    // Fallback sem Atlas: MongoDB efêmero em memória (testes/preview).
+    // ⚠ Dados somem ao reiniciar — em produção configure MONGO_URI (Atlas).
     if (!mongoUri) {
-      throw new Error('MONGO_URI não configurada');
+      const { MongoMemoryServer } = await import('mongodb-memory-server');
+      const memoryServer = await MongoMemoryServer.create();
+      mongoUri = memoryServer.getUri('eclipsia');
+      console.log('⚠ MONGO_URI ausente — usando MongoDB em memória (dados efêmeros)');
     }
 
     await mongoose.connect(mongoUri);

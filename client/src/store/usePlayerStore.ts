@@ -1,7 +1,9 @@
 import { create } from 'zustand';
 import { countEffects } from '../data/effectRegistry';
+import { getProficiencyPassiveTotals, PROFICIENCY_CAP, weaponCategoryOf } from '../data/proficiencies';
+import { skills } from '../data/skills';
 import { resolveEffects, resolvedToItemStats } from '../systems/effectEngine';
-import type { Item, ItemStats, Slot } from '../types/item.types';
+import type { Item, ItemStats, Slot, WeaponCategory } from '../types/item.types';
 import type { Equipment, InventoryItem, PlayerData, Stats } from '../types/player.types';
 import { isSerializedItemStr, resolveItemRef } from '../utils/itemSerializer';
 import { getDailyQuest } from '../data/dailyQuests';
@@ -9,7 +11,7 @@ import { getDailyQuest } from '../data/dailyQuests';
 type EquipmentSlot = keyof Equipment;
 type RegisteredItem = Pick<Item, 'id' | 'slot' | 'isTwoHanded' | 'stats' | 'effects'>;
 
-const MAX_LUCK = 200;
+const MAX_LUCK = 1000;
 const DEFAULT_MAX_INVENTORY = 60;
 const DEFAULT_MAX_STORAGE = 500;
 
@@ -197,13 +199,16 @@ interface PlayerState {
   isStorageFull: () => boolean;
   recordDailyEvent: (event: string, amount?: number) => void;
   claimDaily: (questId: string) => boolean;
-  equip: (itemId: string) => boolean;
+  equip: (itemId: string, preferredSlot?: 'weapon_main' | 'weapon_off') => boolean;
   unequip: (slot: EquipmentSlot) => boolean;
   takeDamage: (amount: number) => number;
   recoverHp: (percent: number) => void;
   recoverMp: (percent: number) => void;
   restoreAll: () => void;
   addKill: (monsterId: string) => void;
+  addProficiency: (category: string, amount?: number) => void;
+  getProficiency: (category: string) => number;
+  getUsableSkillIds: () => string[];
   getTotalAtk: () => number;
   getTotalDef: () => number;
   getLuck: () => number;
@@ -218,7 +223,9 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   setPlayer: (data) => set({ data, isLoaded: true }),
   clearPlayer: () => set({ data: null, isLoaded: false }),
   gainXp: (amount) => {
-    const xpGained = Math.max(0, amount);
+    // SORTE no leveling: +0,1% de XP por ponto (teto 1000 = +100%).
+    const luck = get().getLuck();
+    const xpGained = Math.max(0, Math.floor(amount * (1 + luck * 0.001)));
     let leveledUp = false;
 
     set((state) => {
@@ -532,7 +539,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
 
     return true;
   },
-  equip: (itemId) => {
+  equip: (itemId, preferredSlot) => {
     const data = get().data;
 
     if (!data || !hasInventoryItem(data.inventory, itemId)) {
@@ -545,23 +552,47 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       return false;
     }
 
-    if (item.slot === 'weapon_off') {
-      const mainWeaponId = data.equipment.weapon_main;
-      const mainWeapon = mainWeaponId ? getRegisteredItem(mainWeaponId) : null;
+    // ARMAS: podem ir em QUALQUER mão (main ou off) — escolha do jogador.
+    // Regra: a MESMA categoria de arma não pode ocupar as duas mãos.
+    const weaponCategory = weaponCategoryOf(itemId);
+    const isWeapon = Boolean(weaponCategory);
 
-      if (mainWeapon?.isTwoHanded) {
+    if (isWeapon) {
+      const requestedSlot = preferredSlot === 'weapon_main' || preferredSlot === 'weapon_off'
+        ? preferredSlot
+        : (item.slot === 'weapon_main' || item.slot === 'weapon_off' ? item.slot : 'weapon_main');
+      const otherSlot = requestedSlot === 'weapon_main' ? 'weapon_off' : 'weapon_main';
+      const otherId = data.equipment[otherSlot];
+      const otherCategory = otherId ? weaponCategoryOf(otherId) : null;
+
+      if (otherCategory && otherCategory === weaponCategory) {
         return false;
       }
+
+      const equipment: Equipment = {
+        ...data.equipment,
+        [requestedSlot]: itemId
+      };
+
+      set({
+        data: {
+          ...data,
+          equipment,
+          luck: {
+            ...data.luck,
+            equipment: getEquipmentLuck(equipment)
+          }
+        }
+      });
+
+      return true;
     }
 
+    // ARMADURAS/ACESSÓRIOS: slot fixo (comportamento original).
     const equipment: Equipment = {
       ...data.equipment,
       [item.slot]: itemId
     };
-
-    if (item.slot === 'weapon_main' && item.isTwoHanded) {
-      equipment.weapon_off = null;
-    }
 
     set({
       data: {
@@ -684,6 +715,49 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       }
     });
   },
+  addProficiency: (category, amount = 1) => {
+    const data = get().data;
+
+    if (!data) {
+      return;
+    }
+
+    const current = data.proficiencies[category] ?? 0;
+    const next = Math.min(PROFICIENCY_CAP, current + Math.max(0, amount));
+
+    if (next === current) {
+      return;
+    }
+
+    set({
+      data: {
+        ...data,
+        proficiencies: {
+          ...data.proficiencies,
+          [category]: next
+        }
+      }
+    });
+  },
+  getProficiency: (category) => {
+    return get().data?.proficiencies[category] ?? 0;
+  },
+  getUsableSkillIds: () => {
+    const data = get().data;
+
+    if (!data) {
+      return [];
+    }
+
+    const mainCategory = data.equipment.weapon_main ? resolveItemRef(data.equipment.weapon_main)?.weaponCategory : undefined;
+    const offCategory = data.equipment.weapon_off ? resolveItemRef(data.equipment.weapon_off)?.weaponCategory : undefined;
+    const categories = new Set<WeaponCategory>([mainCategory, offCategory].filter((category): category is WeaponCategory => Boolean(category)));
+
+    return skills
+      .filter((skill) => categories.has(skill.proficiency))
+      .filter((skill) => (data.proficiencies[skill.proficiency] ?? 0) >= skill.requireProficiency)
+      .map((skill) => skill.id);
+  },
   getTotalAtk: () => {
     const data = get().data;
 
@@ -703,8 +777,12 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     }
 
     const equipmentStats = getEquipmentItemStats(data.equipment);
+    const baseDef = data.stats.vitality * 1.5 + (equipmentStats.def ?? 0);
 
-    return data.stats.vitality * 1.5 + (equipmentStats.def ?? 0);
+    // PASSIVA de proficiência (escudo/martelo/grimório): defesa multiplicativa.
+    const passiveDef = getProficiencyPassiveTotals(data.equipment, data.proficiencies).defBonus;
+
+    return Math.floor(baseDef * (1 + passiveDef));
   },
   getLuck: () => {
     const data = get().data;

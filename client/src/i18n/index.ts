@@ -33,7 +33,218 @@ export const translations: Record<LangCode, TranslationTree> = {
       "rank": "Classe",
       "new": "Novo"
     },
-    "login": {
+    "combos": {
+      "sword_one_none": { "name": "Lâmina" },
+      "sword_one_sword_one": { "name": "Lâminas Gêmeas" },
+      "sword_one_sword_two": { "name": "Dançarino da Espada" },
+      "sword_one_great_sword": { "name": "Vanguarda" },
+      "sword_one_dagger": { "name": "Duelista" },
+      "sword_one_dagger_off": { "name": "Esgrimista" },
+      "sword_one_bow_short": { "name": "Escaramuçador" },
+      "sword_one_bow_long": { "name": "Desbravador" },
+      "sword_one_staff_one": { "name": "Lâmina Arcana" },
+      "sword_one_staff_two": { "name": "Cavaleiro Arcano" },
+      "sword_one_orb": { "name": "Cavaleiro Rúnico" },
+      "sword_one_tome": { "name": "Mago de Batalha" },
+      "sword_one_hammer": { "name": "Belicista" },
+      "sword_one_spear": { "name": "Hoplista" },
+      "sword_one_shield": { "name": "Paladino" },
+      "sword_two_none": { "name": "Lâmina Longa" },
+      "sword_two_sword_one": { "name": "Dançarino da Espada" },
+      "sword_two_sword_two": { "name": "Lâminas Longas Gêmeas" },
+      "sword_two_great_sword": { "name": "Mestre das Lâminas" },
+      "sword_two_dagger": { "name": "Dançarino de Lâminas" },
+      "sword_two_dagger_off": { "name": "Mestre da Apara" },
+      "sword_two_bow_short": { "name": "Cavaleiro Patrulheiro" },
+      "sword_two_bow_long": { "name": "Olho de Falcão" },
+      "sword_two_staff_one": { "name": "Lâmina Rúnica" },
+      "sword_two_staff_two": { "name": "Mestre Arcano das Lâminas" },
+      "sword_two_orb": { "name": "Cavaleiro Eldritch" },
+      "sword_two_tome": { "name": "Lâmina Hex" },
+      "sword_two_hammer": { "name": "Lâmina de Guerra" },
+      "sword_two_spear": { "name": "Lanceiro de Lâminas" },
+      "sword_two_shield": { "name": "Sábio da Espada" },
+      "great_sword_none": { "name": "Berserker" },
+      "great_sword_sword_one": { "name": "Ceifador" },
+      "great_sword_sword_two": { "name": "Mestre da Guerra" },
+      "great_sword_great_sword": { "name": "Colosso" },
+      "great_sword_dagger": { "name": "Ceifador de Sangue" },
+      "great_sword_dagger_off": { "name": "Frenesi" },
+      "great_sword_bow_short": { "name": "Saqueador da Tempestade" },
+      "great_sword_bow_long": { "name": "Mestre da Caça" },
+      "great_sword_staff_one": { "name": "Guerreiro do Caos" },
+      "great_sword_staff_two": { "name": "Berserker da Fenda" },
+      "great_sword_orb": { "name": "Berserker do Vazio" },
+      "great_sword_tome": { "name": "Cavaleiro da Ruína" },
+      "great_sword_hammer": { "name": "Juggernaut" },
+      "great_sword_spear": { "name": "Senhor da Guerra" },
+      "great_sword_shield": { "name": "Vanguarda de Ferro" },
+      "dagger_none": { "name": "Assassino" },
+      "dagger_sword_one": { "name": "Ladino" },
+      "dagger_sword_two": { "name": "Duelista Sombrio" },
+      "dagger_great_sword": { "name": "Ceifador Noturno" },
+      "dagger_dagger": { "name": "Sombras Gêmeas" },
+      "dagger_dagger_off": { "name": "Fantasma" },
+      "dagger_bow_short": { "name": "Espreitador" },
+      "dagger_bow_long": { "name": "Caçador Noturno" },
+      "dagger_staff_one": { "name": "Assassino Hex" },
+      "dagger_staff_two": { "name": "Arcanista Sombrio" },
+      "dagger_orb": { "name": "Devorador de Almas" },
+      "dagger_tome": { "name": "Sábio das Trevas" },
+      "dagger_hammer": { "name": "Quebra-Costas" },
+      "dagger_spear": { "name": "Lanceiro Sombrio" },
+      "dagger_shield": { "name": "Cavaleiro do Terror" },
+      "dagger_off_none": { "name": "Lâmina Lateral" },
+      "dagger_off_sword_one": { "name": "Esgrimista" },
+      "dagger_off_sword_two": { "name": "Mestre da Apara" },
+      "dagger_off_great_sword": { "name": "Ceifador Veloz" },
+      "dagger_off_dagger": { "name": "Sombras Gêmeas" },
+      "dagger_off_dagger_off": { "name": "Lâminas Laterais Gêmeas" },
+      "dagger_off_bow_short": { "name": "Espreitador Veloz" },
+      "dagger_off_bow_long": { "name": "Arqueiro Fantasma" },
+      "dagger_off_staff_one": { "name": "Esgrimista Arcano" },
+      "dagger_off_staff_two": { "name": "Mago do Véu" },
+      "dagger_off_orb": { "name": "Esgrimista de Almas" },
+      "dagger_off_tome": { "name": "Esgrimista Amaldiçoado" },
+      "dagger_off_hammer": { "name": "Esmagador Veloz" },
+      "dagger_off_spear": { "name": "Lanceiro Leve" },
+      "dagger_off_shield": { "name": "Sentinela Veloz" },
+      "bow_short_none": { "name": "Patrulheiro" },
+      "bow_short_sword_one": { "name": "Escaramuçador" },
+      "bow_short_sword_two": { "name": "Cavaleiro Patrulheiro" },
+      "bow_short_great_sword": { "name": "Saqueador da Tempestade" },
+      "bow_short_dagger": { "name": "Espreitador" },
+      "bow_short_dagger_off": { "name": "Espreitador Veloz" },
+      "bow_short_bow_short": { "name": "Arcos Gêmeos" },
+      "bow_short_bow_long": { "name": "Arqueiro do Vento" },
+      "bow_short_staff_one": { "name": "Mago da Natureza" },
+      "bow_short_staff_two": { "name": "Invocador de Tempestades" },
+      "bow_short_orb": { "name": "Observador de Estrelas" },
+      "bow_short_tome": { "name": "Mestre das Feras" },
+      "bow_short_hammer": { "name": "Caçador de Trovões" },
+      "bow_short_spear": { "name": "Caçador de Lança" },
+      "bow_short_shield": { "name": "Guardião da Floresta" },
+      "bow_long_none": { "name": "Caçador" },
+      "bow_long_sword_one": { "name": "Desbravador" },
+      "bow_long_sword_two": { "name": "Olho de Falcão" },
+      "bow_long_great_sword": { "name": "Mestre da Caça" },
+      "bow_long_dagger": { "name": "Caçador Noturno" },
+      "bow_long_dagger_off": { "name": "Arqueiro Fantasma" },
+      "bow_long_bow_short": { "name": "Arqueiro do Vento" },
+      "bow_long_bow_long": { "name": "Arcos Longos Gêmeos" },
+      "bow_long_staff_one": { "name": "Mago da Visão Distante" },
+      "bow_long_staff_two": { "name": "Arqueiro do Eclipse" },
+      "bow_long_orb": { "name": "Vidente do Vazio" },
+      "bow_long_tome": { "name": "Caçador Oráculo" },
+      "bow_long_hammer": { "name": "Caçador Pesado" },
+      "bow_long_spear": { "name": "Alcance Longo" },
+      "bow_long_shield": { "name": "Arqueiro Sentinela" },
+      "staff_one_none": { "name": "Mago" },
+      "staff_one_sword_one": { "name": "Lâmina Arcana" },
+      "staff_one_sword_two": { "name": "Lâmina Rúnica" },
+      "staff_one_great_sword": { "name": "Guerreiro do Caos" },
+      "staff_one_dagger": { "name": "Assassino Hex" },
+      "staff_one_dagger_off": { "name": "Esgrimista Arcano" },
+      "staff_one_bow_short": { "name": "Mago da Natureza" },
+      "staff_one_bow_long": { "name": "Mago da Visão Distante" },
+      "staff_one_staff_one": { "name": "Cajados Gêmeos" },
+      "staff_one_staff_two": { "name": "Arquimago" },
+      "staff_one_orb": { "name": "Mago Estelar" },
+      "staff_one_tome": { "name": "Erudito" },
+      "staff_one_hammer": { "name": "Mago da Terra" },
+      "staff_one_spear": { "name": "Mago das Tempestades" },
+      "staff_one_shield": { "name": "Templário Arcano" },
+      "staff_two_none": { "name": "Arcanista" },
+      "staff_two_sword_one": { "name": "Cavaleiro Arcano" },
+      "staff_two_sword_two": { "name": "Mestre Arcano das Lâminas" },
+      "staff_two_great_sword": { "name": "Berserker da Fenda" },
+      "staff_two_dagger": { "name": "Arcanista Sombrio" },
+      "staff_two_dagger_off": { "name": "Mago do Véu" },
+      "staff_two_bow_short": { "name": "Invocador de Tempestades" },
+      "staff_two_bow_long": { "name": "Arqueiro do Eclipse" },
+      "staff_two_staff_one": { "name": "Arquimago" },
+      "staff_two_staff_two": { "name": "Cajados Arcanos Gêmeos" },
+      "staff_two_orb": { "name": "Arcanista do Vazio" },
+      "staff_two_tome": { "name": "Erudito do Vazio" },
+      "staff_two_hammer": { "name": "Esmagador Rúnico" },
+      "staff_two_spear": { "name": "Lanceiro das Linhas" },
+      "staff_two_shield": { "name": "Guardião de Sigilos" },
+      "orb_none": { "name": "Feiticeiro" },
+      "orb_sword_one": { "name": "Cavaleiro Rúnico" },
+      "orb_sword_two": { "name": "Cavaleiro Eldritch" },
+      "orb_great_sword": { "name": "Berserker do Vazio" },
+      "orb_dagger": { "name": "Devorador de Almas" },
+      "orb_dagger_off": { "name": "Esgrimista de Almas" },
+      "orb_bow_short": { "name": "Observador de Estrelas" },
+      "orb_bow_long": { "name": "Vidente do Vazio" },
+      "orb_staff_one": { "name": "Mago Estelar" },
+      "orb_staff_two": { "name": "Arcanista do Vazio" },
+      "orb_orb": { "name": "Orbes Gêmeos" },
+      "orb_tome": { "name": "Erudito Rúnico" },
+      "orb_hammer": { "name": "Esmagador Astral" },
+      "orb_spear": { "name": "Lanceiro Astral" },
+      "orb_shield": { "name": "Guardião Astral" },
+      "tome_none": { "name": "Erudito" },
+      "tome_sword_one": { "name": "Mago de Batalha" },
+      "tome_sword_two": { "name": "Lâmina Hex" },
+      "tome_great_sword": { "name": "Cavaleiro da Ruína" },
+      "tome_dagger": { "name": "Sábio das Trevas" },
+      "tome_dagger_off": { "name": "Esgrimista Amaldiçoado" },
+      "tome_bow_short": { "name": "Mestre das Feras" },
+      "tome_bow_long": { "name": "Caçador Oráculo" },
+      "tome_staff_one": { "name": "Erudito" },
+      "tome_staff_two": { "name": "Erudito do Vazio" },
+      "tome_orb": { "name": "Erudito Rúnico" },
+      "tome_tome": { "name": "Grimórios Gêmeos" },
+      "tome_hammer": { "name": "Guardião Rúnico" },
+      "tome_spear": { "name": "Lanceiro do Destino" },
+      "tome_shield": { "name": "Erudito de Égide" },
+      "hammer_none": { "name": "Cruzado" },
+      "hammer_sword_one": { "name": "Belicista" },
+      "hammer_sword_two": { "name": "Lâmina de Guerra" },
+      "hammer_great_sword": { "name": "Juggernaut" },
+      "hammer_dagger": { "name": "Quebra-Costas" },
+      "hammer_dagger_off": { "name": "Esmagador Veloz" },
+      "hammer_bow_short": { "name": "Caçador de Trovões" },
+      "hammer_bow_long": { "name": "Caçador Pesado" },
+      "hammer_staff_one": { "name": "Mago da Terra" },
+      "hammer_staff_two": { "name": "Esmagador Rúnico" },
+      "hammer_orb": { "name": "Esmagador Astral" },
+      "hammer_tome": { "name": "Guardião Rúnico" },
+      "hammer_hammer": { "name": "Martelos Gêmeos" },
+      "hammer_spear": { "name": "Lanceiro de Guerra" },
+      "hammer_shield": { "name": "Baluarte" },
+      "spear_none": { "name": "Lanceiro" },
+      "spear_sword_one": { "name": "Hoplista" },
+      "spear_sword_two": { "name": "Lanceiro de Lâminas" },
+      "spear_great_sword": { "name": "Senhor da Guerra" },
+      "spear_dagger": { "name": "Lanceiro Sombrio" },
+      "spear_dagger_off": { "name": "Lanceiro Leve" },
+      "spear_bow_short": { "name": "Caçador de Lança" },
+      "spear_bow_long": { "name": "Alcance Longo" },
+      "spear_staff_one": { "name": "Mago das Tempestades" },
+      "spear_staff_two": { "name": "Lanceiro das Linhas" },
+      "spear_orb": { "name": "Lanceiro Astral" },
+      "spear_tome": { "name": "Lanceiro do Destino" },
+      "spear_hammer": { "name": "Lanceiro de Guerra" },
+      "spear_spear": { "name": "Lanças Gêmeas" },
+      "spear_shield": { "name": "Falange" },
+      "shield_none": { "name": "Sentinela" },
+      "shield_sword_one": { "name": "Paladino" },
+      "shield_sword_two": { "name": "Sábio da Espada" },
+      "shield_great_sword": { "name": "Vanguarda de Ferro" },
+      "shield_dagger": { "name": "Cavaleiro do Terror" },
+      "shield_dagger_off": { "name": "Sentinela Veloz" },
+      "shield_bow_short": { "name": "Guardião da Floresta" },
+      "shield_bow_long": { "name": "Arqueiro Sentinela" },
+      "shield_staff_one": { "name": "Templário Arcano" },
+      "shield_staff_two": { "name": "Guardião de Sigilos" },
+      "shield_orb": { "name": "Guardião Astral" },
+      "shield_tome": { "name": "Erudito de Égide" },
+      "shield_hammer": { "name": "Baluarte" },
+      "shield_spear": { "name": "Falange" },
+      "shield_shield": { "name": "Baluarte de Ferro" }
+    },    "login": {
       "title": "Entrar em Eclipsia",
       "subtitle": "A fronteira arcana aguarda.",
       "user": "Usuário",
@@ -51,7 +262,34 @@ export const translations: Record<LangCode, TranslationTree> = {
       "email": "Email",
       "emailPlaceholder": "Digite seu email",
       "loginTab": "LOGIN",
-      "registerTab": "CRIAR CONTA"
+      "registerTab": "CRIAR CONTA",
+      "originTitle": "Origem",
+      "originHint": "Sua origem é cosmética — não altera atributos. O personagem é moldado pelas armas que empunha.",
+      "weaponTitle": "Arma inicial",
+      "weaponHint": "Você começa com proficiência nesta arma — troque de arma quando quiser.",
+      "originRequired": "Escolha sua origem.",
+      "weaponRequired": "Escolha sua arma inicial.",
+      "luckHint": "+0,1% de XP por ponto de sorte",
+      "proficiencyHint": "Suba usando a arma — ataques, skills e abates dão proficiência.",
+      "nextSkill": "Próxima skill",
+    "proficiencies": {
+      "sword_one": "Espada de uma mão",
+      "sword_two": "Espada longa",
+      "great_sword": "Espadão",
+      "dagger": "Adaga",
+      "dagger_off": "Adaga de apoio",
+      "bow_short": "Arco curto",
+      "bow_long": "Arco longo",
+      "staff_one": "Cajado",
+      "staff_two": "Cajado arcano",
+      "orb": "Orbe",
+      "tome": "Grimório",
+      "hammer": "Martelo",
+      "spear": "Lança",
+      "shield": "Escudo"
+    },
+      "onlineLabel": "Aventureiros na fronteira",
+      "onlineJoin": "e"
     },
     "register": {
       "username": "Nome de usuário",
@@ -514,6 +752,9 @@ export const translations: Record<LangCode, TranslationTree> = {
       "twoHanded": "Duas mãos",
       "twoHandedWarning": "Remove a mão secundária.",
       "twoHandedBlocked": "Mão secundária bloqueada por arma de duas mãos.",
+      "equipMain": "Equipar (mão principal)",
+      "equipOff": "Equipar (mão secundária)",
+      "sameWeaponCategory": "Você já usa essa categoria de arma na outra mão.",
       "spiritStoneEffect": "Efeito da pedra espiritual",
       "stoneLevel": "Nível da pedra",
       "group": {
@@ -917,86 +1158,398 @@ export const translations: Record<LangCode, TranslationTree> = {
       "questComplete": "Missão concluída!",
       "itemFound": "Item encontrado!"
     },
-    "skills": {
+                            "skills": {
+      "slash": {
+        "name": "Corte Rápido",
+        "desc": "Causa 150% do ATK físico."
+      },
       "spin_slash": {
-        "name": "Corte giratório",
-        "desc": "Gira a lâmina para atingir o inimigo."
+        "name": "Corte Giratório",
+        "desc": "Causa 165% do ATK físico."
       },
       "dash_cut": {
-        "name": "Corte veloz",
-        "desc": "Avança rapidamente e corta o alvo."
+        "name": "Corte Veloz",
+        "desc": "Causa 210% do ATK físico."
+      },
+      "parry_counter": {
+        "name": "Contra-Apara",
+        "desc": "Causa 140% do ATK físico. Atordoa o alvo por 1 turno(s)."
+      },
+      "war_cry": {
+        "name": "Grito de Guerra",
+        "desc": "Aumenta a defesa em 25% por 3 turnos. e restaura 12% do hp máximo."
+      },
+      "blade_flurry": {
+        "name": "Flurry de Lâminas",
+        "desc": "Causa 4 golpes de 55% do ATK físico."
+      },
+      "thousand_cuts": {
+        "name": "Mil Cortes",
+        "desc": "Causa 5 golpes de 55% do ATK físico."
+      },
+      "long_swipe": {
+        "name": "Golpe Largo",
+        "desc": "Causa 155% do ATK físico."
+      },
+      "cross_slash": {
+        "name": "Corte Cruzado",
+        "desc": "Causa 200% do ATK físico."
       },
       "bleed": {
         "name": "Sangramento",
-        "desc": "Causa dano por turnos."
+        "desc": "Causa 45 de dano por 3 turnos."
+      },
+      "iron_will": {
+        "name": "Vontade de Ferro",
+        "desc": "Aumenta a defesa em 35% por 3 turnos."
+      },
+      "deep_wound": {
+        "name": "Ferida Profunda",
+        "desc": "Causa 140% do ATK físico. Causa 35 de dano por 3 turnos."
+      },
+      "counter_gambit": {
+        "name": "Gambito Contra",
+        "desc": "Causa 220% do ATK físico. Esquiva o próximo golpe."
+      },
+      "crescent_slash": {
+        "name": "Corte Crescente",
+        "desc": "Causa 4 golpes de 62% do ATK físico."
+      },
+      "brutal_slam": {
+        "name": "Golpe Brutal",
+        "desc": "Causa 150% do ATK físico. Atordoa o alvo por 1 turno(s)."
+      },
+      "cleave": {
+        "name": "Fender",
+        "desc": "Causa 190% do ATK físico."
+      },
+      "battle_fury": {
+        "name": "Fúria de Batalha",
+        "desc": "Aumenta a defesa em 25% por 3 turnos. e restaura 15% do hp máximo."
       },
       "execute": {
         "name": "Executar",
-        "desc": "Dano alto contra alvos fracos."
+        "desc": "Causa 400% do ATK físico. Executa alvos abaixo de 20% de HP."
       },
-      "arcane_burst": {
-        "name": "Explosão arcana",
-        "desc": "Libera energia arcana."
-      },
-      "ice_nova": {
-        "name": "Nova de gelo",
-        "desc": "Congela o ar e causa dano."
-      },
-      "heal_pulse": {
-        "name": "Pulso de cura",
-        "desc": "Restaura parte do HP."
-      },
-      "root": {
-        "name": "Enraizar",
-        "desc": "Prende o alvo com raízes."
-      },
-      "thousand_cuts": {
-        "name": "Mil cortes",
-        "desc": "Sequência de golpes rápidos."
+      "colossus_smash": {
+        "name": "Esmagada do Colosso",
+        "desc": "Causa 340% do ATK físico."
       },
       "blade_storm": {
-        "name": "Tempestade de lâminas",
-        "desc": "Dança de cortes devastadores."
+        "name": "Tempestade de Lâminas",
+        "desc": "Causa 3 golpes de 115% do ATK físico."
+      },
+      "onslaught": {
+        "name": "Investida",
+        "desc": "Causa 5 golpes de 70% do ATK físico."
+      },
+      "death_mark": {
+        "name": "Marca da Morte",
+        "desc": "Marca o alvo: +50% de dano recebido por 3 turnos."
+      },
+      "stab": {
+        "name": "Estocada",
+        "desc": "Causa 135% do ATK físico. Causa 20 de dano por 2 turnos."
+      },
+      "smoke_bomb": {
+        "name": "Bomba de Fumaça",
+        "desc": "Aumenta a defesa em 20% por 2 turnos. Esquiva o próximo golpe."
+      },
+      "eviscerate": {
+        "name": "Eviscerar",
+        "desc": "Causa 215% do ATK físico."
+      },
+      "shadow_step": {
+        "name": "Passo Sombrio",
+        "desc": "Causa 195% do ATK físico. Esquiva o próximo golpe."
+      },
+      "fan_of_knives": {
+        "name": "Leque de Adagas",
+        "desc": "Causa 3 golpes de 75% do ATK físico."
+      },
+      "assassinate": {
+        "name": "Assassinar",
+        "desc": "Causa 320% do ATK físico. Executa alvos abaixo de 25% de HP."
+      },
+      "feint": {
+        "name": "Finta",
+        "desc": "Causa 125% do ATK físico. Retarda o alvo por 2 turno(s)."
+      },
+      "double_slash": {
+        "name": "Corte Duplo",
+        "desc": "Causa 2 golpes de 95% do ATK físico."
+      },
+      "riposte": {
+        "name": "Riposta",
+        "desc": "Causa 145% do ATK físico. Esquiva o próximo golpe."
+      },
+      "lacerate": {
+        "name": "Lacerar",
+        "desc": "Causa 55 de dano por 3 turnos."
+      },
+      "twin_fang": {
+        "name": "Presas Gêmeas",
+        "desc": "Causa 2 golpes de 105% do ATK físico."
+      },
+      "whirl_dagger": {
+        "name": "Adaga Giratória",
+        "desc": "Causa 4 golpes de 62% do ATK físico."
+      },
+      "shadow_parry": {
+        "name": "Apara Sombria",
+        "desc": "Causa 175% do ATK físico. Atordoa o alvo por 1 turno(s). Esquiva o próximo golpe."
+      },
+      "piercing_shot": {
+        "name": "Disparo Perfurante",
+        "desc": "Causa 160% do ATK físico. Ignora a defesa do inimigo."
+      },
+      "aimed_shot": {
+        "name": "Disparo Mirado",
+        "desc": "Causa 185% do ATK físico. Ignora a defesa do inimigo."
+      },
+      "quick_shot": {
+        "name": "Disparo Rápido",
+        "desc": "Causa 135% do ATK físico. Retarda o alvo por 1 turno(s)."
+      },
+      "hunters_mark": {
+        "name": "Marca do Caçador",
+        "desc": "Marca o alvo: +40% de dano recebido por 3 turnos."
+      },
+      "scatter_shot": {
+        "name": "Disparo Disperso",
+        "desc": "Causa 3 golpes de 65% do ATK físico."
+      },
+      "kiting_shot": {
+        "name": "Disparo de Fuga",
+        "desc": "Causa 155% do ATK físico. Retarda o alvo por 2 turno(s)."
+      },
+      "rapid_fire": {
+        "name": "Fogo Rápido",
+        "desc": "Causa 5 golpes de 52% do ATK físico."
+      },
+      "precision_shot": {
+        "name": "Tiro de Precisão",
+        "desc": "Causa 195% do ATK físico. Ignora a defesa do inimigo."
+      },
+      "rain_of_arrows": {
+        "name": "Chuva de Flechas",
+        "desc": "Causa 4 golpes de 55% do ATK físico."
+      },
+      "volley": {
+        "name": "Rajada",
+        "desc": "Causa 3 golpes de 75% do ATK físico."
+      },
+      "eagle_eye": {
+        "name": "Olho de Águia",
+        "desc": "Marca o alvo: +45% de dano recebido por 3 turnos."
+      },
+      "sniper_shot": {
+        "name": "Tiro de Sniper",
+        "desc": "Causa 235% do ATK físico. Ignora a defesa do inimigo."
+      },
+      "wind_arrow": {
+        "name": "Flecha do Vento",
+        "desc": "Causa 155% do ATK físico. Retarda o alvo por 1 turno(s)."
+      },
+      "dead_eye": {
+        "name": "Olho Morto",
+        "desc": "Causa 285% do ATK físico. Executa alvos abaixo de 30% de HP."
+      },
+      "arcane_burst": {
+        "name": "Rajada Arcana",
+        "desc": "Causa 165% do ATK mágico."
+      },
+      "arcane_missile": {
+        "name": "Míssil Arcano",
+        "desc": "Causa 190% do ATK mágico."
+      },
+      "heal_pulse": {
+        "name": "Pulso de Cura",
+        "desc": "Restaura 45% do HP máximo."
+      },
+      "arcane_bind": {
+        "name": "Ligação Arcana",
+        "desc": "Causa 115% do ATK mágico. Atordoa o alvo por 1 turno(s)."
+      },
+      "mana_shield": {
+        "name": "Escudo de Mana",
+        "desc": "Aumenta a defesa em 30% por 3 turnos. e restaura 15% do hp máximo."
+      },
+      "greater_heal": {
+        "name": "Cura Maior",
+        "desc": "Restaura 70% do HP máximo."
+      },
+      "arcane_blast": {
+        "name": "Explosão Arcana",
+        "desc": "Causa 3 golpes de 70% do ATK mágico."
+      },
+      "frost_bolt": {
+        "name": "Projétil de Gelo",
+        "desc": "Causa 155% do ATK mágico. Retarda o alvo por 1 turno(s)."
+      },
+      "ice_nova": {
+        "name": "Nova de Gelo",
+        "desc": "Causa 150% do ATK mágico. Retarda o alvo por 2 turno(s)."
+      },
+      "blizzard": {
+        "name": "Nevasca",
+        "desc": "Causa 4 golpes de 52% do ATK mágico. Retarda o alvo por 1 turno(s)."
+      },
+      "arcane_armor": {
+        "name": "Armadura Arcana",
+        "desc": "Aumenta a defesa em 40% por 3 turnos."
       },
       "chain_lightning": {
-        "name": "Relâmpago em cadeia",
-        "desc": "Raio que salta entre alvos."
+        "name": "Raio em Cadeia",
+        "desc": "Causa 225% do ATK mágico."
+      },
+      "elemental_chaos": {
+        "name": "Caos Elemental",
+        "desc": "Causa 255% do ATK mágico."
+      },
+      "time_warp": {
+        "name": "Distorção Temporal",
+        "desc": "Marca o alvo: +50% de dano recebido por 3 turnos."
+      },
+      "void_bolt": {
+        "name": "Projétil do Vazio",
+        "desc": "Causa 165% do ATK do vazio."
+      },
+      "void_rupture": {
+        "name": "Ruptura do Vazio",
+        "desc": "Causa 145% do ATK do vazio. Causa 40 de dano por 3 turnos."
+      },
+      "astral_barrier": {
+        "name": "Barreira Astral",
+        "desc": "Aumenta a defesa em 35% por 3 turnos."
+      },
+      "gravity_well": {
+        "name": "Poço Gravitacional",
+        "desc": "Causa 130% do ATK do vazio. Atordoa o alvo por 1 turno(s)."
+      },
+      "void_armor": {
+        "name": "Armadura do Vazio",
+        "desc": "Aumenta a defesa em 35% por 3 turnos. e restaura 10% do hp máximo."
       },
       "void_gate": {
-        "name": "Portal do vazio",
-        "desc": "Distorce defesa e mana."
+        "name": "Portal do Vazio",
+        "desc": "Causa 330% do ATK do vazio."
       },
-      "thorns": {
-        "name": "Espinhos",
-        "desc": "Retalia ataques recebidos."
+      "cosmic_burst": {
+        "name": "Explosão Cósmica",
+        "desc": "Causa 5 golpes de 70% do ATK do vazio."
       },
-      "nature_burst": {
-        "name": "Explosão natural",
-        "desc": "Impacto de energia selvagem."
+      "arcane_mark": {
+        "name": "Marca Arcana",
+        "desc": "Marca o alvo: +40% de dano recebido por 3 turnos."
       },
-      "shield_bash": {
-        "name": "Golpe de escudo",
-        "desc": "Atordoa com o escudo."
+      "root": {
+        "name": "Raízes",
+        "desc": "Causa 110% do ATK mágico. Atordoa o alvo por 1 turno(s)."
+      },
+      "petrify": {
+        "name": "Petrificar",
+        "desc": "Causa 130% do ATK mágico. Atordoa o alvo por 1 turno(s)."
+      },
+      "arcane_ward": {
+        "name": "Guarda Arcano",
+        "desc": "Aumenta a defesa em 30% por 3 turnos. e restaura 25% do hp máximo."
+      },
+      "rune_shield": {
+        "name": "Escudo Rúnico",
+        "desc": "Aumenta a defesa em 45% por 2 turnos."
+      },
+      "draining_tome": {
+        "name": "Grimório Drenante",
+        "desc": "Causa 145% do ATK mágico. Restaura 30% do HP máximo."
+      },
+      "forbidden_knowledge": {
+        "name": "Conhecimento Proibido",
+        "desc": "Causa 305% do ATK mágico."
+      },
+      "crushing_blow": {
+        "name": "Golpe Esmagador",
+        "desc": "Causa 165% do ATK físico."
       },
       "fortress": {
         "name": "Fortaleza",
-        "desc": "Aumenta muito a defesa."
+        "desc": "Aumenta a defesa em 40% por 3 turnos."
       },
-      "piercing_shot": {
-        "name": "Disparo perfurante",
-        "desc": "Ignora parte da defesa."
+      "earth_shake": {
+        "name": "Tremor de Terra",
+        "desc": "Causa 3 golpes de 60% do ATK físico. Retarda o alvo por 1 turno(s)."
       },
-      "rain_of_arrows": {
-        "name": "Chuva de flechas",
-        "desc": "Dispara várias flechas."
+      "unbreakable": {
+        "name": "Inquebrável",
+        "desc": "Aumenta a defesa em 50% por 2 turnos."
       },
-      "death_mark": {
-        "name": "Marca da morte",
-        "desc": "Aumenta dano recebido pelo alvo."
+      "war_stomp": {
+        "name": "Pisão de Guerra",
+        "desc": "Causa 135% do ATK físico. Atordoa o alvo por 1 turno(s)."
       },
-      "shadow_step": {
-        "name": "Passo sombrio",
-        "desc": "Prepara um ataque crítico."
+      "seismic_slam": {
+        "name": "Impacto Sísmico",
+        "desc": "Causa 235% do ATK físico. Atordoa o alvo por 1 turno(s)."
+      },
+      "titan_fall": {
+        "name": "Queda do Titã",
+        "desc": "Causa 295% do ATK físico."
+      },
+      "precise_thrust": {
+        "name": "Estocada Precisa",
+        "desc": "Causa 155% do ATK físico. Ignora a defesa do inimigo."
+      },
+      "thorns": {
+        "name": "Espinhos",
+        "desc": "Reflete 35% do dano recebido por 3 turnos."
+      },
+      "sweeping_strike": {
+        "name": "Golpe Varrente",
+        "desc": "Causa 2 golpes de 98% do ATK físico."
+      },
+      "serpent_spike": {
+        "name": "Espinho de Serpente",
+        "desc": "Causa 135% do ATK físico. Causa 35 de dano por 3 turnos."
+      },
+      "nature_burst": {
+        "name": "Explosão Natural",
+        "desc": "Causa 215% do ATK mágico."
+      },
+      "phalanx_ward": {
+        "name": "Guarda Falange",
+        "desc": "Aumenta a defesa em 35% por 3 turnos."
+      },
+      "dragon_lance": {
+        "name": "Lança do Dragão",
+        "desc": "Causa 265% do ATK físico. Retarda o alvo por 1 turno(s)."
+      },
+      "shield_bash": {
+        "name": "Investida de Escudo",
+        "desc": "Causa 125% do ATK físico. Atordoa o alvo por 1 turno(s)."
+      },
+      "shield_slam": {
+        "name": "Esmagada de Escudo",
+        "desc": "Causa 150% do ATK físico. Retarda o alvo por 1 turno(s)."
+      },
+      "provoke": {
+        "name": "Provocar",
+        "desc": "Marca o alvo: +30% de dano recebido por 3 turnos."
+      },
+      "bastion": {
+        "name": "Bastião",
+        "desc": "Aumenta a defesa em 60% por 2 turnos."
+      },
+      "aegis_guard": {
+        "name": "Guarda de Égide",
+        "desc": "Aumenta a defesa em 50% por 2 turnos. e restaura 15% do hp máximo."
+      },
+      "shield_charge": {
+        "name": "Carga de Escudo",
+        "desc": "Causa 205% do ATK físico. Atordoa o alvo por 1 turno(s)."
+      },
+      "holy_aegis": {
+        "name": "Égide Sagrada",
+        "desc": "Aumenta a defesa em 20% por 2 turnos. e restaura 50% do hp máximo."
       }
     },
     "bosses": {
@@ -1006,6 +1559,7 @@ export const translations: Record<LangCode, TranslationTree> = {
         "phase2": "Chama reforços.",
         "enrage": "Entra em fúria."
       },
+
       "root_guardian": {
         "name": "Guardião das Raízes",
         "desc": "Protetor ancestral de Nythera.",
@@ -1210,7 +1764,218 @@ export const translations: Record<LangCode, TranslationTree> = {
       "rank": "Rank",
       "new": "New"
     },
-    "login": {
+    "combos": {
+      "sword_one_none": { "name": "Blade" },
+      "sword_one_sword_one": { "name": "Twin Blades" },
+      "sword_one_sword_two": { "name": "Sword Dancer" },
+      "sword_one_great_sword": { "name": "Vanguard" },
+      "sword_one_dagger": { "name": "Duelist" },
+      "sword_one_dagger_off": { "name": "Fencer" },
+      "sword_one_bow_short": { "name": "Skirmisher" },
+      "sword_one_bow_long": { "name": "Pathfinder" },
+      "sword_one_staff_one": { "name": "Spellblade" },
+      "sword_one_staff_two": { "name": "Arcane Knight" },
+      "sword_one_orb": { "name": "Rune Knight" },
+      "sword_one_tome": { "name": "Battle Mage" },
+      "sword_one_hammer": { "name": "Warmonger" },
+      "sword_one_spear": { "name": "Hoplite" },
+      "sword_one_shield": { "name": "Paladin" },
+      "sword_two_none": { "name": "Longblade" },
+      "sword_two_sword_one": { "name": "Sword Dancer" },
+      "sword_two_sword_two": { "name": "Twin Longblades" },
+      "sword_two_great_sword": { "name": "Blade Master" },
+      "sword_two_dagger": { "name": "Blade Dancer" },
+      "sword_two_dagger_off": { "name": "Parrymaster" },
+      "sword_two_bow_short": { "name": "Ranger Knight" },
+      "sword_two_bow_long": { "name": "Hawkeye" },
+      "sword_two_staff_one": { "name": "Rune Blader" },
+      "sword_two_staff_two": { "name": "Arcane Blademaster" },
+      "sword_two_orb": { "name": "Eldritch Knight" },
+      "sword_two_tome": { "name": "Hexblade" },
+      "sword_two_hammer": { "name": "Warblade" },
+      "sword_two_spear": { "name": "Blade Lancer" },
+      "sword_two_shield": { "name": "Sword Sage" },
+      "great_sword_none": { "name": "Berserker" },
+      "great_sword_sword_one": { "name": "Reaver" },
+      "great_sword_sword_two": { "name": "War Master" },
+      "great_sword_great_sword": { "name": "Colossus" },
+      "great_sword_dagger": { "name": "Blood Reaver" },
+      "great_sword_dagger_off": { "name": "Frenzy" },
+      "great_sword_bow_short": { "name": "Storm Raider" },
+      "great_sword_bow_long": { "name": "Huntmaster" },
+      "great_sword_staff_one": { "name": "Chaos Warrior" },
+      "great_sword_staff_two": { "name": "Rift Berserker" },
+      "great_sword_orb": { "name": "Void Berserker" },
+      "great_sword_tome": { "name": "Ruin Knight" },
+      "great_sword_hammer": { "name": "Juggernaut" },
+      "great_sword_spear": { "name": "Warlord" },
+      "great_sword_shield": { "name": "Iron Vanguard" },
+      "dagger_none": { "name": "Assassin" },
+      "dagger_sword_one": { "name": "Rogue" },
+      "dagger_sword_two": { "name": "Shadow Duelist" },
+      "dagger_great_sword": { "name": "Night Reaver" },
+      "dagger_dagger": { "name": "Twin Shadows" },
+      "dagger_dagger_off": { "name": "Phantom" },
+      "dagger_bow_short": { "name": "Stalker" },
+      "dagger_bow_long": { "name": "Night Hunter" },
+      "dagger_staff_one": { "name": "Hex Assassin" },
+      "dagger_staff_two": { "name": "Shadow Arcanist" },
+      "dagger_orb": { "name": "Soul Eater" },
+      "dagger_tome": { "name": "Dark Sage" },
+      "dagger_hammer": { "name": "Backbreaker" },
+      "dagger_spear": { "name": "Shadow Lancer" },
+      "dagger_shield": { "name": "Dread Knight" },
+      "dagger_off_none": { "name": "Sideblade" },
+      "dagger_off_sword_one": { "name": "Fencer" },
+      "dagger_off_sword_two": { "name": "Parrymaster" },
+      "dagger_off_great_sword": { "name": "Swift Reaver" },
+      "dagger_off_dagger": { "name": "Twin Shadows" },
+      "dagger_off_dagger_off": { "name": "Twin Sideblades" },
+      "dagger_off_bow_short": { "name": "Quick Stalker" },
+      "dagger_off_bow_long": { "name": "Ghost Archer" },
+      "dagger_off_staff_one": { "name": "Arcane Fencer" },
+      "dagger_off_staff_two": { "name": "Veil Mage" },
+      "dagger_off_orb": { "name": "Soul Fencer" },
+      "dagger_off_tome": { "name": "Cursed Fencer" },
+      "dagger_off_hammer": { "name": "Swift Crusher" },
+      "dagger_off_spear": { "name": "Light Lancer" },
+      "dagger_off_shield": { "name": "Swift Sentinel" },
+      "bow_short_none": { "name": "Ranger" },
+      "bow_short_sword_one": { "name": "Skirmisher" },
+      "bow_short_sword_two": { "name": "Ranger Knight" },
+      "bow_short_great_sword": { "name": "Storm Raider" },
+      "bow_short_dagger": { "name": "Stalker" },
+      "bow_short_dagger_off": { "name": "Quick Stalker" },
+      "bow_short_bow_short": { "name": "Twin Bows" },
+      "bow_short_bow_long": { "name": "Wind Archer" },
+      "bow_short_staff_one": { "name": "Nature Mage" },
+      "bow_short_staff_two": { "name": "Stormcaller" },
+      "bow_short_orb": { "name": "Star Gazer" },
+      "bow_short_tome": { "name": "Beast Master" },
+      "bow_short_hammer": { "name": "Thunder Hunter" },
+      "bow_short_spear": { "name": "Spear Hunter" },
+      "bow_short_shield": { "name": "Forest Guardian" },
+      "bow_long_none": { "name": "Hunter" },
+      "bow_long_sword_one": { "name": "Pathfinder" },
+      "bow_long_sword_two": { "name": "Hawkeye" },
+      "bow_long_great_sword": { "name": "Huntmaster" },
+      "bow_long_dagger": { "name": "Night Hunter" },
+      "bow_long_dagger_off": { "name": "Ghost Archer" },
+      "bow_long_bow_short": { "name": "Wind Archer" },
+      "bow_long_bow_long": { "name": "Twin Longbows" },
+      "bow_long_staff_one": { "name": "Farsight Mage" },
+      "bow_long_staff_two": { "name": "Eclipse Archer" },
+      "bow_long_orb": { "name": "Void Seer" },
+      "bow_long_tome": { "name": "Oracle Hunter" },
+      "bow_long_hammer": { "name": "Heavy Hunter" },
+      "bow_long_spear": { "name": "Long Reach" },
+      "bow_long_shield": { "name": "Sentinel Archer" },
+      "staff_one_none": { "name": "Mage" },
+      "staff_one_sword_one": { "name": "Spellblade" },
+      "staff_one_sword_two": { "name": "Rune Blader" },
+      "staff_one_great_sword": { "name": "Chaos Warrior" },
+      "staff_one_dagger": { "name": "Hex Assassin" },
+      "staff_one_dagger_off": { "name": "Arcane Fencer" },
+      "staff_one_bow_short": { "name": "Nature Mage" },
+      "staff_one_bow_long": { "name": "Farsight Mage" },
+      "staff_one_staff_one": { "name": "Twin Staves" },
+      "staff_one_staff_two": { "name": "Archmage" },
+      "staff_one_orb": { "name": "Star Mage" },
+      "staff_one_tome": { "name": "Scholar" },
+      "staff_one_hammer": { "name": "Earth Mage" },
+      "staff_one_spear": { "name": "Storm Mage" },
+      "staff_one_shield": { "name": "Arcane Templar" },
+      "staff_two_none": { "name": "Arcanist" },
+      "staff_two_sword_one": { "name": "Arcane Knight" },
+      "staff_two_sword_two": { "name": "Arcane Blademaster" },
+      "staff_two_great_sword": { "name": "Rift Berserker" },
+      "staff_two_dagger": { "name": "Shadow Arcanist" },
+      "staff_two_dagger_off": { "name": "Veil Mage" },
+      "staff_two_bow_short": { "name": "Stormcaller" },
+      "staff_two_bow_long": { "name": "Eclipse Archer" },
+      "staff_two_staff_one": { "name": "Archmage" },
+      "staff_two_staff_two": { "name": "Twin Arcane Staves" },
+      "staff_two_orb": { "name": "Void Arcanist" },
+      "staff_two_tome": { "name": "Void Scholar" },
+      "staff_two_hammer": { "name": "Rune Crusher" },
+      "staff_two_spear": { "name": "Ley Lancer" },
+      "staff_two_shield": { "name": "Sigil Guardian" },
+      "orb_none": { "name": "Sorcerer" },
+      "orb_sword_one": { "name": "Rune Knight" },
+      "orb_sword_two": { "name": "Eldritch Knight" },
+      "orb_great_sword": { "name": "Void Berserker" },
+      "orb_dagger": { "name": "Soul Eater" },
+      "orb_dagger_off": { "name": "Soul Fencer" },
+      "orb_bow_short": { "name": "Star Gazer" },
+      "orb_bow_long": { "name": "Void Seer" },
+      "orb_staff_one": { "name": "Star Mage" },
+      "orb_staff_two": { "name": "Void Arcanist" },
+      "orb_orb": { "name": "Twin Orbs" },
+      "orb_tome": { "name": "Rune Scholar" },
+      "orb_hammer": { "name": "Astral Crusher" },
+      "orb_spear": { "name": "Astral Lancer" },
+      "orb_shield": { "name": "Astral Guardian" },
+      "tome_none": { "name": "Scholar" },
+      "tome_sword_one": { "name": "Battle Mage" },
+      "tome_sword_two": { "name": "Hexblade" },
+      "tome_great_sword": { "name": "Ruin Knight" },
+      "tome_dagger": { "name": "Dark Sage" },
+      "tome_dagger_off": { "name": "Cursed Fencer" },
+      "tome_bow_short": { "name": "Beast Master" },
+      "tome_bow_long": { "name": "Oracle Hunter" },
+      "tome_staff_one": { "name": "Scholar" },
+      "tome_staff_two": { "name": "Void Scholar" },
+      "tome_orb": { "name": "Rune Scholar" },
+      "tome_tome": { "name": "Twin Tomes" },
+      "tome_hammer": { "name": "Rune Warden" },
+      "tome_spear": { "name": "Fate Lancer" },
+      "tome_shield": { "name": "Aegis Scholar" },
+      "hammer_none": { "name": "Crusader" },
+      "hammer_sword_one": { "name": "Warmonger" },
+      "hammer_sword_two": { "name": "Warblade" },
+      "hammer_great_sword": { "name": "Juggernaut" },
+      "hammer_dagger": { "name": "Backbreaker" },
+      "hammer_dagger_off": { "name": "Swift Crusher" },
+      "hammer_bow_short": { "name": "Thunder Hunter" },
+      "hammer_bow_long": { "name": "Heavy Hunter" },
+      "hammer_staff_one": { "name": "Earth Mage" },
+      "hammer_staff_two": { "name": "Rune Crusher" },
+      "hammer_orb": { "name": "Astral Crusher" },
+      "hammer_tome": { "name": "Rune Warden" },
+      "hammer_hammer": { "name": "Twin Hammers" },
+      "hammer_spear": { "name": "War Lancer" },
+      "hammer_shield": { "name": "Bulwark" },
+      "spear_none": { "name": "Lancer" },
+      "spear_sword_one": { "name": "Hoplite" },
+      "spear_sword_two": { "name": "Blade Lancer" },
+      "spear_great_sword": { "name": "Warlord" },
+      "spear_dagger": { "name": "Shadow Lancer" },
+      "spear_dagger_off": { "name": "Light Lancer" },
+      "spear_bow_short": { "name": "Spear Hunter" },
+      "spear_bow_long": { "name": "Long Reach" },
+      "spear_staff_one": { "name": "Storm Mage" },
+      "spear_staff_two": { "name": "Ley Lancer" },
+      "spear_orb": { "name": "Astral Lancer" },
+      "spear_tome": { "name": "Fate Lancer" },
+      "spear_hammer": { "name": "War Lancer" },
+      "spear_spear": { "name": "Twin Spears" },
+      "spear_shield": { "name": "Phalanx" },
+      "shield_none": { "name": "Sentinel" },
+      "shield_sword_one": { "name": "Paladin" },
+      "shield_sword_two": { "name": "Sword Sage" },
+      "shield_great_sword": { "name": "Iron Vanguard" },
+      "shield_dagger": { "name": "Dread Knight" },
+      "shield_dagger_off": { "name": "Swift Sentinel" },
+      "shield_bow_short": { "name": "Forest Guardian" },
+      "shield_bow_long": { "name": "Sentinel Archer" },
+      "shield_staff_one": { "name": "Arcane Templar" },
+      "shield_staff_two": { "name": "Sigil Guardian" },
+      "shield_orb": { "name": "Astral Guardian" },
+      "shield_tome": { "name": "Aegis Scholar" },
+      "shield_hammer": { "name": "Bulwark" },
+      "shield_spear": { "name": "Phalanx" },
+      "shield_shield": { "name": "Iron Bulwark" }
+    },    "login": {
       "title": "Log in to Eclipsia",
       "subtitle": "The arcane frontier awaits.",
       "user": "User",
@@ -1228,7 +1993,34 @@ export const translations: Record<LangCode, TranslationTree> = {
       "email": "Email",
       "emailPlaceholder": "Enter your email",
       "loginTab": "LOGIN",
-      "registerTab": "CREATE ACCOUNT"
+      "registerTab": "CREATE ACCOUNT",
+      "originTitle": "Origin",
+      "originHint": "Your origin is cosmetic — it doesn't change attributes. Your character is shaped by the weapons you wield.",
+      "weaponTitle": "Starting weapon",
+      "weaponHint": "You begin with proficiency in this weapon — switch weapons whenever you want.",
+      "originRequired": "Choose your origin.",
+      "weaponRequired": "Choose your starting weapon.",
+      "luckHint": "+0.1% XP per luck point",
+      "proficiencyHint": "Level it up by using the weapon — attacks, skills and kills grant proficiency.",
+      "nextSkill": "Next skill",
+    "proficiencies": {
+      "sword_one": "One-Handed Sword",
+      "sword_two": "Long Sword",
+      "great_sword": "Greatsword",
+      "dagger": "Dagger",
+      "dagger_off": "Off-Hand Dagger",
+      "bow_short": "Short Bow",
+      "bow_long": "Long Bow",
+      "staff_one": "Staff",
+      "staff_two": "Arcane Staff",
+      "orb": "Orb",
+      "tome": "Tome",
+      "hammer": "Hammer",
+      "spear": "Spear",
+      "shield": "Shield"
+    },
+      "onlineLabel": "Adventurers at the frontier",
+      "onlineJoin": "and"
     },
     "register": {
       "username": "Username",
@@ -1691,6 +2483,9 @@ export const translations: Record<LangCode, TranslationTree> = {
       "twoHanded": "Two-handed",
       "twoHandedWarning": "Removes the off-hand item.",
       "twoHandedBlocked": "Off-hand blocked by two-handed weapon.",
+      "equipMain": "Equip (main hand)",
+      "equipOff": "Equip (off hand)",
+      "sameWeaponCategory": "You already use this weapon category in the other hand.",
       "spiritStoneEffect": "Spirit stone effect",
       "stoneLevel": "Stone level",
       "group": {
@@ -2095,86 +2890,398 @@ export const translations: Record<LangCode, TranslationTree> = {
       "questComplete": "Quest complete!",
       "itemFound": "Item found!"
     },
-    "skills": {
+                            "skills": {
+      "slash": {
+        "name": "Quick Slash",
+        "desc": "Deals 150% of physical ATK damage."
+      },
       "spin_slash": {
         "name": "Spin Slash",
-        "desc": "Spins the blade to strike the enemy."
+        "desc": "Deals 165% of physical ATK damage."
       },
       "dash_cut": {
         "name": "Dash Cut",
-        "desc": "Rushes forward and cuts the target."
+        "desc": "Deals 210% of physical ATK damage."
       },
-      "bleed": {
-        "name": "Bleed",
-        "desc": "Deals damage over turns."
+      "parry_counter": {
+        "name": "Parry Counter",
+        "desc": "Deals 140% of physical ATK damage. Stuns the target for 1 turn(s)."
       },
-      "execute": {
-        "name": "Execute",
-        "desc": "High damage against weak targets."
+      "war_cry": {
+        "name": "War Cry",
+        "desc": "Increases defense by 25% for 3 turns. e restores 12% of max hp."
       },
-      "arcane_burst": {
-        "name": "Arcane Burst",
-        "desc": "Releases arcane energy."
-      },
-      "ice_nova": {
-        "name": "Ice Nova",
-        "desc": "Freezes the air and deals damage."
-      },
-      "heal_pulse": {
-        "name": "Heal Pulse",
-        "desc": "Restores part of HP."
-      },
-      "root": {
-        "name": "Root",
-        "desc": "Binds the target with roots."
+      "blade_flurry": {
+        "name": "Blade Flurry",
+        "desc": "Deals 4 hits of 55% physical ATK damage."
       },
       "thousand_cuts": {
         "name": "Thousand Cuts",
-        "desc": "Sequence of fast strikes."
+        "desc": "Deals 5 hits of 55% physical ATK damage."
+      },
+      "long_swipe": {
+        "name": "Long Swipe",
+        "desc": "Deals 155% of physical ATK damage."
+      },
+      "cross_slash": {
+        "name": "Cross Slash",
+        "desc": "Deals 200% of physical ATK damage."
+      },
+      "bleed": {
+        "name": "Bleed",
+        "desc": "Deals 45 damage per turn for 3 turns."
+      },
+      "iron_will": {
+        "name": "Iron Will",
+        "desc": "Increases defense by 35% for 3 turns."
+      },
+      "deep_wound": {
+        "name": "Deep Wound",
+        "desc": "Deals 140% of physical ATK damage. Deals 35 damage per turn for 3 turns."
+      },
+      "counter_gambit": {
+        "name": "Counter Gambit",
+        "desc": "Deals 220% of physical ATK damage. Dodges the next incoming hit."
+      },
+      "crescent_slash": {
+        "name": "Crescent Slash",
+        "desc": "Deals 4 hits of 62% physical ATK damage."
+      },
+      "brutal_slam": {
+        "name": "Brutal Slam",
+        "desc": "Deals 150% of physical ATK damage. Stuns the target for 1 turn(s)."
+      },
+      "cleave": {
+        "name": "Cleave",
+        "desc": "Deals 190% of physical ATK damage."
+      },
+      "battle_fury": {
+        "name": "Battle Fury",
+        "desc": "Increases defense by 25% for 3 turns. e restores 15% of max hp."
+      },
+      "execute": {
+        "name": "Execute",
+        "desc": "Deals 400% of physical ATK damage. Executes targets below 20% HP."
+      },
+      "colossus_smash": {
+        "name": "Colossus Smash",
+        "desc": "Deals 340% of physical ATK damage."
       },
       "blade_storm": {
         "name": "Blade Storm",
-        "desc": "Dance of devastating cuts."
+        "desc": "Deals 3 hits of 115% physical ATK damage."
       },
-      "chain_lightning": {
-        "name": "Chain Lightning",
-        "desc": "Lightning that jumps between targets."
-      },
-      "void_gate": {
-        "name": "Void Gate",
-        "desc": "Distorts defense and mana."
-      },
-      "thorns": {
-        "name": "Thorns",
-        "desc": "Retaliates against attacks."
-      },
-      "nature_burst": {
-        "name": "Nature Burst",
-        "desc": "Impact of wild energy."
-      },
-      "shield_bash": {
-        "name": "Shield Bash",
-        "desc": "Stuns with the shield."
-      },
-      "fortress": {
-        "name": "Fortress",
-        "desc": "Greatly increases defense."
-      },
-      "piercing_shot": {
-        "name": "Piercing Shot",
-        "desc": "Ignores part of defense."
-      },
-      "rain_of_arrows": {
-        "name": "Rain of Arrows",
-        "desc": "Fires several arrows."
+      "onslaught": {
+        "name": "Onslaught",
+        "desc": "Deals 5 hits of 70% physical ATK damage."
       },
       "death_mark": {
         "name": "Death Mark",
-        "desc": "Increases damage taken by the target."
+        "desc": "Marks the target: +50% damage taken for 3 turns."
+      },
+      "stab": {
+        "name": "Stab",
+        "desc": "Deals 135% of physical ATK damage. Deals 20 damage per turn for 2 turns."
+      },
+      "smoke_bomb": {
+        "name": "Smoke Bomb",
+        "desc": "Increases defense by 20% for 2 turns. Dodges the next incoming hit."
+      },
+      "eviscerate": {
+        "name": "Eviscerate",
+        "desc": "Deals 215% of physical ATK damage."
       },
       "shadow_step": {
         "name": "Shadow Step",
-        "desc": "Prepares a critical attack."
+        "desc": "Deals 195% of physical ATK damage. Dodges the next incoming hit."
+      },
+      "fan_of_knives": {
+        "name": "Fan of Knives",
+        "desc": "Deals 3 hits of 75% physical ATK damage."
+      },
+      "assassinate": {
+        "name": "Assassinate",
+        "desc": "Deals 320% of physical ATK damage. Executes targets below 25% HP."
+      },
+      "feint": {
+        "name": "Feint",
+        "desc": "Deals 125% of physical ATK damage. Slows the target for 2 turn(s)."
+      },
+      "double_slash": {
+        "name": "Double Slash",
+        "desc": "Deals 2 hits of 95% physical ATK damage."
+      },
+      "riposte": {
+        "name": "Riposte",
+        "desc": "Deals 145% of physical ATK damage. Dodges the next incoming hit."
+      },
+      "lacerate": {
+        "name": "Lacerate",
+        "desc": "Deals 55 damage per turn for 3 turns."
+      },
+      "twin_fang": {
+        "name": "Twin Fang",
+        "desc": "Deals 2 hits of 105% physical ATK damage."
+      },
+      "whirl_dagger": {
+        "name": "Whirl Dagger",
+        "desc": "Deals 4 hits of 62% physical ATK damage."
+      },
+      "shadow_parry": {
+        "name": "Shadow Parry",
+        "desc": "Deals 175% of physical ATK damage. Stuns the target for 1 turn(s). Dodges the next incoming hit."
+      },
+      "piercing_shot": {
+        "name": "Piercing Shot",
+        "desc": "Deals 160% of physical ATK damage. Ignores enemy defense."
+      },
+      "aimed_shot": {
+        "name": "Aimed Shot",
+        "desc": "Deals 185% of physical ATK damage. Ignores enemy defense."
+      },
+      "quick_shot": {
+        "name": "Quick Shot",
+        "desc": "Deals 135% of physical ATK damage. Slows the target for 1 turn(s)."
+      },
+      "hunters_mark": {
+        "name": "Hunter's Mark",
+        "desc": "Marks the target: +40% damage taken for 3 turns."
+      },
+      "scatter_shot": {
+        "name": "Scatter Shot",
+        "desc": "Deals 3 hits of 65% physical ATK damage."
+      },
+      "kiting_shot": {
+        "name": "Kiting Shot",
+        "desc": "Deals 155% of physical ATK damage. Slows the target for 2 turn(s)."
+      },
+      "rapid_fire": {
+        "name": "Rapid Fire",
+        "desc": "Deals 5 hits of 52% physical ATK damage."
+      },
+      "precision_shot": {
+        "name": "Precision Shot",
+        "desc": "Deals 195% of physical ATK damage. Ignores enemy defense."
+      },
+      "rain_of_arrows": {
+        "name": "Rain of Arrows",
+        "desc": "Deals 4 hits of 55% physical ATK damage."
+      },
+      "volley": {
+        "name": "Volley",
+        "desc": "Deals 3 hits of 75% physical ATK damage."
+      },
+      "eagle_eye": {
+        "name": "Eagle Eye",
+        "desc": "Marks the target: +45% damage taken for 3 turns."
+      },
+      "sniper_shot": {
+        "name": "Sniper Shot",
+        "desc": "Deals 235% of physical ATK damage. Ignores enemy defense."
+      },
+      "wind_arrow": {
+        "name": "Wind Arrow",
+        "desc": "Deals 155% of physical ATK damage. Slows the target for 1 turn(s)."
+      },
+      "dead_eye": {
+        "name": "Dead Eye",
+        "desc": "Deals 285% of physical ATK damage. Executes targets below 30% HP."
+      },
+      "arcane_burst": {
+        "name": "Arcane Burst",
+        "desc": "Deals 165% of magic ATK damage."
+      },
+      "arcane_missile": {
+        "name": "Arcane Missile",
+        "desc": "Deals 190% of magic ATK damage."
+      },
+      "heal_pulse": {
+        "name": "Heal Pulse",
+        "desc": "Restores 45% of max HP."
+      },
+      "arcane_bind": {
+        "name": "Arcane Bind",
+        "desc": "Deals 115% of magic ATK damage. Stuns the target for 1 turn(s)."
+      },
+      "mana_shield": {
+        "name": "Mana Shield",
+        "desc": "Increases defense by 30% for 3 turns. e restores 15% of max hp."
+      },
+      "greater_heal": {
+        "name": "Greater Heal",
+        "desc": "Restores 70% of max HP."
+      },
+      "arcane_blast": {
+        "name": "Arcane Blast",
+        "desc": "Deals 3 hits of 70% magic ATK damage."
+      },
+      "frost_bolt": {
+        "name": "Frost Bolt",
+        "desc": "Deals 155% of magic ATK damage. Slows the target for 1 turn(s)."
+      },
+      "ice_nova": {
+        "name": "Ice Nova",
+        "desc": "Deals 150% of magic ATK damage. Slows the target for 2 turn(s)."
+      },
+      "blizzard": {
+        "name": "Blizzard",
+        "desc": "Deals 4 hits of 52% magic ATK damage. Slows the target for 1 turn(s)."
+      },
+      "arcane_armor": {
+        "name": "Arcane Armor",
+        "desc": "Increases defense by 40% for 3 turns."
+      },
+      "chain_lightning": {
+        "name": "Chain Lightning",
+        "desc": "Deals 225% of magic ATK damage."
+      },
+      "elemental_chaos": {
+        "name": "Elemental Chaos",
+        "desc": "Deals 255% of magic ATK damage."
+      },
+      "time_warp": {
+        "name": "Time Warp",
+        "desc": "Marks the target: +50% damage taken for 3 turns."
+      },
+      "void_bolt": {
+        "name": "Void Bolt",
+        "desc": "Deals 165% of void ATK damage."
+      },
+      "void_rupture": {
+        "name": "Void Rupture",
+        "desc": "Deals 145% of void ATK damage. Deals 40 damage per turn for 3 turns."
+      },
+      "astral_barrier": {
+        "name": "Astral Barrier",
+        "desc": "Increases defense by 35% for 3 turns."
+      },
+      "gravity_well": {
+        "name": "Gravity Well",
+        "desc": "Deals 130% of void ATK damage. Stuns the target for 1 turn(s)."
+      },
+      "void_armor": {
+        "name": "Void Armor",
+        "desc": "Increases defense by 35% for 3 turns. e restores 10% of max hp."
+      },
+      "void_gate": {
+        "name": "Void Gate",
+        "desc": "Deals 330% of void ATK damage."
+      },
+      "cosmic_burst": {
+        "name": "Cosmic Burst",
+        "desc": "Deals 5 hits of 70% void ATK damage."
+      },
+      "arcane_mark": {
+        "name": "Arcane Mark",
+        "desc": "Marks the target: +40% damage taken for 3 turns."
+      },
+      "root": {
+        "name": "Root",
+        "desc": "Deals 110% of magic ATK damage. Stuns the target for 1 turn(s)."
+      },
+      "petrify": {
+        "name": "Petrify",
+        "desc": "Deals 130% of magic ATK damage. Stuns the target for 1 turn(s)."
+      },
+      "arcane_ward": {
+        "name": "Arcane Ward",
+        "desc": "Increases defense by 30% for 3 turns. e restores 25% of max hp."
+      },
+      "rune_shield": {
+        "name": "Rune Shield",
+        "desc": "Increases defense by 45% for 2 turns."
+      },
+      "draining_tome": {
+        "name": "Draining Tome",
+        "desc": "Deals 145% of magic ATK damage. Restores 30% of max HP."
+      },
+      "forbidden_knowledge": {
+        "name": "Forbidden Knowledge",
+        "desc": "Deals 305% of magic ATK damage."
+      },
+      "crushing_blow": {
+        "name": "Crushing Blow",
+        "desc": "Deals 165% of physical ATK damage."
+      },
+      "fortress": {
+        "name": "Fortress",
+        "desc": "Increases defense by 40% for 3 turns."
+      },
+      "earth_shake": {
+        "name": "Earth Shake",
+        "desc": "Deals 3 hits of 60% physical ATK damage. Slows the target for 1 turn(s)."
+      },
+      "unbreakable": {
+        "name": "Unbreakable",
+        "desc": "Increases defense by 50% for 2 turns."
+      },
+      "war_stomp": {
+        "name": "War Stomp",
+        "desc": "Deals 135% of physical ATK damage. Stuns the target for 1 turn(s)."
+      },
+      "seismic_slam": {
+        "name": "Seismic Slam",
+        "desc": "Deals 235% of physical ATK damage. Stuns the target for 1 turn(s)."
+      },
+      "titan_fall": {
+        "name": "Titan Fall",
+        "desc": "Deals 295% of physical ATK damage."
+      },
+      "precise_thrust": {
+        "name": "Precise Thrust",
+        "desc": "Deals 155% of physical ATK damage. Ignores enemy defense."
+      },
+      "thorns": {
+        "name": "Thorns",
+        "desc": "Reflects 35% of damage taken for 3 turns."
+      },
+      "sweeping_strike": {
+        "name": "Sweeping Strike",
+        "desc": "Deals 2 hits of 98% physical ATK damage."
+      },
+      "serpent_spike": {
+        "name": "Serpent Spike",
+        "desc": "Deals 135% of physical ATK damage. Deals 35 damage per turn for 3 turns."
+      },
+      "nature_burst": {
+        "name": "Nature Burst",
+        "desc": "Deals 215% of magic ATK damage."
+      },
+      "phalanx_ward": {
+        "name": "Phalanx Ward",
+        "desc": "Increases defense by 35% for 3 turns."
+      },
+      "dragon_lance": {
+        "name": "Dragon Lance",
+        "desc": "Deals 265% of physical ATK damage. Slows the target for 1 turn(s)."
+      },
+      "shield_bash": {
+        "name": "Shield Bash",
+        "desc": "Deals 125% of physical ATK damage. Stuns the target for 1 turn(s)."
+      },
+      "shield_slam": {
+        "name": "Shield Slam",
+        "desc": "Deals 150% of physical ATK damage. Slows the target for 1 turn(s)."
+      },
+      "provoke": {
+        "name": "Provoke",
+        "desc": "Marks the target: +30% damage taken for 3 turns."
+      },
+      "bastion": {
+        "name": "Bastion",
+        "desc": "Increases defense by 60% for 2 turns."
+      },
+      "aegis_guard": {
+        "name": "Aegis Guard",
+        "desc": "Increases defense by 50% for 2 turns. e restores 15% of max hp."
+      },
+      "shield_charge": {
+        "name": "Shield Charge",
+        "desc": "Deals 205% of physical ATK damage. Stuns the target for 1 turn(s)."
+      },
+      "holy_aegis": {
+        "name": "Holy Aegis",
+        "desc": "Increases defense by 20% for 2 turns. e restores 50% of max hp."
       }
     },
     "bosses": {
@@ -2184,6 +3291,7 @@ export const translations: Record<LangCode, TranslationTree> = {
         "phase2": "Calls reinforcements.",
         "enrage": "Enters rage."
       },
+
       "root_guardian": {
         "name": "Root Guardian",
         "desc": "Ancestral protector of Nythera.",
@@ -2386,7 +3494,218 @@ export const translations: Record<LangCode, TranslationTree> = {
       "rank": "Rango",
       "new": "Nuevo"
     },
-    "login": {
+    "combos": {
+      "sword_one_none": { "name": "Hoja" },
+      "sword_one_sword_one": { "name": "Hojas Gemelas" },
+      "sword_one_sword_two": { "name": "Bailarín de la Espada" },
+      "sword_one_great_sword": { "name": "Vanguardia" },
+      "sword_one_dagger": { "name": "Duelista" },
+      "sword_one_dagger_off": { "name": "Esgrimista" },
+      "sword_one_bow_short": { "name": "Escaramuzador" },
+      "sword_one_bow_long": { "name": "Pionero" },
+      "sword_one_staff_one": { "name": "Hoja Arcana" },
+      "sword_one_staff_two": { "name": "Caballero Arcano" },
+      "sword_one_orb": { "name": "Caballero Rúnico" },
+      "sword_one_tome": { "name": "Mago de Batalla" },
+      "sword_one_hammer": { "name": "Belicista" },
+      "sword_one_spear": { "name": "Hoplita" },
+      "sword_one_shield": { "name": "Paladín" },
+      "sword_two_none": { "name": "Hoja Larga" },
+      "sword_two_sword_one": { "name": "Bailarín de la Espada" },
+      "sword_two_sword_two": { "name": "Hojas Largas Gemelas" },
+      "sword_two_great_sword": { "name": "Maestro de las Hojas" },
+      "sword_two_dagger": { "name": "Bailarín de Hojas" },
+      "sword_two_dagger_off": { "name": "Maestro de la Parada" },
+      "sword_two_bow_short": { "name": "Caballero Guardián" },
+      "sword_two_bow_long": { "name": "Ojo de Halcón" },
+      "sword_two_staff_one": { "name": "Hoja Rúnica" },
+      "sword_two_staff_two": { "name": "Maestro Arcano de Hojas" },
+      "sword_two_orb": { "name": "Caballero Arcano Antiguo" },
+      "sword_two_tome": { "name": "Hoja Maldita" },
+      "sword_two_hammer": { "name": "Hoja de Guerra" },
+      "sword_two_spear": { "name": "Lancero de Hojas" },
+      "sword_two_shield": { "name": "Sabio de la Espada" },
+      "great_sword_none": { "name": "Berserker" },
+      "great_sword_sword_one": { "name": "Segador" },
+      "great_sword_sword_two": { "name": "Maestro de la Guerra" },
+      "great_sword_great_sword": { "name": "Coloso" },
+      "great_sword_dagger": { "name": "Segador de Sangre" },
+      "great_sword_dagger_off": { "name": "Frenesí" },
+      "great_sword_bow_short": { "name": "Saqueador de la Tormenta" },
+      "great_sword_bow_long": { "name": "Maestro de la Caza" },
+      "great_sword_staff_one": { "name": "Guerrero del Caos" },
+      "great_sword_staff_two": { "name": "Berserker de la Grieta" },
+      "great_sword_orb": { "name": "Berserker del Vacío" },
+      "great_sword_tome": { "name": "Caballero de la Ruina" },
+      "great_sword_hammer": { "name": "Juggernaut" },
+      "great_sword_spear": { "name": "Señor de la Guerra" },
+      "great_sword_shield": { "name": "Vanguardia de Hierro" },
+      "dagger_none": { "name": "Asesino" },
+      "dagger_sword_one": { "name": "Pícaro" },
+      "dagger_sword_two": { "name": "Duelista Sombrío" },
+      "dagger_great_sword": { "name": "Segador Nocturno" },
+      "dagger_dagger": { "name": "Sombras Gemelas" },
+      "dagger_dagger_off": { "name": "Fantasma" },
+      "dagger_bow_short": { "name": "Acechador" },
+      "dagger_bow_long": { "name": "Cazador Nocturno" },
+      "dagger_staff_one": { "name": "Asesino Maldito" },
+      "dagger_staff_two": { "name": "Arcanista Sombrío" },
+      "dagger_orb": { "name": "Devorador de Almas" },
+      "dagger_tome": { "name": "Sabio Oscuro" },
+      "dagger_hammer": { "name": "Rompeespaldas" },
+      "dagger_spear": { "name": "Lancero Sombrío" },
+      "dagger_shield": { "name": "Caballero del Terror" },
+      "dagger_off_none": { "name": "Hoja Lateral" },
+      "dagger_off_sword_one": { "name": "Esgrimista" },
+      "dagger_off_sword_two": { "name": "Maestro de la Parada" },
+      "dagger_off_great_sword": { "name": "Segador Veloz" },
+      "dagger_off_dagger": { "name": "Sombras Gemelas" },
+      "dagger_off_dagger_off": { "name": "Hojas Laterales Gemelas" },
+      "dagger_off_bow_short": { "name": "Acechador Veloz" },
+      "dagger_off_bow_long": { "name": "Arquero Fantasma" },
+      "dagger_off_staff_one": { "name": "Esgrimista Arcano" },
+      "dagger_off_staff_two": { "name": "Mago del Velo" },
+      "dagger_off_orb": { "name": "Esgrimista de Almas" },
+      "dagger_off_tome": { "name": "Esgrimista Maldito" },
+      "dagger_off_hammer": { "name": "Aplastador Veloz" },
+      "dagger_off_spear": { "name": "Lancero Ligero" },
+      "dagger_off_shield": { "name": "Centinela Veloz" },
+      "bow_short_none": { "name": "Guardabosques" },
+      "bow_short_sword_one": { "name": "Escaramuzador" },
+      "bow_short_sword_two": { "name": "Caballero Guardián" },
+      "bow_short_great_sword": { "name": "Saqueador de la Tormenta" },
+      "bow_short_dagger": { "name": "Acechador" },
+      "bow_short_dagger_off": { "name": "Acechador Veloz" },
+      "bow_short_bow_short": { "name": "Arcos Gemelos" },
+      "bow_short_bow_long": { "name": "Arquero del Viento" },
+      "bow_short_staff_one": { "name": "Mago de la Naturaleza" },
+      "bow_short_staff_two": { "name": "Invocador de Tormentas" },
+      "bow_short_orb": { "name": "Observador de Estrellas" },
+      "bow_short_tome": { "name": "Maestro de Bestias" },
+      "bow_short_hammer": { "name": "Cazador de Truenos" },
+      "bow_short_spear": { "name": "Cazador de Lanza" },
+      "bow_short_shield": { "name": "Guardián del Bosque" },
+      "bow_long_none": { "name": "Cazador" },
+      "bow_long_sword_one": { "name": "Pionero" },
+      "bow_long_sword_two": { "name": "Ojo de Halcón" },
+      "bow_long_great_sword": { "name": "Maestro de la Caza" },
+      "bow_long_dagger": { "name": "Cazador Nocturno" },
+      "bow_long_dagger_off": { "name": "Arquero Fantasma" },
+      "bow_long_bow_short": { "name": "Arquero del Viento" },
+      "bow_long_bow_long": { "name": "Arcos Largos Gemelos" },
+      "bow_long_staff_one": { "name": "Mago de Visión Lejana" },
+      "bow_long_staff_two": { "name": "Arquero del Eclipse" },
+      "bow_long_orb": { "name": "Vidente del Vacío" },
+      "bow_long_tome": { "name": "Cazador Oráculo" },
+      "bow_long_hammer": { "name": "Cazador Pesado" },
+      "bow_long_spear": { "name": "Alcance Largo" },
+      "bow_long_shield": { "name": "Arquero Centinela" },
+      "staff_one_none": { "name": "Mago" },
+      "staff_one_sword_one": { "name": "Hoja Arcana" },
+      "staff_one_sword_two": { "name": "Hoja Rúnica" },
+      "staff_one_great_sword": { "name": "Guerrero del Caos" },
+      "staff_one_dagger": { "name": "Asesino Maldito" },
+      "staff_one_dagger_off": { "name": "Esgrimista Arcano" },
+      "staff_one_bow_short": { "name": "Mago de la Naturaleza" },
+      "staff_one_bow_long": { "name": "Mago de Visión Lejana" },
+      "staff_one_staff_one": { "name": "Báculos Gemelos" },
+      "staff_one_staff_two": { "name": "Archimago" },
+      "staff_one_orb": { "name": "Mago Estelar" },
+      "staff_one_tome": { "name": "Erudito" },
+      "staff_one_hammer": { "name": "Mago de la Tierra" },
+      "staff_one_spear": { "name": "Mago de las Tormentas" },
+      "staff_one_shield": { "name": "Templario Arcano" },
+      "staff_two_none": { "name": "Arcanista" },
+      "staff_two_sword_one": { "name": "Caballero Arcano" },
+      "staff_two_sword_two": { "name": "Maestro Arcano de Hojas" },
+      "staff_two_great_sword": { "name": "Berserker de la Grieta" },
+      "staff_two_dagger": { "name": "Arcanista Sombrío" },
+      "staff_two_dagger_off": { "name": "Mago del Velo" },
+      "staff_two_bow_short": { "name": "Invocador de Tormentas" },
+      "staff_two_bow_long": { "name": "Arquero del Eclipse" },
+      "staff_two_staff_one": { "name": "Archimago" },
+      "staff_two_staff_two": { "name": "Báculos Arcanos Gemelos" },
+      "staff_two_orb": { "name": "Arcanista del Vacío" },
+      "staff_two_tome": { "name": "Erudito del Vacío" },
+      "staff_two_hammer": { "name": "Aplastador Rúnico" },
+      "staff_two_spear": { "name": "Lancero de las Líneas" },
+      "staff_two_shield": { "name": "Guardián de Sigilos" },
+      "orb_none": { "name": "Hechicero" },
+      "orb_sword_one": { "name": "Caballero Rúnico" },
+      "orb_sword_two": { "name": "Caballero Arcano Antiguo" },
+      "orb_great_sword": { "name": "Berserker del Vacío" },
+      "orb_dagger": { "name": "Devorador de Almas" },
+      "orb_dagger_off": { "name": "Esgrimista de Almas" },
+      "orb_bow_short": { "name": "Observador de Estrellas" },
+      "orb_bow_long": { "name": "Vidente del Vacío" },
+      "orb_staff_one": { "name": "Mago Estelar" },
+      "orb_staff_two": { "name": "Arcanista del Vacío" },
+      "orb_orb": { "name": "Orbes Gemelos" },
+      "orb_tome": { "name": "Erudito Rúnico" },
+      "orb_hammer": { "name": "Aplastador Astral" },
+      "orb_spear": { "name": "Lancero Astral" },
+      "orb_shield": { "name": "Guardián Astral" },
+      "tome_none": { "name": "Erudito" },
+      "tome_sword_one": { "name": "Mago de Batalla" },
+      "tome_sword_two": { "name": "Hoja Maldita" },
+      "tome_great_sword": { "name": "Caballero de la Ruina" },
+      "tome_dagger": { "name": "Sabio Oscuro" },
+      "tome_dagger_off": { "name": "Esgrimista Maldito" },
+      "tome_bow_short": { "name": "Maestro de Bestias" },
+      "tome_bow_long": { "name": "Cazador Oráculo" },
+      "tome_staff_one": { "name": "Erudito" },
+      "tome_staff_two": { "name": "Erudito del Vacío" },
+      "tome_orb": { "name": "Erudito Rúnico" },
+      "tome_tome": { "name": "Grimorios Gemelos" },
+      "tome_hammer": { "name": "Guardián Rúnico" },
+      "tome_spear": { "name": "Lancero del Destino" },
+      "tome_shield": { "name": "Erudito de Égida" },
+      "hammer_none": { "name": "Cruzado" },
+      "hammer_sword_one": { "name": "Belicista" },
+      "hammer_sword_two": { "name": "Hoja de Guerra" },
+      "hammer_great_sword": { "name": "Juggernaut" },
+      "hammer_dagger": { "name": "Rompeespaldas" },
+      "hammer_dagger_off": { "name": "Aplastador Veloz" },
+      "hammer_bow_short": { "name": "Cazador de Truenos" },
+      "hammer_bow_long": { "name": "Cazador Pesado" },
+      "hammer_staff_one": { "name": "Mago de la Tierra" },
+      "hammer_staff_two": { "name": "Aplastador Rúnico" },
+      "hammer_orb": { "name": "Aplastador Astral" },
+      "hammer_tome": { "name": "Guardián Rúnico" },
+      "hammer_hammer": { "name": "Martillos Gemelos" },
+      "hammer_spear": { "name": "Lancero de Guerra" },
+      "hammer_shield": { "name": "Baluarte" },
+      "spear_none": { "name": "Lancero" },
+      "spear_sword_one": { "name": "Hoplita" },
+      "spear_sword_two": { "name": "Lancero de Hojas" },
+      "spear_great_sword": { "name": "Señor de la Guerra" },
+      "spear_dagger": { "name": "Lancero Sombrío" },
+      "spear_dagger_off": { "name": "Lancero Ligero" },
+      "spear_bow_short": { "name": "Cazador de Lanza" },
+      "spear_bow_long": { "name": "Alcance Largo" },
+      "spear_staff_one": { "name": "Mago de las Tormentas" },
+      "spear_staff_two": { "name": "Lancero de las Líneas" },
+      "spear_orb": { "name": "Lancero Astral" },
+      "spear_tome": { "name": "Lancero del Destino" },
+      "spear_hammer": { "name": "Lancero de Guerra" },
+      "spear_spear": { "name": "Lanzas Gemelas" },
+      "spear_shield": { "name": "Falange" },
+      "shield_none": { "name": "Centinela" },
+      "shield_sword_one": { "name": "Paladín" },
+      "shield_sword_two": { "name": "Sabio de la Espada" },
+      "shield_great_sword": { "name": "Vanguardia de Hierro" },
+      "shield_dagger": { "name": "Caballero del Terror" },
+      "shield_dagger_off": { "name": "Centinela Veloz" },
+      "shield_bow_short": { "name": "Guardián del Bosque" },
+      "shield_bow_long": { "name": "Arquero Centinela" },
+      "shield_staff_one": { "name": "Templario Arcano" },
+      "shield_staff_two": { "name": "Guardián de Sigilos" },
+      "shield_orb": { "name": "Guardián Astral" },
+      "shield_tome": { "name": "Erudito de Égida" },
+      "shield_hammer": { "name": "Baluarte" },
+      "shield_spear": { "name": "Falange" },
+      "shield_shield": { "name": "Baluarte de Hierro" }
+    },    "login": {
       "title": "Entrar en Eclipsia",
       "subtitle": "La frontera arcana espera.",
       "user": "Usuario",
@@ -2404,7 +3723,34 @@ export const translations: Record<LangCode, TranslationTree> = {
       "email": "Email",
       "emailPlaceholder": "Introduce tu email",
       "loginTab": "LOGIN",
-      "registerTab": "CREAR CUENTA"
+      "registerTab": "CREAR CUENTA",
+      "originTitle": "Origen",
+      "originHint": "Tu origen es cosmético — no altera atributos. Tu personaje se moldea con las armas que empuñas.",
+      "weaponTitle": "Arma inicial",
+      "weaponHint": "Empiezas con competencia en esta arma — cambia de arma cuando quieras.",
+      "originRequired": "Elige tu origen.",
+      "weaponRequired": "Elige tu arma inicial.",
+      "luckHint": "+0,1% de XP por punto de suerte",
+      "proficiencyHint": "Súbela usando el arma — ataques, habilidades y derrotas dan competencia.",
+      "nextSkill": "Siguiente habilidad",
+    "proficiencies": {
+      "sword_one": "Espada de una mano",
+      "sword_two": "Espada larga",
+      "great_sword": "Espadón",
+      "dagger": "Daga",
+      "dagger_off": "Daga de apoyo",
+      "bow_short": "Arco corto",
+      "bow_long": "Arco largo",
+      "staff_one": "Bastón",
+      "staff_two": "Bastón arcano",
+      "orb": "Orbe",
+      "tome": "Grimorio",
+      "hammer": "Martillo",
+      "spear": "Lanza",
+      "shield": "Escudo"
+    },
+      "onlineLabel": "Aventureros en la frontera",
+      "onlineJoin": "y"
     },
     "register": {
       "username": "Nombre de usuario",
@@ -2867,6 +4213,9 @@ export const translations: Record<LangCode, TranslationTree> = {
       "twoHanded": "Dos manos",
       "twoHandedWarning": "Retira la mano secundaria.",
       "twoHandedBlocked": "Mano secundaria bloqueada por arma de dos manos.",
+      "equipMain": "Equipar (mano principal)",
+      "equipOff": "Equipar (mano secundaria)",
+      "sameWeaponCategory": "Ya usas esta categoría de arma en la otra mano.",
       "spiritStoneEffect": "Efecto de piedra espiritual",
       "stoneLevel": "Nivel de la piedra",
       "group": {
@@ -3271,86 +4620,398 @@ export const translations: Record<LangCode, TranslationTree> = {
       "questComplete": "¡Misión completada!",
       "itemFound": "¡Objeto encontrado!"
     },
-    "skills": {
+                            "skills": {
+      "slash": {
+        "name": "Tajo Rápido",
+        "desc": "Causa 150% de ATQ físico."
+      },
       "spin_slash": {
-        "name": "Corte giratorio",
-        "desc": "Gira la hoja contra el enemigo."
+        "name": "Tajo Giratorio",
+        "desc": "Causa 165% de ATQ físico."
       },
       "dash_cut": {
-        "name": "Corte veloz",
-        "desc": "Avanza y corta el objetivo."
+        "name": "Corte Veloz",
+        "desc": "Causa 210% de ATQ físico."
+      },
+      "parry_counter": {
+        "name": "Contraparada",
+        "desc": "Causa 140% de ATQ físico. Aturde al objetivo por 1 turno(s)."
+      },
+      "war_cry": {
+        "name": "Grito de Guerra",
+        "desc": "Aumenta la defensa un 25% por 3 turnos. e restaura 12% del hp máximo."
+      },
+      "blade_flurry": {
+        "name": "Ráfaga de Hojas",
+        "desc": "Causa 4 golpes de 55% de ATQ físico."
+      },
+      "thousand_cuts": {
+        "name": "Mil Cortes",
+        "desc": "Causa 5 golpes de 55% de ATQ físico."
+      },
+      "long_swipe": {
+        "name": "Golpe Largo",
+        "desc": "Causa 155% de ATQ físico."
+      },
+      "cross_slash": {
+        "name": "Tajo Cruzado",
+        "desc": "Causa 200% de ATQ físico."
       },
       "bleed": {
         "name": "Sangrado",
-        "desc": "Causa daño por turnos."
+        "desc": "Causa 45 de daño por 3 turnos."
+      },
+      "iron_will": {
+        "name": "Voluntad de Hierro",
+        "desc": "Aumenta la defensa un 35% por 3 turnos."
+      },
+      "deep_wound": {
+        "name": "Herida Profunda",
+        "desc": "Causa 140% de ATQ físico. Causa 35 de daño por 3 turnos."
+      },
+      "counter_gambit": {
+        "name": "Gambito Contra",
+        "desc": "Causa 220% de ATQ físico. Esquiva el próximo golpe."
+      },
+      "crescent_slash": {
+        "name": "Tajo Creciente",
+        "desc": "Causa 4 golpes de 62% de ATQ físico."
+      },
+      "brutal_slam": {
+        "name": "Golpe Brutal",
+        "desc": "Causa 150% de ATQ físico. Aturde al objetivo por 1 turno(s)."
+      },
+      "cleave": {
+        "name": "Tajo Amplio",
+        "desc": "Causa 190% de ATQ físico."
+      },
+      "battle_fury": {
+        "name": "Furia de Batalla",
+        "desc": "Aumenta la defensa un 25% por 3 turnos. e restaura 15% del hp máximo."
       },
       "execute": {
         "name": "Ejecutar",
-        "desc": "Daño alto contra objetivos débiles."
+        "desc": "Causa 400% de ATQ físico. Ejecuta objetivos con menos de 20% de HP."
       },
-      "arcane_burst": {
-        "name": "Estallido arcano",
-        "desc": "Libera energía arcana."
-      },
-      "ice_nova": {
-        "name": "Nova de hielo",
-        "desc": "Congela el aire y causa daño."
-      },
-      "heal_pulse": {
-        "name": "Pulso de curación",
-        "desc": "Restaura parte del HP."
-      },
-      "root": {
-        "name": "Enraizar",
-        "desc": "Ata con raíces."
-      },
-      "thousand_cuts": {
-        "name": "Mil cortes",
-        "desc": "Secuencia de golpes rápidos."
+      "colossus_smash": {
+        "name": "Golpe del Coloso",
+        "desc": "Causa 340% de ATQ físico."
       },
       "blade_storm": {
-        "name": "Tormenta de hojas",
-        "desc": "Danza de cortes devastadores."
+        "name": "Tormenta de Hojas",
+        "desc": "Causa 3 golpes de 115% de ATQ físico."
+      },
+      "onslaught": {
+        "name": "Asalto",
+        "desc": "Causa 5 golpes de 70% de ATQ físico."
+      },
+      "death_mark": {
+        "name": "Marca de Muerte",
+        "desc": "Marca al objetivo: +50% de daño recibido por 3 turnos."
+      },
+      "stab": {
+        "name": "Estocada",
+        "desc": "Causa 135% de ATQ físico. Causa 20 de daño por 2 turnos."
+      },
+      "smoke_bomb": {
+        "name": "Bomba de Humo",
+        "desc": "Aumenta la defensa un 20% por 2 turnos. Esquiva el próximo golpe."
+      },
+      "eviscerate": {
+        "name": "Eviscerar",
+        "desc": "Causa 215% de ATQ físico."
+      },
+      "shadow_step": {
+        "name": "Paso Sombrío",
+        "desc": "Causa 195% de ATQ físico. Esquiva el próximo golpe."
+      },
+      "fan_of_knives": {
+        "name": "Abanico de Dagas",
+        "desc": "Causa 3 golpes de 75% de ATQ físico."
+      },
+      "assassinate": {
+        "name": "Asesinar",
+        "desc": "Causa 320% de ATQ físico. Ejecuta objetivos con menos de 25% de HP."
+      },
+      "feint": {
+        "name": "Finta",
+        "desc": "Causa 125% de ATQ físico. Ralentiza al objetivo por 2 turno(s)."
+      },
+      "double_slash": {
+        "name": "Tajo Doble",
+        "desc": "Causa 2 golpes de 95% de ATQ físico."
+      },
+      "riposte": {
+        "name": "Riposta",
+        "desc": "Causa 145% de ATQ físico. Esquiva el próximo golpe."
+      },
+      "lacerate": {
+        "name": "Lacerar",
+        "desc": "Causa 55 de daño por 3 turnos."
+      },
+      "twin_fang": {
+        "name": "Colmillos Gemelos",
+        "desc": "Causa 2 golpes de 105% de ATQ físico."
+      },
+      "whirl_dagger": {
+        "name": "Daga Giratoria",
+        "desc": "Causa 4 golpes de 62% de ATQ físico."
+      },
+      "shadow_parry": {
+        "name": "Parada Sombría",
+        "desc": "Causa 175% de ATQ físico. Aturde al objetivo por 1 turno(s). Esquiva el próximo golpe."
+      },
+      "piercing_shot": {
+        "name": "Disparo Perforante",
+        "desc": "Causa 160% de ATQ físico. Ignora la defensa del enemigo."
+      },
+      "aimed_shot": {
+        "name": "Disparo Apuntado",
+        "desc": "Causa 185% de ATQ físico. Ignora la defensa del enemigo."
+      },
+      "quick_shot": {
+        "name": "Disparo Rápido",
+        "desc": "Causa 135% de ATQ físico. Ralentiza al objetivo por 1 turno(s)."
+      },
+      "hunters_mark": {
+        "name": "Marca del Cazador",
+        "desc": "Marca al objetivo: +40% de daño recibido por 3 turnos."
+      },
+      "scatter_shot": {
+        "name": "Disparo Disperso",
+        "desc": "Causa 3 golpes de 65% de ATQ físico."
+      },
+      "kiting_shot": {
+        "name": "Disparo de Fuga",
+        "desc": "Causa 155% de ATQ físico. Ralentiza al objetivo por 2 turno(s)."
+      },
+      "rapid_fire": {
+        "name": "Fuego Rápido",
+        "desc": "Causa 5 golpes de 52% de ATQ físico."
+      },
+      "precision_shot": {
+        "name": "Tiro de Precisión",
+        "desc": "Causa 195% de ATQ físico. Ignora la defensa del enemigo."
+      },
+      "rain_of_arrows": {
+        "name": "Lluvia de Flechas",
+        "desc": "Causa 4 golpes de 55% de ATQ físico."
+      },
+      "volley": {
+        "name": "Ráfaga",
+        "desc": "Causa 3 golpes de 75% de ATQ físico."
+      },
+      "eagle_eye": {
+        "name": "Ojo de Águila",
+        "desc": "Marca al objetivo: +45% de daño recibido por 3 turnos."
+      },
+      "sniper_shot": {
+        "name": "Disparo de Francotirador",
+        "desc": "Causa 235% de ATQ físico. Ignora la defensa del enemigo."
+      },
+      "wind_arrow": {
+        "name": "Flecha de Viento",
+        "desc": "Causa 155% de ATQ físico. Ralentiza al objetivo por 1 turno(s)."
+      },
+      "dead_eye": {
+        "name": "Ojo Muerto",
+        "desc": "Causa 285% de ATQ físico. Ejecuta objetivos con menos de 30% de HP."
+      },
+      "arcane_burst": {
+        "name": "Ráfaga Arcana",
+        "desc": "Causa 165% de ATQ mágico."
+      },
+      "arcane_missile": {
+        "name": "Misil Arcano",
+        "desc": "Causa 190% de ATQ mágico."
+      },
+      "heal_pulse": {
+        "name": "Pulso de Cura",
+        "desc": "Restaura 45% del HP máximo."
+      },
+      "arcane_bind": {
+        "name": "Vínculo Arcano",
+        "desc": "Causa 115% de ATQ mágico. Aturde al objetivo por 1 turno(s)."
+      },
+      "mana_shield": {
+        "name": "Escudo de Maná",
+        "desc": "Aumenta la defensa un 30% por 3 turnos. e restaura 15% del hp máximo."
+      },
+      "greater_heal": {
+        "name": "Cura Mayor",
+        "desc": "Restaura 70% del HP máximo."
+      },
+      "arcane_blast": {
+        "name": "Explosión Arcana",
+        "desc": "Causa 3 golpes de 70% de ATQ mágico."
+      },
+      "frost_bolt": {
+        "name": "Proyectil de Hielo",
+        "desc": "Causa 155% de ATQ mágico. Ralentiza al objetivo por 1 turno(s)."
+      },
+      "ice_nova": {
+        "name": "Nova de Hielo",
+        "desc": "Causa 150% de ATQ mágico. Ralentiza al objetivo por 2 turno(s)."
+      },
+      "blizzard": {
+        "name": "Ventisca",
+        "desc": "Causa 4 golpes de 52% de ATQ mágico. Ralentiza al objetivo por 1 turno(s)."
+      },
+      "arcane_armor": {
+        "name": "Armadura Arcana",
+        "desc": "Aumenta la defensa un 40% por 3 turnos."
       },
       "chain_lightning": {
-        "name": "Relámpago en cadena",
-        "desc": "Rayo que salta entre objetivos."
+        "name": "Cadena de Rayos",
+        "desc": "Causa 225% de ATQ mágico."
+      },
+      "elemental_chaos": {
+        "name": "Caos Elemental",
+        "desc": "Causa 255% de ATQ mágico."
+      },
+      "time_warp": {
+        "name": "Distorsión Temporal",
+        "desc": "Marca al objetivo: +50% de daño recibido por 3 turnos."
+      },
+      "void_bolt": {
+        "name": "Proyectil del Vacío",
+        "desc": "Causa 165% de ATQ del vacío."
+      },
+      "void_rupture": {
+        "name": "Ruptura del Vacío",
+        "desc": "Causa 145% de ATQ del vacío. Causa 40 de daño por 3 turnos."
+      },
+      "astral_barrier": {
+        "name": "Barrera Astral",
+        "desc": "Aumenta la defensa un 35% por 3 turnos."
+      },
+      "gravity_well": {
+        "name": "Pozo Gravitatorio",
+        "desc": "Causa 130% de ATQ del vacío. Aturde al objetivo por 1 turno(s)."
+      },
+      "void_armor": {
+        "name": "Armadura del Vacío",
+        "desc": "Aumenta la defensa un 35% por 3 turnos. e restaura 10% del hp máximo."
       },
       "void_gate": {
-        "name": "Portal del vacío",
-        "desc": "Distorsiona defensa y maná."
+        "name": "Portal del Vacío",
+        "desc": "Causa 330% de ATQ del vacío."
       },
-      "thorns": {
-        "name": "Espinas",
-        "desc": "Contraataca ataques recibidos."
+      "cosmic_burst": {
+        "name": "Explosión Cósmica",
+        "desc": "Causa 5 golpes de 70% de ATQ del vacío."
       },
-      "nature_burst": {
-        "name": "Estallido natural",
-        "desc": "Impacto de energía salvaje."
+      "arcane_mark": {
+        "name": "Marca Arcana",
+        "desc": "Marca al objetivo: +40% de daño recibido por 3 turnos."
       },
-      "shield_bash": {
-        "name": "Golpe de escudo",
-        "desc": "Aturde con el escudo."
+      "root": {
+        "name": "Raíces",
+        "desc": "Causa 110% de ATQ mágico. Aturde al objetivo por 1 turno(s)."
+      },
+      "petrify": {
+        "name": "Petrificar",
+        "desc": "Causa 130% de ATQ mágico. Aturde al objetivo por 1 turno(s)."
+      },
+      "arcane_ward": {
+        "name": "Guardia Arcana",
+        "desc": "Aumenta la defensa un 30% por 3 turnos. e restaura 25% del hp máximo."
+      },
+      "rune_shield": {
+        "name": "Escudo Rúnico",
+        "desc": "Aumenta la defensa un 45% por 2 turnos."
+      },
+      "draining_tome": {
+        "name": "Grimorio Drenante",
+        "desc": "Causa 145% de ATQ mágico. Restaura 30% del HP máximo."
+      },
+      "forbidden_knowledge": {
+        "name": "Conocimiento Prohibido",
+        "desc": "Causa 305% de ATQ mágico."
+      },
+      "crushing_blow": {
+        "name": "Golpe Aplastante",
+        "desc": "Causa 165% de ATQ físico."
       },
       "fortress": {
         "name": "Fortaleza",
-        "desc": "Aumenta mucho la defensa."
+        "desc": "Aumenta la defensa un 40% por 3 turnos."
       },
-      "piercing_shot": {
-        "name": "Disparo perforante",
-        "desc": "Ignora parte de la defensa."
+      "earth_shake": {
+        "name": "Sacudida de Tierra",
+        "desc": "Causa 3 golpes de 60% de ATQ físico. Ralentiza al objetivo por 1 turno(s)."
       },
-      "rain_of_arrows": {
-        "name": "Lluvia de flechas",
-        "desc": "Dispara varias flechas."
+      "unbreakable": {
+        "name": "Inquebrantable",
+        "desc": "Aumenta la defensa un 50% por 2 turnos."
       },
-      "death_mark": {
-        "name": "Marca de muerte",
-        "desc": "Aumenta el daño recibido."
+      "war_stomp": {
+        "name": "Pisotón de Guerra",
+        "desc": "Causa 135% de ATQ físico. Aturde al objetivo por 1 turno(s)."
       },
-      "shadow_step": {
-        "name": "Paso sombrío",
-        "desc": "Prepara un ataque crítico."
+      "seismic_slam": {
+        "name": "Impacto Sísmico",
+        "desc": "Causa 235% de ATQ físico. Aturde al objetivo por 1 turno(s)."
+      },
+      "titan_fall": {
+        "name": "Caída del Titán",
+        "desc": "Causa 295% de ATQ físico."
+      },
+      "precise_thrust": {
+        "name": "Estocada Precisa",
+        "desc": "Causa 155% de ATQ físico. Ignora la defensa del enemigo."
+      },
+      "thorns": {
+        "name": "Espinas",
+        "desc": "Refleja 35% del daño recibido por 3 turnos."
+      },
+      "sweeping_strike": {
+        "name": "Golpe Barrido",
+        "desc": "Causa 2 golpes de 98% de ATQ físico."
+      },
+      "serpent_spike": {
+        "name": "Espina de Serpiente",
+        "desc": "Causa 135% de ATQ físico. Causa 35 de daño por 3 turnos."
+      },
+      "nature_burst": {
+        "name": "Explosión Natural",
+        "desc": "Causa 215% de ATQ mágico."
+      },
+      "phalanx_ward": {
+        "name": "Guardia Falange",
+        "desc": "Aumenta la defensa un 35% por 3 turnos."
+      },
+      "dragon_lance": {
+        "name": "Lanza del Dragón",
+        "desc": "Causa 265% de ATQ físico. Ralentiza al objetivo por 1 turno(s)."
+      },
+      "shield_bash": {
+        "name": "Embestida de Escudo",
+        "desc": "Causa 125% de ATQ físico. Aturde al objetivo por 1 turno(s)."
+      },
+      "shield_slam": {
+        "name": "Golpe de Escudo",
+        "desc": "Causa 150% de ATQ físico. Ralentiza al objetivo por 1 turno(s)."
+      },
+      "provoke": {
+        "name": "Provocar",
+        "desc": "Marca al objetivo: +30% de daño recibido por 3 turnos."
+      },
+      "bastion": {
+        "name": "Bastión",
+        "desc": "Aumenta la defensa un 60% por 2 turnos."
+      },
+      "aegis_guard": {
+        "name": "Guardia de Égida",
+        "desc": "Aumenta la defensa un 50% por 2 turnos. e restaura 15% del hp máximo."
+      },
+      "shield_charge": {
+        "name": "Carga de Escudo",
+        "desc": "Causa 205% de ATQ físico. Aturde al objetivo por 1 turno(s)."
+      },
+      "holy_aegis": {
+        "name": "Égida Sagrada",
+        "desc": "Aumenta la defensa un 20% por 2 turnos. e restaura 50% del hp máximo."
       }
     },
     "bosses": {
@@ -3360,6 +5021,7 @@ export const translations: Record<LangCode, TranslationTree> = {
         "phase2": "Llama refuerzos.",
         "enrage": "Entra en furia."
       },
+
       "root_guardian": {
         "name": "Guardián de las Raíces",
         "desc": "Protector ancestral de Nythera.",
@@ -3562,7 +5224,218 @@ export const translations: Record<LangCode, TranslationTree> = {
       "rank": "ランク",
       "new": "新規"
     },
-    "login": {
+    "combos": {
+      "sword_one_none": { "name": "ブレード" },
+      "sword_one_sword_one": { "name": "ツインブレード" },
+      "sword_one_sword_two": { "name": "ソードダンサー" },
+      "sword_one_great_sword": { "name": "ヴァンガード" },
+      "sword_one_dagger": { "name": "デュエリスト" },
+      "sword_one_dagger_off": { "name": "フェンサー" },
+      "sword_one_bow_short": { "name": "スカーミッシャー" },
+      "sword_one_bow_long": { "name": "パスファインダー" },
+      "sword_one_staff_one": { "name": "スペルブレード" },
+      "sword_one_staff_two": { "name": "アーケインナイト" },
+      "sword_one_orb": { "name": "ルーンナイト" },
+      "sword_one_tome": { "name": "バトルメイジ" },
+      "sword_one_hammer": { "name": "ウォーモンガー" },
+      "sword_one_spear": { "name": "ホプリテス" },
+      "sword_one_shield": { "name": "パラディン" },
+      "sword_two_none": { "name": "ロングブレード" },
+      "sword_two_sword_one": { "name": "ソードダンサー" },
+      "sword_two_sword_two": { "name": "ツインロングブレード" },
+      "sword_two_great_sword": { "name": "ブレードマスター" },
+      "sword_two_dagger": { "name": "ブレードダンサー" },
+      "sword_two_dagger_off": { "name": "パリーマスター" },
+      "sword_two_bow_short": { "name": "レンジャーナイト" },
+      "sword_two_bow_long": { "name": "ホークアイ" },
+      "sword_two_staff_one": { "name": "ルーンブレイダー" },
+      "sword_two_staff_two": { "name": "アーケインブレードマスター" },
+      "sword_two_orb": { "name": "エルドリッチナイト" },
+      "sword_two_tome": { "name": "ヘックスブレード" },
+      "sword_two_hammer": { "name": "ウォーブレード" },
+      "sword_two_spear": { "name": "ブレードランサー" },
+      "sword_two_shield": { "name": "ソードセージ" },
+      "great_sword_none": { "name": "バーサーカー" },
+      "great_sword_sword_one": { "name": "リーバー" },
+      "great_sword_sword_two": { "name": "ウォーマスター" },
+      "great_sword_great_sword": { "name": "コロッサス" },
+      "great_sword_dagger": { "name": "ブラッドリーバー" },
+      "great_sword_dagger_off": { "name": "フレンジー" },
+      "great_sword_bow_short": { "name": "ストームレイダー" },
+      "great_sword_bow_long": { "name": "ハントマスター" },
+      "great_sword_staff_one": { "name": "カオスウォリアー" },
+      "great_sword_staff_two": { "name": "リフトバーサーカー" },
+      "great_sword_orb": { "name": "ヴォイドバーサーカー" },
+      "great_sword_tome": { "name": "ルインナイト" },
+      "great_sword_hammer": { "name": "ジャガーノート" },
+      "great_sword_spear": { "name": "ウォーロード" },
+      "great_sword_shield": { "name": "アイアンヴァンガード" },
+      "dagger_none": { "name": "アサシン" },
+      "dagger_sword_one": { "name": "ローグ" },
+      "dagger_sword_two": { "name": "シャドウデュエリスト" },
+      "dagger_great_sword": { "name": "ナイトリーバー" },
+      "dagger_dagger": { "name": "ツインシャドウ" },
+      "dagger_dagger_off": { "name": "ファントム" },
+      "dagger_bow_short": { "name": "ストーカー" },
+      "dagger_bow_long": { "name": "ナイトハンター" },
+      "dagger_staff_one": { "name": "ヘックスアサシン" },
+      "dagger_staff_two": { "name": "シャドウアーカニスト" },
+      "dagger_orb": { "name": "ソウルイーター" },
+      "dagger_tome": { "name": "ダークセージ" },
+      "dagger_hammer": { "name": "バックブレイカー" },
+      "dagger_spear": { "name": "シャドウランサー" },
+      "dagger_shield": { "name": "ドレッドナイト" },
+      "dagger_off_none": { "name": "サイドブレード" },
+      "dagger_off_sword_one": { "name": "フェンサー" },
+      "dagger_off_sword_two": { "name": "パリーマスター" },
+      "dagger_off_great_sword": { "name": "スウィフトリーバー" },
+      "dagger_off_dagger": { "name": "ツインシャドウ" },
+      "dagger_off_dagger_off": { "name": "ツインサイドブレード" },
+      "dagger_off_bow_short": { "name": "クイックストーカー" },
+      "dagger_off_bow_long": { "name": "ゴーストアーチャー" },
+      "dagger_off_staff_one": { "name": "アーケインフェンサー" },
+      "dagger_off_staff_two": { "name": "ヴェイルメイジ" },
+      "dagger_off_orb": { "name": "ソウルフェンサー" },
+      "dagger_off_tome": { "name": "カースドフェンサー" },
+      "dagger_off_hammer": { "name": "スウィフトクラッシャー" },
+      "dagger_off_spear": { "name": "ライトランサー" },
+      "dagger_off_shield": { "name": "スウィフトセンチネル" },
+      "bow_short_none": { "name": "レンジャー" },
+      "bow_short_sword_one": { "name": "スカーミッシャー" },
+      "bow_short_sword_two": { "name": "レンジャーナイト" },
+      "bow_short_great_sword": { "name": "ストームレイダー" },
+      "bow_short_dagger": { "name": "ストーカー" },
+      "bow_short_dagger_off": { "name": "クイックストーカー" },
+      "bow_short_bow_short": { "name": "ツインボウ" },
+      "bow_short_bow_long": { "name": "ウィンドアーチャー" },
+      "bow_short_staff_one": { "name": "ネイチャーメイジ" },
+      "bow_short_staff_two": { "name": "ストームコーラー" },
+      "bow_short_orb": { "name": "スターゲイザー" },
+      "bow_short_tome": { "name": "ビーストマスター" },
+      "bow_short_hammer": { "name": "サンダーハンター" },
+      "bow_short_spear": { "name": "スピアハンター" },
+      "bow_short_shield": { "name": "フォレストガーディアン" },
+      "bow_long_none": { "name": "ハンター" },
+      "bow_long_sword_one": { "name": "パスファインダー" },
+      "bow_long_sword_two": { "name": "ホークアイ" },
+      "bow_long_great_sword": { "name": "ハントマスター" },
+      "bow_long_dagger": { "name": "ナイトハンター" },
+      "bow_long_dagger_off": { "name": "ゴーストアーチャー" },
+      "bow_long_bow_short": { "name": "ウィンドアーチャー" },
+      "bow_long_bow_long": { "name": "ツインロングボウ" },
+      "bow_long_staff_one": { "name": "ファーサイトメイジ" },
+      "bow_long_staff_two": { "name": "エクリプスアーチャー" },
+      "bow_long_orb": { "name": "ヴォイドシーア" },
+      "bow_long_tome": { "name": "オラクルハンター" },
+      "bow_long_hammer": { "name": "ヘビーハンター" },
+      "bow_long_spear": { "name": "ロングリーチ" },
+      "bow_long_shield": { "name": "センチネルアーチャー" },
+      "staff_one_none": { "name": "メイジ" },
+      "staff_one_sword_one": { "name": "スペルブレード" },
+      "staff_one_sword_two": { "name": "ルーンブレイダー" },
+      "staff_one_great_sword": { "name": "カオスウォリアー" },
+      "staff_one_dagger": { "name": "ヘックスアサシン" },
+      "staff_one_dagger_off": { "name": "アーケインフェンサー" },
+      "staff_one_bow_short": { "name": "ネイチャーメイジ" },
+      "staff_one_bow_long": { "name": "ファーサイトメイジ" },
+      "staff_one_staff_one": { "name": "ツインスタッフ" },
+      "staff_one_staff_two": { "name": "アークメイジ" },
+      "staff_one_orb": { "name": "スターメイジ" },
+      "staff_one_tome": { "name": "スカラー" },
+      "staff_one_hammer": { "name": "アースメイジ" },
+      "staff_one_spear": { "name": "ストームメイジ" },
+      "staff_one_shield": { "name": "アーケインテンプラー" },
+      "staff_two_none": { "name": "アーカニスト" },
+      "staff_two_sword_one": { "name": "アーケインナイト" },
+      "staff_two_sword_two": { "name": "アーケインブレードマスター" },
+      "staff_two_great_sword": { "name": "リフトバーサーカー" },
+      "staff_two_dagger": { "name": "シャドウアーカニスト" },
+      "staff_two_dagger_off": { "name": "ヴェイルメイジ" },
+      "staff_two_bow_short": { "name": "ストームコーラー" },
+      "staff_two_bow_long": { "name": "エクリプスアーチャー" },
+      "staff_two_staff_one": { "name": "アークメイジ" },
+      "staff_two_staff_two": { "name": "ツインアーケインスタッフ" },
+      "staff_two_orb": { "name": "ヴォイドアーカニスト" },
+      "staff_two_tome": { "name": "ヴォイドスカラー" },
+      "staff_two_hammer": { "name": "ルーンクラッシャー" },
+      "staff_two_spear": { "name": "レイランサー" },
+      "staff_two_shield": { "name": "シジルガーディアン" },
+      "orb_none": { "name": "ソーサラー" },
+      "orb_sword_one": { "name": "ルーンナイト" },
+      "orb_sword_two": { "name": "エルドリッチナイト" },
+      "orb_great_sword": { "name": "ヴォイドバーサーカー" },
+      "orb_dagger": { "name": "ソウルイーター" },
+      "orb_dagger_off": { "name": "ソウルフェンサー" },
+      "orb_bow_short": { "name": "スターゲイザー" },
+      "orb_bow_long": { "name": "ヴォイドシーア" },
+      "orb_staff_one": { "name": "スターメイジ" },
+      "orb_staff_two": { "name": "ヴォイドアーカニスト" },
+      "orb_orb": { "name": "ツインオーブ" },
+      "orb_tome": { "name": "ルーンスカラー" },
+      "orb_hammer": { "name": "アストラルクラッシャー" },
+      "orb_spear": { "name": "アストラルランサー" },
+      "orb_shield": { "name": "アストラルガーディアン" },
+      "tome_none": { "name": "スカラー" },
+      "tome_sword_one": { "name": "バトルメイジ" },
+      "tome_sword_two": { "name": "ヘックスブレード" },
+      "tome_great_sword": { "name": "ルインナイト" },
+      "tome_dagger": { "name": "ダークセージ" },
+      "tome_dagger_off": { "name": "カースドフェンサー" },
+      "tome_bow_short": { "name": "ビーストマスター" },
+      "tome_bow_long": { "name": "オラクルハンター" },
+      "tome_staff_one": { "name": "スカラー" },
+      "tome_staff_two": { "name": "ヴォイドスカラー" },
+      "tome_orb": { "name": "ルーンスカラー" },
+      "tome_tome": { "name": "ツイントーム" },
+      "tome_hammer": { "name": "ルーンウォーデン" },
+      "tome_spear": { "name": "フェイトランサー" },
+      "tome_shield": { "name": "イージススカラー" },
+      "hammer_none": { "name": "クルセイダー" },
+      "hammer_sword_one": { "name": "ウォーモンガー" },
+      "hammer_sword_two": { "name": "ウォーブレード" },
+      "hammer_great_sword": { "name": "ジャガーノート" },
+      "hammer_dagger": { "name": "バックブレイカー" },
+      "hammer_dagger_off": { "name": "スウィフトクラッシャー" },
+      "hammer_bow_short": { "name": "サンダーハンター" },
+      "hammer_bow_long": { "name": "ヘビーハンター" },
+      "hammer_staff_one": { "name": "アースメイジ" },
+      "hammer_staff_two": { "name": "ルーンクラッシャー" },
+      "hammer_orb": { "name": "アストラルクラッシャー" },
+      "hammer_tome": { "name": "ルーンウォーデン" },
+      "hammer_hammer": { "name": "ツインハンマー" },
+      "hammer_spear": { "name": "ウォーランサー" },
+      "hammer_shield": { "name": "バルワーク" },
+      "spear_none": { "name": "ランサー" },
+      "spear_sword_one": { "name": "ホプリテス" },
+      "spear_sword_two": { "name": "ブレードランサー" },
+      "spear_great_sword": { "name": "ウォーロード" },
+      "spear_dagger": { "name": "シャドウランサー" },
+      "spear_dagger_off": { "name": "ライトランサー" },
+      "spear_bow_short": { "name": "スピアハンター" },
+      "spear_bow_long": { "name": "ロングリーチ" },
+      "spear_staff_one": { "name": "ストームメイジ" },
+      "spear_staff_two": { "name": "レイランサー" },
+      "spear_orb": { "name": "アストラルランサー" },
+      "spear_tome": { "name": "フェイトランサー" },
+      "spear_hammer": { "name": "ウォーランサー" },
+      "spear_spear": { "name": "ツインスピア" },
+      "spear_shield": { "name": "ファランクス" },
+      "shield_none": { "name": "センチネル" },
+      "shield_sword_one": { "name": "パラディン" },
+      "shield_sword_two": { "name": "ソードセージ" },
+      "shield_great_sword": { "name": "アイアンヴァンガード" },
+      "shield_dagger": { "name": "ドレッドナイト" },
+      "shield_dagger_off": { "name": "スウィフトセンチネル" },
+      "shield_bow_short": { "name": "フォレストガーディアン" },
+      "shield_bow_long": { "name": "センチネルアーチャー" },
+      "shield_staff_one": { "name": "アーケインテンプラー" },
+      "shield_staff_two": { "name": "シジルガーディアン" },
+      "shield_orb": { "name": "アストラルガーディアン" },
+      "shield_tome": { "name": "イージススカラー" },
+      "shield_hammer": { "name": "バルワーク" },
+      "shield_spear": { "name": "ファランクス" },
+      "shield_shield": { "name": "アイアンバルワーク" }
+    },    "login": {
       "title": "エクリプシアにログイン",
       "subtitle": "アルカナの辺境が帰還を待っています。",
       "user": "ユーザー",
@@ -3580,7 +5453,34 @@ export const translations: Record<LangCode, TranslationTree> = {
       "email": "メール",
       "emailPlaceholder": "メールを入力",
       "loginTab": "ログイン",
-      "registerTab": "アカウント作成"
+      "registerTab": "アカウント作成",
+      "originTitle": "出自",
+      "originHint": "出自は見た目のみで、ステータスには影響しません。キャラクターは装備する武器によって成長します。",
+      "weaponTitle": "初期武器",
+      "weaponHint": "この武器の熟練度から始まります。武器はいつでも変更可能です。",
+      "originRequired": "出自を選択してください。",
+      "weaponRequired": "初期武器を選択してください。",
+      "luckHint": "幸運1ごとにXP+0.1%",
+      "proficiencyHint": "武器を使うと熟練度が上がります（攻撃・スキル・撃破）。",
+      "nextSkill": "次のスキル",
+    "proficiencies": {
+      "sword_one": "片手剣",
+      "sword_two": "長剣",
+      "great_sword": "大剣",
+      "dagger": "短剣",
+      "dagger_off": "サブ短剣",
+      "bow_short": "短弓",
+      "bow_long": "長弓",
+      "staff_one": "杖",
+      "staff_two": "秘術の杖",
+      "orb": "オーブ",
+      "tome": "魔導書",
+      "hammer": "ハンマー",
+      "spear": "槍",
+      "shield": "盾"
+    },
+      "onlineLabel": "辺境の冒険者",
+      "onlineJoin": "と"
     },
     "register": {
       "username": "ユーザー名",
@@ -4044,6 +5944,9 @@ export const translations: Record<LangCode, TranslationTree> = {
       "twoHanded": "両手",
       "twoHandedWarning": "副手装備を外します。",
       "twoHandedBlocked": "両手武器で副手は使えません。",
+      "equipMain": "装備（主手）",
+      "equipOff": "装備（副手）",
+      "sameWeaponCategory": "もう片方の手で同じ武器カテゴリを使用しています。",
       "spiritStoneEffect": "精霊石効果",
       "stoneLevel": "石のレベル",
       "group": {
@@ -4447,86 +6350,398 @@ export const translations: Record<LangCode, TranslationTree> = {
       "questComplete": "クエスト完了！",
       "itemFound": "アイテム発見！"
     },
-    "skills": {
+                            "skills": {
+      "slash": {
+        "name": "クイックスラッシュ",
+        "desc": "物理ATKの150%のダメージ。"
+      },
       "spin_slash": {
-        "name": "回転斬り",
-        "desc": "刃を回して敵を斬る。"
+        "name": "スピンスラッシュ",
+        "desc": "物理ATKの165%のダメージ。"
       },
       "dash_cut": {
-        "name": "疾走斬り",
-        "desc": "素早く接近して斬る。"
+        "name": "ダッシュカット",
+        "desc": "物理ATKの210%のダメージ。"
       },
-      "bleed": {
-        "name": "出血",
-        "desc": "数ターンのダメージ。"
+      "parry_counter": {
+        "name": "パリーカウンター",
+        "desc": "物理ATKの140%のダメージ。 1ターン気絶させる。"
       },
-      "execute": {
-        "name": "処刑",
-        "desc": "弱った敵に大ダメージ。"
+      "war_cry": {
+        "name": "ウォークライ",
+        "desc": "3ターンの間、防御力+25%。 e 最大hpの12%を回復。"
       },
-      "arcane_burst": {
-        "name": "アルカナバースト",
-        "desc": "アルカナの力を放つ。"
-      },
-      "ice_nova": {
-        "name": "氷の新星",
-        "desc": "空気を凍らせて攻撃。"
-      },
-      "heal_pulse": {
-        "name": "回復パルス",
-        "desc": "HPを少し回復。"
-      },
-      "root": {
-        "name": "根縛り",
-        "desc": "根で標的を縛る。"
+      "blade_flurry": {
+        "name": "ブレイドフラリー",
+        "desc": "物理ATKの55%で4回攻撃。"
       },
       "thousand_cuts": {
-        "name": "千斬り",
-        "desc": "素早い連続攻撃。"
+        "name": "サウザンドカッツ",
+        "desc": "物理ATKの55%で5回攻撃。"
+      },
+      "long_swipe": {
+        "name": "ロングスワイプ",
+        "desc": "物理ATKの155%のダメージ。"
+      },
+      "cross_slash": {
+        "name": "クロススラッシュ",
+        "desc": "物理ATKの200%のダメージ。"
+      },
+      "bleed": {
+        "name": "ブリード",
+        "desc": "3ターンの間、毎ターン45のダメージ。"
+      },
+      "iron_will": {
+        "name": "アイアンウィル",
+        "desc": "3ターンの間、防御力+35%。"
+      },
+      "deep_wound": {
+        "name": "ディープワウンド",
+        "desc": "物理ATKの140%のダメージ。 3ターンの間、毎ターン35のダメージ。"
+      },
+      "counter_gambit": {
+        "name": "カウンターギャンビット",
+        "desc": "物理ATKの220%のダメージ。 次の攻撃を回避する。"
+      },
+      "crescent_slash": {
+        "name": "クレセントスラッシュ",
+        "desc": "物理ATKの62%で4回攻撃。"
+      },
+      "brutal_slam": {
+        "name": "ブルータルスラム",
+        "desc": "物理ATKの150%のダメージ。 1ターン気絶させる。"
+      },
+      "cleave": {
+        "name": "クリーブ",
+        "desc": "物理ATKの190%のダメージ。"
+      },
+      "battle_fury": {
+        "name": "バトルフューリー",
+        "desc": "3ターンの間、防御力+25%。 e 最大hpの15%を回復。"
+      },
+      "execute": {
+        "name": "エグゼキュート",
+        "desc": "物理ATKの400%のダメージ。 HPが20%以下の敵を即死させる。"
+      },
+      "colossus_smash": {
+        "name": "コロッサススマッシュ",
+        "desc": "物理ATKの340%のダメージ。"
       },
       "blade_storm": {
-        "name": "刃の嵐",
-        "desc": "破壊的な斬撃の舞。"
+        "name": "ブレイドストーム",
+        "desc": "物理ATKの115%で3回攻撃。"
       },
-      "chain_lightning": {
-        "name": "連鎖稲妻",
-        "desc": "標的へ跳ぶ雷。"
-      },
-      "void_gate": {
-        "name": "虚無の門",
-        "desc": "防御とマナを歪める。"
-      },
-      "thorns": {
-        "name": "棘",
-        "desc": "攻撃に反撃する。"
-      },
-      "nature_burst": {
-        "name": "自然爆発",
-        "desc": "野生の力の衝撃。"
-      },
-      "shield_bash": {
-        "name": "盾打ち",
-        "desc": "盾で気絶させる。"
-      },
-      "fortress": {
-        "name": "要塞",
-        "desc": "防御を大きく上げる。"
-      },
-      "piercing_shot": {
-        "name": "貫通射撃",
-        "desc": "防御を一部無視。"
-      },
-      "rain_of_arrows": {
-        "name": "矢の雨",
-        "desc": "多数の矢を放つ。"
+      "onslaught": {
+        "name": "オンズロート",
+        "desc": "物理ATKの70%で5回攻撃。"
       },
       "death_mark": {
-        "name": "死の印",
-        "desc": "受けるダメージを増やす。"
+        "name": "デスマーク",
+        "desc": "目標をマーク：3ターンの間、受けるダメージ+50%。"
+      },
+      "stab": {
+        "name": "スタブ",
+        "desc": "物理ATKの135%のダメージ。 2ターンの間、毎ターン20のダメージ。"
+      },
+      "smoke_bomb": {
+        "name": "スモークボム",
+        "desc": "2ターンの間、防御力+20%。 次の攻撃を回避する。"
+      },
+      "eviscerate": {
+        "name": "エビセレイト",
+        "desc": "物理ATKの215%のダメージ。"
       },
       "shadow_step": {
-        "name": "影歩き",
-        "desc": "会心攻撃を準備する。"
+        "name": "シャドウステップ",
+        "desc": "物理ATKの195%のダメージ。 次の攻撃を回避する。"
+      },
+      "fan_of_knives": {
+        "name": "ファンオブナイフ",
+        "desc": "物理ATKの75%で3回攻撃。"
+      },
+      "assassinate": {
+        "name": "アサシネイト",
+        "desc": "物理ATKの320%のダメージ。 HPが25%以下の敵を即死させる。"
+      },
+      "feint": {
+        "name": "フェイント",
+        "desc": "物理ATKの125%のダメージ。 2ターン鈍足にする。"
+      },
+      "double_slash": {
+        "name": "ダブルスラッシュ",
+        "desc": "物理ATKの95%で2回攻撃。"
+      },
+      "riposte": {
+        "name": "リポスト",
+        "desc": "物理ATKの145%のダメージ。 次の攻撃を回避する。"
+      },
+      "lacerate": {
+        "name": "ラセレイト",
+        "desc": "3ターンの間、毎ターン55のダメージ。"
+      },
+      "twin_fang": {
+        "name": "ツインファング",
+        "desc": "物理ATKの105%で2回攻撃。"
+      },
+      "whirl_dagger": {
+        "name": "ワールダガー",
+        "desc": "物理ATKの62%で4回攻撃。"
+      },
+      "shadow_parry": {
+        "name": "シャドウパリー",
+        "desc": "物理ATKの175%のダメージ。 1ターン気絶させる。 次の攻撃を回避する。"
+      },
+      "piercing_shot": {
+        "name": "ピアシングショット",
+        "desc": "物理ATKの160%のダメージ。 敵の防御を無視する。"
+      },
+      "aimed_shot": {
+        "name": "エイムドショット",
+        "desc": "物理ATKの185%のダメージ。 敵の防御を無視する。"
+      },
+      "quick_shot": {
+        "name": "クイックショット",
+        "desc": "物理ATKの135%のダメージ。 1ターン鈍足にする。"
+      },
+      "hunters_mark": {
+        "name": "ハンターズマーク",
+        "desc": "目標をマーク：3ターンの間、受けるダメージ+40%。"
+      },
+      "scatter_shot": {
+        "name": "スキャッターショット",
+        "desc": "物理ATKの65%で3回攻撃。"
+      },
+      "kiting_shot": {
+        "name": "キティングショット",
+        "desc": "物理ATKの155%のダメージ。 2ターン鈍足にする。"
+      },
+      "rapid_fire": {
+        "name": "ラピッドファイア",
+        "desc": "物理ATKの52%で5回攻撃。"
+      },
+      "precision_shot": {
+        "name": "プレシジョンショット",
+        "desc": "物理ATKの195%のダメージ。 敵の防御を無視する。"
+      },
+      "rain_of_arrows": {
+        "name": "レインオブアローズ",
+        "desc": "物理ATKの55%で4回攻撃。"
+      },
+      "volley": {
+        "name": "ボレー",
+        "desc": "物理ATKの75%で3回攻撃。"
+      },
+      "eagle_eye": {
+        "name": "イーグルアイ",
+        "desc": "目標をマーク：3ターンの間、受けるダメージ+45%。"
+      },
+      "sniper_shot": {
+        "name": "スナイプショット",
+        "desc": "物理ATKの235%のダメージ。 敵の防御を無視する。"
+      },
+      "wind_arrow": {
+        "name": "ウィンドアロー",
+        "desc": "物理ATKの155%のダメージ。 1ターン鈍足にする。"
+      },
+      "dead_eye": {
+        "name": "デッドアイ",
+        "desc": "物理ATKの285%のダメージ。 HPが30%以下の敵を即死させる。"
+      },
+      "arcane_burst": {
+        "name": "アーケインバースト",
+        "desc": "魔法ATKの165%のダメージ。"
+      },
+      "arcane_missile": {
+        "name": "アーケインミサイル",
+        "desc": "魔法ATKの190%のダメージ。"
+      },
+      "heal_pulse": {
+        "name": "ヒールパルス",
+        "desc": "最大HPの45%を回復。"
+      },
+      "arcane_bind": {
+        "name": "アーケインバインド",
+        "desc": "魔法ATKの115%のダメージ。 1ターン気絶させる。"
+      },
+      "mana_shield": {
+        "name": "マナシールド",
+        "desc": "3ターンの間、防御力+30%。 e 最大hpの15%を回復。"
+      },
+      "greater_heal": {
+        "name": "グレーターヒール",
+        "desc": "最大HPの70%を回復。"
+      },
+      "arcane_blast": {
+        "name": "アーケインブラスト",
+        "desc": "魔法ATKの70%で3回攻撃。"
+      },
+      "frost_bolt": {
+        "name": "フロストボルト",
+        "desc": "魔法ATKの155%のダメージ。 1ターン鈍足にする。"
+      },
+      "ice_nova": {
+        "name": "アイスノヴァ",
+        "desc": "魔法ATKの150%のダメージ。 2ターン鈍足にする。"
+      },
+      "blizzard": {
+        "name": "ブリザード",
+        "desc": "魔法ATKの52%で4回攻撃。 1ターン鈍足にする。"
+      },
+      "arcane_armor": {
+        "name": "アーケインアーマー",
+        "desc": "3ターンの間、防御力+40%。"
+      },
+      "chain_lightning": {
+        "name": "チェーンライトニング",
+        "desc": "魔法ATKの225%のダメージ。"
+      },
+      "elemental_chaos": {
+        "name": "エレメンタルカオス",
+        "desc": "魔法ATKの255%のダメージ。"
+      },
+      "time_warp": {
+        "name": "タイムワープ",
+        "desc": "目標をマーク：3ターンの間、受けるダメージ+50%。"
+      },
+      "void_bolt": {
+        "name": "ヴォイドボルト",
+        "desc": "虚無ATKの165%のダメージ。"
+      },
+      "void_rupture": {
+        "name": "ヴォイドラプチャー",
+        "desc": "虚無ATKの145%のダメージ。 3ターンの間、毎ターン40のダメージ。"
+      },
+      "astral_barrier": {
+        "name": "アストラルバリア",
+        "desc": "3ターンの間、防御力+35%。"
+      },
+      "gravity_well": {
+        "name": "グラビティウェル",
+        "desc": "虚無ATKの130%のダメージ。 1ターン気絶させる。"
+      },
+      "void_armor": {
+        "name": "ヴォイドアーマー",
+        "desc": "3ターンの間、防御力+35%。 e 最大hpの10%を回復。"
+      },
+      "void_gate": {
+        "name": "ヴォイドゲート",
+        "desc": "虚無ATKの330%のダメージ。"
+      },
+      "cosmic_burst": {
+        "name": "コズミックバースト",
+        "desc": "虚無ATKの70%で5回攻撃。"
+      },
+      "arcane_mark": {
+        "name": "アーケインマーク",
+        "desc": "目標をマーク：3ターンの間、受けるダメージ+40%。"
+      },
+      "root": {
+        "name": "ルート",
+        "desc": "魔法ATKの110%のダメージ。 1ターン気絶させる。"
+      },
+      "petrify": {
+        "name": "ペトリファイ",
+        "desc": "魔法ATKの130%のダメージ。 1ターン気絶させる。"
+      },
+      "arcane_ward": {
+        "name": "アーケインウォード",
+        "desc": "3ターンの間、防御力+30%。 e 最大hpの25%を回復。"
+      },
+      "rune_shield": {
+        "name": "ルーンシールド",
+        "desc": "2ターンの間、防御力+45%。"
+      },
+      "draining_tome": {
+        "name": "ドレイニングトーム",
+        "desc": "魔法ATKの145%のダメージ。 最大HPの30%を回復。"
+      },
+      "forbidden_knowledge": {
+        "name": "フォービドゥンナレッジ",
+        "desc": "魔法ATKの305%のダメージ。"
+      },
+      "crushing_blow": {
+        "name": "クラッシングブロウ",
+        "desc": "物理ATKの165%のダメージ。"
+      },
+      "fortress": {
+        "name": "フォートレス",
+        "desc": "3ターンの間、防御力+40%。"
+      },
+      "earth_shake": {
+        "name": "アースシェイク",
+        "desc": "物理ATKの60%で3回攻撃。 1ターン鈍足にする。"
+      },
+      "unbreakable": {
+        "name": "アンブレイカブル",
+        "desc": "2ターンの間、防御力+50%。"
+      },
+      "war_stomp": {
+        "name": "ウォースタンプ",
+        "desc": "物理ATKの135%のダメージ。 1ターン気絶させる。"
+      },
+      "seismic_slam": {
+        "name": "サイズミックスラム",
+        "desc": "物理ATKの235%のダメージ。 1ターン気絶させる。"
+      },
+      "titan_fall": {
+        "name": "タイタンフォール",
+        "desc": "物理ATKの295%のダメージ。"
+      },
+      "precise_thrust": {
+        "name": "プレサイズスラスト",
+        "desc": "物理ATKの155%のダメージ。 敵の防御を無視する。"
+      },
+      "thorns": {
+        "name": "ソーンズ",
+        "desc": "3ターンの間、受けたダメージの35%を反射。"
+      },
+      "sweeping_strike": {
+        "name": "スウィーピングストライク",
+        "desc": "物理ATKの98%で2回攻撃。"
+      },
+      "serpent_spike": {
+        "name": "サーペントスパイク",
+        "desc": "物理ATKの135%のダメージ。 3ターンの間、毎ターン35のダメージ。"
+      },
+      "nature_burst": {
+        "name": "ネイチャーバースト",
+        "desc": "魔法ATKの215%のダメージ。"
+      },
+      "phalanx_ward": {
+        "name": "ファランクスウォード",
+        "desc": "3ターンの間、防御力+35%。"
+      },
+      "dragon_lance": {
+        "name": "ドラゴンランス",
+        "desc": "物理ATKの265%のダメージ。 1ターン鈍足にする。"
+      },
+      "shield_bash": {
+        "name": "シールドバッシュ",
+        "desc": "物理ATKの125%のダメージ。 1ターン気絶させる。"
+      },
+      "shield_slam": {
+        "name": "シールドスラム",
+        "desc": "物理ATKの150%のダメージ。 1ターン鈍足にする。"
+      },
+      "provoke": {
+        "name": "プロヴォーク",
+        "desc": "目標をマーク：3ターンの間、受けるダメージ+30%。"
+      },
+      "bastion": {
+        "name": "バスティオン",
+        "desc": "2ターンの間、防御力+60%。"
+      },
+      "aegis_guard": {
+        "name": "イージスガード",
+        "desc": "2ターンの間、防御力+50%。 e 最大hpの15%を回復。"
+      },
+      "shield_charge": {
+        "name": "シールドチャージ",
+        "desc": "物理ATKの205%のダメージ。 1ターン気絶させる。"
+      },
+      "holy_aegis": {
+        "name": "ホーリーイージス",
+        "desc": "2ターンの間、防御力+20%。 e 最大hpの50%を回復。"
       }
     },
     "bosses": {
@@ -4536,6 +6751,7 @@ export const translations: Record<LangCode, TranslationTree> = {
         "phase2": "増援を呼ぶ。",
         "enrage": "怒り狂う。"
       },
+
       "root_guardian": {
         "name": "根の守護者",
         "desc": "ニセラの古き守護者。",

@@ -13,17 +13,19 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: 'border-game-gold bg-game-gold text-game-dark hover:bg-yellow-300',
-  secondary: 'border-game-border bg-game-card text-game-text hover:bg-game-hover',
-  danger: 'border-red-500 bg-red-700 text-white hover:bg-red-600',
-  success: 'border-green-500 bg-green-700 text-white hover:bg-green-600',
+  primary: 'btn-gold',
+  secondary: 'btn-glass',
+  danger:
+    'border-red-700 bg-gradient-to-b from-red-800 to-red-950 text-red-100 hover:border-red-400 hover:shadow-[0_0_18px_rgb(239_68_68_/_0.3)]',
+  success:
+    'border-green-700 bg-gradient-to-b from-green-800 to-green-950 text-green-100 hover:border-green-400 hover:shadow-[0_0_18px_rgb(34_197_94_/_0.3)]',
   ghost: 'border-transparent bg-transparent text-game-muted hover:bg-game-hover hover:text-game-text'
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: 'h-8 px-3 text-sm',
-  md: 'h-10 px-4 text-base',
-  lg: 'h-12 px-6 text-lg'
+  sm: 'h-8 px-3 text-xs',
+  md: 'h-10 px-4 text-sm',
+  lg: 'h-12 px-6 text-base'
 };
 
 export const Button = ({
@@ -44,7 +46,7 @@ export const Button = ({
       type={type}
       disabled={isDisabled}
       className={[
-        'inline-flex items-center justify-center gap-2 rounded-md border font-mono font-semibold tracking-wide transition-all duration-150 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40',
+        'inline-flex items-center justify-center gap-2 rounded-lg font-mono font-semibold tracking-wide transition-all duration-150 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40',
         variantClasses[variant],
         sizeClasses[size],
         fullWidth ? 'w-full' : '',

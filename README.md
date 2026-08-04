@@ -24,7 +24,7 @@ Todo texto visível do jogo deve estar no i18n em:
 - Combate Auto e Avanço Auto são botões separados.
 - Avanço Auto sempre ativa Combate Auto.
 - Sem stamina ou energia limitada.
-- Sorte tem teto 200 e nunca é vendida.
+- Sorte tem teto 1000 e nunca é vendida (+0,1% de XP por ponto).
 
 ## Como rodar o frontend
 
@@ -39,6 +39,11 @@ Frontend local:
 ```txt
 http://localhost:5173
 ```
+
+> Em dev fora de localhost (ex.: preview online), o client usa caminho relativo
+> (`/api` e `/socket.io`) e o Vite faz proxy para `localhost:5000`
+> (configurado em `vite.config.ts`). `VITE_API_URL` sempre tem prioridade.
+> O dev server aceita qualquer host: `npm run dev -- --host 0.0.0.0`.
 
 ## Como rodar o backend
 

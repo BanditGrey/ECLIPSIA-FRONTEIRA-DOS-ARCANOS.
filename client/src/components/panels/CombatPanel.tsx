@@ -1,5 +1,9 @@
 import type { ReactNode } from 'react';
 import { useI18n } from '../../hooks/useI18n';
+import { ART } from '../../data/art';
+import { Portrait } from '../ui/Portrait';
+
+const BOSS_IDS = ['bandit_leader', 'root_guardian', 'void_mirror', 'azhur', 'thal_mora', 'velkaryn'];
 import { useCombatStore } from '../../store/useCombatStore';
 import { useGameStore } from '../../store/useGameStore';
 import { usePartyCombatStore } from '../../store/usePartyCombatStore';
@@ -21,7 +25,8 @@ const ActionButton = ({ children, onClick, variant = 'secondary' }: { children: 
 
 const SkillsModal = () => {
   const { t } = useI18n();
-  const skills = usePlayerStore((state) => state.data?.skills ?? []);
+  const data = usePlayerStore((state) => state.data);
+  const skills = data ? usePlayerStore.getState().getUsableSkillIds() : [];
   const cooldowns = useCombatStore((state) => state.skillCooldowns);
 
   return (
@@ -116,7 +121,7 @@ export const CombatPanel = () => {
   if (!combat.active || !combat.enemy) {
     return (
       <div className="flex h-full items-center justify-center overflow-hidden bg-game-dark p-4 text-game-text">
-        <div className="grid max-w-sm gap-4 rounded-xl border border-game-border bg-game-panel p-6 text-center">
+        <div className="grid max-w-sm gap-4 rounded-xl border border-night-600 bg-night-900/70 p-6 shadow-panel text-center">
           <p className="text-game-muted">{t('panels.selectRegion')}</p>
           <Button onClick={() => setPanel('travel')}>{t('panels.goTravel')}</Button>
         </div>
@@ -127,7 +132,7 @@ export const CombatPanel = () => {
   return (
     <div className="grid h-full grid-rows-[auto_1fr_auto] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
       <div className="grid gap-2">
-        <header className="flex items-center justify-between rounded-lg border border-game-border bg-game-panel px-3 py-2 font-mono text-sm text-game-muted">
+        <header className="flex items-center justify-between rounded-lg border border-night-600 bg-night-900/70 px-3 py-2 font-mono text-sm text-game-muted">
           <span>{combat.region || t('game.unknown')}</span>
           {combat.isDungeon && (
             <span>
@@ -137,7 +142,7 @@ export const CombatPanel = () => {
         </header>
 
         {huntSession && (
-          <div className="rounded-lg border border-green-700 bg-game-panel px-3 py-1.5 font-mono text-xs text-green-300">
+          <div className="rounded-lg border border-green-700 bg-night-900/70 px-3 py-1.5 font-mono text-xs text-green-300">
             <p>
               🎯 {t('partyCombat.activeHunt')} · {t('partyCombat.round')} {huntSession.round} · ⚔ +{huntSession.auraAtk}% 🛡 +{huntSession.auraDef}%
               {huntSession.sizeBonus && (
@@ -163,31 +168,61 @@ export const CombatPanel = () => {
       </div>
 
       <main className="grid min-h-0 grid-rows-[1fr_auto_1fr] gap-3 overflow-hidden">
-        <section className="grid rounded-xl border border-red-700 bg-game-card p-4">
-          <div className="flex items-center gap-3">
-            <span className="text-4xl">{combat.enemy.icon}</span>
-            <div className="min-w-0 flex-1">
-              <h2 className="truncate font-title text-xl text-game-gold">{t(combat.enemy.nameKey)}</h2>
-              <p className="font-mono text-sm text-game-muted">
-                {t('game.lvl')} {combat.enemy.level}
-              </p>
+        {/* Inimigo — campo de batalha ao fundo */}
+        <section className="relative overflow-hidden rounded-xl border border-red-800/70 bg-night-900/70 shadow-panel">
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-30"
+            style={{ backgroundImage: `url(${ART.bg.combat})` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-night-950/70 via-transparent to-night-950/80" />
+          <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-red-500/70 to-transparent" />
+
+          <div className="relative grid p-4">
+            <div className="flex items-center gap-4">
+              {BOSS_IDS.includes(combat.enemy.id) ? (
+                <Portrait kind="boss" id={combat.enemy.id} size={72} fallbackIcon={combat.enemy.icon} ring="red" />
+              ) : (
+                <span className="sigil-disc h-16 w-16 text-4xl">{combat.enemy.icon}</span>
+              )}
+              <div className="min-w-0 flex-1">
+                <h2 className="title-gold truncate font-title text-xl font-bold">{t(combat.enemy.nameKey)}</h2>
+                <p className="font-mono text-sm text-game-muted">
+                  {t('game.lvl')} {combat.enemy.level}
+                </p>
+              </div>
             </div>
+            <ProgressBar className="mt-3" current={combat.enemyHp} max={combat.enemyMaxHp} type="hp" showText />
           </div>
-          <ProgressBar className="mt-3" current={combat.enemyHp} max={combat.enemyMaxHp} type="hp" showText />
         </section>
 
-        <div className="flex items-center justify-center font-title text-2xl font-black text-game-gold">{t('combat.vs')}</div>
+        <div className="divider-ornate flex items-center justify-center px-10 font-title text-xl font-black">
+          <span className="diamond" />
+          <span className="title-gold mx-3">{t('combat.vs')}</span>
+          <span className="diamond" />
+        </div>
 
-        <section className="grid rounded-xl border border-blue-700 bg-game-card p-4">
-          <div>
-            <h2 className="font-title text-xl text-game-text">{player?.name ?? t('game.unknown')}</h2>
-            <p className="font-mono text-sm text-game-muted">
-              {t('game.lvl')} {player?.level ?? 0}
-            </p>
-          </div>
-          <div className="mt-3 grid gap-2">
-            <ProgressBar current={player?.hp ?? 0} max={player?.maxHp ?? 1} type="hp" showText />
-            <ProgressBar current={player?.mp ?? 0} max={player?.maxMp ?? 1} type="mp" showText />
+        <section className="relative overflow-hidden rounded-xl border border-blue-800/70 bg-night-900/70 p-4 shadow-panel">
+          <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500/70 to-transparent" />
+          <div className="relative">
+            <div className="flex items-center gap-4">
+              <Portrait
+                kind="class"
+                id={player?.archetype ?? 'blade'}
+                size={60}
+                fallbackIcon="⚔"
+                ring="arcane"
+              />
+              <div>
+                <h2 className="font-title text-xl text-game-text">{player?.name ?? t('game.unknown')}</h2>
+                <p className="font-mono text-sm text-game-muted">
+                  {t('game.lvl')} {player?.level ?? 0}
+                </p>
+              </div>
+            </div>
+            <div className="mt-3 grid gap-2">
+              <ProgressBar current={player?.hp ?? 0} max={player?.maxHp ?? 1} type="hp" showText />
+              <ProgressBar current={player?.mp ?? 0} max={player?.maxMp ?? 1} type="mp" showText />
+            </div>
           </div>
         </section>
       </main>

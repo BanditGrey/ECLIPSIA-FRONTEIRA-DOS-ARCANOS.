@@ -63,6 +63,16 @@ export interface ResolvedEffects {
   goldBonus: number;
   lootBonus: number;
   speed: number;
+  skillDmg: number;
+  basicAtkDmg: number;
+  skillCdReduce: number;
+  skillMpReduce: number;
+  dotDmgBonus: number;
+  skillHealBonus: number;
+  controlDuration: number;
+  executeThreshold: number;
+  reflectBonus: number;
+  critSkillDmg: number;
   onHitEffects: OnHitEffect[];
   conditionals: ConditionalEffect[];
   mountSpeed: number;
@@ -116,6 +126,16 @@ export const emptyResolvedEffects = (): ResolvedEffects => ({
   goldBonus: 0,
   lootBonus: 0,
   speed: 0,
+  skillDmg: 0,
+  basicAtkDmg: 0,
+  skillCdReduce: 0,
+  skillMpReduce: 0,
+  dotDmgBonus: 0,
+  skillHealBonus: 0,
+  controlDuration: 0,
+  executeThreshold: 0,
+  reflectBonus: 0,
+  critSkillDmg: 0,
   onHitEffects: [],
   conditionals: [],
   mountSpeed: 0,
@@ -158,6 +178,18 @@ const applyEffectPair = (target: ResolvedEffects, effectId: number, rawValue: nu
     case EFFECT.GOLD_BONUS: target.goldBonus += value; break;
     case EFFECT.LOOT_BONUS: target.lootBonus += value; break;
     case EFFECT.SPEED: target.speed += value; break;
+
+    // ── Effects de skill/arma (31–40) ──
+    case EFFECT.SKILL_DMG: target.skillDmg += value; break;
+    case EFFECT.BASIC_ATK_DMG: target.basicAtkDmg += value; break;
+    case EFFECT.SKILL_CD_REDUCE: target.skillCdReduce += value; break;
+    case EFFECT.SKILL_MP_REDUCE: target.skillMpReduce += value; break;
+    case EFFECT.DOT_DMG_BONUS: target.dotDmgBonus += value; break;
+    case EFFECT.SKILL_HEAL_BONUS: target.skillHealBonus += value; break;
+    case EFFECT.CONTROL_DURATION: target.controlDuration += value; break;
+    case EFFECT.EXECUTE_THRESHOLD: target.executeThreshold += value; break;
+    case EFFECT.REFLECT_BONUS: target.reflectBonus += value; break;
+    case EFFECT.CRIT_SKILL_DMG: target.critSkillDmg += value; break;
 
     // ── On-hit (61–66) ──
     case EFFECT.ON_HIT_BURN:
@@ -251,6 +283,16 @@ const mergeResolved = (target: ResolvedEffects, source: ResolvedEffects) => {
   target.goldBonus += source.goldBonus;
   target.lootBonus += source.lootBonus;
   target.speed += source.speed;
+  target.skillDmg += source.skillDmg;
+  target.basicAtkDmg += source.basicAtkDmg;
+  target.skillCdReduce += source.skillCdReduce;
+  target.skillMpReduce += source.skillMpReduce;
+  target.dotDmgBonus += source.dotDmgBonus;
+  target.skillHealBonus += source.skillHealBonus;
+  target.controlDuration += source.controlDuration;
+  target.executeThreshold += source.executeThreshold;
+  target.reflectBonus += source.reflectBonus;
+  target.critSkillDmg += source.critSkillDmg;
   target.mountSpeed += source.mountSpeed;
   target.onHitEffects.push(...source.onHitEffects);
   target.conditionals.push(...source.conditionals);

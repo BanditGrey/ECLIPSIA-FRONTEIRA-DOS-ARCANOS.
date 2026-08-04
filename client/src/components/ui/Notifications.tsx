@@ -3,11 +3,11 @@ import { useGameStore } from '../../store/useGameStore';
 import type { NotifyType } from '../../store/useGameStore';
 
 const typeClasses: Record<NotifyType, string> = {
-  success: 'border-green-500 bg-green-950/95 text-green-200',
-  error: 'border-red-500 bg-red-950/95 text-red-200',
-  warning: 'border-yellow-500 bg-yellow-950/95 text-yellow-200',
-  info: 'border-blue-500 bg-blue-950/95 text-blue-200',
-  gold: 'border-game-gold bg-game-primary text-game-gold'
+  success: 'border-green-600/70 bg-night-900/95 text-green-200 border-l-green-400',
+  error: 'border-red-700/70 bg-night-900/95 text-red-200 border-l-red-500',
+  warning: 'border-amber-600/70 bg-night-900/95 text-amber-200 border-l-amber-400',
+  info: 'border-blue-600/70 bg-night-900/95 text-blue-200 border-l-blue-400',
+  gold: 'border-gold-600/70 bg-night-900/95 text-gold-300 border-l-gold-400'
 };
 
 export const Notifications = () => {
@@ -32,7 +32,7 @@ export const Notifications = () => {
         <div
           key={notification.id}
           className={[
-            'anim-fade w-full rounded-lg border px-4 py-2 text-center font-mono text-sm shadow-lg shadow-black/40',
+            'anim-fade w-full rounded-lg border border-l-4 px-4 py-2 text-center font-mono text-sm shadow-lg shadow-black/50 backdrop-blur',
             typeClasses[notification.type]
           ].join(' ')}
         >
