@@ -29,3 +29,11 @@ Continuidade (2026-08-04, 2ª leva):
 - ✅ Loot na tela de vitória (A13): handleVictory guarda lastLoot; CombatOutcomeScreen
       exibe itens ganhos (nome i18n + qtd + baú)
 - ✅ Baselines intactos em todas as entregas (89/89 · 41/41 · build OK)
+
+Continuidade (2026-08-04, 3ª leva):
+- ✅ Arte para TODOS os 15 monstros (9 restantes gerados) — A03 completo
+- ✅ Ícones de slot de equipamento (ArcaneIcon: helm, armor, greaves, gloves,
+      boots, earring, necklace, belt, ward, amulet, spirit, pet, mount) no
+      inventário no lugar de emojis — A10
+- ✅ Cenário arcano animado no TravelPanel (ArcaneField de fundo) — A12
+- ✅ Baselines intactos (89/89 · 41/41 · build OK)

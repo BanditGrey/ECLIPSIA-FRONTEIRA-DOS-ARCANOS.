@@ -119,6 +119,15 @@ cd ../server && npm test
   store; `CombatOutcomeScreen` exibe itens ganhos (nome i18n + qtd + baú) (A13).
   i18n `nav.boss`, `bossRoom.*`, `combat.outcome.loot` nos 4 idiomas.
   Baselines 89/89 · 41/41 · build OK.
+- **🎨 Arte de monstros completa + slots (3ª leva, 2026-08-04)**: geradas as
+  9 pinturas restantes de monstros (rat, wolf_pup, bandit_leader,
+  root_guardian, sand_scorpion, mirage_beast, dune_crawler, sea_wraith,
+  deep_leviathan_jr) — **todos os 15 monstros com arte** em `data/art.ts`
+  (A03 completo). **ArcaneIcon** ganhou ícones de equipamento (helm, armor,
+  greaves, gloves, boots, earring, necklace, belt, ward, amulet, spirit,
+  pet, mount); `ItemsPanel` usa-os nos slots vazios no lugar de emojis (A10).
+  **ArcaneField** aplicado como cenário animado de fundo no TravelPanel (A12).
+  Baselines 89/89 · 41/41 · build OK.
 
 ### 0.4 Regras de ouro (não viole)
 1. Nunca quebrar os baselines do §0.2 (auditorias 89/89 e 41/41, testes 18/18).

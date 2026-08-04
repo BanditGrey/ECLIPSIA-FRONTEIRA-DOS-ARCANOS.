@@ -182,6 +182,9 @@ só os companheiros locais participam do combate. Meta: grupo lutar junto.
 - [x] Transição cinematográfica entre painéis no GameLayout (A15)
 - [x] HUD: Header com ícones arcanos p/ moedas e configurações (A09)
 - [x] Loot exibido na tela de vitória (handleVictory guarda lastLoot) (A13)
+- [x] Arte para todos os 15 monstros (A03) — últimos 9 gerados nesta leva
+- [x] Ícones de slot de equipamento no inventário via ArcaneIcon (A10)
+- [x] Cenário arcano animado de fundo no TravelPanel (A12)
 
 ## ⚔ CASO 8 — Sistema de Proficiência de Armas (✅ CONCLUÍDO)
 
