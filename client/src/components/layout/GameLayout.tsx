@@ -12,6 +12,10 @@ import { Header } from './Header';
 import { Navbar } from './Navbar';
 import { CrystalShopModal } from '../panels/shop/CrystalShopModal';
 
+import { AmbientDust } from '../effects/AmbientDust';
+
+import { LevelUpAnimation } from '../effects/LevelUpAnimation';
+
 interface GameLayoutProps {
   children: ReactNode;
 }
@@ -97,6 +101,7 @@ export const GameLayout = ({ children }: GameLayoutProps) => {
         style={{ backgroundImage: `url(${ART.bg.hub})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-night-950/60 via-transparent to-night-950/80" />
+      <AmbientDust />
 
       {/* filetes dourados (moldura do HUD) */}
       <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-[2px] bg-gradient-to-r from-transparent via-gold-400/80 to-transparent" />
@@ -114,6 +119,7 @@ export const GameLayout = ({ children }: GameLayoutProps) => {
         <Navbar />
       </div>
       <Notifications />
+      <LevelUpAnimation />
       <CrystalShopModal />
     </div>
   );

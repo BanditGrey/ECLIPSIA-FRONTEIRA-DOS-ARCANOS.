@@ -252,6 +252,10 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
         leveledUp = true;
       }
 
+      if (leveledUp && typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('eclipsia:levelup', { detail: { level } }));
+      }
+
       return {
         data: {
           ...state.data,

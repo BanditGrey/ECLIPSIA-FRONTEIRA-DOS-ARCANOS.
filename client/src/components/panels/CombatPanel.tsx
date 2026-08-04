@@ -14,6 +14,7 @@ import { usePartyCombatStore } from '../../store/usePartyCombatStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
 import { useSkill } from '../../systems/combat';
 import { CombatOutcomeScreen } from '../effects/CombatOutcomeScreen';
+import { FloatingCombatText } from '../effects/FloatingCombatText';
 import { ArcaneField } from '../effects/ArcaneField';
 import { Button } from '../ui/Button';
 import { ArcaneIcon } from '../ui/ArcaneIcon';
@@ -138,6 +139,22 @@ export const CombatPanel = () => {
   const [hitFx, setHitFx] = useState(false);
   const [hitKey, setHitKey] = useState(0);
 
+  const [enemyShake, setEnemyShake] = useState(false);
+  const [playerShake, setPlayerShake] = useState(false);
+
+  useEffect(() => {
+    if (combat.log.length > 0) {
+      const last = combat.log[combat.log.length - 1];
+      if (['attack', 'skill', 'execute', 'pet'].includes(last.type)) {
+        setEnemyShake(true);
+        setTimeout(() => setEnemyShake(false), 400);
+      } else if (last.type === 'enemy') {
+        setPlayerShake(true);
+        setTimeout(() => setPlayerShake(false), 400);
+      }
+    }
+  }, [combat.log]);
+
   useEffect(() => {
     if (playerHit > 0) {
       setHitFx(true);
@@ -202,7 +219,8 @@ export const CombatPanel = () => {
         )}
       </div>
 
-      <main className="grid min-h-0 grid-rows-[1fr_auto_1fr] gap-3 overflow-hidden">
+      <main className="relative grid min-h-0 grid-rows-[1fr_auto_1fr] gap-3 overflow-hidden">
+        <FloatingCombatText />
         {/* Inimigo — campo de batalha ao fundo */}
         <section className="relative overflow-hidden rounded-xl border border-red-800/70 bg-night-900/70 shadow-panel">
           <div
@@ -223,7 +241,7 @@ export const CombatPanel = () => {
           )}
 
           <div className="relative grid p-4">
-            <div className="flex items-center gap-4">
+            <div className={`flex items-center gap-4 ${enemyShake ? 'animate-eclipsiaShake' : ''}`}>
               {BOSS_IDS.includes(combat.enemy.id) ? (
                 <Portrait kind="boss" id={combat.enemy.id} size={72} fallbackIcon={combat.enemy.icon} ring="red" />
               ) : (
@@ -249,7 +267,7 @@ export const CombatPanel = () => {
         <section className="relative overflow-hidden rounded-xl border border-blue-800/70 bg-night-900/70 p-4 shadow-panel">
           <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500/70 to-transparent" />
           <div className="relative">
-            <div className="flex items-center gap-4">
+            <div className={`flex items-center gap-4 ${playerShake ? 'animate-eclipsiaShake' : ''}`}>
               <Portrait
                 kind="class"
                 id={player?.archetype ?? 'blade'}

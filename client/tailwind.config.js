@@ -79,7 +79,9 @@ export default {
         slowspin: 'slowspin 48s linear infinite',
         kenburns: 'kenburns 32s ease-in-out infinite alternate',
         'fade-in': 'fadeIn 180ms ease-out both',
-        'slide-up': 'slideUp 240ms ease-out both'
+        'slide-up': 'slideUp 240ms ease-out both',
+        'eclipsiaShake': 'eclipsiaShake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both',
+        'eclipsiaFloat': 'eclipsiaFloat 1.2s ease-out forwards',
       },
       keyframes: {
         floaty: {
@@ -104,6 +106,16 @@ export default {
         kenburns: {
           '0%': { transform: 'scale(1) translateY(0)' },
           '100%': { transform: 'scale(1.08) translateY(-1.5%)' }
+        },
+        eclipsiaShake: {
+          '10%, 90%': { transform: 'translate3d(-2px, 0, 0)' },
+          '20%, 80%': { transform: 'translate3d(3px, 0, 0)' },
+          '30%, 50%, 70%': { transform: 'translate3d(-5px, 0, 0)' },
+          '40%, 60%': { transform: 'translate3d(5px, 0, 0)' }
+        },
+        eclipsiaFloat: {
+          '0%': { transform: 'translateY(0) scale(0.8)', opacity: '1' },
+          '100%': { transform: 'translateY(-50px) scale(1.2)', opacity: '0' }
         }
       },
       height: {

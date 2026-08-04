@@ -582,11 +582,16 @@ const handleVictory = () => {
   const xp = Math.floor(enemy.xp * xpMultiplier * impulseSystem.getBonus('xp') * (1 + xpBonus + (sizeBonus?.xp ?? 0) / 100));
   const gold = Math.floor(enemy.gold * impulseSystem.getBonus('gold') * (1 + goldBonus + (sizeBonus?.gold ?? 0) / 100));
 
-  playerStore.gainXp(xp);
+  const { leveledUp } = playerStore.gainXp(xp);
   playerStore.gainGold(gold);
   playerStore.addKill(enemy.id);
   gainProficiencyXp(PROF_XP.kill);
   questSystem.onKill(enemy.id);
+
+  if (leveledUp) {
+    combat.addLog('recover', 'LEVEL UP!');
+    useGameStore.getState().addNotification('NÍVEL AUMENTOU!', 'gold');
+  }
 
   // Missões diárias
   playerStore.recordDailyEvent('kill');

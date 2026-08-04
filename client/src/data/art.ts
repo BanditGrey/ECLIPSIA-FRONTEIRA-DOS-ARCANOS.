@@ -35,10 +35,17 @@ export const ART = {
     velkaryn: '/assets/boss-velkaryn.jpg'
   },
   monsters: {
+    rat: '/assets/monster-rat.jpg',
+    wolf_pup: '/assets/monster-wolf_pup.jpg',
     goblin: '/assets/monster-goblin.jpg',
     mist_wolf: '/assets/monster-mist_wolf.jpg',
     shadow_sprite: '/assets/monster-shadow_sprite.jpg',
     forest_golem: '/assets/monster-forest_golem.jpg',
+    sand_scorpion: '/assets/monster-sand_scorpion.jpg',
+    mirage_beast: '/assets/monster-mirage_beast.jpg',
+    dune_crawler: '/assets/monster-dune_crawler.jpg',
+    sea_wraith: '/assets/monster-sea_wraith.jpg',
+    deep_leviathan_jr: '/assets/monster-deep_leviathan_jr.jpg',
     storm_harpy: '/assets/monster-storm_harpy.jpg',
     cloud_titan: '/assets/monster-cloud_titan.jpg'
   }

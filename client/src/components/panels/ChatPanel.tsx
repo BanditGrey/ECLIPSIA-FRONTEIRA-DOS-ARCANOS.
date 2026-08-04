@@ -8,7 +8,7 @@ import { usePlayerStore } from '../../store/usePlayerStore';
 import { resolveItemRef } from '../../utils/itemSerializer';
 import { Button } from '../ui/Button';
 
-type ChatKind = 'system' | 'global' | 'party' | 'whisper-in' | 'whisper-out' | 'invite';
+type ChatKind = 'system' | 'global' | 'party' | 'guild' | 'whisper-in' | 'whisper-out' | 'invite';
 
 interface ChatMessage {
   id: string;
@@ -224,7 +224,7 @@ export const ChatPanel = () => {
           // Avoid duplicates if reconnecting
           const existingIds = new Set(current.map(m => m.id));
           const newMessages = history
-            .filter(entry => !existingIds.has(entry.id))
+            .filter(entry => !entry.id || !existingIds.has(entry.id))
             .map((entry) => ({
               id: entry.id ?? createMessageId(),
               kind: 'party' as const,
@@ -246,7 +246,7 @@ export const ChatPanel = () => {
           // Avoid duplicates if reconnecting
           const existingIds = new Set(current.map(m => m.id));
           const newMessages = history
-            .filter(entry => !existingIds.has(entry.id))
+            .filter(entry => !entry.id || !existingIds.has(entry.id))
             .map((entry) => ({
               id: entry.id ?? createMessageId(),
               kind: 'guild' as const,
