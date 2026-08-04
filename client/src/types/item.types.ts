@@ -172,6 +172,8 @@ export interface Item {
    * serialização para envio/banco (correio, mercado, trades).
    */
   effects?: ItemEffect;
+  /** Effect exclusivo (e11) para itens lendários/acima — definido nos arquivos de dados. */
+  exclusiveEffect?: number;
   spiritStone?: SpiritStoneData;
   petData?: PetData;
   mountData?: MountData;

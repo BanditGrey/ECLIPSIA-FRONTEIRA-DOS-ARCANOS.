@@ -408,6 +408,7 @@ export const materials = {
   },
   "azhur_fang": {
     "id": "azhur_fang",
+    "exclusiveEffect": 31,
     "numId": 9400,
     "icon": "🦷",
     "rarity": "legendary",
@@ -423,6 +424,7 @@ export const materials = {
   },
   "eclipse_fur": {
     "id": "eclipse_fur",
+    "exclusiveEffect": 32,
     "numId": 9401,
     "icon": "🌘",
     "rarity": "legendary",
@@ -438,6 +440,7 @@ export const materials = {
   },
   "thal_mora_scale": {
     "id": "thal_mora_scale",
+    "exclusiveEffect": 33,
     "numId": 9402,
     "icon": "🐍",
     "rarity": "legendary",
@@ -453,6 +456,7 @@ export const materials = {
   },
   "abyss_pearl": {
     "id": "abyss_pearl",
+    "exclusiveEffect": 34,
     "numId": 9403,
     "icon": "⚫",
     "rarity": "legendary",
@@ -468,6 +472,7 @@ export const materials = {
   },
   "velkaryn_plate": {
     "id": "velkaryn_plate",
+    "exclusiveEffect": 35,
     "numId": 9404,
     "icon": "⚔",
     "rarity": "legendary",
@@ -483,6 +488,7 @@ export const materials = {
   },
   "last_eclipse_core": {
     "id": "last_eclipse_core",
+    "exclusiveEffect": 36,
     "numId": 9405,
     "icon": "🌑",
     "rarity": "relic",

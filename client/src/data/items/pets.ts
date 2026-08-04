@@ -335,6 +335,7 @@ export const pets = {
   },
   "pt_8151": {
     "id": "pt_8151",
+    "exclusiveEffect": 32,
     "numId": 8151,
     "icon": "🐉",
     "rarity": "legendary",
@@ -368,6 +369,7 @@ export const pets = {
   },
   "pt_8152": {
     "id": "pt_8152",
+    "exclusiveEffect": 33,
     "numId": 8152,
     "icon": "🦊",
     "rarity": "legendary",
@@ -438,6 +440,7 @@ export const pets = {
   },
   "pt_8201": {
     "id": "pt_8201",
+    "exclusiveEffect": 32,
     "numId": 8201,
     "icon": "🐺",
     "rarity": "legendary",

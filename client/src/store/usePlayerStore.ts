@@ -7,6 +7,7 @@ import type { Item, ItemStats, Slot, WeaponCategory } from '../types/item.types'
 import type { Equipment, InventoryItem, PlayerData, Stats } from '../types/player.types';
 import { isSerializedItemStr, resolveItemRef } from '../utils/itemSerializer';
 import { getDailyQuest } from '../data/dailyQuests';
+import { usePassiveStore } from './usePassiveStore';
 
 type EquipmentSlot = keyof Equipment;
 type RegisteredItem = Pick<Item, 'id' | 'slot' | 'isTwoHanded' | 'stats' | 'effects'>;
@@ -242,6 +243,11 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
         xp -= xpToNext;
         level += 1;
         freePoints += 5;
+        // Sistema de passivas: 1 ponto por nível + 5 pontos a cada 10 níveis
+        usePassiveStore.getState().addPoint();
+        if (level % 10 === 0) {
+          for (let i = 0; i < 5; i++) usePassiveStore.getState().addPoint();
+        }
         xpToNext = Math.floor(xpToNext * 1.15 + 25);
         leveledUp = true;
       }

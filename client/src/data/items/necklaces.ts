@@ -102,6 +102,7 @@ export const necklaces = {
   },
   "nk_5504": {
     "id": "nk_5504",
+    "exclusiveEffect": 35,
     "numId": 5504,
     "icon": "📿",
     "rarity": "legendary",
@@ -227,6 +228,7 @@ export const necklaces = {
   },
   "nk_5604": {
     "id": "nk_5604",
+    "exclusiveEffect": 35,
     "numId": 5604,
     "icon": "📿",
     "rarity": "legendary",
@@ -253,6 +255,7 @@ export const necklaces = {
   },
   "nk_5605": {
     "id": "nk_5605",
+    "exclusiveEffect": 36,
     "numId": 5605,
     "icon": "📿",
     "rarity": "relic",
@@ -324,6 +327,7 @@ export const necklaces = {
   },
   "nk_5702": {
     "id": "nk_5702",
+    "exclusiveEffect": 33,
     "numId": 5702,
     "icon": "📿",
     "rarity": "legendary",

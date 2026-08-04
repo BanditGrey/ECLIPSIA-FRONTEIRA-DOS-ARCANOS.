@@ -102,6 +102,7 @@ export const belts = {
   },
   "bt_6004": {
     "id": "bt_6004",
+    "exclusiveEffect": 35,
     "numId": 6004,
     "icon": "🧷",
     "rarity": "legendary",
@@ -179,6 +180,7 @@ export const belts = {
   },
   "bt_6102": {
     "id": "bt_6102",
+    "exclusiveEffect": 33,
     "numId": 6102,
     "icon": "🧷",
     "rarity": "legendary",

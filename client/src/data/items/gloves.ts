@@ -126,6 +126,7 @@ export const gloves = {
   },
   "gl_4005": {
     "id": "gl_4005",
+    "exclusiveEffect": 36,
     "numId": 4005,
     "icon": "🧤",
     "rarity": "legendary",
@@ -363,6 +364,7 @@ export const gloves = {
   },
   "gl_4204": {
     "id": "gl_4204",
+    "exclusiveEffect": 35,
     "numId": 4204,
     "icon": "🧤",
     "rarity": "legendary",

@@ -333,6 +333,7 @@ export const mounts = {
   },
   "mt_8700": {
     "id": "mt_8700",
+    "exclusiveEffect": 31,
     "numId": 8700,
     "icon": "🐲",
     "rarity": "legendary",
@@ -367,6 +368,7 @@ export const mounts = {
   },
   "mt_8701": {
     "id": "mt_8701",
+    "exclusiveEffect": 32,
     "numId": 8701,
     "icon": "🐎",
     "rarity": "legendary",
@@ -401,6 +403,7 @@ export const mounts = {
   },
   "mt_8702": {
     "id": "mt_8702",
+    "exclusiveEffect": 33,
     "numId": 8702,
     "icon": "🐉",
     "rarity": "legendary",

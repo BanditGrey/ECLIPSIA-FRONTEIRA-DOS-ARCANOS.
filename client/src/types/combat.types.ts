@@ -78,4 +78,6 @@ export interface CombatState {
   phase2Triggered: boolean;
   phase3Triggered: boolean;
   enraged: boolean;
+  shieldPool: number;
+  barrierPool: number;
 }

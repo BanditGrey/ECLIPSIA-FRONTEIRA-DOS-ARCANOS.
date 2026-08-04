@@ -1,3 +1,6 @@
+import { useAudio } from '../../hooks/useAudio';
+import { SkillEffectPanel } from '../effects/SkillEffectPanel';
+import { ParticleSystem } from '../effects/ParticleSystem';
 import type { ReactNode } from 'react';
 import { useI18n } from '../../hooks/useI18n';
 import { ART } from '../../data/art';
@@ -111,6 +114,9 @@ const LootModal = () => {
 };
 
 export const CombatPanel = () => {
+  const [showParticles, setShowParticles] = useState(false);
+  const audio = useAudio();
+  const [activeSkillEffect, setActiveSkillEffect] = useState<{skillId: string; skillName: string; damagePercent: number; isCritical?: boolean} | null>(null);
   const { t } = useI18n();
   const player = usePlayerStore((state) => state.data);
   const setPanel = useGameStore((state) => state.setPanel);
@@ -227,11 +233,13 @@ export const CombatPanel = () => {
         </section>
       </main>
 
+      {showParticles && <ParticleSystem trigger={showParticles} type="attack" onComplete={() => setShowParticles(false)} className="absolute top-0 left-0 w-full h-full" />}
+      {activeSkillEffect && <SkillEffectPanel {...activeSkillEffect} onComplete={() => setActiveSkillEffect(null)} showParticles narrate playSound />}
       <footer className="grid shrink-0 gap-2">
         <div className="grid grid-cols-2 gap-2">
-          <ActionButton onClick={() => combat.addLog('attack', t('combat.attack'))}>⚔ {t('combat.attack')}</ActionButton>
+          <ActionButton onClick={() => { audio.playSound('/assets/audio/sfx/attack.mp3'); setShowParticles(true); combat.addLog('attack', t('combat.attack')); }}>⚔ {t('combat.attack')}</ActionButton>
           <ActionButton onClick={() => combat.addLog('defend', t('combat.defend'))}>🛡 {t('combat.defend')}</ActionButton>
-          <ActionButton onClick={() => openModal(SKILLS_MODAL)}>🔮 {t('combat.skills')}</ActionButton>
+          <ActionButton onClick={() => { openModal(SKILLS_MODAL); setActiveSkillEffect({ skillId: 'slash', skillName: 'Golpe Cortante', damagePercent: 150, isCritical: Math.random() > 0.7 }); }}>🔮 {t('combat.skills')}</ActionButton>
           <ActionButton variant="danger" onClick={() => combat.resetCombat()}>🏃 {t('combat.flee')}</ActionButton>
         </div>
         <Button variant="ghost" fullWidth onClick={() => openModal(LOG_MODAL)}>

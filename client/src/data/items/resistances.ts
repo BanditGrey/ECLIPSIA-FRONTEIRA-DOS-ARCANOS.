@@ -69,6 +69,7 @@ export const resistances = {
   },
   "rs_6503": {
     "id": "rs_6503",
+    "exclusiveEffect": 34,
     "numId": 6503,
     "icon": "🔰",
     "rarity": "legendary",
@@ -184,6 +185,7 @@ export const resistances = {
   },
   "rs_6702": {
     "id": "rs_6702",
+    "exclusiveEffect": 33,
     "numId": 6702,
     "icon": "🔰",
     "rarity": "relic",

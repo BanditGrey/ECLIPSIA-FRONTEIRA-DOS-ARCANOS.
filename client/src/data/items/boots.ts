@@ -123,6 +123,7 @@ export const boots = {
   },
   "bt_4505": {
     "id": "bt_4505",
+    "exclusiveEffect": 36,
     "numId": 4505,
     "icon": "🥾",
     "rarity": "legendary",
@@ -355,6 +356,7 @@ export const boots = {
   },
   "bt_4704": {
     "id": "bt_4704",
+    "exclusiveEffect": 35,
     "numId": 4704,
     "icon": "🩴",
     "rarity": "legendary",

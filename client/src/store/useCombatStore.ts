@@ -30,7 +30,9 @@ const initialCombatState: CombatState = {
   log: [],
   phase2Triggered: false,
   phase3Triggered: false,
-  enraged: false
+  enraged: false,
+  shieldPool: 0,
+  barrierPool: 0
 };
 
 interface CombatStoreState extends CombatState {
@@ -137,7 +139,9 @@ export const useCombatStore = create<CombatStoreState>((set, get) => ({
     set((state) => ({
       ...initialCombatState,
       autoConfig: state.autoConfig,
-      skillCooldowns: {}
+      skillCooldowns: {},
+      shieldPool: 0,
+      barrierPool: 0
     }));
   },
   setCooldown: (skillId, turns) => {

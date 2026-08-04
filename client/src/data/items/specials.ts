@@ -33,6 +33,7 @@ export const specials = {
   },
   "portrait_fragmented_star": {
     "id": "portrait_fragmented_star",
+    "exclusiveEffect": 33,
     "numId": 9502,
     "icon": "🖼",
     "rarity": "legendary",
