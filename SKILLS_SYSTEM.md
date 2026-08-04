@@ -73,12 +73,21 @@ danoFinal = max(1, floor(danoBase × multiplicador − defInimigo×0.35))
 | `executeBelowHpPercent` | só executa (dano cheio) abaixo de X% de HP |
 | `markDamageBonus`/`markTurns` | marca: aumenta dano recebido |
 
-**Regras de ouro do balanceamento:**
-1. DPS por turno (dano × hits / (cd+1)) deve ficar entre 40% e 100% do ATK.
-2. Custo de MP ≈ 20–35% do dano% (skills utilitárias custam menos).
-3. Toda skill de dano tem 1 contrapartida de utilidade por arma.
-4. Controles (stun/slow) têm dano reduzido (~50–60%).
-5. Heal/defesa têm custo alto (são suporte).
+**Regras de ouro do balanceamento (v2 — auditadas automaticamente pelo gerador):**
+1. **Burst (dano% × hits) NUNCA regride** entre skills de dano puro na mesma arma
+   (ordenadas por requisito). Skills mais difíceis de desbloquear = mais fortes.
+2. **DPS por turno (burst/(cd+1)) ≥ 30** para skills de dano puro.
+3. **MP ≈ 20–35% do burst** (skills com ignora-def/execução podem custar mais).
+4. **Controle (stun/slow), DoT, esquiva e buffs pagam em dano** — podem ter
+   burst menor que o dano puro do mesmo nível (o efeito compensa).
+5. **DoT**: o total (dano + dot×turnos) não regride entre DoTs da mesma arma.
+6. Toda arma tem 7 skills: dano básico → dano forte → controle → utilidade →
+   multi-hit/DoT → dano forte 2 → ultimate/execução.
+7. Thresholds de proficiência únicos por arma (7 distintos, entre 5 e 150).
+
+> ⚙️ Rodar `node tools/gen_skills.mjs` regenera `skills.ts` + i18n e **roda a
+> auditoria de balanceamento automaticamente** — se alguma regra acima for
+> violada, o gerador falha com a mensagem da skill problemática.
 
 ---
 

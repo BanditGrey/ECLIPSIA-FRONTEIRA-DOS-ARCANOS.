@@ -1158,42 +1158,46 @@ export const translations: Record<LangCode, TranslationTree> = {
       "questComplete": "Missão concluída!",
       "itemFound": "Item encontrado!"
     },
-            "skills": {
-      "spin_slash": {
-        "name": "Corte Giratório",
-        "desc": "Causa 150% do ATK físico."
-      },
+                            "skills": {
       "slash": {
         "name": "Corte Rápido",
-        "desc": "Causa 130% do ATK físico."
+        "desc": "Causa 150% do ATK físico."
+      },
+      "spin_slash": {
+        "name": "Corte Giratório",
+        "desc": "Causa 165% do ATK físico."
       },
       "dash_cut": {
         "name": "Corte Veloz",
-        "desc": "Causa 200% do ATK físico."
+        "desc": "Causa 210% do ATK físico."
       },
       "parry_counter": {
         "name": "Contra-Apara",
-        "desc": "Causa 120% do ATK físico. Atordoa o alvo por 1 turno(s)."
+        "desc": "Causa 140% do ATK físico. Atordoa o alvo por 1 turno(s)."
       },
       "war_cry": {
         "name": "Grito de Guerra",
-        "desc": "Aumenta a defesa em 25% por 3 turnos. e restaura 10% do hp máximo."
+        "desc": "Aumenta a defesa em 25% por 3 turnos. e restaura 12% do hp máximo."
       },
       "blade_flurry": {
         "name": "Flurry de Lâminas",
-        "desc": "Causa 4 golpes de 45% do ATK físico."
+        "desc": "Causa 4 golpes de 55% do ATK físico."
       },
       "thousand_cuts": {
         "name": "Mil Cortes",
-        "desc": "Causa 5 golpes de 40% do ATK físico."
+        "desc": "Causa 5 golpes de 55% do ATK físico."
       },
       "long_swipe": {
         "name": "Golpe Largo",
-        "desc": "Causa 140% do ATK físico."
+        "desc": "Causa 155% do ATK físico."
+      },
+      "cross_slash": {
+        "name": "Corte Cruzado",
+        "desc": "Causa 200% do ATK físico."
       },
       "bleed": {
         "name": "Sangramento",
-        "desc": "Causa 40 de dano por 3 turnos."
+        "desc": "Causa 45 de dano por 3 turnos."
       },
       "iron_will": {
         "name": "Vontade de Ferro",
@@ -1201,27 +1205,23 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "deep_wound": {
         "name": "Ferida Profunda",
-        "desc": "Causa 60 de dano por 3 turnos."
+        "desc": "Causa 140% do ATK físico. Causa 35 de dano por 3 turnos."
       },
       "counter_gambit": {
         "name": "Gambito Contra",
-        "desc": "Causa 180% do ATK físico. Esquiva o próximo golpe."
-      },
-      "cross_slash": {
-        "name": "Corte Cruzado",
-        "desc": "Causa 180% do ATK físico."
+        "desc": "Causa 220% do ATK físico. Esquiva o próximo golpe."
       },
       "crescent_slash": {
         "name": "Corte Crescente",
-        "desc": "Causa 3 golpes de 60% do ATK físico."
+        "desc": "Causa 4 golpes de 62% do ATK físico."
       },
       "brutal_slam": {
         "name": "Golpe Brutal",
-        "desc": "Causa 170% do ATK físico. Atordoa o alvo por 1 turno(s)."
+        "desc": "Causa 150% do ATK físico. Atordoa o alvo por 1 turno(s)."
       },
       "cleave": {
         "name": "Fender",
-        "desc": "Causa 2 golpes de 110% do ATK físico."
+        "desc": "Causa 190% do ATK físico."
       },
       "battle_fury": {
         "name": "Fúria de Batalha",
@@ -1233,39 +1233,39 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "colossus_smash": {
         "name": "Esmagada do Colosso",
-        "desc": "Causa 300% do ATK físico."
+        "desc": "Causa 340% do ATK físico."
       },
       "blade_storm": {
         "name": "Tempestade de Lâminas",
-        "desc": "Causa 3 golpes de 90% do ATK físico."
+        "desc": "Causa 3 golpes de 115% do ATK físico."
       },
       "onslaught": {
         "name": "Investida",
-        "desc": "Causa 5 golpes de 35% do ATK físico."
-      },
-      "stab": {
-        "name": "Estocada",
-        "desc": "Causa 120% do ATK físico. Causa 25 de dano por 2 turnos."
-      },
-      "smoke_bomb": {
-        "name": "Bomba de Fumaça",
-        "desc": "Aumenta a defesa em 20% por 2 turnos. Esquiva o próximo golpe."
+        "desc": "Causa 5 golpes de 70% do ATK físico."
       },
       "death_mark": {
         "name": "Marca da Morte",
         "desc": "Marca o alvo: +50% de dano recebido por 3 turnos."
       },
+      "stab": {
+        "name": "Estocada",
+        "desc": "Causa 135% do ATK físico. Causa 20 de dano por 2 turnos."
+      },
+      "smoke_bomb": {
+        "name": "Bomba de Fumaça",
+        "desc": "Aumenta a defesa em 20% por 2 turnos. Esquiva o próximo golpe."
+      },
       "eviscerate": {
         "name": "Eviscerar",
-        "desc": "Causa 200% do ATK físico."
+        "desc": "Causa 215% do ATK físico."
       },
       "shadow_step": {
         "name": "Passo Sombrio",
-        "desc": "Causa 180% do ATK físico. Esquiva o próximo golpe."
+        "desc": "Causa 195% do ATK físico. Esquiva o próximo golpe."
       },
       "fan_of_knives": {
         "name": "Leque de Adagas",
-        "desc": "Causa 3 golpes de 50% do ATK físico."
+        "desc": "Causa 3 golpes de 75% do ATK físico."
       },
       "assassinate": {
         "name": "Assassinar",
@@ -1273,31 +1273,31 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "feint": {
         "name": "Finta",
-        "desc": "Causa 100% do ATK físico. Retarda o alvo por 2 turno(s)."
+        "desc": "Causa 125% do ATK físico. Retarda o alvo por 2 turno(s)."
       },
       "double_slash": {
         "name": "Corte Duplo",
-        "desc": "Causa 2 golpes de 90% do ATK físico."
+        "desc": "Causa 2 golpes de 95% do ATK físico."
       },
       "riposte": {
         "name": "Riposta",
-        "desc": "Causa 140% do ATK físico. Esquiva o próximo golpe."
+        "desc": "Causa 145% do ATK físico. Esquiva o próximo golpe."
       },
       "lacerate": {
         "name": "Lacerar",
-        "desc": "Causa 100% do ATK físico. Causa 50 de dano por 3 turnos."
+        "desc": "Causa 55 de dano por 3 turnos."
       },
       "twin_fang": {
         "name": "Presas Gêmeas",
-        "desc": "Causa 2 golpes de 80% do ATK físico."
+        "desc": "Causa 2 golpes de 105% do ATK físico."
       },
       "whirl_dagger": {
         "name": "Adaga Giratória",
-        "desc": "Causa 4 golpes de 45% do ATK físico."
+        "desc": "Causa 4 golpes de 62% do ATK físico."
       },
       "shadow_parry": {
         "name": "Apara Sombria",
-        "desc": "Causa 160% do ATK físico. Atordoa o alvo por 1 turno(s). Esquiva o próximo golpe."
+        "desc": "Causa 175% do ATK físico. Atordoa o alvo por 1 turno(s). Esquiva o próximo golpe."
       },
       "piercing_shot": {
         "name": "Disparo Perfurante",
@@ -1305,11 +1305,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "aimed_shot": {
         "name": "Disparo Mirado",
-        "desc": "Causa 170% do ATK físico. Ignora a defesa do inimigo."
+        "desc": "Causa 185% do ATK físico. Ignora a defesa do inimigo."
       },
       "quick_shot": {
         "name": "Disparo Rápido",
-        "desc": "Causa 100% do ATK físico. Retarda o alvo por 1 turno(s)."
+        "desc": "Causa 135% do ATK físico. Retarda o alvo por 1 turno(s)."
       },
       "hunters_mark": {
         "name": "Marca do Caçador",
@@ -1317,19 +1317,19 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "scatter_shot": {
         "name": "Disparo Disperso",
-        "desc": "Causa 3 golpes de 40% do ATK físico."
+        "desc": "Causa 3 golpes de 65% do ATK físico."
       },
       "kiting_shot": {
         "name": "Disparo de Fuga",
-        "desc": "Causa 110% do ATK físico. Retarda o alvo por 2 turno(s)."
+        "desc": "Causa 155% do ATK físico. Retarda o alvo por 2 turno(s)."
       },
       "rapid_fire": {
         "name": "Fogo Rápido",
-        "desc": "Causa 5 golpes de 35% do ATK físico."
+        "desc": "Causa 5 golpes de 52% do ATK físico."
       },
       "precision_shot": {
         "name": "Tiro de Precisão",
-        "desc": "Causa 180% do ATK físico. Ignora a defesa do inimigo."
+        "desc": "Causa 195% do ATK físico. Ignora a defesa do inimigo."
       },
       "rain_of_arrows": {
         "name": "Chuva de Flechas",
@@ -1337,7 +1337,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "volley": {
         "name": "Rajada",
-        "desc": "Causa 3 golpes de 55% do ATK físico."
+        "desc": "Causa 3 golpes de 75% do ATK físico."
       },
       "eagle_eye": {
         "name": "Olho de Águia",
@@ -1345,23 +1345,23 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "sniper_shot": {
         "name": "Tiro de Sniper",
-        "desc": "Causa 220% do ATK físico. Ignora a defesa do inimigo."
+        "desc": "Causa 235% do ATK físico. Ignora a defesa do inimigo."
       },
       "wind_arrow": {
         "name": "Flecha do Vento",
-        "desc": "Causa 140% do ATK físico. Retarda o alvo por 1 turno(s)."
+        "desc": "Causa 155% do ATK físico. Retarda o alvo por 1 turno(s)."
       },
       "dead_eye": {
         "name": "Olho Morto",
-        "desc": "Causa 260% do ATK físico. Executa alvos abaixo de 30% de HP."
+        "desc": "Causa 285% do ATK físico. Executa alvos abaixo de 30% de HP."
       },
       "arcane_burst": {
         "name": "Rajada Arcana",
-        "desc": "Causa 150% do ATK mágico."
+        "desc": "Causa 165% do ATK mágico."
       },
       "arcane_missile": {
         "name": "Míssil Arcano",
-        "desc": "Causa 130% do ATK mágico."
+        "desc": "Causa 190% do ATK mágico."
       },
       "heal_pulse": {
         "name": "Pulso de Cura",
@@ -1369,7 +1369,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "arcane_bind": {
         "name": "Ligação Arcana",
-        "desc": "Causa 80% do ATK mágico. Atordoa o alvo por 1 turno(s)."
+        "desc": "Causa 115% do ATK mágico. Atordoa o alvo por 1 turno(s)."
       },
       "mana_shield": {
         "name": "Escudo de Mana",
@@ -1381,19 +1381,19 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "arcane_blast": {
         "name": "Explosão Arcana",
-        "desc": "Causa 3 golpes de 60% do ATK mágico."
+        "desc": "Causa 3 golpes de 70% do ATK mágico."
       },
       "frost_bolt": {
         "name": "Projétil de Gelo",
-        "desc": "Causa 140% do ATK mágico. Retarda o alvo por 1 turno(s)."
+        "desc": "Causa 155% do ATK mágico. Retarda o alvo por 1 turno(s)."
       },
       "ice_nova": {
         "name": "Nova de Gelo",
-        "desc": "Causa 130% do ATK mágico. Retarda o alvo por 2 turno(s)."
+        "desc": "Causa 150% do ATK mágico. Retarda o alvo por 2 turno(s)."
       },
       "blizzard": {
         "name": "Nevasca",
-        "desc": "Causa 4 golpes de 40% do ATK mágico. Retarda o alvo por 1 turno(s)."
+        "desc": "Causa 4 golpes de 52% do ATK mágico. Retarda o alvo por 1 turno(s)."
       },
       "arcane_armor": {
         "name": "Armadura Arcana",
@@ -1401,11 +1401,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "chain_lightning": {
         "name": "Raio em Cadeia",
-        "desc": "Causa 170% do ATK mágico."
+        "desc": "Causa 225% do ATK mágico."
       },
       "elemental_chaos": {
         "name": "Caos Elemental",
-        "desc": "Causa 240% do ATK mágico."
+        "desc": "Causa 255% do ATK mágico."
       },
       "time_warp": {
         "name": "Distorção Temporal",
@@ -1413,11 +1413,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "void_bolt": {
         "name": "Projétil do Vazio",
-        "desc": "Causa 150% do ATK do vazio."
+        "desc": "Causa 165% do ATK do vazio."
       },
       "void_rupture": {
         "name": "Ruptura do Vazio",
-        "desc": "Causa 120% do ATK do vazio. Causa 45 de dano por 3 turnos."
+        "desc": "Causa 145% do ATK do vazio. Causa 40 de dano por 3 turnos."
       },
       "astral_barrier": {
         "name": "Barreira Astral",
@@ -1425,7 +1425,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "gravity_well": {
         "name": "Poço Gravitacional",
-        "desc": "Causa 100% do ATK do vazio. Atordoa o alvo por 1 turno(s)."
+        "desc": "Causa 130% do ATK do vazio. Atordoa o alvo por 1 turno(s)."
       },
       "void_armor": {
         "name": "Armadura do Vazio",
@@ -1433,11 +1433,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "void_gate": {
         "name": "Portal do Vazio",
-        "desc": "Causa 300% do ATK do vazio."
+        "desc": "Causa 330% do ATK do vazio."
       },
       "cosmic_burst": {
         "name": "Explosão Cósmica",
-        "desc": "Causa 5 golpes de 40% do ATK do vazio."
+        "desc": "Causa 5 golpes de 70% do ATK do vazio."
       },
       "arcane_mark": {
         "name": "Marca Arcana",
@@ -1445,11 +1445,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "root": {
         "name": "Raízes",
-        "desc": "Causa 60% do ATK mágico. Atordoa o alvo por 1 turno(s)."
+        "desc": "Causa 110% do ATK mágico. Atordoa o alvo por 1 turno(s)."
       },
       "petrify": {
         "name": "Petrificar",
-        "desc": "Causa 90% do ATK mágico. Atordoa o alvo por 1 turno(s)."
+        "desc": "Causa 130% do ATK mágico. Atordoa o alvo por 1 turno(s)."
       },
       "arcane_ward": {
         "name": "Guarda Arcano",
@@ -1461,15 +1461,15 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "draining_tome": {
         "name": "Grimório Drenante",
-        "desc": "Causa 100% do ATK mágico. Restaura 30% do HP máximo."
+        "desc": "Causa 145% do ATK mágico. Restaura 30% do HP máximo."
       },
       "forbidden_knowledge": {
         "name": "Conhecimento Proibido",
-        "desc": "Causa 300% do ATK mágico."
+        "desc": "Causa 305% do ATK mágico."
       },
       "crushing_blow": {
         "name": "Golpe Esmagador",
-        "desc": "Causa 160% do ATK físico."
+        "desc": "Causa 165% do ATK físico."
       },
       "fortress": {
         "name": "Fortaleza",
@@ -1477,7 +1477,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "earth_shake": {
         "name": "Tremor de Terra",
-        "desc": "Causa 3 golpes de 50% do ATK físico. Retarda o alvo por 1 turno(s)."
+        "desc": "Causa 3 golpes de 60% do ATK físico. Retarda o alvo por 1 turno(s)."
       },
       "unbreakable": {
         "name": "Inquebrável",
@@ -1485,19 +1485,19 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "war_stomp": {
         "name": "Pisão de Guerra",
-        "desc": "Causa 90% do ATK físico. Atordoa o alvo por 1 turno(s)."
+        "desc": "Causa 135% do ATK físico. Atordoa o alvo por 1 turno(s)."
       },
       "seismic_slam": {
         "name": "Impacto Sísmico",
-        "desc": "Causa 250% do ATK físico. Atordoa o alvo por 1 turno(s)."
+        "desc": "Causa 235% do ATK físico. Atordoa o alvo por 1 turno(s)."
       },
       "titan_fall": {
         "name": "Queda do Titã",
-        "desc": "Causa 280% do ATK físico."
+        "desc": "Causa 295% do ATK físico."
       },
       "precise_thrust": {
         "name": "Estocada Precisa",
-        "desc": "Causa 150% do ATK físico. Ignora a defesa do inimigo."
+        "desc": "Causa 155% do ATK físico. Ignora a defesa do inimigo."
       },
       "thorns": {
         "name": "Espinhos",
@@ -1505,15 +1505,15 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "sweeping_strike": {
         "name": "Golpe Varrente",
-        "desc": "Causa 2 golpes de 85% do ATK físico."
+        "desc": "Causa 2 golpes de 98% do ATK físico."
       },
       "serpent_spike": {
         "name": "Espinho de Serpente",
-        "desc": "Causa 100% do ATK físico. Causa 40 de dano por 3 turnos."
+        "desc": "Causa 135% do ATK físico. Causa 35 de dano por 3 turnos."
       },
       "nature_burst": {
         "name": "Explosão Natural",
-        "desc": "Causa 200% do ATK mágico."
+        "desc": "Causa 215% do ATK mágico."
       },
       "phalanx_ward": {
         "name": "Guarda Falange",
@@ -1521,15 +1521,15 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "dragon_lance": {
         "name": "Lança do Dragão",
-        "desc": "Causa 260% do ATK físico. Retarda o alvo por 1 turno(s)."
+        "desc": "Causa 265% do ATK físico. Retarda o alvo por 1 turno(s)."
       },
       "shield_bash": {
         "name": "Investida de Escudo",
-        "desc": "Causa 120% do ATK físico. Atordoa o alvo por 1 turno(s)."
+        "desc": "Causa 125% do ATK físico. Atordoa o alvo por 1 turno(s)."
       },
       "shield_slam": {
         "name": "Esmagada de Escudo",
-        "desc": "Causa 130% do ATK físico. Retarda o alvo por 1 turno(s)."
+        "desc": "Causa 150% do ATK físico. Retarda o alvo por 1 turno(s)."
       },
       "provoke": {
         "name": "Provocar",
@@ -1545,7 +1545,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "shield_charge": {
         "name": "Carga de Escudo",
-        "desc": "Causa 180% do ATK físico. Atordoa o alvo por 1 turno(s)."
+        "desc": "Causa 205% do ATK físico. Atordoa o alvo por 1 turno(s)."
       },
       "holy_aegis": {
         "name": "Égide Sagrada",
@@ -2890,42 +2890,46 @@ export const translations: Record<LangCode, TranslationTree> = {
       "questComplete": "Quest complete!",
       "itemFound": "Item found!"
     },
-            "skills": {
-      "spin_slash": {
-        "name": "Spin Slash",
-        "desc": "Deals 150% of physical ATK damage."
-      },
+                            "skills": {
       "slash": {
         "name": "Quick Slash",
-        "desc": "Deals 130% of physical ATK damage."
+        "desc": "Deals 150% of physical ATK damage."
+      },
+      "spin_slash": {
+        "name": "Spin Slash",
+        "desc": "Deals 165% of physical ATK damage."
       },
       "dash_cut": {
         "name": "Dash Cut",
-        "desc": "Deals 200% of physical ATK damage."
+        "desc": "Deals 210% of physical ATK damage."
       },
       "parry_counter": {
         "name": "Parry Counter",
-        "desc": "Deals 120% of physical ATK damage. Stuns the target for 1 turn(s)."
+        "desc": "Deals 140% of physical ATK damage. Stuns the target for 1 turn(s)."
       },
       "war_cry": {
         "name": "War Cry",
-        "desc": "Increases defense by 25% for 3 turns. e restores 10% of max hp."
+        "desc": "Increases defense by 25% for 3 turns. e restores 12% of max hp."
       },
       "blade_flurry": {
         "name": "Blade Flurry",
-        "desc": "Deals 4 hits of 45% physical ATK damage."
+        "desc": "Deals 4 hits of 55% physical ATK damage."
       },
       "thousand_cuts": {
         "name": "Thousand Cuts",
-        "desc": "Deals 5 hits of 40% physical ATK damage."
+        "desc": "Deals 5 hits of 55% physical ATK damage."
       },
       "long_swipe": {
         "name": "Long Swipe",
-        "desc": "Deals 140% of physical ATK damage."
+        "desc": "Deals 155% of physical ATK damage."
+      },
+      "cross_slash": {
+        "name": "Cross Slash",
+        "desc": "Deals 200% of physical ATK damage."
       },
       "bleed": {
         "name": "Bleed",
-        "desc": "Deals 40 damage per turn for 3 turns."
+        "desc": "Deals 45 damage per turn for 3 turns."
       },
       "iron_will": {
         "name": "Iron Will",
@@ -2933,27 +2937,23 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "deep_wound": {
         "name": "Deep Wound",
-        "desc": "Deals 60 damage per turn for 3 turns."
+        "desc": "Deals 140% of physical ATK damage. Deals 35 damage per turn for 3 turns."
       },
       "counter_gambit": {
         "name": "Counter Gambit",
-        "desc": "Deals 180% of physical ATK damage. Dodges the next incoming hit."
-      },
-      "cross_slash": {
-        "name": "Cross Slash",
-        "desc": "Deals 180% of physical ATK damage."
+        "desc": "Deals 220% of physical ATK damage. Dodges the next incoming hit."
       },
       "crescent_slash": {
         "name": "Crescent Slash",
-        "desc": "Deals 3 hits of 60% physical ATK damage."
+        "desc": "Deals 4 hits of 62% physical ATK damage."
       },
       "brutal_slam": {
         "name": "Brutal Slam",
-        "desc": "Deals 170% of physical ATK damage. Stuns the target for 1 turn(s)."
+        "desc": "Deals 150% of physical ATK damage. Stuns the target for 1 turn(s)."
       },
       "cleave": {
         "name": "Cleave",
-        "desc": "Deals 2 hits of 110% physical ATK damage."
+        "desc": "Deals 190% of physical ATK damage."
       },
       "battle_fury": {
         "name": "Battle Fury",
@@ -2965,39 +2965,39 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "colossus_smash": {
         "name": "Colossus Smash",
-        "desc": "Deals 300% of physical ATK damage."
+        "desc": "Deals 340% of physical ATK damage."
       },
       "blade_storm": {
         "name": "Blade Storm",
-        "desc": "Deals 3 hits of 90% physical ATK damage."
+        "desc": "Deals 3 hits of 115% physical ATK damage."
       },
       "onslaught": {
         "name": "Onslaught",
-        "desc": "Deals 5 hits of 35% physical ATK damage."
-      },
-      "stab": {
-        "name": "Stab",
-        "desc": "Deals 120% of physical ATK damage. Deals 25 damage per turn for 2 turns."
-      },
-      "smoke_bomb": {
-        "name": "Smoke Bomb",
-        "desc": "Increases defense by 20% for 2 turns. Dodges the next incoming hit."
+        "desc": "Deals 5 hits of 70% physical ATK damage."
       },
       "death_mark": {
         "name": "Death Mark",
         "desc": "Marks the target: +50% damage taken for 3 turns."
       },
+      "stab": {
+        "name": "Stab",
+        "desc": "Deals 135% of physical ATK damage. Deals 20 damage per turn for 2 turns."
+      },
+      "smoke_bomb": {
+        "name": "Smoke Bomb",
+        "desc": "Increases defense by 20% for 2 turns. Dodges the next incoming hit."
+      },
       "eviscerate": {
         "name": "Eviscerate",
-        "desc": "Deals 200% of physical ATK damage."
+        "desc": "Deals 215% of physical ATK damage."
       },
       "shadow_step": {
         "name": "Shadow Step",
-        "desc": "Deals 180% of physical ATK damage. Dodges the next incoming hit."
+        "desc": "Deals 195% of physical ATK damage. Dodges the next incoming hit."
       },
       "fan_of_knives": {
         "name": "Fan of Knives",
-        "desc": "Deals 3 hits of 50% physical ATK damage."
+        "desc": "Deals 3 hits of 75% physical ATK damage."
       },
       "assassinate": {
         "name": "Assassinate",
@@ -3005,31 +3005,31 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "feint": {
         "name": "Feint",
-        "desc": "Deals 100% of physical ATK damage. Slows the target for 2 turn(s)."
+        "desc": "Deals 125% of physical ATK damage. Slows the target for 2 turn(s)."
       },
       "double_slash": {
         "name": "Double Slash",
-        "desc": "Deals 2 hits of 90% physical ATK damage."
+        "desc": "Deals 2 hits of 95% physical ATK damage."
       },
       "riposte": {
         "name": "Riposte",
-        "desc": "Deals 140% of physical ATK damage. Dodges the next incoming hit."
+        "desc": "Deals 145% of physical ATK damage. Dodges the next incoming hit."
       },
       "lacerate": {
         "name": "Lacerate",
-        "desc": "Deals 100% of physical ATK damage. Deals 50 damage per turn for 3 turns."
+        "desc": "Deals 55 damage per turn for 3 turns."
       },
       "twin_fang": {
         "name": "Twin Fang",
-        "desc": "Deals 2 hits of 80% physical ATK damage."
+        "desc": "Deals 2 hits of 105% physical ATK damage."
       },
       "whirl_dagger": {
         "name": "Whirl Dagger",
-        "desc": "Deals 4 hits of 45% physical ATK damage."
+        "desc": "Deals 4 hits of 62% physical ATK damage."
       },
       "shadow_parry": {
         "name": "Shadow Parry",
-        "desc": "Deals 160% of physical ATK damage. Stuns the target for 1 turn(s). Dodges the next incoming hit."
+        "desc": "Deals 175% of physical ATK damage. Stuns the target for 1 turn(s). Dodges the next incoming hit."
       },
       "piercing_shot": {
         "name": "Piercing Shot",
@@ -3037,11 +3037,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "aimed_shot": {
         "name": "Aimed Shot",
-        "desc": "Deals 170% of physical ATK damage. Ignores enemy defense."
+        "desc": "Deals 185% of physical ATK damage. Ignores enemy defense."
       },
       "quick_shot": {
         "name": "Quick Shot",
-        "desc": "Deals 100% of physical ATK damage. Slows the target for 1 turn(s)."
+        "desc": "Deals 135% of physical ATK damage. Slows the target for 1 turn(s)."
       },
       "hunters_mark": {
         "name": "Hunter's Mark",
@@ -3049,19 +3049,19 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "scatter_shot": {
         "name": "Scatter Shot",
-        "desc": "Deals 3 hits of 40% physical ATK damage."
+        "desc": "Deals 3 hits of 65% physical ATK damage."
       },
       "kiting_shot": {
         "name": "Kiting Shot",
-        "desc": "Deals 110% of physical ATK damage. Slows the target for 2 turn(s)."
+        "desc": "Deals 155% of physical ATK damage. Slows the target for 2 turn(s)."
       },
       "rapid_fire": {
         "name": "Rapid Fire",
-        "desc": "Deals 5 hits of 35% physical ATK damage."
+        "desc": "Deals 5 hits of 52% physical ATK damage."
       },
       "precision_shot": {
         "name": "Precision Shot",
-        "desc": "Deals 180% of physical ATK damage. Ignores enemy defense."
+        "desc": "Deals 195% of physical ATK damage. Ignores enemy defense."
       },
       "rain_of_arrows": {
         "name": "Rain of Arrows",
@@ -3069,7 +3069,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "volley": {
         "name": "Volley",
-        "desc": "Deals 3 hits of 55% physical ATK damage."
+        "desc": "Deals 3 hits of 75% physical ATK damage."
       },
       "eagle_eye": {
         "name": "Eagle Eye",
@@ -3077,23 +3077,23 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "sniper_shot": {
         "name": "Sniper Shot",
-        "desc": "Deals 220% of physical ATK damage. Ignores enemy defense."
+        "desc": "Deals 235% of physical ATK damage. Ignores enemy defense."
       },
       "wind_arrow": {
         "name": "Wind Arrow",
-        "desc": "Deals 140% of physical ATK damage. Slows the target for 1 turn(s)."
+        "desc": "Deals 155% of physical ATK damage. Slows the target for 1 turn(s)."
       },
       "dead_eye": {
         "name": "Dead Eye",
-        "desc": "Deals 260% of physical ATK damage. Executes targets below 30% HP."
+        "desc": "Deals 285% of physical ATK damage. Executes targets below 30% HP."
       },
       "arcane_burst": {
         "name": "Arcane Burst",
-        "desc": "Deals 150% of magic ATK damage."
+        "desc": "Deals 165% of magic ATK damage."
       },
       "arcane_missile": {
         "name": "Arcane Missile",
-        "desc": "Deals 130% of magic ATK damage."
+        "desc": "Deals 190% of magic ATK damage."
       },
       "heal_pulse": {
         "name": "Heal Pulse",
@@ -3101,7 +3101,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "arcane_bind": {
         "name": "Arcane Bind",
-        "desc": "Deals 80% of magic ATK damage. Stuns the target for 1 turn(s)."
+        "desc": "Deals 115% of magic ATK damage. Stuns the target for 1 turn(s)."
       },
       "mana_shield": {
         "name": "Mana Shield",
@@ -3113,19 +3113,19 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "arcane_blast": {
         "name": "Arcane Blast",
-        "desc": "Deals 3 hits of 60% magic ATK damage."
+        "desc": "Deals 3 hits of 70% magic ATK damage."
       },
       "frost_bolt": {
         "name": "Frost Bolt",
-        "desc": "Deals 140% of magic ATK damage. Slows the target for 1 turn(s)."
+        "desc": "Deals 155% of magic ATK damage. Slows the target for 1 turn(s)."
       },
       "ice_nova": {
         "name": "Ice Nova",
-        "desc": "Deals 130% of magic ATK damage. Slows the target for 2 turn(s)."
+        "desc": "Deals 150% of magic ATK damage. Slows the target for 2 turn(s)."
       },
       "blizzard": {
         "name": "Blizzard",
-        "desc": "Deals 4 hits of 40% magic ATK damage. Slows the target for 1 turn(s)."
+        "desc": "Deals 4 hits of 52% magic ATK damage. Slows the target for 1 turn(s)."
       },
       "arcane_armor": {
         "name": "Arcane Armor",
@@ -3133,11 +3133,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "chain_lightning": {
         "name": "Chain Lightning",
-        "desc": "Deals 170% of magic ATK damage."
+        "desc": "Deals 225% of magic ATK damage."
       },
       "elemental_chaos": {
         "name": "Elemental Chaos",
-        "desc": "Deals 240% of magic ATK damage."
+        "desc": "Deals 255% of magic ATK damage."
       },
       "time_warp": {
         "name": "Time Warp",
@@ -3145,11 +3145,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "void_bolt": {
         "name": "Void Bolt",
-        "desc": "Deals 150% of void ATK damage."
+        "desc": "Deals 165% of void ATK damage."
       },
       "void_rupture": {
         "name": "Void Rupture",
-        "desc": "Deals 120% of void ATK damage. Deals 45 damage per turn for 3 turns."
+        "desc": "Deals 145% of void ATK damage. Deals 40 damage per turn for 3 turns."
       },
       "astral_barrier": {
         "name": "Astral Barrier",
@@ -3157,7 +3157,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "gravity_well": {
         "name": "Gravity Well",
-        "desc": "Deals 100% of void ATK damage. Stuns the target for 1 turn(s)."
+        "desc": "Deals 130% of void ATK damage. Stuns the target for 1 turn(s)."
       },
       "void_armor": {
         "name": "Void Armor",
@@ -3165,11 +3165,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "void_gate": {
         "name": "Void Gate",
-        "desc": "Deals 300% of void ATK damage."
+        "desc": "Deals 330% of void ATK damage."
       },
       "cosmic_burst": {
         "name": "Cosmic Burst",
-        "desc": "Deals 5 hits of 40% void ATK damage."
+        "desc": "Deals 5 hits of 70% void ATK damage."
       },
       "arcane_mark": {
         "name": "Arcane Mark",
@@ -3177,11 +3177,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "root": {
         "name": "Root",
-        "desc": "Deals 60% of magic ATK damage. Stuns the target for 1 turn(s)."
+        "desc": "Deals 110% of magic ATK damage. Stuns the target for 1 turn(s)."
       },
       "petrify": {
         "name": "Petrify",
-        "desc": "Deals 90% of magic ATK damage. Stuns the target for 1 turn(s)."
+        "desc": "Deals 130% of magic ATK damage. Stuns the target for 1 turn(s)."
       },
       "arcane_ward": {
         "name": "Arcane Ward",
@@ -3193,15 +3193,15 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "draining_tome": {
         "name": "Draining Tome",
-        "desc": "Deals 100% of magic ATK damage. Restores 30% of max HP."
+        "desc": "Deals 145% of magic ATK damage. Restores 30% of max HP."
       },
       "forbidden_knowledge": {
         "name": "Forbidden Knowledge",
-        "desc": "Deals 300% of magic ATK damage."
+        "desc": "Deals 305% of magic ATK damage."
       },
       "crushing_blow": {
         "name": "Crushing Blow",
-        "desc": "Deals 160% of physical ATK damage."
+        "desc": "Deals 165% of physical ATK damage."
       },
       "fortress": {
         "name": "Fortress",
@@ -3209,7 +3209,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "earth_shake": {
         "name": "Earth Shake",
-        "desc": "Deals 3 hits of 50% physical ATK damage. Slows the target for 1 turn(s)."
+        "desc": "Deals 3 hits of 60% physical ATK damage. Slows the target for 1 turn(s)."
       },
       "unbreakable": {
         "name": "Unbreakable",
@@ -3217,19 +3217,19 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "war_stomp": {
         "name": "War Stomp",
-        "desc": "Deals 90% of physical ATK damage. Stuns the target for 1 turn(s)."
+        "desc": "Deals 135% of physical ATK damage. Stuns the target for 1 turn(s)."
       },
       "seismic_slam": {
         "name": "Seismic Slam",
-        "desc": "Deals 250% of physical ATK damage. Stuns the target for 1 turn(s)."
+        "desc": "Deals 235% of physical ATK damage. Stuns the target for 1 turn(s)."
       },
       "titan_fall": {
         "name": "Titan Fall",
-        "desc": "Deals 280% of physical ATK damage."
+        "desc": "Deals 295% of physical ATK damage."
       },
       "precise_thrust": {
         "name": "Precise Thrust",
-        "desc": "Deals 150% of physical ATK damage. Ignores enemy defense."
+        "desc": "Deals 155% of physical ATK damage. Ignores enemy defense."
       },
       "thorns": {
         "name": "Thorns",
@@ -3237,15 +3237,15 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "sweeping_strike": {
         "name": "Sweeping Strike",
-        "desc": "Deals 2 hits of 85% physical ATK damage."
+        "desc": "Deals 2 hits of 98% physical ATK damage."
       },
       "serpent_spike": {
         "name": "Serpent Spike",
-        "desc": "Deals 100% of physical ATK damage. Deals 40 damage per turn for 3 turns."
+        "desc": "Deals 135% of physical ATK damage. Deals 35 damage per turn for 3 turns."
       },
       "nature_burst": {
         "name": "Nature Burst",
-        "desc": "Deals 200% of magic ATK damage."
+        "desc": "Deals 215% of magic ATK damage."
       },
       "phalanx_ward": {
         "name": "Phalanx Ward",
@@ -3253,15 +3253,15 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "dragon_lance": {
         "name": "Dragon Lance",
-        "desc": "Deals 260% of physical ATK damage. Slows the target for 1 turn(s)."
+        "desc": "Deals 265% of physical ATK damage. Slows the target for 1 turn(s)."
       },
       "shield_bash": {
         "name": "Shield Bash",
-        "desc": "Deals 120% of physical ATK damage. Stuns the target for 1 turn(s)."
+        "desc": "Deals 125% of physical ATK damage. Stuns the target for 1 turn(s)."
       },
       "shield_slam": {
         "name": "Shield Slam",
-        "desc": "Deals 130% of physical ATK damage. Slows the target for 1 turn(s)."
+        "desc": "Deals 150% of physical ATK damage. Slows the target for 1 turn(s)."
       },
       "provoke": {
         "name": "Provoke",
@@ -3277,7 +3277,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "shield_charge": {
         "name": "Shield Charge",
-        "desc": "Deals 180% of physical ATK damage. Stuns the target for 1 turn(s)."
+        "desc": "Deals 205% of physical ATK damage. Stuns the target for 1 turn(s)."
       },
       "holy_aegis": {
         "name": "Holy Aegis",
@@ -4620,42 +4620,46 @@ export const translations: Record<LangCode, TranslationTree> = {
       "questComplete": "¡Misión completada!",
       "itemFound": "¡Objeto encontrado!"
     },
-            "skills": {
-      "spin_slash": {
-        "name": "Tajo Giratorio",
-        "desc": "Causa 150% de ATQ físico."
-      },
+                            "skills": {
       "slash": {
         "name": "Tajo Rápido",
-        "desc": "Causa 130% de ATQ físico."
+        "desc": "Causa 150% de ATQ físico."
+      },
+      "spin_slash": {
+        "name": "Tajo Giratorio",
+        "desc": "Causa 165% de ATQ físico."
       },
       "dash_cut": {
         "name": "Corte Veloz",
-        "desc": "Causa 200% de ATQ físico."
+        "desc": "Causa 210% de ATQ físico."
       },
       "parry_counter": {
         "name": "Contraparada",
-        "desc": "Causa 120% de ATQ físico. Aturde al objetivo por 1 turno(s)."
+        "desc": "Causa 140% de ATQ físico. Aturde al objetivo por 1 turno(s)."
       },
       "war_cry": {
         "name": "Grito de Guerra",
-        "desc": "Aumenta la defensa un 25% por 3 turnos. e restaura 10% del hp máximo."
+        "desc": "Aumenta la defensa un 25% por 3 turnos. e restaura 12% del hp máximo."
       },
       "blade_flurry": {
         "name": "Ráfaga de Hojas",
-        "desc": "Causa 4 golpes de 45% de ATQ físico."
+        "desc": "Causa 4 golpes de 55% de ATQ físico."
       },
       "thousand_cuts": {
         "name": "Mil Cortes",
-        "desc": "Causa 5 golpes de 40% de ATQ físico."
+        "desc": "Causa 5 golpes de 55% de ATQ físico."
       },
       "long_swipe": {
         "name": "Golpe Largo",
-        "desc": "Causa 140% de ATQ físico."
+        "desc": "Causa 155% de ATQ físico."
+      },
+      "cross_slash": {
+        "name": "Tajo Cruzado",
+        "desc": "Causa 200% de ATQ físico."
       },
       "bleed": {
         "name": "Sangrado",
-        "desc": "Causa 40 de daño por 3 turnos."
+        "desc": "Causa 45 de daño por 3 turnos."
       },
       "iron_will": {
         "name": "Voluntad de Hierro",
@@ -4663,27 +4667,23 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "deep_wound": {
         "name": "Herida Profunda",
-        "desc": "Causa 60 de daño por 3 turnos."
+        "desc": "Causa 140% de ATQ físico. Causa 35 de daño por 3 turnos."
       },
       "counter_gambit": {
         "name": "Gambito Contra",
-        "desc": "Causa 180% de ATQ físico. Esquiva el próximo golpe."
-      },
-      "cross_slash": {
-        "name": "Tajo Cruzado",
-        "desc": "Causa 180% de ATQ físico."
+        "desc": "Causa 220% de ATQ físico. Esquiva el próximo golpe."
       },
       "crescent_slash": {
         "name": "Tajo Creciente",
-        "desc": "Causa 3 golpes de 60% de ATQ físico."
+        "desc": "Causa 4 golpes de 62% de ATQ físico."
       },
       "brutal_slam": {
         "name": "Golpe Brutal",
-        "desc": "Causa 170% de ATQ físico. Aturde al objetivo por 1 turno(s)."
+        "desc": "Causa 150% de ATQ físico. Aturde al objetivo por 1 turno(s)."
       },
       "cleave": {
         "name": "Tajo Amplio",
-        "desc": "Causa 2 golpes de 110% de ATQ físico."
+        "desc": "Causa 190% de ATQ físico."
       },
       "battle_fury": {
         "name": "Furia de Batalla",
@@ -4695,39 +4695,39 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "colossus_smash": {
         "name": "Golpe del Coloso",
-        "desc": "Causa 300% de ATQ físico."
+        "desc": "Causa 340% de ATQ físico."
       },
       "blade_storm": {
         "name": "Tormenta de Hojas",
-        "desc": "Causa 3 golpes de 90% de ATQ físico."
+        "desc": "Causa 3 golpes de 115% de ATQ físico."
       },
       "onslaught": {
         "name": "Asalto",
-        "desc": "Causa 5 golpes de 35% de ATQ físico."
-      },
-      "stab": {
-        "name": "Estocada",
-        "desc": "Causa 120% de ATQ físico. Causa 25 de daño por 2 turnos."
-      },
-      "smoke_bomb": {
-        "name": "Bomba de Humo",
-        "desc": "Aumenta la defensa un 20% por 2 turnos. Esquiva el próximo golpe."
+        "desc": "Causa 5 golpes de 70% de ATQ físico."
       },
       "death_mark": {
         "name": "Marca de Muerte",
         "desc": "Marca al objetivo: +50% de daño recibido por 3 turnos."
       },
+      "stab": {
+        "name": "Estocada",
+        "desc": "Causa 135% de ATQ físico. Causa 20 de daño por 2 turnos."
+      },
+      "smoke_bomb": {
+        "name": "Bomba de Humo",
+        "desc": "Aumenta la defensa un 20% por 2 turnos. Esquiva el próximo golpe."
+      },
       "eviscerate": {
         "name": "Eviscerar",
-        "desc": "Causa 200% de ATQ físico."
+        "desc": "Causa 215% de ATQ físico."
       },
       "shadow_step": {
         "name": "Paso Sombrío",
-        "desc": "Causa 180% de ATQ físico. Esquiva el próximo golpe."
+        "desc": "Causa 195% de ATQ físico. Esquiva el próximo golpe."
       },
       "fan_of_knives": {
         "name": "Abanico de Dagas",
-        "desc": "Causa 3 golpes de 50% de ATQ físico."
+        "desc": "Causa 3 golpes de 75% de ATQ físico."
       },
       "assassinate": {
         "name": "Asesinar",
@@ -4735,31 +4735,31 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "feint": {
         "name": "Finta",
-        "desc": "Causa 100% de ATQ físico. Ralentiza al objetivo por 2 turno(s)."
+        "desc": "Causa 125% de ATQ físico. Ralentiza al objetivo por 2 turno(s)."
       },
       "double_slash": {
         "name": "Tajo Doble",
-        "desc": "Causa 2 golpes de 90% de ATQ físico."
+        "desc": "Causa 2 golpes de 95% de ATQ físico."
       },
       "riposte": {
         "name": "Riposta",
-        "desc": "Causa 140% de ATQ físico. Esquiva el próximo golpe."
+        "desc": "Causa 145% de ATQ físico. Esquiva el próximo golpe."
       },
       "lacerate": {
         "name": "Lacerar",
-        "desc": "Causa 100% de ATQ físico. Causa 50 de daño por 3 turnos."
+        "desc": "Causa 55 de daño por 3 turnos."
       },
       "twin_fang": {
         "name": "Colmillos Gemelos",
-        "desc": "Causa 2 golpes de 80% de ATQ físico."
+        "desc": "Causa 2 golpes de 105% de ATQ físico."
       },
       "whirl_dagger": {
         "name": "Daga Giratoria",
-        "desc": "Causa 4 golpes de 45% de ATQ físico."
+        "desc": "Causa 4 golpes de 62% de ATQ físico."
       },
       "shadow_parry": {
         "name": "Parada Sombría",
-        "desc": "Causa 160% de ATQ físico. Aturde al objetivo por 1 turno(s). Esquiva el próximo golpe."
+        "desc": "Causa 175% de ATQ físico. Aturde al objetivo por 1 turno(s). Esquiva el próximo golpe."
       },
       "piercing_shot": {
         "name": "Disparo Perforante",
@@ -4767,11 +4767,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "aimed_shot": {
         "name": "Disparo Apuntado",
-        "desc": "Causa 170% de ATQ físico. Ignora la defensa del enemigo."
+        "desc": "Causa 185% de ATQ físico. Ignora la defensa del enemigo."
       },
       "quick_shot": {
         "name": "Disparo Rápido",
-        "desc": "Causa 100% de ATQ físico. Ralentiza al objetivo por 1 turno(s)."
+        "desc": "Causa 135% de ATQ físico. Ralentiza al objetivo por 1 turno(s)."
       },
       "hunters_mark": {
         "name": "Marca del Cazador",
@@ -4779,19 +4779,19 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "scatter_shot": {
         "name": "Disparo Disperso",
-        "desc": "Causa 3 golpes de 40% de ATQ físico."
+        "desc": "Causa 3 golpes de 65% de ATQ físico."
       },
       "kiting_shot": {
         "name": "Disparo de Fuga",
-        "desc": "Causa 110% de ATQ físico. Ralentiza al objetivo por 2 turno(s)."
+        "desc": "Causa 155% de ATQ físico. Ralentiza al objetivo por 2 turno(s)."
       },
       "rapid_fire": {
         "name": "Fuego Rápido",
-        "desc": "Causa 5 golpes de 35% de ATQ físico."
+        "desc": "Causa 5 golpes de 52% de ATQ físico."
       },
       "precision_shot": {
         "name": "Tiro de Precisión",
-        "desc": "Causa 180% de ATQ físico. Ignora la defensa del enemigo."
+        "desc": "Causa 195% de ATQ físico. Ignora la defensa del enemigo."
       },
       "rain_of_arrows": {
         "name": "Lluvia de Flechas",
@@ -4799,7 +4799,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "volley": {
         "name": "Ráfaga",
-        "desc": "Causa 3 golpes de 55% de ATQ físico."
+        "desc": "Causa 3 golpes de 75% de ATQ físico."
       },
       "eagle_eye": {
         "name": "Ojo de Águila",
@@ -4807,23 +4807,23 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "sniper_shot": {
         "name": "Disparo de Francotirador",
-        "desc": "Causa 220% de ATQ físico. Ignora la defensa del enemigo."
+        "desc": "Causa 235% de ATQ físico. Ignora la defensa del enemigo."
       },
       "wind_arrow": {
         "name": "Flecha de Viento",
-        "desc": "Causa 140% de ATQ físico. Ralentiza al objetivo por 1 turno(s)."
+        "desc": "Causa 155% de ATQ físico. Ralentiza al objetivo por 1 turno(s)."
       },
       "dead_eye": {
         "name": "Ojo Muerto",
-        "desc": "Causa 260% de ATQ físico. Ejecuta objetivos con menos de 30% de HP."
+        "desc": "Causa 285% de ATQ físico. Ejecuta objetivos con menos de 30% de HP."
       },
       "arcane_burst": {
         "name": "Ráfaga Arcana",
-        "desc": "Causa 150% de ATQ mágico."
+        "desc": "Causa 165% de ATQ mágico."
       },
       "arcane_missile": {
         "name": "Misil Arcano",
-        "desc": "Causa 130% de ATQ mágico."
+        "desc": "Causa 190% de ATQ mágico."
       },
       "heal_pulse": {
         "name": "Pulso de Cura",
@@ -4831,7 +4831,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "arcane_bind": {
         "name": "Vínculo Arcano",
-        "desc": "Causa 80% de ATQ mágico. Aturde al objetivo por 1 turno(s)."
+        "desc": "Causa 115% de ATQ mágico. Aturde al objetivo por 1 turno(s)."
       },
       "mana_shield": {
         "name": "Escudo de Maná",
@@ -4843,19 +4843,19 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "arcane_blast": {
         "name": "Explosión Arcana",
-        "desc": "Causa 3 golpes de 60% de ATQ mágico."
+        "desc": "Causa 3 golpes de 70% de ATQ mágico."
       },
       "frost_bolt": {
         "name": "Proyectil de Hielo",
-        "desc": "Causa 140% de ATQ mágico. Ralentiza al objetivo por 1 turno(s)."
+        "desc": "Causa 155% de ATQ mágico. Ralentiza al objetivo por 1 turno(s)."
       },
       "ice_nova": {
         "name": "Nova de Hielo",
-        "desc": "Causa 130% de ATQ mágico. Ralentiza al objetivo por 2 turno(s)."
+        "desc": "Causa 150% de ATQ mágico. Ralentiza al objetivo por 2 turno(s)."
       },
       "blizzard": {
         "name": "Ventisca",
-        "desc": "Causa 4 golpes de 40% de ATQ mágico. Ralentiza al objetivo por 1 turno(s)."
+        "desc": "Causa 4 golpes de 52% de ATQ mágico. Ralentiza al objetivo por 1 turno(s)."
       },
       "arcane_armor": {
         "name": "Armadura Arcana",
@@ -4863,11 +4863,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "chain_lightning": {
         "name": "Cadena de Rayos",
-        "desc": "Causa 170% de ATQ mágico."
+        "desc": "Causa 225% de ATQ mágico."
       },
       "elemental_chaos": {
         "name": "Caos Elemental",
-        "desc": "Causa 240% de ATQ mágico."
+        "desc": "Causa 255% de ATQ mágico."
       },
       "time_warp": {
         "name": "Distorsión Temporal",
@@ -4875,11 +4875,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "void_bolt": {
         "name": "Proyectil del Vacío",
-        "desc": "Causa 150% de ATQ del vacío."
+        "desc": "Causa 165% de ATQ del vacío."
       },
       "void_rupture": {
         "name": "Ruptura del Vacío",
-        "desc": "Causa 120% de ATQ del vacío. Causa 45 de daño por 3 turnos."
+        "desc": "Causa 145% de ATQ del vacío. Causa 40 de daño por 3 turnos."
       },
       "astral_barrier": {
         "name": "Barrera Astral",
@@ -4887,7 +4887,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "gravity_well": {
         "name": "Pozo Gravitatorio",
-        "desc": "Causa 100% de ATQ del vacío. Aturde al objetivo por 1 turno(s)."
+        "desc": "Causa 130% de ATQ del vacío. Aturde al objetivo por 1 turno(s)."
       },
       "void_armor": {
         "name": "Armadura del Vacío",
@@ -4895,11 +4895,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "void_gate": {
         "name": "Portal del Vacío",
-        "desc": "Causa 300% de ATQ del vacío."
+        "desc": "Causa 330% de ATQ del vacío."
       },
       "cosmic_burst": {
         "name": "Explosión Cósmica",
-        "desc": "Causa 5 golpes de 40% de ATQ del vacío."
+        "desc": "Causa 5 golpes de 70% de ATQ del vacío."
       },
       "arcane_mark": {
         "name": "Marca Arcana",
@@ -4907,11 +4907,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "root": {
         "name": "Raíces",
-        "desc": "Causa 60% de ATQ mágico. Aturde al objetivo por 1 turno(s)."
+        "desc": "Causa 110% de ATQ mágico. Aturde al objetivo por 1 turno(s)."
       },
       "petrify": {
         "name": "Petrificar",
-        "desc": "Causa 90% de ATQ mágico. Aturde al objetivo por 1 turno(s)."
+        "desc": "Causa 130% de ATQ mágico. Aturde al objetivo por 1 turno(s)."
       },
       "arcane_ward": {
         "name": "Guardia Arcana",
@@ -4923,15 +4923,15 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "draining_tome": {
         "name": "Grimorio Drenante",
-        "desc": "Causa 100% de ATQ mágico. Restaura 30% del HP máximo."
+        "desc": "Causa 145% de ATQ mágico. Restaura 30% del HP máximo."
       },
       "forbidden_knowledge": {
         "name": "Conocimiento Prohibido",
-        "desc": "Causa 300% de ATQ mágico."
+        "desc": "Causa 305% de ATQ mágico."
       },
       "crushing_blow": {
         "name": "Golpe Aplastante",
-        "desc": "Causa 160% de ATQ físico."
+        "desc": "Causa 165% de ATQ físico."
       },
       "fortress": {
         "name": "Fortaleza",
@@ -4939,7 +4939,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "earth_shake": {
         "name": "Sacudida de Tierra",
-        "desc": "Causa 3 golpes de 50% de ATQ físico. Ralentiza al objetivo por 1 turno(s)."
+        "desc": "Causa 3 golpes de 60% de ATQ físico. Ralentiza al objetivo por 1 turno(s)."
       },
       "unbreakable": {
         "name": "Inquebrantable",
@@ -4947,19 +4947,19 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "war_stomp": {
         "name": "Pisotón de Guerra",
-        "desc": "Causa 90% de ATQ físico. Aturde al objetivo por 1 turno(s)."
+        "desc": "Causa 135% de ATQ físico. Aturde al objetivo por 1 turno(s)."
       },
       "seismic_slam": {
         "name": "Impacto Sísmico",
-        "desc": "Causa 250% de ATQ físico. Aturde al objetivo por 1 turno(s)."
+        "desc": "Causa 235% de ATQ físico. Aturde al objetivo por 1 turno(s)."
       },
       "titan_fall": {
         "name": "Caída del Titán",
-        "desc": "Causa 280% de ATQ físico."
+        "desc": "Causa 295% de ATQ físico."
       },
       "precise_thrust": {
         "name": "Estocada Precisa",
-        "desc": "Causa 150% de ATQ físico. Ignora la defensa del enemigo."
+        "desc": "Causa 155% de ATQ físico. Ignora la defensa del enemigo."
       },
       "thorns": {
         "name": "Espinas",
@@ -4967,15 +4967,15 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "sweeping_strike": {
         "name": "Golpe Barrido",
-        "desc": "Causa 2 golpes de 85% de ATQ físico."
+        "desc": "Causa 2 golpes de 98% de ATQ físico."
       },
       "serpent_spike": {
         "name": "Espina de Serpiente",
-        "desc": "Causa 100% de ATQ físico. Causa 40 de daño por 3 turnos."
+        "desc": "Causa 135% de ATQ físico. Causa 35 de daño por 3 turnos."
       },
       "nature_burst": {
         "name": "Explosión Natural",
-        "desc": "Causa 200% de ATQ mágico."
+        "desc": "Causa 215% de ATQ mágico."
       },
       "phalanx_ward": {
         "name": "Guardia Falange",
@@ -4983,15 +4983,15 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "dragon_lance": {
         "name": "Lanza del Dragón",
-        "desc": "Causa 260% de ATQ físico. Ralentiza al objetivo por 1 turno(s)."
+        "desc": "Causa 265% de ATQ físico. Ralentiza al objetivo por 1 turno(s)."
       },
       "shield_bash": {
         "name": "Embestida de Escudo",
-        "desc": "Causa 120% de ATQ físico. Aturde al objetivo por 1 turno(s)."
+        "desc": "Causa 125% de ATQ físico. Aturde al objetivo por 1 turno(s)."
       },
       "shield_slam": {
         "name": "Golpe de Escudo",
-        "desc": "Causa 130% de ATQ físico. Ralentiza al objetivo por 1 turno(s)."
+        "desc": "Causa 150% de ATQ físico. Ralentiza al objetivo por 1 turno(s)."
       },
       "provoke": {
         "name": "Provocar",
@@ -5007,7 +5007,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "shield_charge": {
         "name": "Carga de Escudo",
-        "desc": "Causa 180% de ATQ físico. Aturde al objetivo por 1 turno(s)."
+        "desc": "Causa 205% de ATQ físico. Aturde al objetivo por 1 turno(s)."
       },
       "holy_aegis": {
         "name": "Égida Sagrada",
@@ -6350,42 +6350,46 @@ export const translations: Record<LangCode, TranslationTree> = {
       "questComplete": "クエスト完了！",
       "itemFound": "アイテム発見！"
     },
-            "skills": {
-      "spin_slash": {
-        "name": "スピンスラッシュ",
-        "desc": "物理ATKの150%のダメージ。"
-      },
+                            "skills": {
       "slash": {
         "name": "クイックスラッシュ",
-        "desc": "物理ATKの130%のダメージ。"
+        "desc": "物理ATKの150%のダメージ。"
+      },
+      "spin_slash": {
+        "name": "スピンスラッシュ",
+        "desc": "物理ATKの165%のダメージ。"
       },
       "dash_cut": {
         "name": "ダッシュカット",
-        "desc": "物理ATKの200%のダメージ。"
+        "desc": "物理ATKの210%のダメージ。"
       },
       "parry_counter": {
         "name": "パリーカウンター",
-        "desc": "物理ATKの120%のダメージ。 1ターン気絶させる。"
+        "desc": "物理ATKの140%のダメージ。 1ターン気絶させる。"
       },
       "war_cry": {
         "name": "ウォークライ",
-        "desc": "3ターンの間、防御力+25%。 e 最大hpの10%を回復。"
+        "desc": "3ターンの間、防御力+25%。 e 最大hpの12%を回復。"
       },
       "blade_flurry": {
         "name": "ブレイドフラリー",
-        "desc": "物理ATKの45%で4回攻撃。"
+        "desc": "物理ATKの55%で4回攻撃。"
       },
       "thousand_cuts": {
         "name": "サウザンドカッツ",
-        "desc": "物理ATKの40%で5回攻撃。"
+        "desc": "物理ATKの55%で5回攻撃。"
       },
       "long_swipe": {
         "name": "ロングスワイプ",
-        "desc": "物理ATKの140%のダメージ。"
+        "desc": "物理ATKの155%のダメージ。"
+      },
+      "cross_slash": {
+        "name": "クロススラッシュ",
+        "desc": "物理ATKの200%のダメージ。"
       },
       "bleed": {
         "name": "ブリード",
-        "desc": "3ターンの間、毎ターン40のダメージ。"
+        "desc": "3ターンの間、毎ターン45のダメージ。"
       },
       "iron_will": {
         "name": "アイアンウィル",
@@ -6393,27 +6397,23 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "deep_wound": {
         "name": "ディープワウンド",
-        "desc": "3ターンの間、毎ターン60のダメージ。"
+        "desc": "物理ATKの140%のダメージ。 3ターンの間、毎ターン35のダメージ。"
       },
       "counter_gambit": {
         "name": "カウンターギャンビット",
-        "desc": "物理ATKの180%のダメージ。 次の攻撃を回避する。"
-      },
-      "cross_slash": {
-        "name": "クロススラッシュ",
-        "desc": "物理ATKの180%のダメージ。"
+        "desc": "物理ATKの220%のダメージ。 次の攻撃を回避する。"
       },
       "crescent_slash": {
         "name": "クレセントスラッシュ",
-        "desc": "物理ATKの60%で3回攻撃。"
+        "desc": "物理ATKの62%で4回攻撃。"
       },
       "brutal_slam": {
         "name": "ブルータルスラム",
-        "desc": "物理ATKの170%のダメージ。 1ターン気絶させる。"
+        "desc": "物理ATKの150%のダメージ。 1ターン気絶させる。"
       },
       "cleave": {
         "name": "クリーブ",
-        "desc": "物理ATKの110%で2回攻撃。"
+        "desc": "物理ATKの190%のダメージ。"
       },
       "battle_fury": {
         "name": "バトルフューリー",
@@ -6425,39 +6425,39 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "colossus_smash": {
         "name": "コロッサススマッシュ",
-        "desc": "物理ATKの300%のダメージ。"
+        "desc": "物理ATKの340%のダメージ。"
       },
       "blade_storm": {
         "name": "ブレイドストーム",
-        "desc": "物理ATKの90%で3回攻撃。"
+        "desc": "物理ATKの115%で3回攻撃。"
       },
       "onslaught": {
         "name": "オンズロート",
-        "desc": "物理ATKの35%で5回攻撃。"
-      },
-      "stab": {
-        "name": "スタブ",
-        "desc": "物理ATKの120%のダメージ。 2ターンの間、毎ターン25のダメージ。"
-      },
-      "smoke_bomb": {
-        "name": "スモークボム",
-        "desc": "2ターンの間、防御力+20%。 次の攻撃を回避する。"
+        "desc": "物理ATKの70%で5回攻撃。"
       },
       "death_mark": {
         "name": "デスマーク",
         "desc": "目標をマーク：3ターンの間、受けるダメージ+50%。"
       },
+      "stab": {
+        "name": "スタブ",
+        "desc": "物理ATKの135%のダメージ。 2ターンの間、毎ターン20のダメージ。"
+      },
+      "smoke_bomb": {
+        "name": "スモークボム",
+        "desc": "2ターンの間、防御力+20%。 次の攻撃を回避する。"
+      },
       "eviscerate": {
         "name": "エビセレイト",
-        "desc": "物理ATKの200%のダメージ。"
+        "desc": "物理ATKの215%のダメージ。"
       },
       "shadow_step": {
         "name": "シャドウステップ",
-        "desc": "物理ATKの180%のダメージ。 次の攻撃を回避する。"
+        "desc": "物理ATKの195%のダメージ。 次の攻撃を回避する。"
       },
       "fan_of_knives": {
         "name": "ファンオブナイフ",
-        "desc": "物理ATKの50%で3回攻撃。"
+        "desc": "物理ATKの75%で3回攻撃。"
       },
       "assassinate": {
         "name": "アサシネイト",
@@ -6465,31 +6465,31 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "feint": {
         "name": "フェイント",
-        "desc": "物理ATKの100%のダメージ。 2ターン鈍足にする。"
+        "desc": "物理ATKの125%のダメージ。 2ターン鈍足にする。"
       },
       "double_slash": {
         "name": "ダブルスラッシュ",
-        "desc": "物理ATKの90%で2回攻撃。"
+        "desc": "物理ATKの95%で2回攻撃。"
       },
       "riposte": {
         "name": "リポスト",
-        "desc": "物理ATKの140%のダメージ。 次の攻撃を回避する。"
+        "desc": "物理ATKの145%のダメージ。 次の攻撃を回避する。"
       },
       "lacerate": {
         "name": "ラセレイト",
-        "desc": "物理ATKの100%のダメージ。 3ターンの間、毎ターン50のダメージ。"
+        "desc": "3ターンの間、毎ターン55のダメージ。"
       },
       "twin_fang": {
         "name": "ツインファング",
-        "desc": "物理ATKの80%で2回攻撃。"
+        "desc": "物理ATKの105%で2回攻撃。"
       },
       "whirl_dagger": {
         "name": "ワールダガー",
-        "desc": "物理ATKの45%で4回攻撃。"
+        "desc": "物理ATKの62%で4回攻撃。"
       },
       "shadow_parry": {
         "name": "シャドウパリー",
-        "desc": "物理ATKの160%のダメージ。 1ターン気絶させる。 次の攻撃を回避する。"
+        "desc": "物理ATKの175%のダメージ。 1ターン気絶させる。 次の攻撃を回避する。"
       },
       "piercing_shot": {
         "name": "ピアシングショット",
@@ -6497,11 +6497,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "aimed_shot": {
         "name": "エイムドショット",
-        "desc": "物理ATKの170%のダメージ。 敵の防御を無視する。"
+        "desc": "物理ATKの185%のダメージ。 敵の防御を無視する。"
       },
       "quick_shot": {
         "name": "クイックショット",
-        "desc": "物理ATKの100%のダメージ。 1ターン鈍足にする。"
+        "desc": "物理ATKの135%のダメージ。 1ターン鈍足にする。"
       },
       "hunters_mark": {
         "name": "ハンターズマーク",
@@ -6509,19 +6509,19 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "scatter_shot": {
         "name": "スキャッターショット",
-        "desc": "物理ATKの40%で3回攻撃。"
+        "desc": "物理ATKの65%で3回攻撃。"
       },
       "kiting_shot": {
         "name": "キティングショット",
-        "desc": "物理ATKの110%のダメージ。 2ターン鈍足にする。"
+        "desc": "物理ATKの155%のダメージ。 2ターン鈍足にする。"
       },
       "rapid_fire": {
         "name": "ラピッドファイア",
-        "desc": "物理ATKの35%で5回攻撃。"
+        "desc": "物理ATKの52%で5回攻撃。"
       },
       "precision_shot": {
         "name": "プレシジョンショット",
-        "desc": "物理ATKの180%のダメージ。 敵の防御を無視する。"
+        "desc": "物理ATKの195%のダメージ。 敵の防御を無視する。"
       },
       "rain_of_arrows": {
         "name": "レインオブアローズ",
@@ -6529,7 +6529,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "volley": {
         "name": "ボレー",
-        "desc": "物理ATKの55%で3回攻撃。"
+        "desc": "物理ATKの75%で3回攻撃。"
       },
       "eagle_eye": {
         "name": "イーグルアイ",
@@ -6537,23 +6537,23 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "sniper_shot": {
         "name": "スナイプショット",
-        "desc": "物理ATKの220%のダメージ。 敵の防御を無視する。"
+        "desc": "物理ATKの235%のダメージ。 敵の防御を無視する。"
       },
       "wind_arrow": {
         "name": "ウィンドアロー",
-        "desc": "物理ATKの140%のダメージ。 1ターン鈍足にする。"
+        "desc": "物理ATKの155%のダメージ。 1ターン鈍足にする。"
       },
       "dead_eye": {
         "name": "デッドアイ",
-        "desc": "物理ATKの260%のダメージ。 HPが30%以下の敵を即死させる。"
+        "desc": "物理ATKの285%のダメージ。 HPが30%以下の敵を即死させる。"
       },
       "arcane_burst": {
         "name": "アーケインバースト",
-        "desc": "魔法ATKの150%のダメージ。"
+        "desc": "魔法ATKの165%のダメージ。"
       },
       "arcane_missile": {
         "name": "アーケインミサイル",
-        "desc": "魔法ATKの130%のダメージ。"
+        "desc": "魔法ATKの190%のダメージ。"
       },
       "heal_pulse": {
         "name": "ヒールパルス",
@@ -6561,7 +6561,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "arcane_bind": {
         "name": "アーケインバインド",
-        "desc": "魔法ATKの80%のダメージ。 1ターン気絶させる。"
+        "desc": "魔法ATKの115%のダメージ。 1ターン気絶させる。"
       },
       "mana_shield": {
         "name": "マナシールド",
@@ -6573,19 +6573,19 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "arcane_blast": {
         "name": "アーケインブラスト",
-        "desc": "魔法ATKの60%で3回攻撃。"
+        "desc": "魔法ATKの70%で3回攻撃。"
       },
       "frost_bolt": {
         "name": "フロストボルト",
-        "desc": "魔法ATKの140%のダメージ。 1ターン鈍足にする。"
+        "desc": "魔法ATKの155%のダメージ。 1ターン鈍足にする。"
       },
       "ice_nova": {
         "name": "アイスノヴァ",
-        "desc": "魔法ATKの130%のダメージ。 2ターン鈍足にする。"
+        "desc": "魔法ATKの150%のダメージ。 2ターン鈍足にする。"
       },
       "blizzard": {
         "name": "ブリザード",
-        "desc": "魔法ATKの40%で4回攻撃。 1ターン鈍足にする。"
+        "desc": "魔法ATKの52%で4回攻撃。 1ターン鈍足にする。"
       },
       "arcane_armor": {
         "name": "アーケインアーマー",
@@ -6593,11 +6593,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "chain_lightning": {
         "name": "チェーンライトニング",
-        "desc": "魔法ATKの170%のダメージ。"
+        "desc": "魔法ATKの225%のダメージ。"
       },
       "elemental_chaos": {
         "name": "エレメンタルカオス",
-        "desc": "魔法ATKの240%のダメージ。"
+        "desc": "魔法ATKの255%のダメージ。"
       },
       "time_warp": {
         "name": "タイムワープ",
@@ -6605,11 +6605,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "void_bolt": {
         "name": "ヴォイドボルト",
-        "desc": "虚無ATKの150%のダメージ。"
+        "desc": "虚無ATKの165%のダメージ。"
       },
       "void_rupture": {
         "name": "ヴォイドラプチャー",
-        "desc": "虚無ATKの120%のダメージ。 3ターンの間、毎ターン45のダメージ。"
+        "desc": "虚無ATKの145%のダメージ。 3ターンの間、毎ターン40のダメージ。"
       },
       "astral_barrier": {
         "name": "アストラルバリア",
@@ -6617,7 +6617,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "gravity_well": {
         "name": "グラビティウェル",
-        "desc": "虚無ATKの100%のダメージ。 1ターン気絶させる。"
+        "desc": "虚無ATKの130%のダメージ。 1ターン気絶させる。"
       },
       "void_armor": {
         "name": "ヴォイドアーマー",
@@ -6625,11 +6625,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "void_gate": {
         "name": "ヴォイドゲート",
-        "desc": "虚無ATKの300%のダメージ。"
+        "desc": "虚無ATKの330%のダメージ。"
       },
       "cosmic_burst": {
         "name": "コズミックバースト",
-        "desc": "虚無ATKの40%で5回攻撃。"
+        "desc": "虚無ATKの70%で5回攻撃。"
       },
       "arcane_mark": {
         "name": "アーケインマーク",
@@ -6637,11 +6637,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "root": {
         "name": "ルート",
-        "desc": "魔法ATKの60%のダメージ。 1ターン気絶させる。"
+        "desc": "魔法ATKの110%のダメージ。 1ターン気絶させる。"
       },
       "petrify": {
         "name": "ペトリファイ",
-        "desc": "魔法ATKの90%のダメージ。 1ターン気絶させる。"
+        "desc": "魔法ATKの130%のダメージ。 1ターン気絶させる。"
       },
       "arcane_ward": {
         "name": "アーケインウォード",
@@ -6653,15 +6653,15 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "draining_tome": {
         "name": "ドレイニングトーム",
-        "desc": "魔法ATKの100%のダメージ。 最大HPの30%を回復。"
+        "desc": "魔法ATKの145%のダメージ。 最大HPの30%を回復。"
       },
       "forbidden_knowledge": {
         "name": "フォービドゥンナレッジ",
-        "desc": "魔法ATKの300%のダメージ。"
+        "desc": "魔法ATKの305%のダメージ。"
       },
       "crushing_blow": {
         "name": "クラッシングブロウ",
-        "desc": "物理ATKの160%のダメージ。"
+        "desc": "物理ATKの165%のダメージ。"
       },
       "fortress": {
         "name": "フォートレス",
@@ -6669,7 +6669,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "earth_shake": {
         "name": "アースシェイク",
-        "desc": "物理ATKの50%で3回攻撃。 1ターン鈍足にする。"
+        "desc": "物理ATKの60%で3回攻撃。 1ターン鈍足にする。"
       },
       "unbreakable": {
         "name": "アンブレイカブル",
@@ -6677,19 +6677,19 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "war_stomp": {
         "name": "ウォースタンプ",
-        "desc": "物理ATKの90%のダメージ。 1ターン気絶させる。"
+        "desc": "物理ATKの135%のダメージ。 1ターン気絶させる。"
       },
       "seismic_slam": {
         "name": "サイズミックスラム",
-        "desc": "物理ATKの250%のダメージ。 1ターン気絶させる。"
+        "desc": "物理ATKの235%のダメージ。 1ターン気絶させる。"
       },
       "titan_fall": {
         "name": "タイタンフォール",
-        "desc": "物理ATKの280%のダメージ。"
+        "desc": "物理ATKの295%のダメージ。"
       },
       "precise_thrust": {
         "name": "プレサイズスラスト",
-        "desc": "物理ATKの150%のダメージ。 敵の防御を無視する。"
+        "desc": "物理ATKの155%のダメージ。 敵の防御を無視する。"
       },
       "thorns": {
         "name": "ソーンズ",
@@ -6697,15 +6697,15 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "sweeping_strike": {
         "name": "スウィーピングストライク",
-        "desc": "物理ATKの85%で2回攻撃。"
+        "desc": "物理ATKの98%で2回攻撃。"
       },
       "serpent_spike": {
         "name": "サーペントスパイク",
-        "desc": "物理ATKの100%のダメージ。 3ターンの間、毎ターン40のダメージ。"
+        "desc": "物理ATKの135%のダメージ。 3ターンの間、毎ターン35のダメージ。"
       },
       "nature_burst": {
         "name": "ネイチャーバースト",
-        "desc": "魔法ATKの200%のダメージ。"
+        "desc": "魔法ATKの215%のダメージ。"
       },
       "phalanx_ward": {
         "name": "ファランクスウォード",
@@ -6713,15 +6713,15 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "dragon_lance": {
         "name": "ドラゴンランス",
-        "desc": "物理ATKの260%のダメージ。 1ターン鈍足にする。"
+        "desc": "物理ATKの265%のダメージ。 1ターン鈍足にする。"
       },
       "shield_bash": {
         "name": "シールドバッシュ",
-        "desc": "物理ATKの120%のダメージ。 1ターン気絶させる。"
+        "desc": "物理ATKの125%のダメージ。 1ターン気絶させる。"
       },
       "shield_slam": {
         "name": "シールドスラム",
-        "desc": "物理ATKの130%のダメージ。 1ターン鈍足にする。"
+        "desc": "物理ATKの150%のダメージ。 1ターン鈍足にする。"
       },
       "provoke": {
         "name": "プロヴォーク",
@@ -6737,7 +6737,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       },
       "shield_charge": {
         "name": "シールドチャージ",
-        "desc": "物理ATKの180%のダメージ。 1ターン気絶させる。"
+        "desc": "物理ATKの205%のダメージ。 1ターン気絶させる。"
       },
       "holy_aegis": {
         "name": "ホーリーイージス",

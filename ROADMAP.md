@@ -211,6 +211,9 @@ só os companheiros locais participam do combate. Meta: grupo lutar junto.
       "Equipar (mão secundária)" + aviso de categoria duplicada (i18n 4 idiomas)
 - [x] **98 skills — exatamente 7 por arma** (14 × 7), geradas por
       `tools/gen_skills.mjs` (fonte de verdade: editar o gerador e rodar)
+- [x] **Revisão completa de balanceamento (v2)**: burst nunca regride por arma,
+      DPS ≥ 30, MP ≈ 20-35% do burst, controles/DoTs pagam em dano — auditoria
+      automática embutida no gerador (falha se violar)
 - [x] i18n 4 idiomas (98 skills com descrições por template + 3 chaves de equip)
 - [x] Baselines intactos: tsc · build · 89/89 · 41/41 · 18/18 · smoke tests
 - [ ] Balanceamento fino com telemetria real (Caso 5)
