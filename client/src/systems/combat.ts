@@ -510,6 +510,10 @@ const damagePartyOrPlayer = (damage: number) => {
     roundTaken += Math.max(0, finalDamage);
   }
 
+  if (finalDamage > 0) {
+    useCombatStore.getState().bumpPlayerHit();
+  }
+
   if (!target) {
     usePlayerStore.getState().takeDamage(finalDamage);
     return;
@@ -542,7 +546,8 @@ const handleDefeat = () => {
 
   usePlayerStore.getState().restoreAll();
   usePartyStore.getState().reviveAll();
-  combat.resetCombat();
+  // Mantém o estado para a tela de resultado (Game Over); reset fica no botão continuar
+  useCombatStore.setState({ phase: 'defeat', active: false });
 };
 
 const handleVictory = () => {
@@ -621,6 +626,7 @@ const handleVictory = () => {
   const lootLuck = playerStore.getLuck() + (resolved?.lootBonus ?? 0) * 200 + (sizeBonus?.loot ?? 0) * 5;
   const loot = rollLoot(enemy, lootLuck, combat.autoConfig.lootFilter);
   loot.forEach((entry) => playerStore.addItem(entry.itemId, entry.qty));
+  useCombatStore.setState({ lastLoot: loot });
 
   impulseSystem.consumeCharge();
 
@@ -782,6 +788,15 @@ export const combatEngine = {
     const haste = resolved ? getConditionalValue(resolved, EFFECT.HASTE) : 0;
     const cdReduce = resolved?.skillCdReduce ?? 0;
     combat.setCooldown(skillId, Math.max(1, Math.round(skill.cd * (1 - haste - cdReduce))));
+
+    // FX: dispara o painel de efeito da skill (partículas + som + narração)
+    useCombatStore.getState().setSkillEffect({
+      skillId,
+      skillName: t(`skills.${skillId}.name`),
+      damageType: skill.damageType,
+      damagePercent: skill.damagePercent,
+      isCritical: Math.random() < 0.1
+    });
 
     if (skill.healPercent) {
       // HEAL_BONUS (26) + SKILL_HEAL_BONUS (36) + PASSIVA amplificam a cura

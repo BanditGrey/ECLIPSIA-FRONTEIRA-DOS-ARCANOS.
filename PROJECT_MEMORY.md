@@ -90,9 +90,35 @@ cd ../server && npm test
   hub, header/navbar, combate (campo de batalha + arte do boss), viagem
   (cards de região + dungeon com boss), perfil (retrato), wiki, loading.
   Mapa de artes centralizado em `client/src/data/art.ts`.
-  ⚠ Pendente (limite de 10 imagens/sessão): pinturas de azhur, thal_mora e
-  velkaryn (usam anel de sigilo com emoji) e os 15 monstros.
   Baselines intactos (89/89, 41/41, 18/18, build OK).
+- **⚙ Fase 2 — FX/Animações/UI ✅ (concluída em 2026-08-04)**: build
+  restaurado (4 erros de tsc que o PR #4 deixou: import SFXEngine,
+  useState faltante, ParticleSystem inexistente, isAvailable em bossRoom).
+  **ParticleSystem** (canvas, pooling, blend aditivo/glow) por tipo;
+  **SkillEffectPanel** reescrito com partículas + dano flutuante + screen
+  shake + SFX por tipo (físico/mágico/vazio) e **FX integrado ao cast real**
+  de skills (combat store `skillEffect` → CombatPanel, com botão "Usar").
+  **CombatOutcomeScreen** de Vitória/Derrota (cinematográfica, fade,
+  estatísticas, partículas). **ArcaneIcon** (SVG) no HUD de combate e no
+  Navbar (A08/A09). **Skill Tree** — PassivePanel v2 com nós conectados,
+  glow por ramo e burst no unlock + aba "Passivas" no Perfil (A11).
+  **ArcaneField** — cenário arcano animado (névoa, motes, runas, chão em
+  grade) no campo de batalha (A12). **Feedback de dano** (shake + flash +
+  partículas) ao sofrer golpe (A16). **Arte gerada**: 3 bosses (azhur,
+  thal_mora, velkaryn) e 6 monstros, registrados em `data/art.ts`;
+  `Portrait` ganhou `kind="monster"`. i18n novo nos 4 idiomas (`cast`,
+  `combat.outcome.*`, `profile.tabs.passives`). Baselines 89/89 · 41/41 ·
+  18/18 · build OK.
+- **🎯 Boss Room funcional + transições + HUD (2ª leva, 2026-08-04)**:
+  `BossPanel` reescrito e conectado (painel 'boss' + aba no Navbar): lista os
+  colossos com retrato (arte dos bosses), nível de acesso a cada 20 níveis,
+  drop bônus e entrada em combate via `combatEngine.start({ bossId })`.
+  **Transição cinematográfica entre painéis** no GameLayout (A15). **HUD**:
+  Header com `ArcaneIcon` (coin/gem/settings) p/ moedas e configurações (A09).
+  **Loot na tela de vitória**: `handleVictory` guarda `lastLoot` no combat
+  store; `CombatOutcomeScreen` exibe itens ganhos (nome i18n + qtd + baú) (A13).
+  i18n `nav.boss`, `bossRoom.*`, `combat.outcome.loot` nos 4 idiomas.
+  Baselines 89/89 · 41/41 · build OK.
 
 ### 0.4 Regras de ouro (não viole)
 1. Nunca quebrar os baselines do §0.2 (auditorias 89/89 e 41/41, testes 18/18).

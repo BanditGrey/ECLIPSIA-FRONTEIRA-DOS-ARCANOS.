@@ -86,6 +86,8 @@ const PartyCombatBridge = () => {
 };
 
 export const GameLayout = ({ children }: GameLayoutProps) => {
+  const panel = useGameStore((state) => state.panel);
+
   return (
     <div className="bg-eclipsia relative flex h-screen flex-col overflow-hidden text-game-text">
       {/* Atmosfera: arte da cidade ao fundo + véus */}
@@ -102,7 +104,12 @@ export const GameLayout = ({ children }: GameLayoutProps) => {
       <div className="relative z-10 flex h-full flex-col">
         <PartyCombatBridge />
         <Header />
-        <main className="relative flex-1 overflow-hidden">{children}</main>
+        {/* Transição cinematográfica entre painéis (A15) */}
+        <main className="relative flex-1 overflow-hidden">
+          <div key={panel} className="h-full animate-[eclipsiaPanelIn_260ms_ease-out_both]">
+            {children}
+          </div>
+        </main>
         <Navbar />
       </div>
       <Notifications />

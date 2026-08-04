@@ -9,8 +9,9 @@ import { PROFICIENCIES, PROFICIENCY_ICONS } from '../../data/proficiencies';
 import { skills } from '../../data/skills';
 import { getComboKey } from '../../data/weaponCombos';
 import { resolveItemRef } from '../../utils/itemSerializer';
+import { PassivePanel } from './PassivePanel';
 
-type ProfileTab = 'status' | 'skills' | 'titles';
+type ProfileTab = 'status' | 'skills' | 'titles' | 'passives';
 
 const statKeys: Array<keyof Stats> = ['strength', 'agility', 'vitality', 'arcana', 'perception', 'will'];
 const lockedSlots = Array.from({ length: 6 }, (_, index) => index);
@@ -43,8 +44,8 @@ export const ProfilePanel = () => {
 
   return (
     <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
-      <div className="grid grid-cols-3 gap-2 rounded-xl border border-night-600 bg-night-900/80 p-1.5 font-mono text-sm shadow-panel">
-        {(['status', 'skills', 'titles'] as ProfileTab[]).map((item) => (
+      <div className="grid grid-cols-4 gap-2 rounded-xl border border-night-600 bg-night-900/80 p-1.5 font-mono text-sm shadow-panel">
+        {(['status', 'skills', 'passives', 'titles'] as ProfileTab[]).map((item) => (
           <button
             key={item}
             type="button"
@@ -183,6 +184,12 @@ export const ProfilePanel = () => {
                 </article>
               );
             })}
+          </div>
+        )}
+
+        {tab === 'passives' && (
+          <div className="h-full overflow-auto pr-1">
+            <PassivePanel />
           </div>
         )}
 

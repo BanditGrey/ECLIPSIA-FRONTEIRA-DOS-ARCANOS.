@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type { AutoConfig, CombatPhase, CombatState, Effect, Enemy, LogEntry } from '../types/combat.types';
+import type { LootResult } from '../systems/loot';
 
 const initialAutoConfig: AutoConfig = {
   mpThreshold: 20,
@@ -35,8 +36,22 @@ const initialCombatState: CombatState = {
   barrierPool: 0
 };
 
+export interface SkillEffect {
+  skillId: string;
+  skillName: string;
+  damageType?: 'physical' | 'magical' | 'void';
+  damagePercent?: number;
+  isCritical?: boolean;
+}
+
 interface CombatStoreState extends CombatState {
   skillCooldowns: Record<string, number>;
+  skillEffect: SkillEffect | null;
+  playerHit: number;
+  lastLoot: LootResult[];
+  setSkillEffect: (effect: SkillEffect | null) => void;
+  bumpPlayerHit: () => void;
+  setLastLoot: (loot: LootResult[]) => void;
   setEnemy: (enemy: Enemy | null) => void;
   setEnemyHp: (hp: number) => void;
   setPhase: (phase: CombatPhase) => void;
@@ -65,6 +80,12 @@ const tickEffectList = (effects: Effect[]) => {
 export const useCombatStore = create<CombatStoreState>((set, get) => ({
   ...initialCombatState,
   skillCooldowns: {},
+  skillEffect: null,
+  playerHit: 0,
+  lastLoot: [],
+  setSkillEffect: (effect) => set({ skillEffect: effect }),
+  bumpPlayerHit: () => set((state) => ({ playerHit: state.playerHit + 1 })),
+  setLastLoot: (loot) => set({ lastLoot: loot }),
   setEnemy: (enemy) => {
     set({
       enemy,
@@ -140,6 +161,9 @@ export const useCombatStore = create<CombatStoreState>((set, get) => ({
       ...initialCombatState,
       autoConfig: state.autoConfig,
       skillCooldowns: {},
+      skillEffect: null,
+      playerHit: 0,
+      lastLoot: [],
       shieldPool: 0,
       barrierPool: 0
     }));

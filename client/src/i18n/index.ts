@@ -373,8 +373,16 @@ export const translations: Record<LangCode, TranslationTree> = {
       "hub": "Central",
       "travel": "Viagem",
       "hunt": "Caça",
+      "boss": "Boss",
       "items": "Itens",
       "profile": "Perfil"
+    },
+    "bossRoom": {
+      "title": "Sala de Boss",
+      "fight": "Enfrentar",
+      "lockedLevel": "Nível baixo",
+      "cooldown": "Recarga",
+      "arena": "Sala de Boss"
     },
     "hub": {
       "travel": "Viajar",
@@ -537,7 +545,9 @@ export const translations: Record<LangCode, TranslationTree> = {
       "autoConfigModal": "Configuração automática",
       "lootModal": "Saque",
       "noSkills": "Nenhuma habilidade desbloqueada.",
-      "noLoot": "Nenhum saque disponível."
+      "cast": "Usar",
+      "noLoot": "Nenhum saque disponível.",
+      "outcome": {"victory": "VITÓRIA", "defeat": "DERROTA", "continue": "Continuar", "retry": "Recomeçar", "region": "Região", "turns": "Turnos", "foe": "Resultado", "loot": "Saques"}
     },
     "city": {
       "valedouro": "Valedouro",
@@ -853,6 +863,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "tabs": {
         "status": "STATUS",
         "skills": "SKILLS",
+        "passives": "PASSIVAS",
         "titles": "TÍTULOS"
       },
       "skillInfo": {
@@ -2104,8 +2115,16 @@ export const translations: Record<LangCode, TranslationTree> = {
       "hub": "Hub",
       "travel": "Travel",
       "hunt": "Hunt",
+      "boss": "Boss",
       "items": "Items",
       "profile": "Profile"
+    },
+    "bossRoom": {
+      "title": "Boss Room",
+      "fight": "Fight",
+      "lockedLevel": "Level too low",
+      "cooldown": "Cooldown",
+      "arena": "Boss Room"
     },
     "hub": {
       "travel": "Travel",
@@ -2268,7 +2287,9 @@ export const translations: Record<LangCode, TranslationTree> = {
       "autoConfigModal": "Auto configuration",
       "lootModal": "Loot",
       "noSkills": "No skills unlocked.",
-      "noLoot": "No loot available."
+      "cast": "Cast",
+      "noLoot": "No loot available.",
+      "outcome": {"victory": "VICTORY", "defeat": "DEFEAT", "continue": "Continue", "retry": "Try again", "region": "Region", "turns": "Turns", "foe": "Outcome", "loot": "Loot"}
     },
     "city": {
       "valedouro": "Valedouro",
@@ -2584,6 +2605,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "tabs": {
         "status": "STATUS",
         "skills": "SKILLS",
+        "passives": "PASSIVES",
         "titles": "TITLES"
       },
       "skillInfo": {
@@ -3834,8 +3856,16 @@ export const translations: Record<LangCode, TranslationTree> = {
       "hub": "Centro",
       "travel": "Viaje",
       "hunt": "Caza",
+      "boss": "Jefe",
       "items": "Objetos",
       "profile": "Perfil"
+    },
+    "bossRoom": {
+      "title": "Sala de Jefes",
+      "fight": "Luchar",
+      "lockedLevel": "Nivel bajo",
+      "cooldown": "Reutilización",
+      "arena": "Sala de Jefes"
     },
     "hub": {
       "travel": "Viajar",
@@ -3998,7 +4028,9 @@ export const translations: Record<LangCode, TranslationTree> = {
       "autoConfigModal": "Configuración automática",
       "lootModal": "Botín",
       "noSkills": "No hay habilidades desbloqueadas.",
-      "noLoot": "No hay botín disponible."
+      "cast": "Usar",
+      "noLoot": "No hay botín disponible.",
+      "outcome": {"victory": "VICTORIA", "defeat": "DERROTA", "continue": "Continuar", "retry": "Reintentar", "region": "Región", "turns": "Turnos", "foe": "Resultado", "loot": "Botín"}
     },
     "city": {
       "valedouro": "Valedouro",
@@ -4406,6 +4438,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "tabs": {
         "status": "ESTADO",
         "skills": "SKILLS",
+        "passives": "PASIVAS",
         "titles": "TÍTULOS"
       },
       "skillInfo": {
@@ -5564,8 +5597,16 @@ export const translations: Record<LangCode, TranslationTree> = {
       "hub": "拠点",
       "travel": "旅",
       "hunt": "狩り",
+      "boss": "ボス",
       "items": "アイテム",
       "profile": "プロフィール"
+    },
+    "bossRoom": {
+      "title": "ボス部屋",
+      "fight": "挑む",
+      "lockedLevel": "レベル不足",
+      "cooldown": "再使用",
+      "arena": "ボス部屋"
     },
     "hub": {
       "travel": "旅",
@@ -5728,7 +5769,9 @@ export const translations: Record<LangCode, TranslationTree> = {
       "autoConfigModal": "自動設定",
       "lootModal": "戦利品",
       "noSkills": "解除されたスキルはありません。",
-      "noLoot": "戦利品はありません。"
+      "cast": "発動",
+      "noLoot": "戦利品はありません。",
+      "outcome": {"victory": "勝利", "defeat": "敗北", "continue": "続ける", "retry": "再挑戦", "region": "地域", "turns": "ターン", "foe": "結果", "loot": "戦利品"}
     },
     "city": {
       "valedouro": "ヴァレドウロ",
@@ -6136,6 +6179,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "tabs": {
         "status": "状態",
         "skills": "スキル",
+        "passives": "パッシブ",
         "titles": "称号"
       },
       "skillInfo": {

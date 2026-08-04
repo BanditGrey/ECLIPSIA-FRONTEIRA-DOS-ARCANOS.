@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useAudio } from '../../hooks/useAudio';
 import { SkillEffectPanel } from '../effects/SkillEffectPanel';
 import { ParticleSystem } from '../effects/ParticleSystem';
@@ -11,7 +12,11 @@ import { useCombatStore } from '../../store/useCombatStore';
 import { useGameStore } from '../../store/useGameStore';
 import { usePartyCombatStore } from '../../store/usePartyCombatStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
+import { useSkill } from '../../systems/combat';
+import { CombatOutcomeScreen } from '../effects/CombatOutcomeScreen';
+import { ArcaneField } from '../effects/ArcaneField';
 import { Button } from '../ui/Button';
+import { ArcaneIcon } from '../ui/ArcaneIcon';
 import { Modal } from '../ui/Modal';
 import { ProgressBar } from '../ui/ProgressBar';
 
@@ -45,6 +50,11 @@ const SkillsModal = () => {
               </span>
             </div>
             <p className="mt-1 text-sm text-game-muted">{t(`skills.${skillId}.desc`)}</p>
+            <div className="mt-2 flex justify-end">
+              <Button size="sm" disabled={Boolean(cooldowns[skillId])} onClick={() => useSkill(skillId)}>
+                {t('combat.cast')}
+              </Button>
+            </div>
           </div>
         ))}
       </div>
@@ -116,13 +126,32 @@ const LootModal = () => {
 export const CombatPanel = () => {
   const [showParticles, setShowParticles] = useState(false);
   const audio = useAudio();
-  const [activeSkillEffect, setActiveSkillEffect] = useState<{skillId: string; skillName: string; damagePercent: number; isCritical?: boolean} | null>(null);
+  const activeSkillEffect = useCombatStore((state) => state.skillEffect);
+  const setActiveSkillEffect = useCombatStore((state) => state.setSkillEffect);
   const { t } = useI18n();
   const player = usePlayerStore((state) => state.data);
   const setPanel = useGameStore((state) => state.setPanel);
   const openModal = useGameStore((state) => state.openModal);
   const combat = useCombatStore();
   const huntSession = usePartyCombatStore((state) => state.session);
+  const playerHit = useCombatStore((state) => state.playerHit);
+  const [hitFx, setHitFx] = useState(false);
+  const [hitKey, setHitKey] = useState(0);
+
+  useEffect(() => {
+    if (playerHit > 0) {
+      setHitFx(true);
+      setHitKey((k) => k + 1);
+      const timer = setTimeout(() => setHitFx(false), 500);
+      return () => clearTimeout(timer);
+    }
+  }, [playerHit]);
+
+  const phase = useCombatStore((state) => state.phase);
+
+  if (phase === 'victory' || phase === 'defeat') {
+    return <CombatOutcomeScreen />;
+  }
 
   if (!combat.active || !combat.enemy) {
     return (
@@ -180,15 +209,25 @@ export const CombatPanel = () => {
             className="absolute inset-0 bg-cover bg-center opacity-30"
             style={{ backgroundImage: `url(${ART.bg.combat})` }}
           />
+          {/* cenário arcano animado */}
+          <ArcaneField className="absolute inset-0 h-full w-full opacity-70" density={1.2} />
           <div className="absolute inset-0 bg-gradient-to-b from-night-950/70 via-transparent to-night-950/80" />
           <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-red-500/70 to-transparent" />
+
+          {/* feedback de dano sofrido */}
+          {hitFx && (
+            <div key={hitKey} className="pointer-events-none absolute inset-0 z-10">
+              <div className="absolute inset-0 animate-[eclipsiaShake_0.5s_ease] bg-gradient-to-b from-red-800/20 via-transparent to-red-800/20" />
+              <ParticleSystem trigger={hitFx} type="hit" className="absolute inset-0 h-full w-full" />
+            </div>
+          )}
 
           <div className="relative grid p-4">
             <div className="flex items-center gap-4">
               {BOSS_IDS.includes(combat.enemy.id) ? (
                 <Portrait kind="boss" id={combat.enemy.id} size={72} fallbackIcon={combat.enemy.icon} ring="red" />
               ) : (
-                <span className="sigil-disc h-16 w-16 text-4xl">{combat.enemy.icon}</span>
+                <Portrait kind="monster" id={combat.enemy.id} size={72} fallbackIcon={combat.enemy.icon} ring="arcane" />
               )}
               <div className="min-w-0 flex-1">
                 <h2 className="title-gold truncate font-title text-xl font-bold">{t(combat.enemy.nameKey)}</h2>
@@ -237,20 +276,20 @@ export const CombatPanel = () => {
       {activeSkillEffect && <SkillEffectPanel {...activeSkillEffect} onComplete={() => setActiveSkillEffect(null)} showParticles narrate playSound />}
       <footer className="grid shrink-0 gap-2">
         <div className="grid grid-cols-2 gap-2">
-          <ActionButton onClick={() => { audio.playSound('/assets/audio/sfx/attack.mp3'); setShowParticles(true); combat.addLog('attack', t('combat.attack')); }}>⚔ {t('combat.attack')}</ActionButton>
-          <ActionButton onClick={() => combat.addLog('defend', t('combat.defend'))}>🛡 {t('combat.defend')}</ActionButton>
-          <ActionButton onClick={() => { openModal(SKILLS_MODAL); setActiveSkillEffect({ skillId: 'slash', skillName: 'Golpe Cortante', damagePercent: 150, isCritical: Math.random() > 0.7 }); }}>🔮 {t('combat.skills')}</ActionButton>
-          <ActionButton variant="danger" onClick={() => combat.resetCombat()}>🏃 {t('combat.flee')}</ActionButton>
+          <ActionButton onClick={() => { audio.playSound('/assets/audio/sfx/attack.mp3'); setShowParticles(true); combat.addLog('attack', t('combat.attack')); }}><ArcaneIcon name="sword" glow /> {t('combat.attack')}</ActionButton>
+          <ActionButton onClick={() => combat.addLog('defend', t('combat.defend'))}><ArcaneIcon name="shield" glow /> {t('combat.defend')}</ActionButton>
+          <ActionButton onClick={() => openModal(SKILLS_MODAL)}><ArcaneIcon name="magic" glow /> {t('combat.skills')}</ActionButton>
+          <ActionButton variant="danger" onClick={() => combat.resetCombat()}><ArcaneIcon name="flee" /> {t('combat.flee')}</ActionButton>
         </div>
         <Button variant="ghost" fullWidth onClick={() => openModal(LOG_MODAL)}>
           {t('combat.log.title')}
         </Button>
         <div className="grid grid-cols-2 gap-2">
           <Button variant={combat.autoFight ? 'success' : 'secondary'} onClick={combat.toggleAutoFight}>
-            🤖 {t('combat.autoFight')} [{combat.autoFight ? t('combat.on') : t('combat.off')}]
+            <ArcaneIcon name="auto" glow={combat.autoFight} /> {t('combat.autoFight')} [{combat.autoFight ? t('combat.on') : t('combat.off')}]
           </Button>
           <Button variant={combat.autoAdvance ? 'success' : 'secondary'} onClick={combat.toggleAutoAdvance}>
-            ⏩ {t('combat.autoAdvance')} [{combat.autoAdvance ? t('combat.on') : t('combat.off')}]
+            <ArcaneIcon name="advance" glow={combat.autoAdvance} /> {t('combat.autoAdvance')} [{combat.autoAdvance ? t('combat.on') : t('combat.off')}]
           </Button>
         </div>
         <Button variant="ghost" size="sm" onClick={() => openModal(AUTO_MODAL)}>

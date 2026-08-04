@@ -2,6 +2,7 @@ import { useI18n } from '../../hooks/useI18n';
 import { useGameStore } from '../../store/useGameStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
 import { ART } from '../../data/art';
+import { ArcaneIcon } from '../ui/ArcaneIcon';
 
 export const Header = () => {
   const { t } = useI18n();
@@ -32,21 +33,21 @@ export const Header = () => {
       </div>
 
       <div className="flex shrink-0 items-center gap-2 font-mono text-sm">
-        <span className="chip text-gold-300" title={t('header.gold')}>
-          <span className="text-xs">🪙</span>
+        <span className="chip gap-1 text-gold-300" title={t('header.gold')}>
+          <ArcaneIcon name="coin" size={15} glow />
           <span className="tabular-nums">{player?.gold ?? 0}</span>
         </span>
-        <span className="chip text-arcane-300" title={t('header.crystalsHint')}>
-          <span className="text-xs">💎</span>
+        <span className="chip gap-1 text-arcane-300" title={t('header.crystalsHint')}>
+          <ArcaneIcon name="gem" size={15} glow />
           <span className="tabular-nums">{player?.crystals ?? 0}</span>
         </span>
         <button
           type="button"
-          className="icon-tile h-8 w-8 rounded-lg text-game-muted transition-all hover:text-gold-300 active:scale-95"
+          className="icon-tile grid h-8 w-8 place-items-center rounded-lg text-game-muted transition-all hover:text-gold-300 active:scale-95"
           onClick={() => openModal('modal-settings')}
           aria-label={t('header.settings')}
         >
-          <span className="text-sm">⚙</span>
+          <ArcaneIcon name="settings" size={17} />
         </button>
       </div>
     </header>

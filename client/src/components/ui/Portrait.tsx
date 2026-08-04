@@ -1,7 +1,7 @@
-import { ART, type ClassArtId, type BossArtId } from '../../data/art';
+import { ART, type ClassArtId, type BossArtId, type MonsterArtId } from '../../data/art';
 
 interface PortraitProps {
-  kind: 'class' | 'boss';
+  kind: 'class' | 'boss' | 'monster';
   id: string;
   size?: number;
   className?: string;
@@ -25,7 +25,8 @@ const ringClasses = {
  * anel de sigilo com o emoji do ícone (consistente com o design system).
  */
 export const Portrait = ({ kind, id, size = 96, className = '', fallbackIcon = '👾', ring = 'gold', dim = false }: PortraitProps) => {
-  const src = kind === 'class' ? (ART.classes as Record<string, string>)[id] : (ART.bosses as Record<string, string>)[id];
+  const map = kind === 'class' ? ART.classes : kind === 'boss' ? ART.bosses : ART.monsters;
+  const src = (map as Record<string, string>)[id];
   const hasArt = Boolean(src);
 
   return (

@@ -160,11 +160,28 @@ só os companheiros locais participam do combate. Meta: grupo lutar junto.
       arte do boss quando aplicável), viagem (regiões + dungeons com boss),
       perfil (retrato), wiki, loading
 - [x] Baselines intactos após a reforma (89/89 · 41/41 · 18/18 · build)
-- [ ] Pinturas pendentes (limite de 10 imagens/sessão): bosses azhur,
-      thal_mora e velkaryn (hoje: anel de sigilo com emoji) — gerar em
-      sessão futura
-- [ ] Monstros (15) sem pintura dedicada (hoje: emoji em anel de sigilo) —
-      opcional, sessão futura
+- [x] Pinturas dos 3 bosses restantes (azhur, thal_mora, velkaryn) geradas
+      e registradas em `data/art.ts` — Portrait resolve em todos os 6 bosses
+- [x] Pinturas de 6 monstros (goblin, mist_wolf, shadow_sprite,
+      forest_golem, storm_harpy, cloud_titan) + `Portrait kind="monster"`;
+      demais monstros usam fallback emoji no anel de sigilo
+
+### ⚔ FASE 2 — FX/Animações/UI (✅ concluída nesta sessão)
+- [x] Build restaurado (4 erros de tsc) + baselines 89/89 · 41/41 · 18/18
+- [x] ParticleSystem (canvas, pooling, glow, blend) por tipo de efeito
+- [x] SkillEffectPanel reescrito (partículas, dano flutuante, screen shake, SFX por tipo físico/mágico/vazio) + FX de skill integrado ao cast real (botão "Usar")
+- [x] CombatOutcomeScreen: Vitória/Derrota cinematográfica (A17)
+- [x] ArcaneIcon SVG no HUD de combate e Navbar (A08/A09)
+- [x] Skill Tree: PassivePanel v2 conectado + aba "Passivas" no Perfil (A11)
+- [x] Cenário arcano animado no campo de batalha (ArcaneField) (A12)
+- [x] Feedback de dano sofrido: shake + flash + partículas (A16)
+- [x] i18n novo nos 4 idiomas (cast, combat.outcome.*, profile.tabs.passives)
+- [x] **Boss Room funcional**: BossPanel lista os colossos com retrato, nível de
+      acesso a cada 20 níveis e entrada em combate via combatEngine.start({ bossId });
+      painel 'boss' + aba no Navbar (A04)
+- [x] Transição cinematográfica entre painéis no GameLayout (A15)
+- [x] HUD: Header com ícones arcanos p/ moedas e configurações (A09)
+- [x] Loot exibido na tela de vitória (handleVictory guarda lastLoot) (A13)
 
 ## ⚔ CASO 8 — Sistema de Proficiência de Armas (✅ CONCLUÍDO)
 
