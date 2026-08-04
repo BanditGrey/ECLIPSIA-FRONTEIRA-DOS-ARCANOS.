@@ -781,7 +781,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "offline": "Correio indisponível (servidor offline)."
     },
     "market": {
-      "tabs": { "buy": "Comprar", "sell": "Vender", "mine": "Minhas ofertas" },
+      "tabs": { "buy": "Comprar", "sell": "Vender", "mine": "Minhas ofertas", "auctions": "Leilões" },
       "empty": "Nenhuma oferta.",
       "seller": "Vendedor",
       "buy": "Comprar",
@@ -795,7 +795,27 @@ export const translations: Record<LangCode, TranslationTree> = {
       "offline": "Mercado indisponível (servidor offline).",
       "error": "Erro no mercado",
       "taxNote": "Taxas: 2 💎 para listar (não reembolsável) e 5% sobre a venda.",
-      "crystalsCurrency": "O mercado mundial usa 💎 Cristais (moeda paga) — o ouro do jogo fica protegido da economia entre jogadores.",
+      "crystalsCurrency": "O mercado mundial usa 💎 Cristais (moeda paga) — o ouro do jogo fica protegido da economia entre jogadores."
+    },
+    "auction": {
+      "createTitle": "Criar leilão",
+      "feeNote": "Taxa de listagem: 3 💎 (não reembolsável). Imposto de 5% sobre o valor final.",
+      "startPrice": "Preço inicial (💎)",
+      "duration": "Duração:",
+      "create": "Leiloar",
+      "created": "Leilão criado!",
+      "activeTitle": "Leilões ativos",
+      "empty": "Nenhum leilão ativo.",
+      "seller": "Vendedor",
+      "bidsWord": "lances",
+      "startAbbr": "início",
+      "minBid": "Lance mínimo",
+      "bid": "Dar lance",
+      "bidPlaced": "Lance registrado!",
+      "bidTooLow": "Lance abaixo do mínimo",
+      "yours": "Seu leilão",
+      "expired": "encerrado",
+      "error": "Erro no leilão"
     },
     "crafting": {
       "craft": "Forjar",
@@ -1849,7 +1869,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "offline": "Mail unavailable (server offline)."
     },
     "market": {
-      "tabs": { "buy": "Buy", "sell": "Sell", "mine": "My listings" },
+      "tabs": { "buy": "Buy", "sell": "Sell", "mine": "My listings", "auctions": "Auctions" },
       "empty": "No listings.",
       "seller": "Seller",
       "buy": "Buy",
@@ -1863,7 +1883,27 @@ export const translations: Record<LangCode, TranslationTree> = {
       "offline": "Market unavailable (server offline).",
       "error": "Market error",
       "taxNote": "Fees: 2 💎 listing fee (non-refundable) and 5% tax on sale.",
-      "crystalsCurrency": "The world market uses 💎 Crystals (paid currency) — in-game gold stays protected from the player economy.",
+      "crystalsCurrency": "The world market uses 💎 Crystals (paid currency) — in-game gold stays protected from the player economy."
+    },
+    "auction": {
+      "createTitle": "Create auction",
+      "feeNote": "Listing fee: 3 💎 (non-refundable). 5% tax on the final amount.",
+      "startPrice": "Starting price (💎)",
+      "duration": "Duration:",
+      "create": "Auction",
+      "created": "Auction created!",
+      "activeTitle": "Active auctions",
+      "empty": "No active auctions.",
+      "seller": "Seller",
+      "bidsWord": "bids",
+      "startAbbr": "start",
+      "minBid": "Minimum bid",
+      "bid": "Bid",
+      "bidPlaced": "Bid placed!",
+      "bidTooLow": "Bid below the minimum",
+      "yours": "Your auction",
+      "expired": "ended",
+      "error": "Auction error"
     },
     "crafting": {
       "craft": "Forge",
@@ -2908,7 +2948,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "offline": "Correo no disponible (servidor offline)."
     },
     "market": {
-      "tabs": { "buy": "Comprar", "sell": "Vender", "mine": "Mis ofertas" },
+      "tabs": { "buy": "Comprar", "sell": "Vender", "mine": "Mis ofertas", "auctions": "Subastas" },
       "empty": "No hay ofertas.",
       "seller": "Vendedor",
       "buy": "Comprar",
@@ -2922,7 +2962,27 @@ export const translations: Record<LangCode, TranslationTree> = {
       "offline": "Mercado no disponible (servidor offline).",
       "error": "Error de mercado",
       "taxNote": "Tasas: 2 💎 por listar (no reembolsable) y 5% sobre la venta.",
-      "crystalsCurrency": "El mercado mundial usa 💎 Cristales (moneda de pago): el oro del juego queda protegido de la economía entre jugadores.",
+      "crystalsCurrency": "El mercado mundial usa 💎 Cristales (moneda de pago): el oro del juego queda protegido de la economía entre jugadores."
+    },
+    "auction": {
+      "createTitle": "Crear subasta",
+      "feeNote": "Tarifa de listado: 3 💎 (no reembolsable). Impuesto del 5% sobre el valor final.",
+      "startPrice": "Precio inicial (💎)",
+      "duration": "Duración:",
+      "create": "Subastar",
+      "created": "¡Subasta creada!",
+      "activeTitle": "Subastas activas",
+      "empty": "No hay subastas activas.",
+      "seller": "Vendedor",
+      "bidsWord": "pujas",
+      "startAbbr": "inicio",
+      "minBid": "Puja mínima",
+      "bid": "Pujar",
+      "bidPlaced": "¡Puja registrada!",
+      "bidTooLow": "Puja por debajo del mínimo",
+      "yours": "Tu subasta",
+      "expired": "terminada",
+      "error": "Error en la subasta"
     },
     "crafting": {
       "craft": "Forjar",
@@ -4057,7 +4117,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "offline": "郵便は利用できません（サーバーオフライン）。"
     },
     "market": {
-      "tabs": { "buy": "購入", "sell": "売却", "mine": "出品一覧" },
+      "tabs": { "buy": "購入", "sell": "売却", "mine": "出品一覧", "auctions": "オークション" },
       "empty": "出品はありません。",
       "seller": "出品者",
       "buy": "購入",
@@ -4072,6 +4132,26 @@ export const translations: Record<LangCode, TranslationTree> = {
       "error": "市場エラー",
       "taxNote": "手数料：出品2💎（返金不可）＋売却額5%の税金。",
       "crystalsCurrency": "世界市場は💎クリスタル（有料通貨）を使用 — ゲーム内ゴールドはプレイヤー間経済から守られます。"
+    },
+    "auction": {
+      "createTitle": "オークションを作成",
+      "feeNote": "出品料：3💎（返金不可）。落札額に5%の税金。",
+      "startPrice": "開始価格（💎）",
+      "duration": "期間：",
+      "create": "出品する",
+      "created": "オークションを作成しました！",
+      "activeTitle": "開催中のオークション",
+      "empty": "開催中のオークションはありません。",
+      "seller": "出品者",
+      "bidsWord": "件の入札",
+      "startAbbr": "開始",
+      "minBid": "最低入札額",
+      "bid": "入札する",
+      "bidPlaced": "入札しました！",
+      "bidTooLow": "最低入札額未満です",
+      "yours": "あなたのオークション",
+      "expired": "終了",
+      "error": "オークションエラー"
     },
     "crafting": {
       "craft": "鍛造",

@@ -20,6 +20,8 @@ type Status = 'OK' | 'PARTIAL' | 'MISSING' | 'CRITICAL';
 const results: Array<{ block: string; item: string; status: Status; note?: string }> = [];
 const rec = (block: string, item: string, status: Status, note?: string) => results.push({ block, item, status, note });
 
+const langs = ['pt-BR', 'en-US', 'es-ES', 'ja-JP'] as const;
+
 // ── Regras puras da caçada ──
 rec('regras', 'clampReportNumber bloqueia abusos', clampReportNumber(-1) === 0 && clampReportNumber(1e9) === MAX_TURN_DAMAGE ? 'OK' : 'CRITICAL');
 rec('regras', 'computeSizeBonus 5 membros = +50/+25/+15', JSON.stringify(computeSizeBonus(5)) === JSON.stringify({ xp: 50, gold: 25, loot: 15 }) ? 'OK' : 'CRITICAL');
@@ -45,6 +47,30 @@ rec('server', 'Guildas: endpoints principais', ['create', 'join', 'leave', 'kick
 const mailSrc = read('server/src/routes/mail.routes.js');
 rec('server', 'Mail suporta itemStr + ouro + crystals', mailSrc.includes('itemStr') && mailSrc.includes('crystals') ? 'OK' : 'MISSING');
 rec('server', 'Concessão de crystals protegida por ADMIN_KEY', read('server/src/routes/player.routes.js').includes('ADMIN_KEY') ? 'OK' : 'MISSING');
+
+// ── Leilão (Caso 2) ──
+const auctionModelOk = fs.existsSync(path.join(ROOT, 'server/src/models/Auction.js'));
+rec('leilao', 'Modelo Auction existe', auctionModelOk ? 'OK' : 'CRITICAL');
+const auctionSrc = fs.existsSync(path.join(ROOT, 'server/src/routes/auction.routes.js')) ? read('server/src/routes/auction.routes.js') : '';
+const auctionEndpoints = ['/list', '/my', '/create', '/bid', '/cancel'];
+const missingAuction = auctionEndpoints.filter((e) => !auctionSrc.includes(`'${e}'`));
+rec('leilao', 'Rotas do leilão (list/my/create/bid/cancel)', missingAuction.length === 0 ? 'OK' : 'CRITICAL', missingAuction.length ? `faltando: ${missingAuction.join(', ')}` : undefined);
+rec('leilao', 'Liquidação lazy de expirados + reembolso do licitante coberto', auctionSrc.includes('settleExpired') && auctionSrc.includes('reembolso') ? 'OK' : 'MISSING');
+rec('leilao', 'Taxas: listagem em 💎 + imposto sobre o final', auctionSrc.includes('AUCTION_LISTING_FEE') && auctionSrc.includes('AUCTION_TAX_RATE') ? 'OK' : 'MISSING');
+rec('leilao', 'Registrado no server (/api/auction)', read('server/src/server.js').includes("app.use('/api/auction', auctionRoutes)") ? 'OK' : 'CRITICAL');
+const apiSrc = read('client/src/services/api.ts');
+rec('leilao', 'API.auction no client (list/my/create/bid/cancel)', ['list(', 'my(', 'create(', 'bid(', 'cancel('].every((m) => apiSrc.slice(apiSrc.indexOf('auction:')).includes(m)) ? 'OK' : 'MISSING');
+const marketPanelSrc = read('client/src/components/panels/items/MarketPanel.tsx');
+rec('leilao', 'MarketPanel: aba de leilões (criar/licitar/cancelar)', ['placeBid', 'createAuction', 'cancelAuction', 'formatTimeLeft'].every((k) => marketPanelSrc.includes(k)) ? 'OK' : 'MISSING');
+let auctionI18nOk = true;
+const auctionMissing: string[] = [];
+for (const lang of langs) {
+  const tree = (translations[lang] as Record<string, unknown>).auction as Record<string, unknown> | undefined;
+  for (const key of ['createTitle', 'startPrice', 'bid', 'minBid', 'empty', 'feeNote']) {
+    if (!tree || !(key in tree)) { auctionI18nOk = false; auctionMissing.push(`${lang}:auction.${key}`); }
+  }
+}
+rec('leilao', 'auction.* completo nos 4 idiomas', auctionI18nOk ? 'OK' : 'MISSING', auctionMissing.join(', ') || undefined);
 
 // ── Client: caçada ──
 const storeSrc = read('client/src/store/usePartyCombatStore.ts');
@@ -76,7 +102,6 @@ for (const dungeon of dungeons) {
 rec('dados', 'Dungeons com região e boss válidos', dungeonDataOk ? 'OK' : 'CRITICAL', dungeonNotes.join('; ') || undefined);
 
 // ── i18n social (4 idiomas) ──
-const langs = ['pt-BR', 'en-US', 'es-ES', 'ja-JP'] as const;
 const requiredPartyCombat = ['started', 'ended', 'startHunt', 'startDungeon', 'enterFloor', 'sizeBonusHint', 'waitLeader', 'floor'];
 let i18nOk = true;
 const i18nMissing: string[] = [];

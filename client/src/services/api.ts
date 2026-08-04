@@ -173,6 +173,24 @@ export const API = {
     }
   },
 
+  auction: {
+    list() {
+      return API.get('/auction/list');
+    },
+    my(sellerName: string) {
+      return API.get(`/auction/my?sellerName=${encodeURIComponent(sellerName)}`);
+    },
+    create(payload: { charName: string; itemRef: string; startPrice: number; minIncrement?: number; durationHours?: number }) {
+      return API.post('/auction/create', payload);
+    },
+    bid(payload: { auctionId: string; charName: string; amount: number }) {
+      return API.post('/auction/bid', payload);
+    },
+    cancel(payload: { auctionId: string; charName: string }) {
+      return API.post('/auction/cancel', payload);
+    }
+  },
+
   guild: {
     list() {
       return API.get('/guild/list');

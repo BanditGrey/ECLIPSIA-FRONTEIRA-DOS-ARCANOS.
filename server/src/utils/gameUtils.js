@@ -51,6 +51,28 @@ export const removeFromInventory = (character, ref, qty = 1) => {
   return true;
 };
 
+/**
+ * Helpers de crédito usados por leilão/mercado.
+ * addToInventory/removeFromInventory são as mesmas funções acima;
+ * addCrystalsToCharacter credita 💎 direto no personagem (busca global).
+ */
+const addCrystalsToCharacter = async (charName, amount) => {
+  // Import dinâmico para evitar ciclo (models não importam utils)
+  const { Player } = await import('../models/Player.js');
+  const player = await Player.findOne({ 'characters.name': charName });
+  const character = player?.characters.find((c) => c.name === charName);
+
+  if (!character) {
+    return false;
+  }
+
+  character.crystals = (character.crystals ?? 0) + Math.max(0, Math.floor(amount));
+  await player.save();
+  return true;
+};
+
+export const PLAYER_CREDIT_HELPERS = { addToInventory, removeFromInventory, addCrystalsToCharacter };
+
 /** Localiza o personagem ativo (ou por id) dentro do documento do jogador. */
 export const getCharacter = (player, charId) => {
   if (!player) return null;

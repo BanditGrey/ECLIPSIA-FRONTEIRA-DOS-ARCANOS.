@@ -11,6 +11,7 @@ import { playerRoutes } from './routes/player.routes.js';
 import { rankingRoutes } from './routes/ranking.routes.js';
 import { mailRoutes } from './routes/mail.routes.js';
 import { marketRoutes } from './routes/market.routes.js';
+import { auctionRoutes } from './routes/auction.routes.js';
 import { guildRoutes } from './routes/guild.routes.js';
 import { ChatMessage } from './models/ChatMessage.js';
 import { Guild } from './models/Guild.js';
@@ -122,6 +123,7 @@ app.use('/api/player', playerRoutes);
 app.use('/api/ranking', rankingRoutes);
 app.use('/api/mail', mailRoutes);
 app.use('/api/market', marketRoutes);
+app.use('/api/auction', auctionRoutes);
 app.use('/api/guild', guildRoutes);
 
 const io = new Server(server, {
