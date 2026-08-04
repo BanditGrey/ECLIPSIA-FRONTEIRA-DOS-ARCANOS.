@@ -485,8 +485,7 @@ Feito na segunda leva: ✅ trade P2P via socket, ✅ encantamento (98) + 2 conju
 
 Restante:
 1. 🧪 Testes de integração das rotas mail/market (precisa mongodb-memory-server) e do fluxo de trade
-2. 💾 Trade/party state em memória no server (reiniciou = pendências somem) — mover p/ Mongo se necessário
-3. 🎛 Balancear economia (preços em crystals, custos de craft/upgrade) com dados reais
+2. 🎛 Balancear economia (preços em crystals, custos de craft/upgrade) com dados reais
 
 ---
 
