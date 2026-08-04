@@ -19,3 +19,13 @@ Progresso desta sessão (2026-08-04):
 - ✅ Feedback de dano sofrido: shake + flash + partículas (A16)
 - ✅ Arte gerada: 3 bosses (azhur, thal_mora, velkaryn) + 6 monstros (A03/A04)
 - ✅ i18n novo nos 4 idiomas (cast, combat.outcome.*, profile.tabs.passives)
+
+Continuidade (2026-08-04, 2ª leva):
+- ✅ Boss Room funcional (A04): BossPanel com lista de colossos, retratos, nível de
+      acesso a cada 20 níveis e entrada em combate via combatEngine.start({ bossId });
+      novo painel 'boss' + aba no Navbar
+- ✅ Transição cinematográfica entre painéis (A15): fade/slide/brightness no GameLayout
+- ✅ HUD profissional: Header com ícones arcano (coin/gem/settings) p/ moedas e configurações (A09)
+- ✅ Loot na tela de vitória (A13): handleVictory guarda lastLoot; CombatOutcomeScreen
+      exibe itens ganhos (nome i18n + qtd + baú)
+- ✅ Baselines intactos em todas as entregas (89/89 · 41/41 · build OK)

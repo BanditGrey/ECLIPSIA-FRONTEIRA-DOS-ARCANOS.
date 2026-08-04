@@ -109,6 +109,16 @@ cd ../server && npm test
   `Portrait` ganhou `kind="monster"`. i18n novo nos 4 idiomas (`cast`,
   `combat.outcome.*`, `profile.tabs.passives`). Baselines 89/89 · 41/41 ·
   18/18 · build OK.
+- **🎯 Boss Room funcional + transições + HUD (2ª leva, 2026-08-04)**:
+  `BossPanel` reescrito e conectado (painel 'boss' + aba no Navbar): lista os
+  colossos com retrato (arte dos bosses), nível de acesso a cada 20 níveis,
+  drop bônus e entrada em combate via `combatEngine.start({ bossId })`.
+  **Transição cinematográfica entre painéis** no GameLayout (A15). **HUD**:
+  Header com `ArcaneIcon` (coin/gem/settings) p/ moedas e configurações (A09).
+  **Loot na tela de vitória**: `handleVictory` guarda `lastLoot` no combat
+  store; `CombatOutcomeScreen` exibe itens ganhos (nome i18n + qtd + baú) (A13).
+  i18n `nav.boss`, `bossRoom.*`, `combat.outcome.loot` nos 4 idiomas.
+  Baselines 89/89 · 41/41 · build OK.
 
 ### 0.4 Regras de ouro (não viole)
 1. Nunca quebrar os baselines do §0.2 (auditorias 89/89 e 41/41, testes 18/18).

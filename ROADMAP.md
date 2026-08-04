@@ -176,6 +176,12 @@ só os companheiros locais participam do combate. Meta: grupo lutar junto.
 - [x] Cenário arcano animado no campo de batalha (ArcaneField) (A12)
 - [x] Feedback de dano sofrido: shake + flash + partículas (A16)
 - [x] i18n novo nos 4 idiomas (cast, combat.outcome.*, profile.tabs.passives)
+- [x] **Boss Room funcional**: BossPanel lista os colossos com retrato, nível de
+      acesso a cada 20 níveis e entrada em combate via combatEngine.start({ bossId });
+      painel 'boss' + aba no Navbar (A04)
+- [x] Transição cinematográfica entre painéis no GameLayout (A15)
+- [x] HUD: Header com ícones arcanos p/ moedas e configurações (A09)
+- [x] Loot exibido na tela de vitória (handleVictory guarda lastLoot) (A13)
 
 ## ⚔ CASO 8 — Sistema de Proficiência de Armas (✅ CONCLUÍDO)
 
