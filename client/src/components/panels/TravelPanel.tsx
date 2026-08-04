@@ -13,6 +13,7 @@ import type { Item } from '../../types/item.types';
 import { Button } from '../ui/Button';
 import { ART } from '../../data/art';
 import { Portrait } from '../ui/Portrait';
+import { ArcaneField } from '../effects/ArcaneField';
 
 type TravelTab = 'regions' | 'dungeons';
 
@@ -132,8 +133,12 @@ export const TravelPanel = () => {
   };
 
   return (
-    <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
-      <div className="grid grid-cols-2 gap-2 rounded-xl border border-night-600 bg-night-900/80 p-1.5 font-mono text-sm shadow-panel">
+    <div className="relative grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
+      {/* Cenário arcano animado de fundo (A12) */}
+      <ArcaneField className="pointer-events-none absolute inset-0 h-full w-full opacity-40" density={0.8} />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-night-950/70 via-transparent to-night-950/70" />
+
+      <div className="relative z-10 grid grid-cols-2 gap-2 rounded-xl border border-night-600 bg-night-900/80 p-1.5 font-mono text-sm shadow-panel">
         <button
           type="button"
           className={[tab === 'regions' ? 'btn-gold' : 'text-game-muted hover:bg-night-800/70 hover:text-game-text', 'rounded-lg py-2 transition-all active:scale-95'].join(' ')}
@@ -150,7 +155,7 @@ export const TravelPanel = () => {
         </button>
       </div>
 
-      <section className="min-h-0 overflow-hidden rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
+      <section className="relative z-10 min-h-0 overflow-hidden rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
         {tab === 'regions' ? (
           <div className="grid h-full gap-3 overflow-auto pr-1">
             {regions.map((region) => {
