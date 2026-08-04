@@ -124,75 +124,76 @@ export interface ProficiencyPassiveTier {
 }
 
 export const PROFICIENCY_PASSIVES: Record<WeaponCategory, ProficiencyPassiveTier[]> = {
+  // TETOS (somados nos 3 tiers): dmg ≤ 12% · crit ≤ 8% · critDmg ≤ 25% · def ≤ 12% · heal ≤ 10%
   sword_one: [
     { at: 50, critChance: 0.02, critDamage: 0.05 },
-    { at: 150, critChance: 0.04, critDamage: 0.1 },
-    { at: 300, critChance: 0.06, critDamage: 0.15 }
+    { at: 150, critChance: 0.03, critDamage: 0.07 },
+    { at: 300, critChance: 0.03, critDamage: 0.08 }
   ],
   sword_two: [
-    { at: 50, dmgBonus: 0.02, critChance: 0.01 },
-    { at: 150, dmgBonus: 0.04, critChance: 0.02 },
-    { at: 300, dmgBonus: 0.06, critChance: 0.03 }
+    { at: 50, dmgBonus: 0.03, critChance: 0.01 },
+    { at: 150, dmgBonus: 0.04, critChance: 0.01 },
+    { at: 300, dmgBonus: 0.05, critChance: 0.01 }
   ],
   great_sword: [
-    { at: 50, dmgBonus: 0.03, critDamage: 0.05 },
-    { at: 150, dmgBonus: 0.06, critDamage: 0.1 },
-    { at: 300, dmgBonus: 0.1, critDamage: 0.2 }
+    { at: 50, dmgBonus: 0.04, critDamage: 0.05 },
+    { at: 150, dmgBonus: 0.04, critDamage: 0.07 },
+    { at: 300, dmgBonus: 0.04, critDamage: 0.08 }
   ],
   dagger: [
-    { at: 50, critChance: 0.03, critDamage: 0.05 },
-    { at: 150, critChance: 0.05, critDamage: 0.1 },
-    { at: 300, critChance: 0.08, critDamage: 0.15 }
+    { at: 50, critChance: 0.02, critDamage: 0.05 },
+    { at: 150, critChance: 0.03, critDamage: 0.05, dmgBonus: 0.01 },
+    { at: 300, critChance: 0.03, critDamage: 0.05, dmgBonus: 0.01 }
   ],
   dagger_off: [
     { at: 50, critChance: 0.02, dmgBonus: 0.02 },
-    { at: 150, critChance: 0.04, dmgBonus: 0.04 },
-    { at: 300, critChance: 0.06, dmgBonus: 0.06 }
+    { at: 150, critChance: 0.02, dmgBonus: 0.03 },
+    { at: 300, critChance: 0.02, dmgBonus: 0.04 }
   ],
   bow_short: [
-    { at: 50, critChance: 0.02, dmgBonus: 0.02 },
-    { at: 150, critChance: 0.04, dmgBonus: 0.04 },
-    { at: 300, critChance: 0.06, dmgBonus: 0.06 }
+    { at: 50, dmgBonus: 0.03, critChance: 0.01 },
+    { at: 150, dmgBonus: 0.03, critChance: 0.01 },
+    { at: 300, dmgBonus: 0.04, critChance: 0.02 }
   ],
   bow_long: [
     { at: 50, critDamage: 0.08, dmgBonus: 0.02 },
-    { at: 150, critDamage: 0.15, dmgBonus: 0.04 },
-    { at: 300, critDamage: 0.25, dmgBonus: 0.06 }
+    { at: 150, critDamage: 0.08, dmgBonus: 0.02 },
+    { at: 300, critDamage: 0.09, dmgBonus: 0.02 }
   ],
   staff_one: [
     { at: 50, healBonus: 0.03, dmgBonus: 0.02 },
-    { at: 150, healBonus: 0.06, dmgBonus: 0.04 },
-    { at: 300, healBonus: 0.1, dmgBonus: 0.06 }
+    { at: 150, healBonus: 0.03, dmgBonus: 0.03 },
+    { at: 300, healBonus: 0.04, dmgBonus: 0.03 }
   ],
   staff_two: [
-    { at: 50, dmgBonus: 0.03, critChance: 0.01 },
-    { at: 150, dmgBonus: 0.06, critChance: 0.02 },
-    { at: 300, dmgBonus: 0.1, critChance: 0.03 }
+    { at: 50, dmgBonus: 0.04, critChance: 0.01 },
+    { at: 150, dmgBonus: 0.04, critChance: 0.01 },
+    { at: 300, dmgBonus: 0.04, critChance: 0.01 }
   ],
   orb: [
-    { at: 50, dmgBonus: 0.02, critDamage: 0.05 },
-    { at: 150, dmgBonus: 0.05, critDamage: 0.1 },
-    { at: 300, dmgBonus: 0.08, critDamage: 0.2 }
+    { at: 50, critDamage: 0.07, dmgBonus: 0.02 },
+    { at: 150, critDamage: 0.08, dmgBonus: 0.02 },
+    { at: 300, critDamage: 0.1, dmgBonus: 0.02 }
   ],
   tome: [
-    { at: 50, defBonus: 0.02, healBonus: 0.03 },
-    { at: 150, defBonus: 0.04, healBonus: 0.06 },
-    { at: 300, defBonus: 0.06, healBonus: 0.1 }
+    { at: 50, healBonus: 0.03, defBonus: 0.02 },
+    { at: 150, healBonus: 0.03, defBonus: 0.03 },
+    { at: 300, healBonus: 0.04, defBonus: 0.04 }
   ],
   hammer: [
-    { at: 50, defBonus: 0.03, dmgBonus: 0.02 },
-    { at: 150, defBonus: 0.06, dmgBonus: 0.04 },
-    { at: 300, defBonus: 0.1, dmgBonus: 0.06 }
+    { at: 50, defBonus: 0.04, dmgBonus: 0.02 },
+    { at: 150, defBonus: 0.04, dmgBonus: 0.02 },
+    { at: 300, defBonus: 0.04, dmgBonus: 0.03 }
   ],
   spear: [
-    { at: 50, dmgBonus: 0.02, critChance: 0.01 },
-    { at: 150, dmgBonus: 0.04, critChance: 0.02 },
-    { at: 300, dmgBonus: 0.06, critChance: 0.03 }
+    { at: 50, dmgBonus: 0.03, critChance: 0.01 },
+    { at: 150, dmgBonus: 0.04, critChance: 0.01 },
+    { at: 300, dmgBonus: 0.05, critChance: 0.01 }
   ],
   shield: [
     { at: 50, defBonus: 0.04, healBonus: 0.02 },
-    { at: 150, defBonus: 0.08, healBonus: 0.04 },
-    { at: 300, defBonus: 0.12, healBonus: 0.06 }
+    { at: 150, defBonus: 0.04, healBonus: 0.02 },
+    { at: 300, defBonus: 0.04, healBonus: 0.02 }
   ]
 };
 

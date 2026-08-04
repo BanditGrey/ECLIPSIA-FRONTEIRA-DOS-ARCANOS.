@@ -150,7 +150,30 @@ Bônus adicional de **ATK: +0,2% por ponto** em cada arma equipada (soma das dua
 
 ---
 
-## 7. CHECKLIST DE STATUS
+## 7. ITEM EFFECTS → SKILLS/ARMAS (Caso 11 — slots 31–40)
+
+Além dos effects primários/combate existentes, estes 10 effects afetam
+**diretamente as skills** (somados no `ResolvedEffects` e aplicados no combate):
+
+| ID | Effect | Efeito nas skills |
+|---|---|---|
+| 31 | `SKILL_DMG` | +% dano de TODAS as skills ativas |
+| 32 | `BASIC_ATK_DMG` | +% dano do ataque básico (separado das skills) |
+| 33 | `SKILL_CD_REDUCE` | -% cooldown (soma com HASTE; mín 1 turno) |
+| 34 | `SKILL_MP_REDUCE` | -% custo de MP (mín 1) |
+| 35 | `DOT_DMG_BONUS` | +% dano de DoT (dotDamage) |
+| 36 | `SKILL_HEAL_BONUS` | +% cura de skills (soma com HEAL_BONUS) |
+| 37 | `CONTROL_DURATION` | +% duração de stun/slow (arredonda, mín 1) |
+| 38 | `EXECUTE_THRESHOLD` | +% limiar de execução (cap 50% HP) |
+| 39 | `REFLECT_BONUS` | +% reflexo (reflectPercent, cap 100%) |
+| 40 | `CRIT_SKILL_DMG` | +% dano crítico de skills (soma com CRIT_DMG) |
+
+**Como usar em itens**: effects 31–40 entram no catálogo como qualquer outro
+(`"eN": 31, "vN": 12` = +12% de dano de skill). Exemplo real: espadão relic
+`w2h_1505` (SKILL_DMG+12%, EXECUTE_THRESHOLD+10%) e amuleto relic `am_7005`
+(SKILL_DMG+10%, SKILL_CD_REDUCE+8%, SKILL_MP_REDUCE+5%).
+
+## 8. CHECKLIST DE STATUS
 
 - [x] 14 proficiências com XP por uso (ataque/skill/abate) e cap 1000
 - [x] **98 skills — exatamente 7 por arma** (geradas por `tools/gen_skills.mjs`)
@@ -161,6 +184,8 @@ Bônus adicional de **ATK: +0,2% por ponto** em cada arma equipada (soma das dua
 - [x] Nomes de combinação (210) com i18n + UI (Perfil + Wiki)
 - [x] Sorte teto 1000 (+0,1% XP/pt) · origens cosméticas · criação com arma inicial
 - [x] Escudo = tanque na party
+- [x] **Caso 11**: 10 effects de skill/arma (31–40) integrados no combate +
+      passivas rebalanceadas com auditoria automática (`npm run audit:balance`)
 - [ ] **Balanceamento com dados reais** (Caso 5): medir tempo de up 0→1000,
       ajustar XP por ação e marcos conforme telemetria pós-deploy
 - [ ] **Futuro**: passivas por marcos superiores (500/750), skills de arma

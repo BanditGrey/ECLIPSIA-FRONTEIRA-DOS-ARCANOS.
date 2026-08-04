@@ -83,6 +83,18 @@ export const EFFECT = {
   LOOT_BONUS: 29,
   SPEED: 30,
 
+  // ── EFEITOS DE SKILL/ARMA (31–40) ─────────────────────
+  SKILL_DMG: 31,
+  BASIC_ATK_DMG: 32,
+  SKILL_CD_REDUCE: 33,
+  SKILL_MP_REDUCE: 34,
+  DOT_DMG_BONUS: 35,
+  SKILL_HEAL_BONUS: 36,
+  CONTROL_DURATION: 37,
+  EXECUTE_THRESHOLD: 38,
+  REFLECT_BONUS: 39,
+  CRIT_SKILL_DMG: 40,
+
   // ── EFEITOS DE STATUS EM COMBATE (41–60) ──────────────
   BURN: 41,
   FREEZE: 42,
@@ -184,6 +196,16 @@ export const EFFECT_REGISTRY: Record<number, EffectDefinition> = {
   [EFFECT.GOLD_BONUS]: { id: 28, code: 'GOLD_BONUS', category: 'combat', unit: 'percent', description: 'Bônus de ouro (%)' },
   [EFFECT.LOOT_BONUS]: { id: 29, code: 'LOOT_BONUS', category: 'combat', unit: 'percent', description: 'Bônus de loot (%)' },
   [EFFECT.SPEED]: { id: 30, code: 'SPEED', category: 'combat', unit: 'percent', description: 'Velocidade de exploração (%)' },
+  [EFFECT.SKILL_DMG]: { id: 31, code: 'SKILL_DMG', category: 'combat', unit: 'percent', description: 'Bônus de dano de skills (%)' },
+  [EFFECT.BASIC_ATK_DMG]: { id: 32, code: 'BASIC_ATK_DMG', category: 'combat', unit: 'percent', description: 'Bônus de dano de ataque básico (%)' },
+  [EFFECT.SKILL_CD_REDUCE]: { id: 33, code: 'SKILL_CD_REDUCE', category: 'combat', unit: 'percent', description: 'Redução de cooldown de skills (%)' },
+  [EFFECT.SKILL_MP_REDUCE]: { id: 34, code: 'SKILL_MP_REDUCE', category: 'combat', unit: 'percent', description: 'Redução de custo de MP de skills (%)' },
+  [EFFECT.DOT_DMG_BONUS]: { id: 35, code: 'DOT_DMG_BONUS', category: 'combat', unit: 'percent', description: 'Bônus de dano de DoT (%)' },
+  [EFFECT.SKILL_HEAL_BONUS]: { id: 36, code: 'SKILL_HEAL_BONUS', category: 'combat', unit: 'percent', description: 'Bônus de cura de skills (%)' },
+  [EFFECT.CONTROL_DURATION]: { id: 37, code: 'CONTROL_DURATION', category: 'combat', unit: 'percent', description: 'Bônus de duração de stun/slow (%)' },
+  [EFFECT.EXECUTE_THRESHOLD]: { id: 38, code: 'EXECUTE_THRESHOLD', category: 'combat', unit: 'percent', description: 'Bônus de limiar de execução (%)' },
+  [EFFECT.REFLECT_BONUS]: { id: 39, code: 'REFLECT_BONUS', category: 'combat', unit: 'percent', description: 'Bônus de reflexo (%)' },
+  [EFFECT.CRIT_SKILL_DMG]: { id: 40, code: 'CRIT_SKILL_DMG', category: 'combat', unit: 'percent', description: 'Bônus de dano crítico de skills (%)' },
 
   // ═══════════════ EFEITOS DE STATUS EM COMBATE — 41 a 60 ═══════════════
   [EFFECT.BURN]: { id: 41, code: 'BURN', category: 'status', unit: 'flat', description: 'Queima (dano por turno)' },

@@ -184,6 +184,22 @@ const rollCrit = (): { isCrit: boolean; multiplier: number } => {
 };
 
 /**
+ * Rola o crítico de uma SKILL — inclui CRIT_SKILL_DMG (40) no multiplicador.
+ */
+const rollSkillCrit = (): { isCrit: boolean; multiplier: number } => {
+  const base = rollCrit();
+
+  if (!base.isCrit) {
+    return base;
+  }
+
+  const skillCritDmg = (getResolvedEffects() as ResolvedEffects | null)?.critSkillDmg ?? 0;
+  const multiplier = 2 * (1 + ((getResolvedEffects() as ResolvedEffects | null)?.critDmg ?? 0) + getPassiveCritDamage() + skillCritDmg);
+
+  return { isCrit: true, multiplier };
+};
+
+/**
  * Rola os effects "ao acertar" (61–66) do equipamento contra o
  * inimigo. Chance = value (inteiro em %).
  */
@@ -337,7 +353,7 @@ const gainProficiencyXp = (amount: number) => {
   }
 };
 
-const getPlayerDamage = (percent = 100) => {
+const getPlayerDamage = (percent = 100, extraMultiplier = 1, isSkill = false) => {
   const playerStore = usePlayerStore.getState();
   const combat = useCombatStore.getState();
   const resolved = getResolvedEffects();
@@ -390,9 +406,9 @@ const getPlayerDamage = (percent = 100) => {
 
   // PASSIVAS de proficiência (marcos 50/150/300): bônus de dano.
   const passiveDmg = getPassiveTotals().dmgBonus;
-  const finalBase = base * (1 + weaponBonus + passiveDmg);
+  const finalBase = base * (1 + weaponBonus + passiveDmg) * extraMultiplier;
 
-  const { isCrit, multiplier } = rollCrit();
+  const { isCrit, multiplier } = isSkill ? rollSkillCrit() : rollCrit();
   const defenseReduction = Math.max(0, combat.enemy?.def ?? 0) * 0.35;
   const damage = Math.max(1, Math.floor(finalBase * multiplier - defenseReduction));
 
@@ -717,7 +733,9 @@ export const combatEngine = {
 
   attack() {
     gainProficiencyXp(PROF_XP.attack);
-    const damage = getPlayerDamage(100);
+    // BASIC_ATK_DMG (32): amplifica o dano do ataque básico
+    const basicDmgBonus = (getResolvedEffects() as ResolvedEffects | null)?.basicAtkDmg ?? 0;
+    const damage = getPlayerDamage(100, 1 + basicDmgBonus);
     const hp = applyEnemyDamage(damage);
 
     useCombatStore.getState().addLog('attack', `${t('combat.attack')} ${damage}`);
@@ -748,6 +766,7 @@ export const combatEngine = {
     const skill = skills.find((entry) => entry.id === skillId);
     const player = usePlayerStore.getState().data;
     const combat = useCombatStore.getState();
+    const resolved = getResolvedEffects() as ResolvedEffects | null;
 
     if (!skill || !player || player.mp < skill.mp || combat.skillCooldowns[skillId]) {
       this.attack();
@@ -756,29 +775,63 @@ export const combatEngine = {
 
     gainProficiencyXp(PROF_XP.skill);
 
-    reducePlayerMp(skill.mp);
+    // SKILL_MP_REDUCE (34): reduz o custo de MP da skill (mín 1)
+    const mpCost = Math.max(1, Math.round(skill.mp * (1 - (resolved?.skillMpReduce ?? 0))));
+    reducePlayerMp(mpCost);
 
-    // HASTE (59): reduz o cooldown da skill (fração 0-1)
-    const haste = getResolvedEffects() ? getConditionalValue(getResolvedEffects() as ResolvedEffects, EFFECT.HASTE) : 0;
-    combat.setCooldown(skillId, Math.max(1, Math.round(skill.cd * (1 - haste))));
+    // HASTE (59) + SKILL_CD_REDUCE (33): reduzem o cooldown (mín 1)
+    const haste = resolved ? getConditionalValue(resolved, EFFECT.HASTE) : 0;
+    const cdReduce = resolved?.skillCdReduce ?? 0;
+    combat.setCooldown(skillId, Math.max(1, Math.round(skill.cd * (1 - haste - cdReduce))));
 
     if (skill.healPercent) {
-      // HEAL_BONUS (26) + PASSIVA de proficiência amplificam a cura
-      const healBonus = (getResolvedEffects()?.healBonus ?? 0) + getPassiveTotals().healBonus;
+      // HEAL_BONUS (26) + SKILL_HEAL_BONUS (36) + PASSIVA amplificam a cura
+      const healBonus = (resolved?.healBonus ?? 0) + (resolved?.skillHealBonus ?? 0) + getPassiveTotals().healBonus;
 
       usePlayerStore.getState().recoverHp(skill.healPercent * (1 + healBonus));
     }
 
     if (skill.dotDamage && skill.dotTurns) {
-      combat.addEnemyEffect({ type: 'dot', turns: skill.dotTurns, damage: skill.dotDamage });
+      // DOT_DMG_BONUS (35): amplifica o dano de DoT
+      const dotDmg = Math.max(1, Math.round(skill.dotDamage * (1 + (resolved?.dotDmgBonus ?? 0))));
+      combat.addEnemyEffect({ type: 'dot', turns: skill.dotTurns, damage: dotDmg });
     }
 
     if (skill.damagePercent) {
-      applyEnemyDamage(getPlayerDamage(skill.damagePercent));
+      // SKILL_DMG (31): amplifica o dano de skills (soma com passiva dmg)
+      const skillDmgBonus = (resolved?.skillDmg ?? 0) + getPassiveTotals().dmgBonus;
+      applyEnemyDamage(getPlayerDamage(skill.damagePercent, 1 + skillDmgBonus, true));
     }
 
     if (skill.stunTurns) {
-      combat.addEnemyEffect({ type: 'stun', turns: skill.stunTurns });
+      // CONTROL_DURATION (37): amplifica a duração de stun
+      const turns = Math.max(1, Math.round(skill.stunTurns * (1 + (resolved?.controlDuration ?? 0))));
+      combat.addEnemyEffect({ type: 'stun', turns });
+    }
+
+    if (skill.slowTurns) {
+      // CONTROL_DURATION (37): amplifica a duração de slow
+      const turns = Math.max(1, Math.round(skill.slowTurns * (1 + (resolved?.controlDuration ?? 0))));
+      combat.addEnemyEffect({ type: 'slow', turns });
+    }
+
+    if (skill.reflectPercent && skill.reflectTurns) {
+      // REFLECT_BONUS (39): amplifica o reflexo
+      const reflect = Math.min(1, skill.reflectPercent / 100 * (1 + (resolved?.reflectBonus ?? 0)));
+      combat.addEnemyEffect({ type: 'reflect', turns: skill.reflectTurns, damage: reflect });
+    }
+
+    if (skill.executeBelowHpPercent) {
+      // EXECUTE_THRESHOLD (38): aumenta o limiar de execução (cap 50%)
+      const threshold = Math.min(50, skill.executeBelowHpPercent * (1 + (resolved?.executeThreshold ?? 0)));
+      const enemyHp = useCombatStore.getState().enemyHp;
+      const enemyMaxHp = useCombatStore.getState().enemyMaxHp;
+      const isExecutable = enemyHp > 0 && enemyHp <= enemyMaxHp * (threshold / 100);
+
+      if (isExecutable) {
+        applyEnemyDamage(999999);
+        useCombatStore.getState().addLog('execute', t('combat.log.execute'));
+      }
     }
 
     combat.addLog('skill', t(`skills.${skillId}.name`));

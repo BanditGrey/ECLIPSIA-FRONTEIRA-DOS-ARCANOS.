@@ -54,6 +54,17 @@ cd ../server && npm test
   servidor equipa e dá 5 pts de proficiência). Escudo equipado = papel de tanque
   na party (substitui o antigo vanguard). **SORTE: teto 1000** (+0,1% XP/ponto,
   fator de loot /1000). Baselines intactos (89/89, 41/41, 18/18, build).
+- **⚔ Caso 11 ✅ — Passivas balanceadas + effects de skill/arma (31–40)**: tetos
+  de passivas por arma (dmg 12% · crit 8% · critDmg 25% · def 12% · heal 10%),
+  sem regressão, identidade por arma; auditoria automática `tools/audit_balance.ts`
+  (`npm run audit:balance`) valida passivas + 98 skills. **10 effects novos**:
+  SKILL_DMG(31), BASIC_ATK_DMG(32), SKILL_CD_REDUCE(33), SKILL_MP_REDUCE(34),
+  DOT_DMG_BONUS(35), SKILL_HEAL_BONUS(36), CONTROL_DURATION(37),
+  EXECUTE_THRESHOLD(38), REFLECT_BONUS(39), CRIT_SKILL_DMG(40) — registry,
+  engine (ResolvedEffects/resolve/calculate), nomes 4 idiomas, integrados no
+  combate (skill/attack/cd/mp/dot/heal/controle/execução/reflexo/crítico) e em
+  itens relic de exemplo (espadão 1505 + amuleto 7005). Auditoria item-effects
+  agora 84 definidos + 16 reservados (89/89 OK).
 - **⚔ Caso 9 ✅ — Sistema completo de proficiências & skills (v1.0)**: doc
   mestre `SKILLS_SYSTEM.md` (contrato de cálculo, XP, marcos, balanceamento).
   **210 nomes de combinação** (`data/weaponCombos.ts`, matriz main×off + arma

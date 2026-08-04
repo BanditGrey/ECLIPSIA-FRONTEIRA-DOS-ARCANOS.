@@ -218,6 +218,25 @@ só os companheiros locais participam do combate. Meta: grupo lutar junto.
 - [x] Baselines intactos: tsc · build · 89/89 · 41/41 · 18/18 · smoke tests
 - [ ] Balanceamento fino com telemetria real (Caso 5)
 
+## ⚔ CASO 11 — Balanceamento de passivas + sistema de effects de skill/arma (✅ CONCLUÍDO)
+
+- [x] **Passivas rebalanceadas**: tetos por arma (dmg ≤ 12% · crit ≤ 8% ·
+      critDmg ≤ 25% · def ≤ 12% · heal ≤ 10%), tiers sem regressão, identidade
+      por arma (espadão=dmg/critDmg, adaga=crit, arco longo=critDmg, escudo=def)
+- [x] **Auditoria de balanceamento automática** (`tools/audit_balance.ts` +
+      `npm run audit:balance`) — valida passivas + 98 skills, falha se regra violada
+- [x] **10 effects novos (slots 31–40)** que afetam skills/armas:
+      SKILL_DMG, BASIC_ATK_DMG, SKILL_CD_REDUCE, SKILL_MP_REDUCE, DOT_DMG_BONUS,
+      SKILL_HEAL_BONUS, CONTROL_DURATION, EXECUTE_THRESHOLD, REFLECT_BONUS,
+      CRIT_SKILL_DMG
+- [x] Registry + engine (ResolvedEffects/resolveEffects/calculatePlayerStats) + nomes 4 idiomas
+- [x] Integração completa no combate (skill/attack/cooldown/MP/DoT/cura/controle/execução/reflexo/crítico)
+- [x] Itens exemplo: espadão relic (SKILL_DMG+12%, EXECUTE_THRESHOLD+10%) e amuleto relic
+      (SKILL_DMG+10%, CD-REDUCE+8%, MP-REDUCE+5%)
+- [x] Auditoria item-effects atualizada (74→84 definidos, 26→16 reservados) — 89/89 OK
+- [x] Baselines intactos: tsc · build · 89/89 · 41/41 · 18/18 · smoke tests
+- [ ] Balanceamento fino com telemetria real (Caso 5)
+
 ## 📏 REGRAS DE OURO (para qualquer item acima)
 
 1. Nunca quebrar a auditoria: `cd client && npm run audit` → 89/89
