@@ -175,6 +175,9 @@ export const MarketPanel = () => {
   };
 
   const bagRefs = (player?.inventory ?? []).map((entry) => refOf(entry));
+  const MARKET_LISTING_FEES: Record<string, number> = {
+    common: 100, uncommon: 250, rare: 500, epic: 1000, legendary: 2500, relic: 5000
+  };
 
   const formatTimeLeft = (expiresAt: string) => {
     const ms = new Date(expiresAt).getTime() - Date.now();
@@ -321,12 +324,13 @@ export const MarketPanel = () => {
         {tab === 'sell' && (
           <div className="grid gap-2 rounded-xl border border-game-border bg-game-card p-3">
             <p className="font-mono text-[11px] text-game-muted">{t('market.taxNote')}</p>
-            <p className="font-mono text-[11px] text-cyan-300">💎 {player?.crystals ?? 0} • {t('market.crystalsCurrency')}</p>
+            <p className="font-mono text-[11px] text-game-gold">🪙 {player?.gold ?? 0} • {t('market.goldFeeNote') ?? 'Taxa cobrada em ouro conforme a raridade'}</p>
             <select className="input-field" value={sellRef} onChange={(event) => setSellRef(event.target.value)}>
               <option value="">{t('crafting.selectItem')}</option>
               {bagRefs.map((ref) => {
                 const item = resolveItemRef(ref);
-                return item ? <option key={ref} value={ref}>{nameOf(item, lang)}</option> : null;
+                const fee = item ? MARKET_LISTING_FEES[item.rarity ?? 'common'] : 0;
+                return item ? <option key={ref} value={ref}>{nameOf(item, lang)} (Taxa: {fee} 🪙)</option> : null;
               })}
             </select>
             <input
