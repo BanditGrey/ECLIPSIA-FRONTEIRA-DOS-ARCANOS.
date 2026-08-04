@@ -1,6 +1,9 @@
 import type { ReactNode } from 'react';
 import { useI18n } from '../../hooks/useI18n';
 import { ART } from '../../data/art';
+import { Portrait } from '../ui/Portrait';
+
+const BOSS_IDS = ['bandit_leader', 'root_guardian', 'void_mirror', 'azhur', 'thal_mora', 'velkaryn'];
 import { useCombatStore } from '../../store/useCombatStore';
 import { useGameStore } from '../../store/useGameStore';
 import { usePartyCombatStore } from '../../store/usePartyCombatStore';
@@ -175,7 +178,11 @@ export const CombatPanel = () => {
 
           <div className="relative grid p-4">
             <div className="flex items-center gap-4">
-              <span className="sigil-disc h-16 w-16 text-4xl">{combat.enemy.icon}</span>
+              {BOSS_IDS.includes(combat.enemy.id) ? (
+                <Portrait kind="boss" id={combat.enemy.id} size={72} fallbackIcon={combat.enemy.icon} ring="red" />
+              ) : (
+                <span className="sigil-disc h-16 w-16 text-4xl">{combat.enemy.icon}</span>
+              )}
               <div className="min-w-0 flex-1">
                 <h2 className="title-gold truncate font-title text-xl font-bold">{t(combat.enemy.nameKey)}</h2>
                 <p className="font-mono text-sm text-game-muted">
@@ -197,9 +204,13 @@ export const CombatPanel = () => {
           <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500/70 to-transparent" />
           <div className="relative">
             <div className="flex items-center gap-4">
-              <span className="sigil-disc h-14 w-14 text-2xl">
-                {player?.archetype === 'arcane' ? '🔮' : player?.archetype === 'druid' ? '🌿' : player?.archetype === 'vanguard' ? '🛡' : player?.archetype === 'ranger' ? '🏹' : player?.archetype === 'spectre' ? '🗡' : '⚔'}
-              </span>
+              <Portrait
+                kind="class"
+                id={player?.archetype ?? 'blade'}
+                size={60}
+                fallbackIcon="⚔"
+                ring="arcane"
+              />
               <div>
                 <h2 className="font-title text-xl text-game-text">{player?.name ?? t('game.unknown')}</h2>
                 <p className="font-mono text-sm text-game-muted">

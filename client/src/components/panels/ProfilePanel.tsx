@@ -4,6 +4,7 @@ import { usePlayerStore } from '../../store/usePlayerStore';
 import type { Stats } from '../../types/player.types';
 import { Button } from '../ui/Button';
 import { ProgressBar } from '../ui/ProgressBar';
+import { Portrait } from '../ui/Portrait';
 
 type ProfileTab = 'status' | 'skills' | 'titles';
 
@@ -34,12 +35,12 @@ export const ProfilePanel = () => {
 
   return (
     <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
-      <div className="grid grid-cols-3 gap-2 rounded-xl border border-game-border bg-game-panel p-2 font-mono text-sm">
+      <div className="grid grid-cols-3 gap-2 rounded-xl border border-night-600 bg-night-900/80 p-1.5 font-mono text-sm shadow-panel">
         {(['status', 'skills', 'titles'] as ProfileTab[]).map((item) => (
           <button
             key={item}
             type="button"
-            className={[tab === item ? 'bg-game-gold text-game-dark' : 'text-game-muted hover:bg-game-hover', 'rounded-lg py-2 transition-colors active:scale-95'].join(' ')}
+            className={[tab === item ? 'btn-gold' : 'text-game-muted hover:bg-night-800/70 hover:text-game-text', 'rounded-lg py-2 transition-all active:scale-95'].join(' ')}
             onClick={() => setTab(item)}
           >
             {t(`profile.tabs.${item}`)}
@@ -47,15 +48,20 @@ export const ProfilePanel = () => {
         ))}
       </div>
 
-      <section className="min-h-0 overflow-hidden rounded-xl border border-game-border bg-game-panel p-3">
+      <section className="min-h-0 overflow-hidden rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
         {tab === 'status' && (
           <div className="grid h-full gap-3 overflow-auto pr-1">
-            <header className="rounded-xl border border-game-border bg-game-card p-3">
-              <h1 className="font-title text-2xl font-bold text-game-gold">{player.name}</h1>
-              <p className="font-mono text-sm text-game-muted">
-                {t('game.level')} {player.level} • {player.activeTitle ?? t('panels.none')}
-              </p>
-              <ProgressBar className="mt-3" current={player.xp} max={player.xpToNext} type="xp" showText />
+            <header className="relative overflow-hidden rounded-xl border border-night-600 bg-gradient-to-r from-night-700/70 to-night-900/80 p-3">
+              <div className="flex items-center gap-4">
+                <Portrait kind="class" id={player.archetype} size={84} fallbackIcon="⚔" />
+                <div className="min-w-0 flex-1">
+                  <h1 className="title-gold text-glow truncate font-title text-2xl font-black">{player.name}</h1>
+                  <p className="font-mono text-sm text-game-muted">
+                    {t('game.level')} {player.level} • {player.activeTitle ?? t('panels.none')}
+                  </p>
+                  <ProgressBar className="mt-3" current={player.xp} max={player.xpToNext} type="xp" showText />
+                </div>
+              </div>
             </header>
 
             <div className="grid gap-2">

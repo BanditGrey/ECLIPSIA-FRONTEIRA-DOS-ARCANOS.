@@ -47,17 +47,17 @@ cd ../server && npm test
   (paleta azul-noite + dourado ritual + teal arcano; painéis `panel-arcane` com
   borda dourada e cantoneiras; `title-gold`; botões `btn-gold`/`btn-glass`;
   barras com gradiente e glow; estrelas/granulação em `.bg-eclipsia`; vinheta).
-  Arte em `client/public/assets/` (10 imagens geradas: emblema, login/hub/
-  combat/world + 5 regiões; **limite de 10 imagens por sessão — pendentes:
-  reino fragmento, retratos de arquétipos, bosses**). Sigilos de classe SVG
-  (`components/ui/ClassSigil.tsx`) para os 6 arquétipos. Telas redesenhadas:
-  login (hero + emblema + contador online), criar/selecionar personagem,
-  hub (faixa de arte), header/navbar, combate (campo de batalha + sigil-disc),
-  viagem (cards de região com arte), wiki. Mapa de artes centralizado em
-  `client/src/data/art.ts`. Baselines intactos (89/89, 41/41, 18/18, build OK).
-- **Próxima etapa sugerida**: completar a arte (fragmento/retratos/bosses em
-  sessões futuras, pois a geração tem limite por sessão), depois Caso 3
-  (gateway Pix) ou fechar o Caso 6 com as contas do dono (Atlas+Railway+Vercel).
+  Arte em `client/public/assets/` (**20 imagens geradas**: emblema,
+  login/hub/combat/world, 6 regiões (incl. Fragmento), 6 retratos de
+  arquétipos, 3 bosses pintados). Componente `Portrait.tsx` emoldura as
+  pinturas em anel de sigilo com fallback para emoji quando não há arte.
+  Telas redesenhadas: login, criar/selecionar personagem (retratos),
+  hub, header/navbar, combate (campo de batalha + arte do boss), viagem
+  (cards de região + dungeon com boss), perfil (retrato), wiki, loading.
+  Mapa de artes centralizado em `client/src/data/art.ts`.
+  ⚠ Pendente (limite de 10 imagens/sessão): pinturas de azhur, thal_mora e
+  velkaryn (usam anel de sigilo com emoji) e os 15 monstros.
+  Baselines intactos (89/89, 41/41, 18/18, build OK).
 
 ### 0.4 Regras de ouro (não viole)
 1. Nunca quebrar os baselines do §0.2 (auditorias 89/89 e 41/41, testes 18/18).

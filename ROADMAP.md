@@ -143,21 +143,28 @@ só os companheiros locais participam do combate. Meta: grupo lutar junto.
 
 ---
 
-## 🎨 CASO 7 — Identidade visual "Fronteira Arcana" (✅ PARCIAL — falta arte)
+## 🎨 CASO 7 — Identidade visual "Fronteira Arcana" (✅ QUASE COMPLETO)
 
 - [x] Design system novo: paleta azul-noite/dourado/teal arcano, painéis
       ornamentados (`panel-arcane`), tipografia dourada (`title-gold`), botões
       `btn-gold`/`btn-glass`, barras com gradiente/glow, estrelas + granulação
       (`bg-eclipsia`), vinheta
-- [x] Arte gerada (10): emblema · login · hub · combate · mundo · 5 regiões —
-      em `client/public/assets/` (mapa centralizado em `client/src/data/art.ts`)
-- [x] Sigilos SVG de classe (`ClassSigil.tsx`) para os 6 arquétipos
+- [x] Arte gerada (20): emblema · login · hub · combate · mundo · 6 regiões
+      (incl. Fragmento) · 6 retratos de arquétipos · 3 bosses (bandit_leader,
+      root_guardian, void_mirror) — em `client/public/assets/` (mapa
+      centralizado em `client/src/data/art.ts`)
+- [x] Componente `Portrait.tsx` (pintura em anel de sigilo + fallback emoji)
+      + `ClassSigil.tsx` (sigilos SVG heráldicos)
 - [x] Telas redesenhadas: login (hero + emblema + online count), criar/selecionar
-      personagem, hub, header/navbar, combate (campo de batalha + sigil-disc),
-      viagem (cards com arte), wiki, loading
+      personagem (retratos), hub, header/navbar, combate (campo de batalha +
+      arte do boss quando aplicável), viagem (regiões + dungeons com boss),
+      perfil (retrato), wiki, loading
 - [x] Baselines intactos após a reforma (89/89 · 41/41 · 18/18 · build)
-- [ ] Arte pendente (limite de 10 imagens/sessão): reino fragmento, retratos
-      dos 6 arquétipos, artes dos 6 bosses — gerar em sessões futuras
+- [ ] Pinturas pendentes (limite de 10 imagens/sessão): bosses azhur,
+      thal_mora e velkaryn (hoje: anel de sigilo com emoji) — gerar em
+      sessão futura
+- [ ] Monstros (15) sem pintura dedicada (hoje: emoji em anel de sigilo) —
+      opcional, sessão futura
 
 ## 📏 REGRAS DE OURO (para qualquer item acima)
 

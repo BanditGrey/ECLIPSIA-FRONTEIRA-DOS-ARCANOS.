@@ -12,6 +12,7 @@ import type { Enemy } from '../../types/combat.types';
 import type { Item } from '../../types/item.types';
 import { Button } from '../ui/Button';
 import { ART } from '../../data/art';
+import { Portrait } from '../ui/Portrait';
 
 type TravelTab = 'regions' | 'dungeons';
 
@@ -208,19 +209,27 @@ export const TravelPanel = () => {
                 .filter(Boolean);
 
               return (
-                <article key={dungeon.id} className="grid grid-cols-[1fr_auto] gap-3 rounded-xl border border-game-border bg-game-card p-3">
-                  <div className="flex min-w-0 gap-3">
-                    <span className="text-3xl">{boss?.icon ?? '🏚'}</span>
+                <article
+                  key={dungeon.id}
+                  className={[
+                    'grid grid-cols-[1fr_auto] items-center gap-4 overflow-hidden rounded-xl border bg-gradient-to-r from-night-700/70 to-night-900/80 p-3 transition-all',
+                    unlocked
+                      ? 'border-night-600 hover:border-gold-600/60 hover:shadow-glow-sm'
+                      : 'border-night-700 opacity-80'
+                  ].join(' ')}
+                >
+                  <div className="flex min-w-0 items-center gap-3">
+                    <Portrait kind="boss" id={dungeon.bossId} size={56} fallbackIcon={boss?.icon ?? '🏚'} ring="red" />
                     <div className="min-w-0">
-                      <h2 className="truncate font-title text-lg font-bold text-game-gold">
+                      <h2 className="title-gold truncate font-title text-lg font-bold">
                         {t(`travel.dungeons.${dungeon.id}.name`)}
                       </h2>
                       <p className="font-mono text-xs text-game-muted">
                         {regionEntry?.icon} {t(`travel.regions.${dungeon.regionId}.name`)} · {dungeon.floors} {t('travel.dungeonFloors')} ·{' '}
                         {t('travel.dungeonBoss')}: {boss ? t(boss.nameKey) : '?'}
                       </p>
-                      <p className="mt-1 text-sm text-game-muted">{t(`travel.dungeons.${dungeon.id}.desc`)}</p>
-                      <p className="mt-1 font-mono text-xs text-game-gold">
+                      <p className="mt-1 truncate text-sm italic text-game-muted">{t(`travel.dungeons.${dungeon.id}.desc`)}</p>
+                      <p className="mt-1 font-mono text-xs text-gold-300">
                         {t('travel.dungeonReward')}: {dungeon.rewardGold} 🪙{rewardItems.map((item) => ` · ${item.icon} ${t(item.nameKey)}`).join('')}
                       </p>
                     </div>
@@ -228,7 +237,7 @@ export const TravelPanel = () => {
                   {unlocked ? (
                     <Button size="sm" onClick={() => enterDungeonDef(dungeon)}>{t('travel.enter')}</Button>
                   ) : (
-                    <span className="rounded-md border border-game-border bg-game-primary px-3 py-2 text-center font-mono text-xs text-game-muted">
+                    <span className="rounded-md border border-night-600 bg-night-900/90 px-3 py-2 text-center font-mono text-xs text-game-muted">
                       🔒 {t('travel.requireLevel')} {dungeon.requireLevel}
                       {dungeon.requireTitle ? ` + ${t('titles.' + dungeon.requireTitle)}` : ''}
                     </span>

@@ -7,7 +7,7 @@ import { usePlayerStore } from '../../store/usePlayerStore';
 import { ART } from '../../data/art';
 import { Button } from '../ui/Button';
 import { ProgressBar } from '../ui/ProgressBar';
-import { ClassSigil } from '../ui/ClassSigil';
+import { Portrait } from '../ui/Portrait';
 
 type Archetype = 'blade' | 'arcane' | 'druid' | 'vanguard' | 'ranger' | 'spectre';
 
@@ -127,11 +127,13 @@ export const CharCreateScreen = () => {
                 {isSelected && (
                   <span className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-gold-400 to-transparent" />
                 )}
-                <ClassSigil
-                  archetype={archetype.id}
-                  size={88}
-                  glow={archetype.glow}
-                  className={isSelected ? 'scale-105 transition-transform' : 'opacity-90 transition-all group-hover:opacity-100'}
+                <Portrait
+                  kind="class"
+                  id={archetype.id}
+                  size={104}
+                  fallbackIcon={archetype.id === 'blade' ? '⚔' : archetype.id === 'arcane' ? '🔮' : archetype.id === 'druid' ? '🌿' : archetype.id === 'vanguard' ? '🛡' : archetype.id === 'ranger' ? '🏹' : '🗡'}
+                  ring={archetype.glow === 'arcane' ? 'arcane' : 'gold'}
+                  className={isSelected ? 'scale-105 transition-transform' : 'opacity-95 transition-all group-hover:scale-[1.03] group-hover:opacity-100'}
                 />
                 <div className="min-w-0">
                   <h2 className="title-gold font-title text-lg font-bold">

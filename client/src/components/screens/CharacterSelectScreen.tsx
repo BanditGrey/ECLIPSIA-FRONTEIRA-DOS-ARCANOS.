@@ -7,7 +7,7 @@ import { usePlayerStore } from '../../store/usePlayerStore';
 import type { Equipment, PlayerData } from '../../types/player.types';
 import { ART } from '../../data/art';
 import { Button } from '../ui/Button';
-import { ClassSigil } from '../ui/ClassSigil';
+import { Portrait } from '../ui/Portrait';
 
 type Archetype = 'blade' | 'arcane' | 'druid' | 'vanguard' | 'ranger' | 'spectre';
 
@@ -243,7 +243,13 @@ export const CharacterSelectScreen = () => {
                     ].join(' ')}
                   >
                     <div className="flex min-w-0 items-center gap-4">
-                      <ClassSigil archetype={character.archetype} size={64} />
+                      <Portrait
+                        kind="class"
+                        id={character.archetype}
+                        size={64}
+                        fallbackIcon={archetypeIcons[character.archetype]}
+                        className="opacity-95"
+                      />
                       <div className="min-w-0">
                         <h2 className="truncate font-title text-xl font-bold text-game-text">{character.name}</h2>
                         <p className="font-mono text-sm text-game-muted">
