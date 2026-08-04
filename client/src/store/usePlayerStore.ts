@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { countEffects } from '../data/effectRegistry';
-import { PROFICIENCY_CAP } from '../data/proficiencies';
+import { getProficiencyPassiveTotals, PROFICIENCY_CAP } from '../data/proficiencies';
 import { skills } from '../data/skills';
 import { resolveEffects, resolvedToItemStats } from '../systems/effectEngine';
 import type { Item, ItemStats, Slot, WeaponCategory } from '../types/item.types';
@@ -753,8 +753,12 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     }
 
     const equipmentStats = getEquipmentItemStats(data.equipment);
+    const baseDef = data.stats.vitality * 1.5 + (equipmentStats.def ?? 0);
 
-    return data.stats.vitality * 1.5 + (equipmentStats.def ?? 0);
+    // PASSIVA de proficiência (escudo/martelo/grimório): defesa multiplicativa.
+    const passiveDef = getProficiencyPassiveTotals(data.equipment, data.proficiencies).defBonus;
+
+    return Math.floor(baseDef * (1 + passiveDef));
   },
   getLuck: () => {
     const data = get().data;

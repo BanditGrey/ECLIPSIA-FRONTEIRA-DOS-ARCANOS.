@@ -80,6 +80,16 @@ export const skills: PlayerSkillData[] = [
     dotDamage: 40,
     dotTurns: 3
   },
+  {
+    id: 'cross_slash',
+    proficiency: 'sword_two',
+    requireProficiency: 80,
+    icon: '❌',
+    mp: 55,
+    cd: 4,
+    damageType: 'physical',
+    damagePercent: 180
+  },
 
   // ── Espadão ──────────────────────────────────────────────────
   {
@@ -140,6 +150,17 @@ export const skills: PlayerSkillData[] = [
     damagePercent: 140,
     dodgeNext: true
   },
+  {
+    id: 'twin_fang',
+    proficiency: 'dagger_off',
+    requireProficiency: 70,
+    icon: '🦷',
+    mp: 45,
+    cd: 4,
+    damageType: 'physical',
+    damagePercent: 80,
+    hits: 2
+  },
 
   // ── Arco curto ───────────────────────────────────────────────
   {
@@ -153,6 +174,17 @@ export const skills: PlayerSkillData[] = [
     damagePercent: 160,
     ignoreDef: true
   },
+  {
+    id: 'quick_shot',
+    proficiency: 'bow_short',
+    requireProficiency: 40,
+    icon: '💨',
+    mp: 30,
+    cd: 2,
+    damageType: 'physical',
+    damagePercent: 100,
+    slowTurns: 1
+  },
 
   // ── Arco longo ───────────────────────────────────────────────
   {
@@ -165,6 +197,17 @@ export const skills: PlayerSkillData[] = [
     damageType: 'physical',
     damagePercent: 55,
     hits: 4
+  },
+  {
+    id: 'sniper_shot',
+    proficiency: 'bow_long',
+    requireProficiency: 90,
+    icon: '🎯',
+    mp: 65,
+    cd: 5,
+    damageType: 'physical',
+    damagePercent: 220,
+    ignoreDef: true
   },
 
   // ── Cajado ───────────────────────────────────────────────────
@@ -222,6 +265,16 @@ export const skills: PlayerSkillData[] = [
     damageType: 'void',
     damagePercent: 300
   },
+  {
+    id: 'astral_barrier',
+    proficiency: 'orb',
+    requireProficiency: 60,
+    icon: '🔮',
+    mp: 40,
+    cd: 5,
+    defUpPercent: 35,
+    defUpTurns: 3
+  },
 
   // ── Grimório ─────────────────────────────────────────────────
   {
@@ -235,6 +288,17 @@ export const skills: PlayerSkillData[] = [
     damagePercent: 60,
     stunTurns: 1
   },
+  {
+    id: 'arcane_ward',
+    proficiency: 'tome',
+    requireProficiency: 60,
+    icon: '📖',
+    mp: 45,
+    cd: 4,
+    defUpPercent: 30,
+    defUpTurns: 3,
+    healPercent: 25
+  },
 
   // ── Martelo ──────────────────────────────────────────────────
   {
@@ -246,6 +310,17 @@ export const skills: PlayerSkillData[] = [
     cd: 5,
     defUpPercent: 40,
     defUpTurns: 3
+  },
+  {
+    id: 'seismic_slam',
+    proficiency: 'hammer',
+    requireProficiency: 100,
+    icon: '🌋',
+    mp: 80,
+    cd: 6,
+    damageType: 'physical',
+    damagePercent: 250,
+    stunTurns: 1
   },
 
   // ── Lança ────────────────────────────────────────────────────
@@ -281,5 +356,16 @@ export const skills: PlayerSkillData[] = [
     damageType: 'physical',
     damagePercent: 120,
     stunTurns: 1
+  },
+  {
+    id: 'aegis_guard',
+    proficiency: 'shield',
+    requireProficiency: 60,
+    icon: '🏛',
+    mp: 50,
+    cd: 6,
+    defUpPercent: 50,
+    defUpTurns: 2,
+    healPercent: 15
   }
 ];

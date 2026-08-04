@@ -7,6 +7,7 @@ import { ProgressBar } from '../ui/ProgressBar';
 import { Portrait } from '../ui/Portrait';
 import { PROFICIENCIES, PROFICIENCY_ICONS } from '../../data/proficiencies';
 import { skills } from '../../data/skills';
+import { getComboKey } from '../../data/weaponCombos';
 import { resolveItemRef } from '../../utils/itemSerializer';
 
 type ProfileTab = 'status' | 'skills' | 'titles';
@@ -66,6 +67,24 @@ export const ProfilePanel = () => {
                   <p className="font-mono text-sm text-game-muted">
                     {t('game.level')} {player.level} • {player.activeTitle ?? t('panels.none')}
                   </p>
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    {mainCategory && (
+                      <span className="chip text-arcane-300">
+                        <span className="text-xs">{PROFICIENCY_ICONS[mainCategory]}</span>
+                        {t(`proficiencies.${mainCategory}.name`)}
+                      </span>
+                    )}
+                    {offCategory && offCategory !== mainCategory && (
+                      <>
+                        <span className="text-game-faded">+</span>
+                        <span className="chip text-gold-300">
+                          <span className="text-xs">{PROFICIENCY_ICONS[offCategory]}</span>
+                          {t(`proficiencies.${offCategory}.name`)}
+                        </span>
+                      </>
+                    )}
+                    <span className="title-gold font-title text-base font-bold">— {t(`combos.${getComboKey(mainCategory, offCategory)}.name`)}</span>
+                  </div>
                   <ProgressBar className="mt-3" current={player.xp} max={player.xpToNext} type="xp" showText />
                 </div>
               </div>

@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { archetypes } from '../../data/archetypes';
 import { PROFICIENCIES, PROFICIENCY_ICONS } from '../../data/proficiencies';
 import { skills } from '../../data/skills';
+import { getComboKey } from '../../data/weaponCombos';
 import { useI18n } from '../../hooks/useI18n';
 import { wikiSectionOrder, wikiTranslations } from '../../i18n/wiki';
 import type { WikiBlock, WikiFaqItem, WikiSectionKey } from '../../i18n/wiki';
@@ -137,6 +138,35 @@ export const WikiScreen = () => {
                         </div>
                       );
                     })}
+                  </div>
+                </article>
+              )}
+
+              {activeSection === 'combat' && (
+                <article className="rounded-xl border border-night-600 bg-night-900/60 p-4 shadow-panel">
+                  <h3 className="title-gold font-title text-xl font-bold">{t('wiki.combosTitle')}</h3>
+                  <p className="mt-1 font-mono text-xs text-game-muted">{t('wiki.combosHint')}</p>
+                  <div className="mt-3 grid gap-4 sm:grid-cols-2">
+                    {PROFICIENCIES.map((main) => (
+                      <div key={main} className="rounded-lg border border-night-600 bg-night-900/60 p-3">
+                        <h4 className="mb-2 flex items-center gap-2 font-title text-sm font-bold text-gold-300">
+                          <span>{PROFICIENCY_ICONS[main]}</span>
+                          {t(`proficiencies.${main}.name`)}
+                        </h4>
+                        <div className="grid gap-1">
+                          {PROFICIENCIES.map((off) => (
+                            <div key={off} className="flex items-center justify-between gap-2 rounded border border-night-700 bg-night-900/50 px-2 py-1 font-mono text-[11px]">
+                              <span className="truncate text-game-muted">
+                                {PROFICIENCY_ICONS[off]} {t(`proficiencies.${off}.name`)}
+                              </span>
+                              <span className="title-gold shrink-0 font-title text-xs font-bold">
+                                {t(`combos.${getComboKey(main, off)}.name`)}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </article>
               )}

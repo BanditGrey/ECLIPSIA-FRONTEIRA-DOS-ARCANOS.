@@ -54,6 +54,14 @@ cd ../server && npm test
   servidor equipa e dá 5 pts de proficiência). Escudo equipado = papel de tanque
   na party (substitui o antigo vanguard). **SORTE: teto 1000** (+0,1% XP/ponto,
   fator de loot /1000). Baselines intactos (89/89, 41/41, 18/18, build).
+- **⚔ Caso 9 ✅ — Sistema completo de proficiências & skills (v1.0)**: doc
+  mestre `SKILLS_SYSTEM.md` (contrato de cálculo, XP, marcos, balanceamento).
+  **210 nomes de combinação** (`data/weaponCombos.ts`, matriz main×off + arma
+  única, i18n 4 idiomas) exibidos no Perfil e na Wiki. **28 skills** (todas as
+  14 armas com kit ≥2 — novas: cross_slash, twin_fang, quick_shot,
+  astral_barrier, arcane_ward, seismic_slam, aegis_guard). **Passivas por
+  marcos 50/150/300** por arma (dmg/crit/critDmg/cura/defesa) integradas em
+  combate/cura/defesa. Pendente: balanceamento com telemetria real (Caso 5).
 - **🎨 Identidade visual "Fronteira Arcana" ✅ (Caso 7)**: design system novo
   (paleta azul-noite + dourado ritual + teal arcano; painéis `panel-arcane` com
   borda dourada e cantoneiras; `title-gold`; botões `btn-gold`/`btn-glass`;

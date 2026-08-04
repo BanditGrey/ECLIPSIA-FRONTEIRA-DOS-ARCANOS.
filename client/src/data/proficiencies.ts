@@ -104,3 +104,133 @@ export const STARTING_WEAPONS: Array<{ category: WeaponCategory; itemRef: string
 
 /** Proficiência inicial concedida na arma escolhida. */
 export const STARTING_PROFICIENCY = 5;
+
+/* ────────────────────────────────────────────────────────────────
+   PASSIVAS DE PROEFICIÊNCIA
+   Cada arma concede bônus passivos em marcos de pontos (50/150/300).
+   - dmgBonus    : fração somada ao dano (0.02 = +2%)
+   - critChance  : fração somada à chance de crítico
+   - critDamage  : fração somada ao dano crítico
+   - healBonus   : fração somada à cura recebida
+   - defBonus    : fração multiplicativa sobre a defesa total
+   ──────────────────────────────────────────────────────────────── */
+export interface ProficiencyPassiveTier {
+  at: number;
+  dmgBonus?: number;
+  critChance?: number;
+  critDamage?: number;
+  healBonus?: number;
+  defBonus?: number;
+}
+
+export const PROFICIENCY_PASSIVES: Record<WeaponCategory, ProficiencyPassiveTier[]> = {
+  sword_one: [
+    { at: 50, critChance: 0.02, critDamage: 0.05 },
+    { at: 150, critChance: 0.04, critDamage: 0.1 },
+    { at: 300, critChance: 0.06, critDamage: 0.15 }
+  ],
+  sword_two: [
+    { at: 50, dmgBonus: 0.02, critChance: 0.01 },
+    { at: 150, dmgBonus: 0.04, critChance: 0.02 },
+    { at: 300, dmgBonus: 0.06, critChance: 0.03 }
+  ],
+  great_sword: [
+    { at: 50, dmgBonus: 0.03, critDamage: 0.05 },
+    { at: 150, dmgBonus: 0.06, critDamage: 0.1 },
+    { at: 300, dmgBonus: 0.1, critDamage: 0.2 }
+  ],
+  dagger: [
+    { at: 50, critChance: 0.03, critDamage: 0.05 },
+    { at: 150, critChance: 0.05, critDamage: 0.1 },
+    { at: 300, critChance: 0.08, critDamage: 0.15 }
+  ],
+  dagger_off: [
+    { at: 50, critChance: 0.02, dmgBonus: 0.02 },
+    { at: 150, critChance: 0.04, dmgBonus: 0.04 },
+    { at: 300, critChance: 0.06, dmgBonus: 0.06 }
+  ],
+  bow_short: [
+    { at: 50, critChance: 0.02, dmgBonus: 0.02 },
+    { at: 150, critChance: 0.04, dmgBonus: 0.04 },
+    { at: 300, critChance: 0.06, dmgBonus: 0.06 }
+  ],
+  bow_long: [
+    { at: 50, critDamage: 0.08, dmgBonus: 0.02 },
+    { at: 150, critDamage: 0.15, dmgBonus: 0.04 },
+    { at: 300, critDamage: 0.25, dmgBonus: 0.06 }
+  ],
+  staff_one: [
+    { at: 50, healBonus: 0.03, dmgBonus: 0.02 },
+    { at: 150, healBonus: 0.06, dmgBonus: 0.04 },
+    { at: 300, healBonus: 0.1, dmgBonus: 0.06 }
+  ],
+  staff_two: [
+    { at: 50, dmgBonus: 0.03, critChance: 0.01 },
+    { at: 150, dmgBonus: 0.06, critChance: 0.02 },
+    { at: 300, dmgBonus: 0.1, critChance: 0.03 }
+  ],
+  orb: [
+    { at: 50, dmgBonus: 0.02, critDamage: 0.05 },
+    { at: 150, dmgBonus: 0.05, critDamage: 0.1 },
+    { at: 300, dmgBonus: 0.08, critDamage: 0.2 }
+  ],
+  tome: [
+    { at: 50, defBonus: 0.02, healBonus: 0.03 },
+    { at: 150, defBonus: 0.04, healBonus: 0.06 },
+    { at: 300, defBonus: 0.06, healBonus: 0.1 }
+  ],
+  hammer: [
+    { at: 50, defBonus: 0.03, dmgBonus: 0.02 },
+    { at: 150, defBonus: 0.06, dmgBonus: 0.04 },
+    { at: 300, defBonus: 0.1, dmgBonus: 0.06 }
+  ],
+  spear: [
+    { at: 50, dmgBonus: 0.02, critChance: 0.01 },
+    { at: 150, dmgBonus: 0.04, critChance: 0.02 },
+    { at: 300, dmgBonus: 0.06, critChance: 0.03 }
+  ],
+  shield: [
+    { at: 50, defBonus: 0.04, healBonus: 0.02 },
+    { at: 150, defBonus: 0.08, healBonus: 0.04 },
+    { at: 300, defBonus: 0.12, healBonus: 0.06 }
+  ]
+};
+
+export interface ProficiencyPassiveTotals {
+  dmgBonus: number;
+  critChance: number;
+  critDamage: number;
+  healBonus: number;
+  defBonus: number;
+}
+
+const EMPTY_PASSIVES: ProficiencyPassiveTotals = { dmgBonus: 0, critChance: 0, critDamage: 0, healBonus: 0, defBonus: 0 };
+
+/**
+ * Soma as passivas de todas as armas equipadas conforme os pontos de
+ * proficiência de cada categoria (marcos 50/150/300).
+ */
+export const getProficiencyPassiveTotals = (equipment: { weapon_main?: string | null; weapon_off?: string | null }, proficiencies: Record<string, number | undefined>): ProficiencyPassiveTotals => {
+  const totals = { ...EMPTY_PASSIVES };
+
+  for (const category of equippedWeaponCategories(equipment)) {
+    const points = proficiencies[category] ?? 0;
+    const tiers = PROFICIENCY_PASSIVES[category];
+
+    if (!tiers) {
+      continue;
+    }
+
+    for (const tier of tiers) {
+      if (points >= tier.at) {
+        totals.dmgBonus += tier.dmgBonus ?? 0;
+        totals.critChance += tier.critChance ?? 0;
+        totals.critDamage += tier.critDamage ?? 0;
+        totals.healBonus += tier.healBonus ?? 0;
+        totals.defBonus += tier.defBonus ?? 0;
+      }
+    }
+  }
+
+  return totals;
+};

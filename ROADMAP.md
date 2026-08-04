@@ -184,6 +184,23 @@ só os companheiros locais participam do combate. Meta: grupo lutar junto.
 - [x] Baselines intactos: 89/89 · 41/41 · 18/18 · build · smoke test client
 - [ ] Balancear thresholds/XP de proficiência com dados reais (Caso 5)
 
+## ⚔ CASO 9 — Sistema completo de proficiências & skills (✅ v1.0 — ver SKILLS_SYSTEM.md)
+
+- [x] Documento mestre criado: `SKILLS_SYSTEM.md` (contrato de cálculo, XP,
+      marcos, 28 skills, passivas, combinações, checklist futuro)
+- [x] Nomes de combinação para **todas as 210 combinações** (matriz 15×15 com
+      arma única) em `data/weaponCombos.ts` + i18n 4 idiomas
+- [x] UI: Perfil mostra arma principal + secundária + **nome da combinação**;
+      Wiki ganhou tabela completa de combinações
+- [x] 7 novas skills (Cross Slash, Twin Fang, Quick Shot, Astral Barrier,
+      Arcane Ward, Seismic Slam, Aegis Guard) — **todas as 14 armas com kit**
+      (28 skills no total)
+- [x] **Passivas por marcos** (50/150/300): cada arma concede dmg/crit/critDmg/
+      cura/defesa — integradas em combate, cura e defesa total
+- [x] i18n 4 idiomas (combos + 7 skills) · baselines intactos (89/89 · 41/41 ·
+      18/18 · build)
+- [ ] Balanceamento fino com telemetria real (Caso 5) — ver SKILLS_SYSTEM.md §7
+
 ## 📏 REGRAS DE OURO (para qualquer item acima)
 
 1. Nunca quebrar a auditoria: `cd client && npm run audit` → 89/89

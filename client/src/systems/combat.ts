@@ -6,7 +6,7 @@ import { getEffectName } from '../data/effectNames';
 import { monsters } from '../data/monsters';
 import { regions } from '../data/regions';
 import { skills } from '../data/skills';
-import { equippedWeaponCategories, PROFICIENCY_ATK_BONUS_PER_POINT, PROF_XP, weaponCategoryOf } from '../data/proficiencies';
+import { equippedWeaponCategories, getProficiencyPassiveTotals, PROFICIENCY_ATK_BONUS_PER_POINT, PROF_XP, weaponCategoryOf } from '../data/proficiencies';
 import { useCombatStore } from '../store/useCombatStore';
 import { useGameStore } from '../store/useGameStore';
 import { usePartyStore } from '../store/usePartyStore';
@@ -169,14 +169,15 @@ const rollCrit = (): { isCrit: boolean; multiplier: number } => {
   const resolved = getResolvedEffects();
   // critChance já é fração 0-1 (ex.: 0.06 = 6%)
   const critChance = resolved?.critChance ?? 0;
-  const chance = 0.05 + perception * 0.002 + critChance;
+  const passiveCrit = getPassiveCritChance();
+  const chance = 0.05 + perception * 0.002 + critChance + passiveCrit;
 
   if (Math.random() >= chance) {
     return { isCrit: false, multiplier: 1 };
   }
 
   // critDmg e ON_CRIT_DMG são frações 0-1
-  const critDmg = resolved?.critDmg ?? 0;
+  const critDmg = (resolved?.critDmg ?? 0) + getPassiveCritDamage();
   const onCritDmg = resolved ? getConditionalValue(resolved, EFFECT.ON_CRIT_DMG) : 0;
 
   return { isCrit: true, multiplier: 2 * (1 + critDmg + onCritDmg) };
@@ -290,6 +291,18 @@ const reportHuntRound = (killed: boolean) => {
 };
 
 /**
+ * Passivas das armas equipadas (dmg/crit/heal) — veja PROFICIENCY_PASSIVES.
+ */
+const getPassiveTotals = () => {
+  const data = usePlayerStore.getState().data;
+
+  return data ? getProficiencyPassiveTotals(data.equipment, data.proficiencies) : { dmgBonus: 0, critChance: 0, critDamage: 0, healBonus: 0, defBonus: 0 };
+};
+
+const getPassiveCritChance = (): number => getPassiveTotals().critChance;
+const getPassiveCritDamage = (): number => getPassiveTotals().critDamage;
+
+/**
  * Soma dos bônus de ATK das proficiências das armas equipadas.
  * +0,2% por ponto (100 pts = +20%).
  */
@@ -374,7 +387,10 @@ const getPlayerDamage = (percent = 100) => {
 
   // PROEFICIÊNCIA DE ARMA: +0,2% de ATK por ponto na categoria da arma equipada.
   const weaponBonus = getEquippedProficiencyBonus();
-  const finalBase = base * (1 + weaponBonus);
+
+  // PASSIVAS de proficiência (marcos 50/150/300): bônus de dano.
+  const passiveDmg = getPassiveTotals().dmgBonus;
+  const finalBase = base * (1 + weaponBonus + passiveDmg);
 
   const { isCrit, multiplier } = rollCrit();
   const defenseReduction = Math.max(0, combat.enemy?.def ?? 0) * 0.35;
@@ -747,8 +763,8 @@ export const combatEngine = {
     combat.setCooldown(skillId, Math.max(1, Math.round(skill.cd * (1 - haste))));
 
     if (skill.healPercent) {
-      // HEAL_BONUS (26) amplifica a cura recebida de skills
-      const healBonus = getResolvedEffects()?.healBonus ?? 0;
+      // HEAL_BONUS (26) + PASSIVA de proficiência amplificam a cura
+      const healBonus = (getResolvedEffects()?.healBonus ?? 0) + getPassiveTotals().healBonus;
 
       usePlayerStore.getState().recoverHp(skill.healPercent * (1 + healBonus));
     }
