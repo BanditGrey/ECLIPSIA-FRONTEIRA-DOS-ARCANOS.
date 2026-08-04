@@ -5,7 +5,9 @@ import { useGameStore } from '../../store/useGameStore';
 import { usePartyStore } from '../../store/usePartyStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
 import type { Equipment, PlayerData } from '../../types/player.types';
+import { ART } from '../../data/art';
 import { Button } from '../ui/Button';
+import { ClassSigil } from '../ui/ClassSigil';
 
 type Archetype = 'blade' | 'arcane' | 'druid' | 'vanguard' | 'ranger' | 'spectre';
 
@@ -196,19 +198,32 @@ export const CharacterSelectScreen = () => {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-game-dark p-4 text-game-text">
-      <section className="mx-auto flex h-full w-full max-w-4xl flex-col rounded-2xl border border-game-border bg-game-primary p-5">
+    <div className="relative flex h-screen overflow-hidden bg-game-dark text-game-text">
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-25"
+        style={{ backgroundImage: `url(${ART.bg.hub})` }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-night-950/70 via-night-950/40 to-night-950/95" />
+      <div className="bg-eclipsia absolute inset-0" />
+
+      <section className="panel-arcane anim-up relative z-10 mx-auto my-4 flex h-[calc(100vh-2rem)] w-full max-w-4xl flex-col overflow-hidden rounded-xl p-5 shadow-panel">
         <header className="flex shrink-0 items-center justify-between border-b border-game-border pb-4">
-          <h1 className="font-title text-3xl font-black tracking-widest text-game-gold">⚔ {t('game.title')}</h1>
-          <span className="font-mono text-sm text-game-muted">
+          <div className="flex items-center gap-3">
+            <img src={ART.emblem} alt="" className="h-9 w-9 rounded-full opacity-90" draggable={false} />
+            <h1 className="title-gold text-glow font-title text-2xl font-black tracking-[0.16em]">
+              {t('game.title')}
+            </h1>
+          </div>
+          <span className="chip text-game-muted">
             {characters.length}/{MAX_CHARACTERS} {t('charSelect.chars')}
           </span>
         </header>
 
         <div className="mt-4 min-h-0 flex-1 overflow-hidden">
           {characters.length === 0 ? (
-            <div className="flex h-full items-center justify-center rounded-xl border border-dashed border-game-border text-game-muted">
-              {t('charSelect.noCharacters')}
+            <div className="flex h-full flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-game-border text-game-muted">
+              <img src={ART.emblem} alt="" className="h-20 w-20 animate-floaty rounded-full opacity-40" draggable={false} />
+              <span className="italic">{t('charSelect.noCharacters')}</span>
             </div>
           ) : (
             <div className="grid h-full gap-3 overflow-auto pr-1">
@@ -221,20 +236,30 @@ export const CharacterSelectScreen = () => {
                   <article
                     key={character.id}
                     className={[
-                      'grid grid-cols-[1fr_auto] items-center gap-4 rounded-xl border bg-game-card p-4',
-                      isActive ? 'border-game-gold' : 'border-game-border'
+                      'grid grid-cols-[1fr_auto] items-center gap-4 rounded-xl border bg-gradient-to-r from-night-700/60 to-night-900/80 p-4 transition-all',
+                      isActive
+                        ? 'border-gold-400 shadow-glow-gold'
+                        : 'border-night-600 hover:border-gold-600/50 hover:shadow-glow-sm'
                     ].join(' ')}
                   >
-                    <div className="flex min-w-0 items-center gap-3">
-                      <span className="text-3xl">{archetypeIcons[character.archetype]}</span>
+                    <div className="flex min-w-0 items-center gap-4">
+                      <ClassSigil archetype={character.archetype} size={64} />
                       <div className="min-w-0">
                         <h2 className="truncate font-title text-xl font-bold text-game-text">{character.name}</h2>
                         <p className="font-mono text-sm text-game-muted">
                           {t('game.lvl')} {character.level}
                         </p>
-                        <div className="mt-1 flex gap-2 font-mono text-[10px] font-bold">
-                          {isActive && <span className="rounded bg-game-gold px-2 py-0.5 text-game-dark">{t('charSelect.activeBadge')}</span>}
-                          {isParty && <span className="rounded bg-blue-700 px-2 py-0.5 text-white">{t('charSelect.partyBadge')}</span>}
+                        <div className="mt-1.5 flex gap-2 font-mono text-[10px] font-bold">
+                          {isActive && (
+                            <span className="rounded bg-gradient-to-b from-gold-300 to-gold-500 px-2 py-0.5 text-night-950 shadow-glow-sm">
+                              {t('charSelect.activeBadge')}
+                            </span>
+                          )}
+                          {isParty && (
+                            <span className="rounded bg-gradient-to-b from-cyan-600 to-cyan-800 px-2 py-0.5 text-white">
+                              {t('charSelect.partyBadge')}
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>

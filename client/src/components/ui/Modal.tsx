@@ -23,24 +23,24 @@ export const Modal = ({ id, title, children, onClose }: ModalProps) => {
 
   return (
     <div
-      className="anim-fade fixed inset-0 z-[900] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+      className="anim-fade fixed inset-0 z-[900] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm"
       onClick={handleClose}
       role="presentation"
     >
       <section
-        className="anim-up max-h-[90vh] w-full max-w-lg overflow-hidden rounded-xl border border-game-border bg-game-panel shadow-2xl shadow-black/50"
+        className="panel-arcane anim-up max-h-[90vh] w-full max-w-lg overflow-hidden rounded-xl shadow-panel"
         onClick={(event) => event.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-labelledby={`${id}-title`}
       >
-        <header className="flex h-12 items-center justify-between border-b border-game-border bg-game-primary px-4">
-          <h2 id={`${id}-title`} className="font-title text-lg font-bold text-game-gold">
+        <header className="flex h-12 items-center justify-between border-b border-game-border bg-night-900/80 px-4">
+          <h2 id={`${id}-title`} className="title-gold font-title text-lg font-bold">
             {title}
           </h2>
           <button
             type="button"
-            className="flex h-8 w-8 items-center justify-center rounded-md text-game-muted transition-colors hover:bg-game-hover hover:text-game-text active:scale-95"
+            className="icon-tile flex h-8 w-8 items-center justify-center rounded-lg text-game-muted transition-colors hover:text-game-gold active:scale-95"
             onClick={handleClose}
             aria-label="close"
           >

@@ -1,6 +1,7 @@
 import { useI18n } from '../../hooks/useI18n';
 import { useGameStore } from '../../store/useGameStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
+import { ART } from '../../data/art';
 
 export const Header = () => {
   const { t } = useI18n();
@@ -8,41 +9,44 @@ export const Header = () => {
   const openModal = useGameStore((state) => state.openModal);
 
   return (
-    <header className="flex h-header shrink-0 items-center justify-between border-b border-game-border bg-game-primary px-4">
-      <div className="font-title text-lg font-black tracking-widest text-game-gold">⚔ {t('game.title')}</div>
+    <header className="relative flex h-header shrink-0 items-center justify-between border-b border-night-700 bg-night-900/85 px-4 backdrop-blur">
+      <div className="flex min-w-0 items-center gap-2">
+        <img src={ART.emblem} alt="" className="h-7 w-7 rounded-full opacity-90" draggable={false} />
+        <span className="title-gold text-glow truncate font-title text-base font-black tracking-[0.18em]">
+          {t('game.title')}
+        </span>
+      </div>
 
       <div className="min-w-0 flex-1 px-4 text-center">
         {player && (
-          <div className="truncate font-mono text-sm text-game-text">
-            <span>{player.name}</span>
-            <span className="mx-2 text-game-muted">•</span>
-            <span>
+          <div className="flex items-center justify-center gap-2 truncate font-mono text-sm text-game-text">
+            <span className="truncate text-game-text">{player.name}</span>
+            <span className="chip !px-2 !py-0 text-[10px] text-gold-300">
               {t('game.lvl')} {player.level}
             </span>
             {player.activeTitle && (
-              <>
-                <span className="mx-2 text-game-muted">•</span>
-                <span className="text-game-gold">{player.activeTitle}</span>
-              </>
+              <span className="hidden truncate italic text-gold-400/90 sm:inline">{player.activeTitle}</span>
             )}
           </div>
         )}
       </div>
 
-      <div className="flex items-center gap-3 font-mono text-sm">
-        <span className="text-game-gold">
-          {t('header.gold')}: {player?.gold ?? 0}
+      <div className="flex shrink-0 items-center gap-2 font-mono text-sm">
+        <span className="chip text-gold-300" title={t('header.gold')}>
+          <span className="text-xs">🪙</span>
+          <span className="tabular-nums">{player?.gold ?? 0}</span>
         </span>
-        <span className="text-cyan-300" title={t('header.crystalsHint')}>
-          💎 {player?.crystals ?? 0}
+        <span className="chip text-arcane-300" title={t('header.crystalsHint')}>
+          <span className="text-xs">💎</span>
+          <span className="tabular-nums">{player?.crystals ?? 0}</span>
         </span>
         <button
           type="button"
-          className="flex h-8 w-8 items-center justify-center rounded-md border border-game-border bg-game-card transition-colors hover:bg-game-hover active:scale-95"
+          className="icon-tile h-8 w-8 rounded-lg text-game-muted transition-all hover:text-gold-300 active:scale-95"
           onClick={() => openModal('modal-settings')}
           aria-label={t('header.settings')}
         >
-          ⚙
+          <span className="text-sm">⚙</span>
         </button>
       </div>
     </header>

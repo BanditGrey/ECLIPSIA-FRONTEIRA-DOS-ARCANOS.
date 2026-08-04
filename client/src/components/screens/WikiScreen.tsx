@@ -35,10 +35,10 @@ export const WikiScreen = () => {
   };
 
   return (
-    <div className="grid h-screen grid-rows-[auto_1fr] overflow-hidden bg-game-dark text-game-text">
-      <header className="flex h-header items-center justify-between border-b border-game-border bg-game-primary px-4">
+    <div className="bg-eclipsia grid h-screen grid-rows-[auto_1fr] overflow-hidden text-game-text">
+      <header className="relative flex h-header items-center justify-between border-b border-night-700 bg-night-900/85 px-4 backdrop-blur">
         <div>
-          <h1 className="font-title text-xl font-black text-game-gold">{String(wiki.ui.title)}</h1>
+          <h1 className="title-gold font-title text-xl font-black">{String(wiki.ui.title)}</h1>
           <p className="font-mono text-xs text-game-muted">{String(wiki.ui.subtitle)}</p>
         </div>
         <Button size="sm" variant="secondary" onClick={goBack}>
@@ -47,18 +47,18 @@ export const WikiScreen = () => {
       </header>
 
       <main className="grid min-h-0 grid-cols-[260px_1fr] gap-3 overflow-hidden p-3">
-        <aside className="grid min-h-0 grid-rows-[auto_1fr] rounded-xl border border-game-border bg-game-panel p-3">
-          <h2 className="mb-3 font-title text-game-gold">{String(wiki.ui.sections)}</h2>
+        <aside className="grid min-h-0 grid-rows-[auto_1fr] rounded-xl border border-night-600 bg-night-900/70 p-3 shadow-panel">
+          <h2 className="mb-3 font-title text-gold-300">{String(wiki.ui.sections)}</h2>
           <nav className="grid min-h-0 gap-2 overflow-auto pr-1">
             {wikiSectionOrder.map((key) => (
               <button
                 key={key}
                 type="button"
                 className={[
-                  'rounded-lg border px-3 py-2 text-left font-mono text-xs transition-colors active:scale-95',
+                  'rounded-lg border px-3 py-2 text-left font-mono text-xs transition-all active:scale-95',
                   activeSection === key
-                    ? 'border-game-gold bg-game-card text-game-gold'
-                    : 'border-game-border bg-game-primary text-game-muted hover:bg-game-hover hover:text-game-text'
+                    ? 'btn-gold'
+                    : 'border-night-600 bg-night-900/80 text-game-muted hover:border-gold-600/50 hover:text-game-text'
                 ].join(' ')}
                 onClick={() => setActiveSection(key)}
               >
@@ -68,7 +68,7 @@ export const WikiScreen = () => {
           </nav>
         </aside>
 
-        <section className="min-h-0 overflow-hidden rounded-xl border border-game-border bg-game-panel">
+        <section className="min-h-0 overflow-hidden rounded-xl border border-night-600 bg-night-900/60 shadow-panel">
           <div className="h-full overflow-auto p-4 pr-2">
             <h2 className="font-title text-3xl font-black text-game-gold">{section.title}</h2>
 

@@ -97,8 +97,14 @@ export const App = () => {
 
   if (isInitializing) {
     return (
-      <div className="flex h-screen items-center justify-center overflow-hidden bg-game-dark text-game-gold">
-        <span className="anim-pulse font-title text-xl">{t('app.initializing')}</span>
+      <div className="bg-eclipsia flex h-screen flex-col items-center justify-center gap-4 overflow-hidden text-game-gold">
+        <img
+          src="/assets/emblem.png"
+          alt=""
+          className="h-20 w-20 animate-floaty rounded-full opacity-90 shadow-glow-gold"
+          draggable={false}
+        />
+        <span className="anim-pulse title-gold font-title text-xl tracking-[0.2em]">{t('app.initializing')}</span>
       </div>
     );
   }

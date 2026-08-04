@@ -6,6 +6,7 @@ import { calculatePlayerStats, getConditionalValue } from '../../systems/effectE
 import { useGameStore } from '../../store/useGameStore';
 import { usePartyCombatStore, type PartyHuntSnapshot } from '../../store/usePartyCombatStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
+import { ART } from '../../data/art';
 import { Notifications } from '../ui/Notifications';
 import { Header } from './Header';
 import { Navbar } from './Navbar';
@@ -86,11 +87,24 @@ const PartyCombatBridge = () => {
 
 export const GameLayout = ({ children }: GameLayoutProps) => {
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-game-dark text-game-text">
-      <PartyCombatBridge />
-      <Header />
-      <main className="relative flex-1 overflow-hidden">{children}</main>
-      <Navbar />
+    <div className="bg-eclipsia relative flex h-screen flex-col overflow-hidden text-game-text">
+      {/* Atmosfera: arte da cidade ao fundo + véus */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.13]"
+        style={{ backgroundImage: `url(${ART.bg.hub})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-night-950/60 via-transparent to-night-950/80" />
+
+      {/* filetes dourados (moldura do HUD) */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-[2px] bg-gradient-to-r from-transparent via-gold-400/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-[2px] bg-gradient-to-r from-transparent via-gold-400/60 to-transparent" />
+
+      <div className="relative z-10 flex h-full flex-col">
+        <PartyCombatBridge />
+        <Header />
+        <main className="relative flex-1 overflow-hidden">{children}</main>
+        <Navbar />
+      </div>
       <Notifications />
     </div>
   );

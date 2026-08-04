@@ -51,7 +51,9 @@ export const translations: Record<LangCode, TranslationTree> = {
       "email": "Email",
       "emailPlaceholder": "Digite seu email",
       "loginTab": "LOGIN",
-      "registerTab": "CRIAR CONTA"
+      "registerTab": "CRIAR CONTA",
+      "onlineLabel": "Aventureiros na fronteira",
+      "onlineJoin": "e"
     },
     "register": {
       "username": "Nome de usuário",
@@ -1228,7 +1230,9 @@ export const translations: Record<LangCode, TranslationTree> = {
       "email": "Email",
       "emailPlaceholder": "Enter your email",
       "loginTab": "LOGIN",
-      "registerTab": "CREATE ACCOUNT"
+      "registerTab": "CREATE ACCOUNT",
+      "onlineLabel": "Adventurers at the frontier",
+      "onlineJoin": "and"
     },
     "register": {
       "username": "Username",
@@ -2404,7 +2408,9 @@ export const translations: Record<LangCode, TranslationTree> = {
       "email": "Email",
       "emailPlaceholder": "Introduce tu email",
       "loginTab": "LOGIN",
-      "registerTab": "CREAR CUENTA"
+      "registerTab": "CREAR CUENTA",
+      "onlineLabel": "Aventureros en la frontera",
+      "onlineJoin": "y"
     },
     "register": {
       "username": "Nombre de usuario",
@@ -3580,7 +3586,9 @@ export const translations: Record<LangCode, TranslationTree> = {
       "email": "メール",
       "emailPlaceholder": "メールを入力",
       "loginTab": "ログイン",
-      "registerTab": "アカウント作成"
+      "registerTab": "アカウント作成",
+      "onlineLabel": "辺境の冒険者",
+      "onlineJoin": "と"
     },
     "register": {
       "username": "ユーザー名",

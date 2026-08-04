@@ -11,6 +11,7 @@ import { combatEngine } from '../../systems/combat';
 import type { Enemy } from '../../types/combat.types';
 import type { Item } from '../../types/item.types';
 import { Button } from '../ui/Button';
+import { ART } from '../../data/art';
 
 type TravelTab = 'regions' | 'dungeons';
 
@@ -131,46 +132,63 @@ export const TravelPanel = () => {
 
   return (
     <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
-      <div className="grid grid-cols-2 gap-2 rounded-xl border border-game-border bg-game-panel p-2 font-mono text-sm">
+      <div className="grid grid-cols-2 gap-2 rounded-xl border border-night-600 bg-night-900/80 p-1.5 font-mono text-sm shadow-panel">
         <button
           type="button"
-          className={[tab === 'regions' ? 'bg-game-gold text-game-dark' : 'text-game-muted hover:bg-game-hover', 'rounded-lg py-2 transition-colors active:scale-95'].join(' ')}
+          className={[tab === 'regions' ? 'btn-gold' : 'text-game-muted hover:bg-night-800/70 hover:text-game-text', 'rounded-lg py-2 transition-all active:scale-95'].join(' ')}
           onClick={() => setTab('regions')}
         >
           {t('travel.tabs.regions')}
         </button>
         <button
           type="button"
-          className={[tab === 'dungeons' ? 'bg-game-gold text-game-dark' : 'text-game-muted hover:bg-game-hover', 'rounded-lg py-2 transition-colors active:scale-95'].join(' ')}
+          className={[tab === 'dungeons' ? 'btn-gold' : 'text-game-muted hover:bg-night-800/70 hover:text-game-text', 'rounded-lg py-2 transition-all active:scale-95'].join(' ')}
           onClick={() => setTab('dungeons')}
         >
           {t('travel.tabs.dungeons')}
         </button>
       </div>
 
-      <section className="min-h-0 overflow-hidden rounded-xl border border-game-border bg-game-panel p-3">
+      <section className="min-h-0 overflow-hidden rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
         {tab === 'regions' ? (
           <div className="grid h-full gap-3 overflow-auto pr-1">
             {regions.map((region) => {
               const unlocked = isUnlocked(region);
 
               return (
-                <article key={region.id} className="grid grid-cols-[1fr_auto] gap-3 rounded-xl border border-game-border bg-game-card p-3">
-                  <div className="flex min-w-0 gap-3">
-                    <span className="text-3xl">{region.icon}</span>
+                <article
+                  key={region.id}
+                  className={[
+                    'grid grid-cols-[1fr_auto] items-center gap-4 overflow-hidden rounded-xl border bg-gradient-to-r from-night-700/70 to-night-900/80 p-3 transition-all',
+                    unlocked
+                      ? 'border-night-600 hover:border-gold-600/60 hover:shadow-glow-sm'
+                      : 'border-night-700 opacity-80'
+                  ].join(' ')}
+                >
+                  <div className="flex min-w-0 items-center gap-3">
+                    <div className="relative h-14 w-24 shrink-0 overflow-hidden rounded-lg border border-night-600">
+                      <img
+                        src={ART.regions[region.id]}
+                        alt=""
+                        className={`h-full w-full object-cover ${unlocked ? '' : 'grayscale'}`}
+                        loading="lazy"
+                        draggable={false}
+                      />
+                      <span className="absolute inset-0 bg-gradient-to-t from-night-950/70 to-transparent" />
+                    </div>
                     <div className="min-w-0">
-                      <h2 className="truncate font-title text-lg font-bold text-game-gold">
+                      <h2 className="title-gold truncate font-title text-lg font-bold">
                         {t(`travel.regions.${region.id}.name`)}
                       </h2>
                       <p className="font-mono text-xs text-game-muted">{t(`travel.regionRanges.${region.id}`)}</p>
-                      <p className="mt-1 text-sm text-game-muted">{t(`travel.regions.${region.id}.desc`)}</p>
+                      <p className="mt-1 truncate text-sm italic text-game-muted">{t(`travel.regions.${region.id}.desc`)}</p>
                     </div>
                   </div>
                   <div className="flex min-w-32 items-center justify-end">
                     {unlocked ? (
                       <Button size="sm" onClick={() => enterRegion(region)}>{t('travel.enter')}</Button>
                     ) : (
-                      <span className="rounded-md border border-game-border bg-game-primary px-3 py-2 text-center font-mono text-xs text-game-muted">
+                      <span className="rounded-md border border-night-600 bg-night-900/90 px-3 py-2 text-center font-mono text-xs text-game-muted">
                         🔒 {requirementText(region)}
                       </span>
                     )}

@@ -1,9 +1,11 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useI18n } from '../../hooks/useI18n';
 import { AuthService } from '../../services/auth';
+import { API } from '../../services/api';
 import { useGameStore } from '../../store/useGameStore';
 import type { LangCode } from '../../i18n';
 import { wikiTranslations } from '../../i18n/wiki';
+import { ART } from '../../data/art';
 import { Button } from '../ui/Button';
 
 type LoginTab = 'login' | 'register';
@@ -22,10 +24,31 @@ export const LoginScreen = () => {
   const wiki = wikiTranslations[lang];
   const [tab, setTab] = useState<LoginTab>('login');
   const [loading, setLoading] = useState(false);
+  const [online, setOnline] = useState<number | null>(null);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+
+  useEffect(() => {
+    let mounted = true;
+
+    API.get<{ online?: number }>('/world/state', false)
+      .then((result) => {
+        if (mounted && result.success) {
+          setOnline(typeof result.data.online === 'number' ? result.data.online : null);
+        }
+      })
+      .catch(() => {
+        if (mounted) {
+          setOnline(null);
+        }
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -63,18 +86,25 @@ export const LoginScreen = () => {
 
   return (
     <div className="relative flex h-screen overflow-hidden bg-game-dark text-game-text">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(42,63,95,0.45),_rgba(6,10,20,0.95)_45%,_#060a14_100%)]" />
+      {/* Arte de fundo (hero) */}
+      <div
+        className="absolute inset-0 bg-cover bg-center animate-kenburns"
+        style={{ backgroundImage: `url(${ART.bg.login})` }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-night-950/80 via-night-950/35 to-night-950/95" />
+      <div className="vignette absolute inset-0" />
 
-      <div className="absolute right-4 top-4 z-10 flex gap-2">
+      {/* Seletores de idioma */}
+      <div className="absolute right-4 top-4 z-20 flex gap-2">
         {languageButtons.map((item) => (
           <button
             key={item.code}
             type="button"
             className={[
-              'rounded-md border px-2 py-1 font-mono text-xs transition-colors active:scale-95',
+              'chip transition-all active:scale-95',
               lang === item.code
-                ? 'border-game-gold bg-game-card text-game-gold'
-                : 'border-game-border bg-game-primary text-game-muted hover:text-game-text'
+                ? '!border-gold-400 text-gold-300 shadow-glow-sm'
+                : 'opacity-70 hover:opacity-100 hover:text-game-text'
             ].join(' ')}
             onClick={() => setLang(item.code)}
           >
@@ -84,19 +114,30 @@ export const LoginScreen = () => {
       </div>
 
       <main className="relative z-10 mx-auto flex w-full max-w-md flex-col items-center justify-center px-6">
-        <section className="w-full rounded-2xl border border-game-border bg-game-primary/90 p-6 shadow-2xl shadow-black/50 backdrop-blur">
-          <div className="text-center">
-            <h1 className="font-title text-5xl font-black tracking-[0.18em] text-game-gold drop-shadow">{t('game.title')}</h1>
-            <p className="mt-2 text-lg italic text-game-muted">{t('game.subtitle')}</p>
-            <div className="mx-auto my-5 h-px w-40 bg-game-gold" />
-          </div>
+        {/* Emblema + título */}
+        <img
+          src={ART.emblem}
+          alt=""
+          className="mb-3 h-24 w-24 animate-floaty rounded-full opacity-95 shadow-glow-gold"
+          draggable={false}
+        />
+        <h1 className="title-gold text-glow text-center font-title text-5xl font-black tracking-[0.22em]">
+          {t('game.title')}
+        </h1>
+        <p className="mt-2 text-center text-lg italic text-game-muted">{t('game.subtitle')}</p>
 
-          <div className="mb-5 grid grid-cols-2 rounded-lg border border-game-border bg-game-dark p-1 font-mono text-sm">
+        <div className="divider-ornate my-6 w-64">
+          <span className="diamond" />
+        </div>
+
+        {/* Cartão de autenticação */}
+        <section className="panel-arcane anim-up w-full rounded-xl p-6 shadow-panel">
+          <div className="mb-5 grid grid-cols-2 gap-1 rounded-lg border border-night-600 bg-night-900/90 p-1 font-mono text-xs">
             <button
               type="button"
               className={[
-                'rounded-md py-2 transition-colors active:scale-95',
-                tab === 'login' ? 'bg-game-gold text-game-dark' : 'text-game-muted hover:text-game-text'
+                'rounded-md py-2 font-bold tracking-widest transition-all active:scale-95',
+                tab === 'login' ? 'btn-gold' : 'text-game-muted hover:text-game-text'
               ].join(' ')}
               onClick={() => setTab('login')}
             >
@@ -105,8 +146,8 @@ export const LoginScreen = () => {
             <button
               type="button"
               className={[
-                'rounded-md py-2 transition-colors active:scale-95',
-                tab === 'register' ? 'bg-game-gold text-game-dark' : 'text-game-muted hover:text-game-text'
+                'rounded-md py-2 font-bold tracking-widest transition-all active:scale-95',
+                tab === 'register' ? 'btn-gold' : 'text-game-muted hover:text-game-text'
               ].join(' ')}
               onClick={() => setTab('register')}
             >
@@ -170,7 +211,7 @@ export const LoginScreen = () => {
               </label>
             )}
 
-            <Button className="mt-2 border-blue-500 !bg-blue-700 !text-white hover:!bg-blue-600" fullWidth loading={loading}>
+            <Button className="mt-2" fullWidth loading={loading}>
               {tab === 'login' ? t('login.enter') : t('register.create')}
             </Button>
             <Button variant="ghost" fullWidth onClick={() => setScreen('wiki')}>
@@ -179,8 +220,18 @@ export const LoginScreen = () => {
           </form>
         </section>
 
-        <footer className="mt-5 font-mono text-xs text-game-faded">
-          {t('game.version')} 0.1.0
+        {/* Rodapé */}
+        <footer className="mt-6 flex items-center gap-3 font-mono text-xs text-game-faded">
+          <span className="flex items-center gap-1.5">
+            <span
+              className={`h-1.5 w-1.5 rounded-full ${online === null ? 'bg-game-faded' : online > 0 ? 'bg-green-400 shadow-[0_0_6px_rgb(74_222_128_/_0.9)]' : 'bg-amber-400 shadow-[0_0_6px_rgb(251_191_36_/_0.9)]'}`}
+            />
+            {online === null ? '···' : `${online} ${t('login.onlineLabel')}`}
+          </span>
+          <span className="h-3 w-px bg-game-border" />
+          <span>
+            {t('game.version')} 0.1.0
+          </span>
         </footer>
       </main>
     </div>

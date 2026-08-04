@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { useI18n } from '../../hooks/useI18n';
+import { ART } from '../../data/art';
 import { useCombatStore } from '../../store/useCombatStore';
 import { useGameStore } from '../../store/useGameStore';
 import { usePartyCombatStore } from '../../store/usePartyCombatStore';
@@ -163,31 +164,53 @@ export const CombatPanel = () => {
       </div>
 
       <main className="grid min-h-0 grid-rows-[1fr_auto_1fr] gap-3 overflow-hidden">
-        <section className="grid rounded-xl border border-red-700 bg-game-card p-4">
-          <div className="flex items-center gap-3">
-            <span className="text-4xl">{combat.enemy.icon}</span>
-            <div className="min-w-0 flex-1">
-              <h2 className="truncate font-title text-xl text-game-gold">{t(combat.enemy.nameKey)}</h2>
-              <p className="font-mono text-sm text-game-muted">
-                {t('game.lvl')} {combat.enemy.level}
-              </p>
+        {/* Inimigo — campo de batalha ao fundo */}
+        <section className="relative overflow-hidden rounded-xl border border-red-800/70 bg-night-900/70 shadow-panel">
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-30"
+            style={{ backgroundImage: `url(${ART.bg.combat})` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-night-950/70 via-transparent to-night-950/80" />
+          <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-red-500/70 to-transparent" />
+
+          <div className="relative grid p-4">
+            <div className="flex items-center gap-4">
+              <span className="sigil-disc h-16 w-16 text-4xl">{combat.enemy.icon}</span>
+              <div className="min-w-0 flex-1">
+                <h2 className="title-gold truncate font-title text-xl font-bold">{t(combat.enemy.nameKey)}</h2>
+                <p className="font-mono text-sm text-game-muted">
+                  {t('game.lvl')} {combat.enemy.level}
+                </p>
+              </div>
             </div>
+            <ProgressBar className="mt-3" current={combat.enemyHp} max={combat.enemyMaxHp} type="hp" showText />
           </div>
-          <ProgressBar className="mt-3" current={combat.enemyHp} max={combat.enemyMaxHp} type="hp" showText />
         </section>
 
-        <div className="flex items-center justify-center font-title text-2xl font-black text-game-gold">{t('combat.vs')}</div>
+        <div className="divider-ornate flex items-center justify-center px-10 font-title text-xl font-black">
+          <span className="diamond" />
+          <span className="title-gold mx-3">{t('combat.vs')}</span>
+          <span className="diamond" />
+        </div>
 
-        <section className="grid rounded-xl border border-blue-700 bg-game-card p-4">
-          <div>
-            <h2 className="font-title text-xl text-game-text">{player?.name ?? t('game.unknown')}</h2>
-            <p className="font-mono text-sm text-game-muted">
-              {t('game.lvl')} {player?.level ?? 0}
-            </p>
-          </div>
-          <div className="mt-3 grid gap-2">
-            <ProgressBar current={player?.hp ?? 0} max={player?.maxHp ?? 1} type="hp" showText />
-            <ProgressBar current={player?.mp ?? 0} max={player?.maxMp ?? 1} type="mp" showText />
+        <section className="relative overflow-hidden rounded-xl border border-blue-800/70 bg-night-900/70 p-4 shadow-panel">
+          <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500/70 to-transparent" />
+          <div className="relative">
+            <div className="flex items-center gap-4">
+              <span className="sigil-disc h-14 w-14 text-2xl">
+                {player?.archetype === 'arcane' ? '🔮' : player?.archetype === 'druid' ? '🌿' : player?.archetype === 'vanguard' ? '🛡' : player?.archetype === 'ranger' ? '🏹' : player?.archetype === 'spectre' ? '🗡' : '⚔'}
+              </span>
+              <div>
+                <h2 className="font-title text-xl text-game-text">{player?.name ?? t('game.unknown')}</h2>
+                <p className="font-mono text-sm text-game-muted">
+                  {t('game.lvl')} {player?.level ?? 0}
+                </p>
+              </div>
+            </div>
+            <div className="mt-3 grid gap-2">
+              <ProgressBar current={player?.hp ?? 0} max={player?.maxHp ?? 1} type="hp" showText />
+              <ProgressBar current={player?.mp ?? 0} max={player?.maxMp ?? 1} type="mp" showText />
+            </div>
           </div>
         </section>
       </main>
