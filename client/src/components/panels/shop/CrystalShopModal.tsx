@@ -5,10 +5,10 @@ import { Modal } from '../../ui/Modal';
 import { API } from '../../../services/api';
 
 const PACKAGES = [
-  { id: 'pack_100', crystals: 100, bonus: 0, priceBRL: 4.90 },
-  { id: 'pack_550', crystals: 550, bonus: 10, priceBRL: 24.90 },
-  { id: 'pack_1200', crystals: 1200, bonus: 20, priceBRL: 49.90 },
-  { id: 'pack_2600', crystals: 2600, bonus: 30, priceBRL: 99.90 },
+  { id: 'pack_10', crystals: 10, bonus: 0, priceBRL: 10.00 },
+  { id: 'pack_50', crystals: 55, bonus: 10, priceBRL: 50.00 },
+  { id: 'pack_100', crystals: 120, bonus: 20, priceBRL: 100.00 },
+  { id: 'pack_200', crystals: 260, bonus: 30, priceBRL: 200.00 },
 ];
 
 export const CrystalShopModal = () => {

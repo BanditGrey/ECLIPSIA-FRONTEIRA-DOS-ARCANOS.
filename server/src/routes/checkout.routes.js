@@ -8,10 +8,10 @@ export const checkoutRoutes = Router();
 
 // Pacotes de Cristais
 const PACKAGES = {
-  'pack_100': { crystals: 100, priceBRL: 4.90 },
-  'pack_550': { crystals: 550, priceBRL: 24.90 }, // +10% bonus
-  'pack_1200': { crystals: 1200, priceBRL: 49.90 }, // +20% bonus
-  'pack_2600': { crystals: 2600, priceBRL: 99.90 }, // +30% bonus
+  'pack_10': { crystals: 10, priceBRL: 10.00 },
+  'pack_50': { crystals: 55, priceBRL: 50.00 }, // +10% bonus
+  'pack_100': { crystals: 120, priceBRL: 100.00 }, // +20% bonus
+  'pack_200': { crystals: 260, priceBRL: 200.00 }, // +30% bonus
 };
 
 // 1. Criar preferência de pagamento (Pix)

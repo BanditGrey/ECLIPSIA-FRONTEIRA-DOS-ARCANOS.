@@ -8,6 +8,8 @@ import { Modal } from '../ui/Modal';
 import { MailPanel } from './MailPanel';
 import { TradePanel } from './TradePanel';
 
+import { API } from '../../services/api';
+
 type CityTab = 'tavern' | 'shop' | 'blacksmith' | 'sage' | 'board' | 'mail' | 'trade';
 type ShopFilter = 'all' | 'weapons' | 'armor' | 'accessories' | 'pet' | 'mount';
 type NpcId = 'old_merchant' | 'adventurer' | 'mysterious' | 'beast_tamer';
@@ -117,10 +119,25 @@ export const CityPanel = () => {
   };
 
   const upgradeCost = (itemId: string) => {
-    const statTotal = itemId.toLowerCase().includes('weapon') || itemId.toLowerCase().includes('sword') ? 10 : 6;
-
-    return statTotal * 50;
+    return 500; // Custo base de 500 para qualquer upgrade (simplificação)
   };
+
+  const handleUpgrade = (slot: EquipmentSlot, itemId: string) => {
+    const cost = upgradeCost(itemId);
+    if (!player || player.gold < cost) {
+      addNotification(t('city.cantBuy'), 'warning');
+      return;
+    }
+
+    if (usePlayerStore.getState().upgradeEquippedItem(slot, cost)) {
+      addNotification(t('city.bought'), 'success');
+      // Trigger a save so backend gets the modified itemStr
+      void API.player.save(usePlayerStore.getState().data);
+    } else {
+      addNotification('Upgrade falhou (Nível Máximo atingido?)', 'error');
+    }
+  };
+
   const resetCost = (player?.level ?? 1) * 100;
 
   return (
@@ -230,7 +247,7 @@ export const CityPanel = () => {
                     <h2 className="font-title text-game-gold">{t(`items.slots.${slot}`)}</h2>
                     <p className="font-mono text-sm text-game-muted">{itemId ? t('items.unknownItem') : t('items.slotEmpty')}</p>
                   </div>
-                  <Button size="sm" disabled={!itemId} onClick={() => itemId && spendGold(upgradeCost(itemId))}>
+                  <Button size="sm" disabled={!itemId} onClick={() => itemId && handleUpgrade(slot, itemId)}>
                     {t('city.upgrade')} • {itemId ? upgradeCost(itemId) : 0} {t('header.gold')}
                   </Button>
                 </article>
