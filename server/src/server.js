@@ -18,6 +18,8 @@ import { checkoutRoutes } from './routes/checkout.routes.js';
 import { ChatMessage } from './models/ChatMessage.js';
 import { Guild } from './models/Guild.js';
 import { Player } from './models/Player.js';
+import { TradeSession } from './models/TradeSession.js';
+import { PartySession } from './models/PartySession.js';
 import { addToInventory, isValidItemRef, removeFromInventory } from './utils/gameUtils.js';
 import { notifyPlayer, onlinePlayers, setIO } from './utils/notify.js';
 import {
@@ -250,6 +252,7 @@ const executeTrade = async (trade) => {
   notifyPlayer(trade.from, 'trade:completed', { tradeId: trade.id, character: charA });
   notifyPlayer(trade.to, 'trade:completed', { tradeId: trade.id, character: charB });
   trades.delete(trade.id);
+  TradeSession.deleteOne({ tradeId: trade.id }).catch(() => {});
 };
 
 // ────────────────────────────────────────────────────────────────
@@ -294,11 +297,13 @@ const removeFromParty = (name, notifyLeft = false) => {
 
   if (party.members.length === 0) {
     parties.delete(party.id);
+    PartySession.deleteOne({ partyId: party.id }).catch(() => {});
   } else {
     if (party.leader === name) {
       party.leader = party.members[0];
     }
 
+    PartySession.updateOne({ partyId: party.id }, { members: party.members, leader: party.leader }).catch(() => {});
     broadcastParty(party);
   }
 
@@ -337,6 +342,7 @@ const partyHandlers = (socket) => {
       partySeq += 1;
       party = { id: `party-${partySeq}`, leader: fromName, members: [fromName] };
       parties.set(party.id, party);
+      PartySession.create({ partyId: party.id, leader: fromName, members: party.members }).catch(() => {});
     }
 
     if (party.members.length >= MAX_PARTY_SIZE) {
@@ -369,6 +375,7 @@ const partyHandlers = (socket) => {
     }
 
     party.members.push(who);
+    PartySession.updateOne({ partyId: party.id }, { members: party.members }).catch(() => {});
     socket.join(`party:${party.id}`);
     socket.data.partyId = party.id;
     broadcastParty(party);
@@ -634,6 +641,15 @@ const tradeHandlers = (socket) => {
       confirmed: new Set()
     };
     trades.set(trade.id, trade);
+
+    TradeSession.create({
+      tradeId: trade.id,
+      from: trade.from,
+      to: trade.to,
+      status: trade.status,
+      offers: trade.offers
+    }).catch(() => {});
+
     notifyPlayer(toName, 'trade:requested', { tradeId: trade.id, fromName });
     notifyPlayer(fromName, 'trade:waiting', { tradeId: trade.id, toName });
   });
@@ -647,10 +663,12 @@ const tradeHandlers = (socket) => {
       trade.status = 'declined';
       emitToBoth(trade, 'trade:declined');
       trades.delete(trade.id);
+      TradeSession.deleteOne({ tradeId: trade.id }).catch(() => {});
       return;
     }
 
     trade.status = 'active';
+    TradeSession.updateOne({ tradeId: trade.id }, { status: 'active' }).catch(() => {});
     emitToBoth(trade, 'trade:start');
   });
 
@@ -672,6 +690,7 @@ const tradeHandlers = (socket) => {
 
     trade.offers[who] = sanitizeTradeOffer(payload);
     trade.confirmed = new Set();
+    TradeSession.updateOne({ tradeId: trade.id }, { offers: trade.offers, confirmed: [] }).catch(() => {});
     emitToBoth(trade, 'trade:updated');
   });
 
@@ -682,6 +701,7 @@ const tradeHandlers = (socket) => {
     if (!trade || trade.status !== 'active' || (who !== trade.from && who !== trade.to)) return;
 
     trade.confirmed.add(who);
+    TradeSession.updateOne({ tradeId: trade.id }, { confirmed: [...trade.confirmed] }).catch(() => {});
     emitToBoth(trade, 'trade:confirmed');
 
     if (trade.confirmed.has(trade.from) && trade.confirmed.has(trade.to)) {
@@ -995,6 +1015,25 @@ io.on('connection', (socket) => {
 
 const startServer = async () => {
   await connectDatabase();
+
+  try {
+    // Restaura pendências de banco de dados
+    const [savedTrades, savedParties] = await Promise.all([
+      TradeSession.find({ status: { $in: ['active', 'pending'] } }).lean(),
+      PartySession.find().lean()
+    ]);
+    
+    savedTrades.forEach(t => {
+      trades.set(t.tradeId, { id: t.tradeId, ...t, confirmed: new Set(t.confirmed) });
+    });
+    
+    savedParties.forEach(p => {
+      parties.set(p.partyId, { id: p.partyId, ...p });
+    });
+    console.log(`[Memory] Restauradas ${savedTrades.length} trades e ${savedParties.length} parties.`);
+  } catch (err) {
+    console.error('[Memory] Erro ao restaurar sessões do banco', err);
+  }
 
   const port = process.env.PORT || 5000;
 

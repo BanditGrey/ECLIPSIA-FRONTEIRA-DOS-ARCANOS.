@@ -59,8 +59,12 @@ const PartyCombatBridge = () => {
       const detail = (event as CustomEvent<PartyHuntSnapshot & { xpBonus?: number; aborted?: boolean }>).detail;
 
       if (!detail.aborted && (detail.xpBonus ?? 0) > 0) {
-        usePlayerStore.getState().gainXp(detail.xpBonus ?? 0);
+        const { leveledUp } = usePlayerStore.getState().gainXp(detail.xpBonus ?? 0);
         addNotification(`${t('partyCombat.ended')} +${detail.xpBonus} XP`, 'gold');
+
+        if (leveledUp) {
+          addNotification('NÍVEL AUMENTOU!', 'gold');
+        }
       } else {
         addNotification(t('partyCombat.aborted'), 'warning');
       }
