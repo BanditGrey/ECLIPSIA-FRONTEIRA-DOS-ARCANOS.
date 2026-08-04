@@ -29,9 +29,10 @@ export const ART = {
   bosses: {
     bandit_leader: '/assets/boss-bandit_leader.jpg',
     root_guardian: '/assets/boss-root_guardian.jpg',
-    void_mirror: '/assets/boss-void_mirror.jpg'
-    // azhur, thal_mora e velkaryn ainda sem pintura (limite de geração
-    // por sessão) — o componente Portrait usa o anel de sigilo como fallback.
+    void_mirror: '/assets/boss-void_mirror.jpg',
+    azhur: '/assets/boss-azhur.jpg',
+    thal_mora: '/assets/boss-thal_mora.jpg',
+    velkaryn: '/assets/boss-velkaryn.jpg'
   }
 } as const;
 

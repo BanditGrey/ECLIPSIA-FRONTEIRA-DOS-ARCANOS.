@@ -52,6 +52,7 @@ const PALETTES: Record<string, Palette> = {
   void: { colors: [VIOLET, '#D9B8FF', '#7A3DFF'], count: 42, speed: 200, spread: 300, size: [2, 7], glow: true, gravity: -20, shrink: true, shapes: ['circle', 'spark', 'shard'] },
   loot: { colors: [GOLD, '#FFE27A', WHITE], count: 30, speed: 150, spread: 220, size: [2, 5], glow: true, gravity: -80, shrink: true, shapes: ['circle', 'spark'] },
   levelup: { colors: [GOLD, WHITE, TEAL], count: 50, speed: 260, spread: 360, size: [2, 6], glow: true, gravity: -40, shrink: true, shapes: ['circle', 'spark'] },
+  victory: { colors: [GOLD, '#FFE27A', TEAL, WHITE], count: 60, speed: 240, spread: 380, size: [2, 6], glow: true, gravity: -60, shrink: true, shapes: ['circle', 'spark'] },
   magic: { colors: [TEAL, '#66E8FF', WHITE], count: 36, speed: 190, spread: 260, size: [2, 7], glow: true, gravity: -30, shrink: true, shapes: ['circle', 'spark'] },
   slash: { colors: [WHITE, '#E8E8FF', GOLD], count: 26, speed: 260, spread: 200, size: [2, 6], glow: true, gravity: 0, shrink: true, shapes: ['spark', 'shard'] },
 };

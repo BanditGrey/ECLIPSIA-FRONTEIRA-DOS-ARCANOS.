@@ -13,7 +13,9 @@ import { useGameStore } from '../../store/useGameStore';
 import { usePartyCombatStore } from '../../store/usePartyCombatStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
 import { useSkill } from '../../systems/combat';
+import { CombatOutcomeScreen } from '../effects/CombatOutcomeScreen';
 import { Button } from '../ui/Button';
+import { ArcaneIcon } from '../ui/ArcaneIcon';
 import { Modal } from '../ui/Modal';
 import { ProgressBar } from '../ui/ProgressBar';
 
@@ -132,6 +134,12 @@ export const CombatPanel = () => {
   const combat = useCombatStore();
   const huntSession = usePartyCombatStore((state) => state.session);
 
+  const phase = useCombatStore((state) => state.phase);
+
+  if (phase === 'victory' || phase === 'defeat') {
+    return <CombatOutcomeScreen />;
+  }
+
   if (!combat.active || !combat.enemy) {
     return (
       <div className="flex h-full items-center justify-center overflow-hidden bg-game-dark p-4 text-game-text">
@@ -245,20 +253,20 @@ export const CombatPanel = () => {
       {activeSkillEffect && <SkillEffectPanel {...activeSkillEffect} onComplete={() => setActiveSkillEffect(null)} showParticles narrate playSound />}
       <footer className="grid shrink-0 gap-2">
         <div className="grid grid-cols-2 gap-2">
-          <ActionButton onClick={() => { audio.playSound('/assets/audio/sfx/attack.mp3'); setShowParticles(true); combat.addLog('attack', t('combat.attack')); }}>⚔ {t('combat.attack')}</ActionButton>
-          <ActionButton onClick={() => combat.addLog('defend', t('combat.defend'))}>🛡 {t('combat.defend')}</ActionButton>
-          <ActionButton onClick={() => openModal(SKILLS_MODAL)}>🔮 {t('combat.skills')}</ActionButton>
-          <ActionButton variant="danger" onClick={() => combat.resetCombat()}>🏃 {t('combat.flee')}</ActionButton>
+          <ActionButton onClick={() => { audio.playSound('/assets/audio/sfx/attack.mp3'); setShowParticles(true); combat.addLog('attack', t('combat.attack')); }}><ArcaneIcon name="sword" glow /> {t('combat.attack')}</ActionButton>
+          <ActionButton onClick={() => combat.addLog('defend', t('combat.defend'))}><ArcaneIcon name="shield" glow /> {t('combat.defend')}</ActionButton>
+          <ActionButton onClick={() => openModal(SKILLS_MODAL)}><ArcaneIcon name="magic" glow /> {t('combat.skills')}</ActionButton>
+          <ActionButton variant="danger" onClick={() => combat.resetCombat()}><ArcaneIcon name="flee" /> {t('combat.flee')}</ActionButton>
         </div>
         <Button variant="ghost" fullWidth onClick={() => openModal(LOG_MODAL)}>
           {t('combat.log.title')}
         </Button>
         <div className="grid grid-cols-2 gap-2">
           <Button variant={combat.autoFight ? 'success' : 'secondary'} onClick={combat.toggleAutoFight}>
-            🤖 {t('combat.autoFight')} [{combat.autoFight ? t('combat.on') : t('combat.off')}]
+            <ArcaneIcon name="auto" glow={combat.autoFight} /> {t('combat.autoFight')} [{combat.autoFight ? t('combat.on') : t('combat.off')}]
           </Button>
           <Button variant={combat.autoAdvance ? 'success' : 'secondary'} onClick={combat.toggleAutoAdvance}>
-            ⏩ {t('combat.autoAdvance')} [{combat.autoAdvance ? t('combat.on') : t('combat.off')}]
+            <ArcaneIcon name="advance" glow={combat.autoAdvance} /> {t('combat.autoAdvance')} [{combat.autoAdvance ? t('combat.on') : t('combat.off')}]
           </Button>
         </div>
         <Button variant="ghost" size="sm" onClick={() => openModal(AUTO_MODAL)}>

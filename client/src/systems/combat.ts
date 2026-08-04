@@ -542,7 +542,8 @@ const handleDefeat = () => {
 
   usePlayerStore.getState().restoreAll();
   usePartyStore.getState().reviveAll();
-  combat.resetCombat();
+  // Mantém o estado para a tela de resultado (Game Over); reset fica no botão continuar
+  useCombatStore.setState({ phase: 'defeat', active: false });
 };
 
 const handleVictory = () => {

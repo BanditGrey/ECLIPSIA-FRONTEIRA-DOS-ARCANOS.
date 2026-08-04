@@ -538,7 +538,8 @@ export const translations: Record<LangCode, TranslationTree> = {
       "lootModal": "Saque",
       "noSkills": "Nenhuma habilidade desbloqueada.",
       "cast": "Usar",
-      "noLoot": "Nenhum saque disponível."
+      "noLoot": "Nenhum saque disponível.",
+      "outcome": {"victory": "VITÓRIA", "defeat": "DERROTA", "continue": "Continuar", "retry": "Recomeçar", "region": "Região", "turns": "Turnos", "foe": "Resultado"}
     },
     "city": {
       "valedouro": "Valedouro",
@@ -854,6 +855,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "tabs": {
         "status": "STATUS",
         "skills": "SKILLS",
+        "passives": "PASSIVAS",
         "titles": "TÍTULOS"
       },
       "skillInfo": {
@@ -2270,7 +2272,8 @@ export const translations: Record<LangCode, TranslationTree> = {
       "lootModal": "Loot",
       "noSkills": "No skills unlocked.",
       "cast": "Cast",
-      "noLoot": "No loot available."
+      "noLoot": "No loot available.",
+      "outcome": {"victory": "VICTORY", "defeat": "DEFEAT", "continue": "Continue", "retry": "Try again", "region": "Region", "turns": "Turns", "foe": "Outcome"}
     },
     "city": {
       "valedouro": "Valedouro",
@@ -2586,6 +2589,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "tabs": {
         "status": "STATUS",
         "skills": "SKILLS",
+        "passives": "PASSIVES",
         "titles": "TITLES"
       },
       "skillInfo": {
@@ -4001,7 +4005,8 @@ export const translations: Record<LangCode, TranslationTree> = {
       "lootModal": "Botín",
       "noSkills": "No hay habilidades desbloqueadas.",
       "cast": "Usar",
-      "noLoot": "No hay botín disponible."
+      "noLoot": "No hay botín disponible.",
+      "outcome": {"victory": "VICTORIA", "defeat": "DERROTA", "continue": "Continuar", "retry": "Reintentar", "region": "Región", "turns": "Turnos", "foe": "Resultado"}
     },
     "city": {
       "valedouro": "Valedouro",
@@ -4409,6 +4414,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "tabs": {
         "status": "ESTADO",
         "skills": "SKILLS",
+        "passives": "PASIVAS",
         "titles": "TÍTULOS"
       },
       "skillInfo": {
@@ -5732,7 +5738,8 @@ export const translations: Record<LangCode, TranslationTree> = {
       "lootModal": "戦利品",
       "noSkills": "解除されたスキルはありません。",
       "cast": "発動",
-      "noLoot": "戦利品はありません。"
+      "noLoot": "戦利品はありません。",
+      "outcome": {"victory": "勝利", "defeat": "敗北", "continue": "続ける", "retry": "再挑戦", "region": "地域", "turns": "ターン", "foe": "結果"}
     },
     "city": {
       "valedouro": "ヴァレドウロ",
@@ -6140,6 +6147,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "tabs": {
         "status": "状態",
         "skills": "スキル",
+        "passives": "パッシブ",
         "titles": "称号"
       },
       "skillInfo": {
