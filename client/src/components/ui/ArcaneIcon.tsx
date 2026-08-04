@@ -9,7 +9,9 @@ export type ArcaneIconName =
   | 'gem' | 'coin' | 'mail' | 'chest' | 'map' | 'star' | 'quest'
   | 'bag' | 'tower' | 'scroll' | 'flame' | 'potion' | 'soul'
   | 'guild' | 'party' | 'hub' | 'profile' | 'market' | 'hammer'
-  | 'settings' | 'volume' | 'muted';
+  | 'settings' | 'volume' | 'muted'
+  | 'helm' | 'armor' | 'greaves' | 'gloves' | 'boots' | 'earring'
+  | 'necklace' | 'belt' | 'ward' | 'amulet' | 'spirit' | 'pet' | 'mount';
 
 interface ArcaneIconProps {
   name: ArcaneIconName;
@@ -49,7 +51,20 @@ const ICONS: Record<ArcaneIconName, React.ReactNode> = {
   hammer: F(<path d="M4 20l8-8M15 9l4-4-1-1-4 4 1 1zM17 7l3 3" />),
   settings: F(<><circle cx="12" cy="12" r="3" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" /></>),
   volume: F(<><path d="M3 9v6h4l5 4V5L7 9z" /><path d="M17 9a4 4 0 010 6M19.5 6.5a8 8 0 010 11" /></>),
-  muted: F(<><path d="M3 9v6h4l5 4V5L7 9z" /><path d="M17 9l5 6M22 9l-5 6" /></>)
+  muted: F(<><path d="M3 9v6h4l5 4V5L7 9z" /><path d="M17 9l5 6M22 9l-5 6" /></>),
+  helm: F(<><path d="M12 4l6 3v4c0 4.5-2.5 7.5-6 9-3.5-1.5-6-4.5-6-9V7z" /><path d="M10 4.5h4M10 4.5V7M14 4.5V7" /></>),
+  armor: F(<path d="M12 3l7 3v6c0 4-3 7.5-7 9-4-1.5-7-5-7-9V6z" />),
+  greaves: F(<><path d="M12 12l5-4 3 4-5 5z" /><path d="M4 13l4 1M7 15l4 1M9 17l4 1" /></>),
+  gloves: F(<><path d="M6 4h9l2 4-2 3v7H6V7z" /><path d="M8 8v9M11 8v9" /></>),
+  boots: F(<><path d="M5 4h14v7l-3 3H9l-4-4z" /><path d="M8 14l-2 6h12l-2-6M5 20h14" /></>),
+  earring: F(<><circle cx="12" cy="12" r="3" /><path d="M12 9V5M12 15v3" /></>),
+  necklace: F(<path d="M12 5a3 3 0 00-3 3c0 2 3 3 3 6 0-3 3-4 3-6a3 3 0 00-3-3z" />),
+  belt: F(<><path d="M4 12h16M7 10v4M17 10v4" /></>),
+  ward: F(<><path d="M12 3l8 3v6c0 5-3 8-8 9-5-1-8-4-8-9V6z" /><path d="M9 12l2 2 4-4" /></>),
+  amulet: F(<><path d="M12 4l2 2-2 2-2-2z" /><path d="M12 8v4M12 12a4 4 0 100 8 4 4 0 000-8" /></>),
+  spirit: F(<path d="M12 3l1.8 4 4.2.8-3 2.9.7 4.3L12 16l-3.7 2 .7-4.3-3-2.9 4.2-.8z" />),
+  pet: F(<><path d="M12 8c-2.5 0-4.5 2-4.5 4.5 0 2 1.5 3.5 4.5 3.5s4.5-1.5 4.5-3.5C16.5 10 14.5 8 12 8z" /><path d="M8 11l-2-1M16 11l2-1" /></>),
+  mount: F(<path d="M4 20c2-4 4-5 6-6l1-6c-1-2-1-3 1-4 2 0 2 2 3 3l4 2 2 2-2 2-4 1-2 6H6z" />)
 };
 
 export const ArcaneIcon: React.FC<ArcaneIconProps> = ({ name, size = 20, className = '', glow = false, strokeWidth = 1.8 }) => {

@@ -11,6 +11,7 @@ import type { Equipment, InventoryItem } from '../../types/player.types';
 import { resolveItemRef, serializeItem } from '../../utils/itemSerializer';
 import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
+import { ArcaneIcon, type ArcaneIconName } from '../ui/ArcaneIcon';
 import { CraftingPanel } from './items/CraftingPanel';
 import { MarketPanel } from './items/MarketPanel';
 
@@ -77,6 +78,24 @@ const slotIconFallback: Record<EquipmentSlot, string> = {
   spirit_stone: '💎',
   pet: '🐾',
   mount: '🐴'
+};
+
+const slotIcon: Record<EquipmentSlot, ArcaneIconName> = {
+  weapon_main: 'sword',
+  weapon_off: 'shield',
+  head: 'helm',
+  chest: 'armor',
+  legs: 'greaves',
+  gloves: 'gloves',
+  boots: 'boots',
+  earring: 'earring',
+  necklace: 'necklace',
+  belt: 'belt',
+  resistance: 'ward',
+  amulet: 'amulet',
+  spirit_stone: 'spirit',
+  pet: 'pet',
+  mount: 'mount'
 };
 
 const inferSlot = (itemId: string): EquipmentSlot | null => {
@@ -247,7 +266,13 @@ export const ItemsPanel = () => {
     return (
       <article key={slot} className={['rounded-xl border bg-game-card p-3', meta ? rarityBorder[meta.rarity] : 'border-game-border', blocked ? 'opacity-60' : ''].join(' ')}>
         <div className="flex items-start gap-3">
-          <span className="text-3xl">{meta?.icon ?? slotIconFallback[slot]}</span>
+          {meta ? (
+            <span className="text-3xl">{meta.icon}</span>
+          ) : (
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-night-600 bg-night-800/50 text-game-muted">
+              <ArcaneIcon name={slotIcon[slot]} size={22} />
+            </span>
+          )}
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
               <h3 className="font-title text-sm text-game-gold">{t(`items.slots.${slot}`)}</h3>
