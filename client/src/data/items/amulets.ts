@@ -93,6 +93,7 @@ export const amulets = {
   },
   "am_7004": {
     "id": "am_7004",
+    "exclusiveEffect": 35,
     "numId": 7004,
     "icon": "🧿",
     "rarity": "legendary",
@@ -120,6 +121,7 @@ export const amulets = {
   },
   "am_7005": {
     "id": "am_7005",
+    "exclusiveEffect": 36,
     "numId": 7005,
     "icon": "🧿",
     "rarity": "relic",
@@ -274,6 +276,7 @@ export const amulets = {
   },
   "am_7202": {
     "id": "am_7202",
+    "exclusiveEffect": 33,
     "numId": 7202,
     "icon": "🧿",
     "rarity": "legendary",

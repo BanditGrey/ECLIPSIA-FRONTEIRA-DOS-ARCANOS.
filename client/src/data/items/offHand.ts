@@ -118,6 +118,7 @@ export const offHand = {
   },
   "oh_2005": {
     "id": "oh_2005",
+    "exclusiveEffect": 36,
     "numId": 2005,
     "icon": "🛡",
     "rarity": "legendary",
@@ -301,6 +302,7 @@ export const offHand = {
   },
   "oh_2153": {
     "id": "oh_2153",
+    "exclusiveEffect": 34,
     "numId": 2153,
     "icon": "🔮",
     "rarity": "legendary",
@@ -409,6 +411,7 @@ export const offHand = {
   },
   "oh_2203": {
     "id": "oh_2203",
+    "exclusiveEffect": 34,
     "numId": 2203,
     "icon": "📖",
     "rarity": "legendary",

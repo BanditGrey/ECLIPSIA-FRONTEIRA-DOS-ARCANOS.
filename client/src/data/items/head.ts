@@ -114,6 +114,7 @@ export const head = {
   },
   "hd_2505": {
     "id": "hd_2505",
+    "exclusiveEffect": 36,
     "numId": 2505,
     "icon": "🪖",
     "rarity": "legendary",
@@ -141,6 +142,7 @@ export const head = {
   },
   "hd_2506": {
     "id": "hd_2506",
+    "exclusiveEffect": 37,
     "numId": 2506,
     "icon": "🪖",
     "rarity": "relic",
@@ -352,6 +354,7 @@ export const head = {
   },
   "hd_2703": {
     "id": "hd_2703",
+    "exclusiveEffect": 34,
     "numId": 2703,
     "icon": "👑",
     "rarity": "legendary",

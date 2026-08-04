@@ -114,6 +114,7 @@ export const chest = {
   },
   "ch_3005": {
     "id": "ch_3005",
+    "exclusiveEffect": 36,
     "numId": 3005,
     "icon": "🥋",
     "rarity": "legendary",
@@ -141,6 +142,7 @@ export const chest = {
   },
   "ch_3006": {
     "id": "ch_3006",
+    "exclusiveEffect": 37,
     "numId": 3006,
     "icon": "🥋",
     "rarity": "relic",
@@ -274,6 +276,7 @@ export const chest = {
   },
   "ch_3104": {
     "id": "ch_3104",
+    "exclusiveEffect": 35,
     "numId": 3104,
     "icon": "🧥",
     "rarity": "legendary",
@@ -406,6 +409,7 @@ export const chest = {
   },
   "ch_3204": {
     "id": "ch_3204",
+    "exclusiveEffect": 35,
     "numId": 3204,
     "icon": "👘",
     "rarity": "legendary",
@@ -433,6 +437,7 @@ export const chest = {
   },
   "ch_3205": {
     "id": "ch_3205",
+    "exclusiveEffect": 36,
     "numId": 3205,
     "icon": "👘",
     "rarity": "relic",

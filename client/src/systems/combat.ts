@@ -140,9 +140,6 @@ const getRegionMonsterId = (regionId: string) => {
 // cada fase (ataque, defesa, kill, HP crítico, crítico).
 // ────────────────────────────────────────────────────────────────
 let activeEffects: ResolvedEffects | null = null;
-let shieldPool = 0; // effect 57 (SHIELD) — HP restante do escudo absorvente
-let barrierPool = 0; // effect 58 (BARRIER) — MP restante da barreira mágica
-
 /** Efeitos resolvidos do equipamento atual (com fallback seguro). */
 const getResolvedEffects = (): ResolvedEffects | null => {
   if (activeEffects) return activeEffects;
@@ -703,8 +700,10 @@ export const combatEngine = {
     //    e registra os onHitEffects / pools defensivos.
     const player = usePlayerStore.getState().data;
     activeEffects = player ? calculatePlayerStats(player.stats, player.equipment) : null;
-    shieldPool = activeEffects ? getConditionalValue(activeEffects, EFFECT.SHIELD) : 0;
-    barrierPool = activeEffects ? getConditionalValue(activeEffects, EFFECT.BARRIER) : 0;
+    useCombatStore.setState({
+      shieldPool: activeEffects ? getConditionalValue(activeEffects, EFFECT.SHIELD) : 0,
+      barrierPool: activeEffects ? getConditionalValue(activeEffects, EFFECT.BARRIER) : 0
+    });
 
     useCombatStore.setState({
       active: true,
@@ -999,19 +998,21 @@ export const combatEngine = {
       }
 
       // SHIELD (57): escudo absorve dano (pool de HP)
-      const shieldAbsorb = Math.min(shieldPool, damage);
+      const currentShieldPool = useCombatStore.getState().shieldPool;
+      const shieldAbsorb = Math.min(currentShieldPool, damage);
 
       if (shieldAbsorb > 0) {
-        shieldPool -= shieldAbsorb;
+        useCombatStore.setState({ shieldPool: currentShieldPool - shieldAbsorb });
         damage -= shieldAbsorb;
         combat.addLog('defend', `${getEffectName(EFFECT.SHIELD, getLang())} ${shieldAbsorb}`);
       }
 
       // BARRIER (58): barreira mágica absorve o restante (pool de MP)
-      const barrierAbsorb = Math.min(barrierPool, damage);
+      const currentBarrierPool = useCombatStore.getState().barrierPool;
+      const barrierAbsorb = Math.min(currentBarrierPool, damage);
 
       if (barrierAbsorb > 0) {
-        barrierPool -= barrierAbsorb;
+        useCombatStore.setState({ barrierPool: currentBarrierPool - barrierAbsorb });
         damage -= barrierAbsorb;
         combat.addLog('defend', `${getEffectName(EFFECT.BARRIER, getLang())} ${barrierAbsorb}`);
       }

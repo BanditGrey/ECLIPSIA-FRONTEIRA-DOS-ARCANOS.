@@ -102,6 +102,7 @@ export const spiritStones = {
   },
   "ss_7503": {
     "id": "ss_7503",
+    "exclusiveEffect": 34,
     "numId": 7503,
     "icon": "🔥",
     "rarity": "legendary",

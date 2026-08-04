@@ -114,6 +114,7 @@ export const legs = {
   },
   "lg_3505": {
     "id": "lg_3505",
+    "exclusiveEffect": 36,
     "numId": 3505,
     "icon": "👖",
     "rarity": "legendary",
@@ -342,6 +343,7 @@ export const legs = {
   },
   "lg_3704": {
     "id": "lg_3704",
+    "exclusiveEffect": 35,
     "numId": 3704,
     "icon": "🎐",
     "rarity": "legendary",

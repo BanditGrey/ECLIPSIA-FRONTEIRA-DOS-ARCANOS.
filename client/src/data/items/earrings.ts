@@ -105,6 +105,7 @@ export const earrings = {
   },
   "er_5004": {
     "id": "er_5004",
+    "exclusiveEffect": 35,
     "numId": 5004,
     "icon": "💠",
     "rarity": "legendary",
@@ -273,6 +274,7 @@ export const earrings = {
   },
   "er_5203": {
     "id": "er_5203",
+    "exclusiveEffect": 34,
     "numId": 5203,
     "icon": "💠",
     "rarity": "legendary",
