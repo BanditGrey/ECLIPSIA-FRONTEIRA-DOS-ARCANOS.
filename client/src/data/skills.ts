@@ -128,6 +128,19 @@ export const skills: PlayerSkillData[] = [
     dodgeNext: true
   },
 
+  // ── Adaga de apoio (mão secundária) ─────────────────────────
+  {
+    id: 'riposte',
+    proficiency: 'dagger_off',
+    requireProficiency: 30,
+    icon: '🗡',
+    mp: 35,
+    cd: 3,
+    damageType: 'physical',
+    damagePercent: 140,
+    dodgeNext: true
+  },
+
   // ── Arco curto ───────────────────────────────────────────────
   {
     id: 'piercing_shot',

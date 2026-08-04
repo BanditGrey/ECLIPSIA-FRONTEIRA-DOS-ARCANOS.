@@ -1033,6 +1033,10 @@ export const translations: Record<LangCode, TranslationTree> = {
         "phase2": "Chama reforços.",
         "enrage": "Entra em fúria."
       },
+      "riposte": {
+        "name": "Riposta",
+        "desc": "Apara o golpe e revida com um corte rápido."
+        },
       "root_guardian": {
         "name": "Guardião das Raízes",
         "desc": "Protetor ancestral de Nythera.",
@@ -2238,6 +2242,10 @@ export const translations: Record<LangCode, TranslationTree> = {
         "phase2": "Calls reinforcements.",
         "enrage": "Enters rage."
       },
+      "riposte": {
+        "name": "Riposte",
+        "desc": "Parry the blow and answer with a swift cut."
+        },
       "root_guardian": {
         "name": "Root Guardian",
         "desc": "Ancestral protector of Nythera.",
@@ -3441,6 +3449,10 @@ export const translations: Record<LangCode, TranslationTree> = {
         "phase2": "Llama refuerzos.",
         "enrage": "Entra en furia."
       },
+      "riposte": {
+        "name": "Riposta",
+        "desc": "Paras el golpe y respondes con un corte veloz."
+        },
       "root_guardian": {
         "name": "Guardián de las Raíces",
         "desc": "Protector ancestral de Nythera.",
@@ -4644,6 +4656,10 @@ export const translations: Record<LangCode, TranslationTree> = {
         "phase2": "増援を呼ぶ。",
         "enrage": "怒り狂う。"
       },
+      "riposte": {
+        "name": "リポスト",
+        "desc": "攻撃を受け流し、素早い斬撃で反撃する。"
+        },
       "root_guardian": {
         "name": "根の守護者",
         "desc": "ニセラの古き守護者。",
