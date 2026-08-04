@@ -83,14 +83,7 @@ const defaultStats: Stats = {
   will: 5
 };
 
-const defaultProficiencies: Proficiencies = {
-  blade: 0,
-  arcane: 0,
-  druid: 0,
-  vanguard: 0,
-  ranger: 0,
-  spectre: 0
-};
+const defaultProficiencies: Proficiencies = {};
 
 const getLang = () => {
   if (typeof window === 'undefined') {

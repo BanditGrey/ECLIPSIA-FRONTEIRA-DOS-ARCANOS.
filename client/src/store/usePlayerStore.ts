@@ -1,7 +1,9 @@
 import { create } from 'zustand';
 import { countEffects } from '../data/effectRegistry';
+import { PROFICIENCY_CAP } from '../data/proficiencies';
+import { skills } from '../data/skills';
 import { resolveEffects, resolvedToItemStats } from '../systems/effectEngine';
-import type { Item, ItemStats, Slot } from '../types/item.types';
+import type { Item, ItemStats, Slot, WeaponCategory } from '../types/item.types';
 import type { Equipment, InventoryItem, PlayerData, Stats } from '../types/player.types';
 import { isSerializedItemStr, resolveItemRef } from '../utils/itemSerializer';
 import { getDailyQuest } from '../data/dailyQuests';
@@ -9,7 +11,7 @@ import { getDailyQuest } from '../data/dailyQuests';
 type EquipmentSlot = keyof Equipment;
 type RegisteredItem = Pick<Item, 'id' | 'slot' | 'isTwoHanded' | 'stats' | 'effects'>;
 
-const MAX_LUCK = 200;
+const MAX_LUCK = 1000;
 const DEFAULT_MAX_INVENTORY = 60;
 const DEFAULT_MAX_STORAGE = 500;
 
@@ -204,6 +206,9 @@ interface PlayerState {
   recoverMp: (percent: number) => void;
   restoreAll: () => void;
   addKill: (monsterId: string) => void;
+  addProficiency: (category: string, amount?: number) => void;
+  getProficiency: (category: string) => number;
+  getUsableSkillIds: () => string[];
   getTotalAtk: () => number;
   getTotalDef: () => number;
   getLuck: () => number;
@@ -218,7 +223,9 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   setPlayer: (data) => set({ data, isLoaded: true }),
   clearPlayer: () => set({ data: null, isLoaded: false }),
   gainXp: (amount) => {
-    const xpGained = Math.max(0, amount);
+    // SORTE no leveling: +0,1% de XP por ponto (teto 1000 = +100%).
+    const luck = get().getLuck();
+    const xpGained = Math.max(0, Math.floor(amount * (1 + luck * 0.001)));
     let leveledUp = false;
 
     set((state) => {
@@ -683,6 +690,49 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
         }
       }
     });
+  },
+  addProficiency: (category, amount = 1) => {
+    const data = get().data;
+
+    if (!data) {
+      return;
+    }
+
+    const current = data.proficiencies[category] ?? 0;
+    const next = Math.min(PROFICIENCY_CAP, current + Math.max(0, amount));
+
+    if (next === current) {
+      return;
+    }
+
+    set({
+      data: {
+        ...data,
+        proficiencies: {
+          ...data.proficiencies,
+          [category]: next
+        }
+      }
+    });
+  },
+  getProficiency: (category) => {
+    return get().data?.proficiencies[category] ?? 0;
+  },
+  getUsableSkillIds: () => {
+    const data = get().data;
+
+    if (!data) {
+      return [];
+    }
+
+    const mainCategory = data.equipment.weapon_main ? resolveItemRef(data.equipment.weapon_main)?.weaponCategory : undefined;
+    const offCategory = data.equipment.weapon_off ? resolveItemRef(data.equipment.weapon_off)?.weaponCategory : undefined;
+    const categories = new Set<WeaponCategory>([mainCategory, offCategory].filter((category): category is WeaponCategory => Boolean(category)));
+
+    return skills
+      .filter((skill) => categories.has(skill.proficiency))
+      .filter((skill) => (data.proficiencies[skill.proficiency] ?? 0) >= skill.requireProficiency)
+      .map((skill) => skill.id);
   },
   getTotalAtk: () => {
     const data = get().data;

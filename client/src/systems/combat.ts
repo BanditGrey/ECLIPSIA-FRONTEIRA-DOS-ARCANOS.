@@ -6,6 +6,7 @@ import { getEffectName } from '../data/effectNames';
 import { monsters } from '../data/monsters';
 import { regions } from '../data/regions';
 import { skills } from '../data/skills';
+import { equippedWeaponCategories, PROFICIENCY_ATK_BONUS_PER_POINT, PROF_XP, weaponCategoryOf } from '../data/proficiencies';
 import { useCombatStore } from '../store/useCombatStore';
 import { useGameStore } from '../store/useGameStore';
 import { usePartyStore } from '../store/usePartyStore';
@@ -288,6 +289,41 @@ const reportHuntRound = (killed: boolean) => {
   roundTaken = 0;
 };
 
+/**
+ * Soma dos bônus de ATK das proficiências das armas equipadas.
+ * +0,2% por ponto (100 pts = +20%).
+ */
+const getEquippedProficiencyBonus = (): number => {
+  const data = usePlayerStore.getState().data;
+
+  if (!data) {
+    return 0;
+  }
+
+  const categories = equippedWeaponCategories(data.equipment);
+
+  return categories.reduce((sum, category) => {
+    const points = data.proficiencies[category] ?? 0;
+
+    return sum + points * PROFICIENCY_ATK_BONUS_PER_POINT;
+  }, 0);
+};
+
+/**
+ * Concede XP de proficiência às armas equipadas (por ataque/skill/kill).
+ */
+const gainProficiencyXp = (amount: number) => {
+  const data = usePlayerStore.getState().data;
+
+  if (!data) {
+    return;
+  }
+
+  for (const category of equippedWeaponCategories(data.equipment)) {
+    usePlayerStore.getState().addProficiency(category, amount);
+  }
+};
+
 const getPlayerDamage = (percent = 100) => {
   const playerStore = usePlayerStore.getState();
   const combat = useCombatStore.getState();
@@ -335,9 +371,14 @@ const getPlayerDamage = (percent = 100) => {
   }
 
   const base = playerStore.getTotalAtk() * (percent / 100) * impulseSystem.getBonus('damage') * (1 + bonusFraction);
+
+  // PROEFICIÊNCIA DE ARMA: +0,2% de ATK por ponto na categoria da arma equipada.
+  const weaponBonus = getEquippedProficiencyBonus();
+  const finalBase = base * (1 + weaponBonus);
+
   const { isCrit, multiplier } = rollCrit();
   const defenseReduction = Math.max(0, combat.enemy?.def ?? 0) * 0.35;
-  const damage = Math.max(1, Math.floor(base * multiplier - defenseReduction));
+  const damage = Math.max(1, Math.floor(finalBase * multiplier - defenseReduction));
 
   // ON_CRIT_BLEED (71): ao criticar aplica sangramento (value = dano)
   if (isCrit && resolved) {
@@ -404,10 +445,17 @@ const selectPartyTarget = (): PartyMember | null => {
     return null;
   }
 
-  const vanguards = alive.filter((member) => member.archetype === 'vanguard');
+  // PROEFICIÊNCIA DE ARMA: quem empunha ESCUDO assume o papel de tanque
+  // e tem 60% de chance de absorver o golpe pelos aliados.
+  const shielded = alive.filter((member) => {
+    const main = weaponCategoryOf(member.equipment?.weapon_main);
+    const off = weaponCategoryOf(member.equipment?.weapon_off);
 
-  if (vanguards.length > 0 && Math.random() < 0.6) {
-    return pickRandom(vanguards);
+    return main === 'shield' || off === 'shield';
+  });
+
+  if (shielded.length > 0 && Math.random() < 0.6) {
+    return pickRandom(shielded);
   }
 
   return pickRandom(alive);
@@ -503,6 +551,7 @@ const handleVictory = () => {
   playerStore.gainXp(xp);
   playerStore.gainGold(gold);
   playerStore.addKill(enemy.id);
+  gainProficiencyXp(PROF_XP.kill);
   questSystem.onKill(enemy.id);
 
   // Missões diárias
@@ -651,6 +700,7 @@ export const combatEngine = {
   },
 
   attack() {
+    gainProficiencyXp(PROF_XP.attack);
     const damage = getPlayerDamage(100);
     const hp = applyEnemyDamage(damage);
 
@@ -687,6 +737,8 @@ export const combatEngine = {
       this.attack();
       return;
     }
+
+    gainProficiencyXp(PROF_XP.skill);
 
     reducePlayerMp(skill.mp);
 
@@ -929,8 +981,9 @@ export const combatEngine = {
       return;
     }
 
+    const usableSkillIds = usePlayerStore.getState().getUsableSkillIds();
     const availableSkill = skills
-      .filter((skill) => player.skills.includes(skill.id))
+      .filter((skill) => usableSkillIds.includes(skill.id))
       .filter((skill) => player.mp >= skill.mp && !combat.skillCooldowns[skill.id])
       .filter(() => player.mp >= combat.autoConfig.mpThreshold)
       .sort((a, b) => (b.damagePercent ?? 0) - (a.damagePercent ?? 0))[0];

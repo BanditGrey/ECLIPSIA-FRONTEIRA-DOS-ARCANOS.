@@ -43,6 +43,17 @@ cd ../server && npm test
   `mongodb-memory-server` sem `MONGO_URI`). Fluxo verificado ponta a ponta:
   registro → login → chat global → sussurro → presence via socket.
   Pendente (precisa de contas do dono): Atlas + Railway + Vercel — ver DEPLOY.md.
+- **⚔ Sistema de PROEFICIÊNCIA DE ARMAS ✅ (Caso 8)**: os 6 arquétipos viraram
+  **Origens cosméticas** (retrato/sigilo/descrição, zero mecânica; stats neutros
+  8/8/8/8/8/8, HP 480, MP 300, 5 pontos livres). As **14 categorias de arma do
+  catálogo são proficiências** (`data/proficiencies.ts`): ganha XP usando a arma
+  (ataque +1, skill +2, abate +3; cap 1000), bônus passivo +0,2% ATK/ponto,
+  e **skills desbloqueadas pela proficiência da arma equipada** (20 skills
+  redistribuídas em `data/skills.ts` com thresholds 10–120; trocou de arma,
+  trocou de arsenal). Criação: nome + origem + arma inicial (4 opções nível 1;
+  servidor equipa e dá 5 pts de proficiência). Escudo equipado = papel de tanque
+  na party (substitui o antigo vanguard). **SORTE: teto 1000** (+0,1% XP/ponto,
+  fator de loot /1000). Baselines intactos (89/89, 41/41, 18/18, build).
 - **🎨 Identidade visual "Fronteira Arcana" ✅ (Caso 7)**: design system novo
   (paleta azul-noite + dourado ritual + teal arcano; painéis `panel-arcane` com
   borda dourada e cantoneiras; `title-gold`; botões `btn-gold`/`btn-glass`;

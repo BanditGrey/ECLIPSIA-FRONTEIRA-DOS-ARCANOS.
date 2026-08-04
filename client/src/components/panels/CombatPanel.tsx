@@ -25,7 +25,8 @@ const ActionButton = ({ children, onClick, variant = 'secondary' }: { children: 
 
 const SkillsModal = () => {
   const { t } = useI18n();
-  const skills = usePlayerStore((state) => state.data?.skills ?? []);
+  const data = usePlayerStore((state) => state.data);
+  const skills = data ? usePlayerStore.getState().getUsableSkillIds() : [];
   const cooldowns = useCombatStore((state) => state.skillCooldowns);
 
   return (

@@ -24,7 +24,7 @@ Todo texto visível do jogo deve estar no i18n em:
 - Combate Auto e Avanço Auto são botões separados.
 - Avanço Auto sempre ativa Combate Auto.
 - Sem stamina ou energia limitada.
-- Sorte tem teto 200 e nunca é vendida.
+- Sorte tem teto 1000 e nunca é vendida (+0,1% de XP por ponto).
 
 ## Como rodar o frontend
 

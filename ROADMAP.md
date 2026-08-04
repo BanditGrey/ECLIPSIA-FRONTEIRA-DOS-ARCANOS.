@@ -166,6 +166,24 @@ só os companheiros locais participam do combate. Meta: grupo lutar junto.
 - [ ] Monstros (15) sem pintura dedicada (hoje: emoji em anel de sigilo) —
       opcional, sessão futura
 
+## ⚔ CASO 8 — Sistema de Proficiência de Armas (✅ CONCLUÍDO)
+
+- [x] Arquétipos → **Origens cosméticas** (retrato/sigilo/título; zero mecânica;
+      criação com stats neutros + 5 pontos livres)
+- [x] 14 proficiências (uma por categoria de arma do catálogo) em
+      `data/proficiencies.ts`: XP por uso (ataque/skill/abate), cap 1000,
+      bônus passivo +0,2% ATK/ponto
+- [x] 20 skills redistribuídas por proficiência com thresholds (10–120);
+      skills = f(arma equipada + proficiência) — trocar de arma troca o arsenal
+- [x] Criação de personagem: nome + origem + arma inicial (4 opções nível 1);
+      servidor equipa a arma e concede 5 pts de proficiência (itemStr por numId)
+- [x] Escudo equipado = tanque na party (substitui o antigo "vanguard")
+- [x] Sorte: teto 1000 (+0,1% XP/ponto; loot fator /1000)
+- [x] UI: criação, perfil (14 profs com progresso/next skill), wiki (origens +
+      proficiências), skills derivadas no combate e modal
+- [x] Baselines intactos: 89/89 · 41/41 · 18/18 · build · smoke test client
+- [ ] Balancear thresholds/XP de proficiência com dados reais (Caso 5)
+
 ## 📏 REGRAS DE OURO (para qualquer item acima)
 
 1. Nunca quebrar a auditoria: `cd client && npm run audit` → 89/89

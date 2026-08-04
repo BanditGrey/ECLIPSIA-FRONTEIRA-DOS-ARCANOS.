@@ -45,12 +45,7 @@ export interface InventoryItem {
 }
 
 export interface Proficiencies {
-  blade: number;
-  arcane: number;
-  druid: number;
-  vanguard: number;
-  ranger: number;
-  spectre: number;
+  [category: string]: number | undefined;
 }
 
 /** Progresso das missões diárias (reinicia por data). */

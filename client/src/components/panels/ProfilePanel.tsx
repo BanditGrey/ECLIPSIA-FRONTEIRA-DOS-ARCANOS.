@@ -5,11 +5,13 @@ import type { Stats } from '../../types/player.types';
 import { Button } from '../ui/Button';
 import { ProgressBar } from '../ui/ProgressBar';
 import { Portrait } from '../ui/Portrait';
+import { PROFICIENCIES, PROFICIENCY_ICONS } from '../../data/proficiencies';
+import { skills } from '../../data/skills';
+import { resolveItemRef } from '../../utils/itemSerializer';
 
 type ProfileTab = 'status' | 'skills' | 'titles';
 
 const statKeys: Array<keyof Stats> = ['strength', 'agility', 'vitality', 'arcana', 'perception', 'will'];
-const proficiencyKeys = ['blade', 'arcane', 'druid', 'vanguard', 'ranger', 'spectre'] as const;
 const lockedSlots = Array.from({ length: 6 }, (_, index) => index);
 
 export const ProfilePanel = () => {
@@ -24,6 +26,11 @@ export const ProfilePanel = () => {
       data: state.data ? { ...state.data, activeTitle: title } : state.data
     }));
   };
+
+  const mainCategory = player?.equipment?.weapon_main ? resolveItemRef(player.equipment.weapon_main)?.weaponCategory : undefined;
+  const offCategory = player?.equipment?.weapon_off ? resolveItemRef(player.equipment.weapon_off)?.weaponCategory : undefined;
+  const equipped = new Set([mainCategory, offCategory].filter(Boolean));
+  const usableSkillIds = usePlayerStore.getState().getUsableSkillIds();
 
   if (!player) {
     return (
@@ -80,29 +87,53 @@ export const ProfilePanel = () => {
               })}
             </div>
 
-            <div className="rounded-xl border border-game-border bg-game-card p-3">
+            <div className="rounded-xl border border-night-600 bg-gradient-to-b from-night-700/50 to-night-900/70 p-3">
               <div className="mb-2 flex items-center justify-between">
                 <strong className="text-game-gold">{t('profile.stats.luck')}</strong>
-                <span className="font-mono text-sm">{getLuck()}/200</span>
+                <span className="font-mono text-sm">{getLuck()}/1000</span>
               </div>
-              <ProgressBar current={getLuck()} max={200} type="luck" showText />
-              <p className="mt-2 font-mono text-sm text-game-muted">
-                {t('profile.freePoints')}: {player.freePoints}
+              <ProgressBar current={getLuck()} max={1000} type="luck" showText />
+              <p className="mt-2 font-mono text-xs text-game-muted">
+                {t('profile.luckHint')} · {t('profile.freePoints')}: {player.freePoints}
               </p>
             </div>
 
-            <div className="rounded-xl border border-game-border bg-game-card p-3">
-              <h2 className="mb-2 font-title text-lg text-game-gold">{t('profile.proficiencies')}</h2>
+            <div className="rounded-xl border border-night-600 bg-gradient-to-b from-night-700/50 to-night-900/70 p-3">
+              <h2 className="mb-1 font-title text-lg text-game-gold">{t('profile.proficiencies')}</h2>
+              <p className="mb-3 font-mono text-xs text-game-muted">{t('profile.proficiencyHint')}</p>
               <div className="grid grid-cols-2 gap-2">
-                {proficiencyKeys.map((key) => (
-                  <div key={key} className="rounded border border-game-border bg-game-primary p-2">
-                    <div className="mb-1 flex justify-between text-sm">
-                      <span>{t(`charCreate.archetypes.${key}.name`)}</span>
-                      <span className="font-mono">{player.proficiencies[key]}</span>
+                {PROFICIENCIES.map((category) => {
+                  const points = player.proficiencies[category] ?? 0;
+                  const isEquipped = equipped.has(category);
+                  const nextSkill = skills
+                    .filter((skill) => skill.proficiency === category && skill.requireProficiency > points)
+                    .sort((a, b) => a.requireProficiency - b.requireProficiency)[0];
+
+                  return (
+                    <div
+                      key={category}
+                      className={[
+                        'rounded-lg border p-2',
+                        isEquipped ? 'border-gold-500/60 bg-night-800/80 shadow-glow-sm' : 'border-night-600 bg-night-900/60'
+                      ].join(' ')}
+                    >
+                      <div className="mb-1 flex items-center justify-between gap-2 text-sm">
+                        <span className="flex min-w-0 items-center gap-1.5 truncate">
+                          <span className="text-xs">{PROFICIENCY_ICONS[category]}</span>
+                          <span className="truncate">{t(`proficiencies.${category}.name`)}</span>
+                          {isEquipped && <span className="chip !px-1.5 !py-0 text-[9px] text-arcane-300">✓</span>}
+                        </span>
+                        <span className="shrink-0 font-mono text-xs text-game-muted">{points}</span>
+                      </div>
+                      <ProgressBar current={points} max={100} type="xp" />
+                      {nextSkill && (
+                        <p className="mt-1 font-mono text-[10px] text-game-faded">
+                          {t('profile.nextSkill')}: {t(`skills.${nextSkill.id}.name`)} ({nextSkill.requireProficiency})
+                        </p>
+                      )}
                     </div>
-                    <ProgressBar current={player.proficiencies[key]} max={100} type="xp" />
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -110,18 +141,29 @@ export const ProfilePanel = () => {
 
         {tab === 'skills' && (
           <div className="grid h-full gap-3 overflow-auto pr-1">
-            {player.skills.length === 0 && <p className="text-game-muted">{t('combat.noSkills')}</p>}
-            {player.skills.map((skillId) => (
-              <article key={skillId} className="rounded-xl border border-game-border bg-game-card p-3">
-                <div className="flex items-center justify-between gap-3">
-                  <h2 className="font-title text-lg text-game-gold">🔮 {t(`skills.${skillId}.name`)}</h2>
-                  <span className="font-mono text-xs text-game-muted">
-                    {t('profile.skillInfo.mp')}: 10 • {t('profile.skillInfo.cd')}: {player.skillCooldowns[skillId] ?? 0}
-                  </span>
-                </div>
-                <p className="mt-1 text-sm text-game-muted">{t(`skills.${skillId}.desc`)}</p>
-              </article>
-            ))}
+            {usableSkillIds.length === 0 && <p className="text-game-muted">{t('combat.noSkills')}</p>}
+            {usableSkillIds.map((skillId) => {
+              const skill = skills.find((entry) => entry.id === skillId);
+
+              return (
+                <article key={skillId} className="rounded-xl border border-night-600 bg-gradient-to-b from-night-700/50 to-night-900/70 p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <h2 className="font-title text-lg text-game-gold">
+                      {skill?.icon ?? '🔮'} {t(`skills.${skillId}.name`)}
+                    </h2>
+                    <span className="font-mono text-xs text-game-muted">
+                      {t('profile.skillInfo.mp')}: {skill?.mp ?? 10} • {t('profile.skillInfo.cd')}: {skill?.cd ?? 0}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-sm text-game-muted">{t(`skills.${skillId}.desc`)}</p>
+                  {skill && (
+                    <p className="mt-2 font-mono text-[10px] text-game-faded">
+                      {PROFICIENCY_ICONS[skill.proficiency]} {t(`proficiencies.${skill.proficiency}.name`)}
+                    </p>
+                  )}
+                </article>
+              );
+            })}
           </div>
         )}
 

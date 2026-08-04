@@ -5,20 +5,20 @@ import { useGameStore } from '../../store/useGameStore';
 import type { PlayerData } from '../../types/player.types';
 import { usePlayerStore } from '../../store/usePlayerStore';
 import { ART } from '../../data/art';
+import { STARTING_WEAPONS } from '../../data/proficiencies';
 import { Button } from '../ui/Button';
-import { ProgressBar } from '../ui/ProgressBar';
 import { Portrait } from '../ui/Portrait';
 
 type Archetype = 'blade' | 'arcane' | 'druid' | 'vanguard' | 'ranger' | 'spectre';
 
-const archetypes: Array<{ id: Archetype; atk: number; def: number; arc: number; glow: 'gold' | 'arcane' | 'violet' }> = [
-  { id: 'blade', atk: 85, def: 45, arc: 25, glow: 'gold' },
-  { id: 'arcane', atk: 35, def: 30, arc: 95, glow: 'arcane' },
-  { id: 'druid', atk: 45, def: 60, arc: 75, glow: 'arcane' },
-  { id: 'vanguard', atk: 55, def: 95, arc: 25, glow: 'gold' },
-  { id: 'ranger', atk: 75, def: 40, arc: 35, glow: 'violet' },
-  { id: 'spectre', atk: 80, def: 35, arc: 50, glow: 'violet' }
-];
+const ORIGIN_ICONS: Record<Archetype, string> = {
+  blade: '⚔',
+  arcane: '🔮',
+  druid: '🌿',
+  vanguard: '🛡',
+  ranger: '🏹',
+  spectre: '🗡'
+};
 
 export const CharCreateScreen = () => {
   const { t } = useI18n();
@@ -27,7 +27,8 @@ export const CharCreateScreen = () => {
   const addNotification = useGameStore((state) => state.addNotification);
   const setPlayer = usePlayerStore((state) => state.setPlayer);
   const [name, setName] = useState('');
-  const [selectedArchetype, setSelectedArchetype] = useState<Archetype | null>(null);
+  const [selectedOrigin, setSelectedOrigin] = useState<Archetype | null>(null);
+  const [selectedWeapon, setSelectedWeapon] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -40,15 +41,24 @@ export const CharCreateScreen = () => {
       return;
     }
 
-    if (!selectedArchetype) {
-      addNotification(t('charCreate.archetypeRequired'), 'error');
+    if (!selectedOrigin) {
+      addNotification(t('charCreate.originRequired'), 'error');
+      return;
+    }
+
+    if (!selectedWeapon) {
+      addNotification(t('charCreate.weaponRequired'), 'error');
       return;
     }
 
     setLoading(true);
 
     try {
-      const result = await API.player.create<{ playerData?: PlayerData; character?: PlayerData }>({ name: trimmedName, archetype: selectedArchetype });
+      const result = await API.player.create<{ playerData?: PlayerData; character?: PlayerData }>({
+        name: trimmedName,
+        archetype: selectedOrigin,
+        startingWeapon: selectedWeapon
+      });
 
       if (!result.success) {
         addNotification(t('errors.generic'), 'error');
@@ -108,58 +118,81 @@ export const CharCreateScreen = () => {
           />
         </label>
 
-        <section className="mt-5 grid min-h-0 flex-1 grid-cols-2 gap-3 overflow-hidden lg:grid-cols-3">
-          {archetypes.map((archetype) => {
-            const isSelected = selectedArchetype === archetype.id;
+        {/* ORIGEM — cosmética (retrato/sigilo/identidade) */}
+        <div className="mt-4 shrink-0">
+          <h2 className="title-gold mb-2 text-center font-title text-lg font-bold tracking-wide">
+            {t('charCreate.originTitle')}
+          </h2>
+          <p className="mb-3 text-center font-mono text-[11px] text-game-faded">
+            {t('charCreate.originHint')}
+          </p>
+          <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
+            {(['blade', 'arcane', 'druid', 'vanguard', 'ranger', 'spectre'] as Archetype[]).map((origin) => {
+              const isSelected = selectedOrigin === origin;
 
-            return (
-              <button
-                key={archetype.id}
-                type="button"
-                className={[
-                  'group relative flex flex-col items-center gap-2 overflow-hidden rounded-xl border bg-gradient-to-b from-night-700/70 to-night-900/90 p-4 text-center transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98]',
-                  isSelected
-                    ? 'border-gold-400 shadow-glow-gold'
-                    : 'border-night-600 hover:border-gold-600/60 hover:shadow-glow-sm'
-                ].join(' ')}
-                onClick={() => setSelectedArchetype(archetype.id)}
-              >
-                {isSelected && (
-                  <span className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-gold-400 to-transparent" />
-                )}
-                <Portrait
-                  kind="class"
-                  id={archetype.id}
-                  size={104}
-                  fallbackIcon={archetype.id === 'blade' ? '⚔' : archetype.id === 'arcane' ? '🔮' : archetype.id === 'druid' ? '🌿' : archetype.id === 'vanguard' ? '🛡' : archetype.id === 'ranger' ? '🏹' : '🗡'}
-                  ring={archetype.glow === 'arcane' ? 'arcane' : 'gold'}
-                  className={isSelected ? 'scale-105 transition-transform' : 'opacity-95 transition-all group-hover:scale-[1.03] group-hover:opacity-100'}
-                />
-                <div className="min-w-0">
-                  <h2 className="title-gold font-title text-lg font-bold">
-                    {t(`charCreate.archetypes.${archetype.id}.name`)}
-                  </h2>
-                  <p className="text-sm italic text-game-muted">{t(`charCreate.archetypes.${archetype.id}.desc`)}</p>
-                </div>
+              return (
+                <button
+                  key={origin}
+                  type="button"
+                  className={[
+                    'group flex flex-col items-center gap-1.5 rounded-xl border bg-gradient-to-b from-night-700/70 to-night-900/90 p-2.5 transition-all duration-200 hover:-translate-y-0.5 active:scale-95',
+                    isSelected
+                      ? 'border-gold-400 shadow-glow-gold'
+                      : 'border-night-600 hover:border-gold-600/60 hover:shadow-glow-sm'
+                  ].join(' ')}
+                  onClick={() => setSelectedOrigin(origin)}
+                >
+                  <Portrait
+                    kind="class"
+                    id={origin}
+                    size={56}
+                    fallbackIcon={ORIGIN_ICONS[origin]}
+                    className={isSelected ? 'opacity-100' : 'opacity-90 group-hover:opacity-100'}
+                  />
+                  <span className={`truncate font-mono text-[11px] ${isSelected ? 'text-gold-300' : 'text-game-muted group-hover:text-game-text'}`}>
+                    {t(`charCreate.archetypes.${origin}.name`)}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
-                <div className="mt-1 grid w-full gap-1.5 font-mono text-[11px] text-game-muted">
-                  <div className="grid grid-cols-[38px_1fr] items-center gap-2">
-                    <span className="text-left">{t('charCreate.stats.atk')}</span>
-                    <ProgressBar current={archetype.atk} max={100} type="hp" />
-                  </div>
-                  <div className="grid grid-cols-[38px_1fr] items-center gap-2">
-                    <span className="text-left">{t('charCreate.stats.def')}</span>
-                    <ProgressBar current={archetype.def} max={100} type="mp" />
-                  </div>
-                  <div className="grid grid-cols-[38px_1fr] items-center gap-2">
-                    <span className="text-left">{t('charCreate.stats.arc')}</span>
-                    <ProgressBar current={archetype.arc} max={100} type="luck" />
-                  </div>
-                </div>
-              </button>
-            );
-          })}
-        </section>
+        {/* ARMA INICIAL — define a primeira proficiência */}
+        <div className="mt-4 shrink-0">
+          <h2 className="title-gold mb-2 text-center font-title text-lg font-bold tracking-wide">
+            {t('charCreate.weaponTitle')}
+          </h2>
+          <p className="mb-3 text-center font-mono text-[11px] text-game-faded">
+            {t('charCreate.weaponHint')}
+          </p>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {STARTING_WEAPONS.map((weapon) => {
+              const isSelected = selectedWeapon === weapon.itemRef;
+
+              return (
+                <button
+                  key={weapon.itemRef}
+                  type="button"
+                  className={[
+                    'flex items-center justify-center gap-2 rounded-xl border bg-gradient-to-b from-night-700/70 to-night-900/90 px-3 py-2.5 transition-all duration-200 hover:-translate-y-0.5 active:scale-95',
+                    isSelected
+                      ? 'border-arcane-400 shadow-glow-arcane'
+                      : 'border-night-600 hover:border-arcane-400/60 hover:shadow-glow-sm'
+                  ].join(' ')}
+                  onClick={() => setSelectedWeapon(weapon.itemRef)}
+                >
+                  <span className={`text-xl ${isSelected ? '' : 'opacity-80'}`}>{weapon.icon}</span>
+                  <span className={`font-mono text-xs ${isSelected ? 'text-arcane-300' : 'text-game-muted group-hover:text-game-text'}`}>
+                    {t(`proficiencies.${weapon.category}.name`)}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="min-h-0 flex-1" />
 
         <footer className="mt-4 shrink-0">
           <Button fullWidth size="lg" loading={loading}>

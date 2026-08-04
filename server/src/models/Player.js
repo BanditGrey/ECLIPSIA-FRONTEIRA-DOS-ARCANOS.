@@ -85,14 +85,23 @@ const InventoryItemSchema = new mongoose.Schema(
   { _id: false }
 );
 
+// Proficiências de arma: mapa categoria → pontos (14 categorias do catálogo).
 const ProficienciesSchema = new mongoose.Schema(
   {
-    blade: { type: Number, default: 0 },
-    arcane: { type: Number, default: 0 },
-    druid: { type: Number, default: 0 },
-    vanguard: { type: Number, default: 0 },
-    ranger: { type: Number, default: 0 },
-    spectre: { type: Number, default: 0 }
+    sword_one: { type: Number, default: 0 },
+    sword_two: { type: Number, default: 0 },
+    great_sword: { type: Number, default: 0 },
+    dagger: { type: Number, default: 0 },
+    dagger_off: { type: Number, default: 0 },
+    bow_short: { type: Number, default: 0 },
+    bow_long: { type: Number, default: 0 },
+    staff_one: { type: Number, default: 0 },
+    staff_two: { type: Number, default: 0 },
+    orb: { type: Number, default: 0 },
+    tome: { type: Number, default: 0 },
+    hammer: { type: Number, default: 0 },
+    spear: { type: Number, default: 0 },
+    shield: { type: Number, default: 0 }
   },
   { _id: false }
 );

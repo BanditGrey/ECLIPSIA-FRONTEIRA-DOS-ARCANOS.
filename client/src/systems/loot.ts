@@ -76,7 +76,8 @@ const getItemName = (itemId: string) => {
 };
 
 export const getRarityChances = (luck: number): RarityChances => {
-  const factor = Math.min(Math.max(luck, 0), 200) / 200;
+  // Sorte: teto 1000. Cada ponto = 0,1% do caminho entre as chances mín. e máx.
+  const factor = Math.min(Math.max(luck, 0), 1000) / 1000;
 
   return rarityOrder.reduce<RarityChances>((chances, rarity) => {
     chances[rarity] = minChances[rarity] + (maxChances[rarity] - minChances[rarity]) * factor;

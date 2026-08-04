@@ -1,10 +1,13 @@
-import type { ArchetypeId } from './archetypes';
+import type { WeaponCategory } from '../types/item.types';
 
 export type SkillDamageType = 'physical' | 'magical' | 'void';
 
 export interface PlayerSkillData {
   id: string;
-  archetype: ArchetypeId;
+  /** Proficiência de arma que desbloqueia esta skill. */
+  proficiency: WeaponCategory;
+  /** Pontos de proficiência necessários para desbloquear. */
+  requireProficiency: number;
   icon: string;
   mp: number;
   cd: number;
@@ -27,10 +30,17 @@ export interface PlayerSkillData {
   executeBelowHpPercent?: number;
 }
 
+/**
+ * Skills por proficiência de arma.
+ * O jogador desbloqueia as skills da arma que está usando conforme
+ * a proficiência sobe — trocou de arma, trocou de arsenal.
+ */
 export const skills: PlayerSkillData[] = [
+  // ── Espada de uma mão ────────────────────────────────────────
   {
     id: 'spin_slash',
-    archetype: 'blade',
+    proficiency: 'sword_one',
+    requireProficiency: 10,
     icon: '⚔',
     mp: 30,
     cd: 2,
@@ -39,7 +49,8 @@ export const skills: PlayerSkillData[] = [
   },
   {
     id: 'dash_cut',
-    archetype: 'blade',
+    proficiency: 'sword_one',
+    requireProficiency: 25,
     icon: '💨',
     mp: 45,
     cd: 3,
@@ -47,17 +58,34 @@ export const skills: PlayerSkillData[] = [
     damagePercent: 200
   },
   {
+    id: 'thousand_cuts',
+    proficiency: 'sword_one',
+    requireProficiency: 80,
+    icon: '⚔',
+    mp: 80,
+    cd: 5,
+    damageType: 'physical',
+    damagePercent: 40,
+    hits: 5
+  },
+
+  // ── Espada longa ─────────────────────────────────────────────
+  {
     id: 'bleed',
-    archetype: 'blade',
+    proficiency: 'sword_two',
+    requireProficiency: 40,
     icon: '🩸',
     mp: 50,
     cd: 3,
     dotDamage: 40,
     dotTurns: 3
   },
+
+  // ── Espadão ──────────────────────────────────────────────────
   {
     id: 'execute',
-    archetype: 'blade',
+    proficiency: 'great_sword',
+    requireProficiency: 60,
     icon: '💀',
     mp: 100,
     cd: 8,
@@ -66,155 +94,179 @@ export const skills: PlayerSkillData[] = [
     executeBelowHpPercent: 20
   },
   {
-    id: 'thousand_cuts',
-    archetype: 'blade',
-    icon: '⚔',
-    mp: 80,
-    cd: 5,
-    damageType: 'physical',
-    damagePercent: 40,
-    hits: 5
-  },
-  {
     id: 'blade_storm',
-    archetype: 'blade',
+    proficiency: 'great_sword',
+    requireProficiency: 120,
     icon: '🌀',
-    mp: 120,
-    cd: 7,
-    damageType: 'physical',
-    damagePercent: 350
-  },
-  {
-    id: 'arcane_burst',
-    archetype: 'arcane',
-    icon: '💥',
-    mp: 60,
-    cd: 2,
-    damageType: 'magical',
-    damagePercent: 180
-  },
-  {
-    id: 'ice_nova',
-    archetype: 'arcane',
-    icon: '❄',
-    mp: 80,
-    cd: 4,
-    damageType: 'magical',
-    damagePercent: 140,
-    slowTurns: 2
-  },
-  {
-    id: 'chain_lightning',
-    archetype: 'arcane',
-    icon: '⚡',
     mp: 90,
-    cd: 4,
-    damageType: 'magical',
-    damagePercent: 220,
-    slowTurns: 1
-  },
-  {
-    id: 'void_gate',
-    archetype: 'arcane',
-    icon: '🌑',
-    mp: 150,
-    cd: 8,
-    damageType: 'void',
-    damagePercent: 400
-  },
-  {
-    id: 'heal_pulse',
-    archetype: 'druid',
-    icon: '💚',
-    mp: 70,
-    cd: 3,
-    healPercent: 25
-  },
-  {
-    id: 'root',
-    archetype: 'druid',
-    icon: '🌿',
-    mp: 55,
-    cd: 4,
-    damageType: 'magical',
-    damagePercent: 80,
-    stunTurns: 1
-  },
-  {
-    id: 'thorns',
-    archetype: 'druid',
-    icon: '🌵',
-    mp: 60,
-    cd: 4,
-    reflectPercent: 30,
-    reflectTurns: 3
-  },
-  {
-    id: 'nature_burst',
-    archetype: 'druid',
-    icon: '🌿',
-    mp: 100,
-    cd: 6,
-    damageType: 'magical',
-    damagePercent: 280,
-    healPercent: 15
-  },
-  {
-    id: 'shield_bash',
-    archetype: 'vanguard',
-    icon: '🛡',
-    mp: 40,
-    cd: 3,
-    damageType: 'physical',
-    damagePercent: 120,
-    stunTurns: 1
-  },
-  {
-    id: 'fortress',
-    archetype: 'vanguard',
-    icon: '🏰',
-    mp: 80,
-    cd: 6,
-    defUpPercent: 50,
-    defUpTurns: 4
-  },
-  {
-    id: 'piercing_shot',
-    archetype: 'ranger',
-    icon: '🏹',
-    mp: 55,
-    cd: 3,
-    damageType: 'physical',
-    damagePercent: 180,
-    ignoreDef: true
-  },
-  {
-    id: 'rain_of_arrows',
-    archetype: 'ranger',
-    icon: '🌧',
-    mp: 110,
     cd: 6,
     damageType: 'physical',
-    damagePercent: 60,
-    hits: 6
+    damagePercent: 90,
+    hits: 3
   },
+
+  // ── Adaga ────────────────────────────────────────────────────
   {
     id: 'death_mark',
-    archetype: 'spectre',
+    proficiency: 'dagger',
+    requireProficiency: 10,
     icon: '💀',
-    mp: 70,
-    cd: 5,
-    markDamageBonus: 50,
+    mp: 40,
+    cd: 4,
+    markDamageBonus: 0.5,
     markTurns: 3
   },
   {
     id: 'shadow_step',
-    archetype: 'spectre',
+    proficiency: 'dagger',
+    requireProficiency: 60,
     icon: '👤',
-    mp: 90,
+    mp: 60,
     cd: 5,
     damageType: 'physical',
-    damagePercent: 280,
+    damagePercent: 180,
     dodgeNext: true
+  },
+
+  // ── Arco curto ───────────────────────────────────────────────
+  {
+    id: 'piercing_shot',
+    proficiency: 'bow_short',
+    requireProficiency: 10,
+    icon: '🏹',
+    mp: 30,
+    cd: 2,
+    damageType: 'physical',
+    damagePercent: 160,
+    ignoreDef: true
+  },
+
+  // ── Arco longo ───────────────────────────────────────────────
+  {
+    id: 'rain_of_arrows',
+    proficiency: 'bow_long',
+    requireProficiency: 50,
+    icon: '🌧',
+    mp: 70,
+    cd: 5,
+    damageType: 'physical',
+    damagePercent: 55,
+    hits: 4
+  },
+
+  // ── Cajado ───────────────────────────────────────────────────
+  {
+    id: 'arcane_burst',
+    proficiency: 'staff_one',
+    requireProficiency: 10,
+    icon: '💥',
+    mp: 30,
+    cd: 2,
+    damageType: 'magical',
+    damagePercent: 150
+  },
+  {
+    id: 'heal_pulse',
+    proficiency: 'staff_one',
+    requireProficiency: 40,
+    icon: '💚',
+    mp: 50,
+    cd: 4,
+    healPercent: 45
+  },
+
+  // ── Cajado arcano ────────────────────────────────────────────
+  {
+    id: 'ice_nova',
+    proficiency: 'staff_two',
+    requireProficiency: 40,
+    icon: '❄',
+    mp: 55,
+    cd: 4,
+    damageType: 'magical',
+    damagePercent: 130,
+    slowTurns: 2
+  },
+  {
+    id: 'chain_lightning',
+    proficiency: 'staff_two',
+    requireProficiency: 100,
+    icon: '⚡',
+    mp: 90,
+    cd: 6,
+    damageType: 'magical',
+    damagePercent: 170
+  },
+
+  // ── Orbe ─────────────────────────────────────────────────────
+  {
+    id: 'void_gate',
+    proficiency: 'orb',
+    requireProficiency: 120,
+    icon: '🌑',
+    mp: 110,
+    cd: 8,
+    damageType: 'void',
+    damagePercent: 300
+  },
+
+  // ── Grimório ─────────────────────────────────────────────────
+  {
+    id: 'root',
+    proficiency: 'tome',
+    requireProficiency: 25,
+    icon: '🌿',
+    mp: 40,
+    cd: 4,
+    damageType: 'magical',
+    damagePercent: 60,
+    stunTurns: 1
+  },
+
+  // ── Martelo ──────────────────────────────────────────────────
+  {
+    id: 'fortress',
+    proficiency: 'hammer',
+    requireProficiency: 40,
+    icon: '🏰',
+    mp: 45,
+    cd: 5,
+    defUpPercent: 40,
+    defUpTurns: 3
+  },
+
+  // ── Lança ────────────────────────────────────────────────────
+  {
+    id: 'thorns',
+    proficiency: 'spear',
+    requireProficiency: 30,
+    icon: '🌵',
+    mp: 40,
+    cd: 4,
+    reflectPercent: 35,
+    reflectTurns: 3
+  },
+  {
+    id: 'nature_burst',
+    proficiency: 'spear',
+    requireProficiency: 80,
+    icon: '🌿',
+    mp: 75,
+    cd: 5,
+    damageType: 'magical',
+    damagePercent: 200
+  },
+
+  // ── Escudo ───────────────────────────────────────────────────
+  {
+    id: 'shield_bash',
+    proficiency: 'shield',
+    requireProficiency: 10,
+    icon: '🛡',
+    mp: 25,
+    cd: 3,
+    damageType: 'physical',
+    damagePercent: 120,
+    stunTurns: 1
   }
 ];
