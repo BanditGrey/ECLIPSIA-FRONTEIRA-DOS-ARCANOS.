@@ -40,6 +40,11 @@ Frontend local:
 http://localhost:5173
 ```
 
+> Em dev fora de localhost (ex.: preview online), o client usa caminho relativo
+> (`/api` e `/socket.io`) e o Vite faz proxy para `localhost:5000`
+> (configurado em `vite.config.ts`). `VITE_API_URL` sempre tem prioridade.
+> O dev server aceita qualquer host: `npm run dev -- --host 0.0.0.0`.
+
 ## Como rodar o backend
 
 ```bash

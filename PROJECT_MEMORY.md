@@ -37,8 +37,14 @@ cd ../server && npm test
   (modelo Whisper + entrega offline no ChatPanel), mute (/mute, /unmute, botão 🔇,
   localStorage), /who, fallback de sussurro offline via REST, busca no mercado,
   "meus lances" no leilão, CI (GitHub Actions). Auditoria social: **41/41**.
+- **Caso 6 parcial ✅ — jogo ONLINE para testes**: ambiente de preview com
+  frontend (Vite, proxy `/api`+`/socket.io` e URL relativa fora de localhost) +
+  backend (Express/Socket.io) + MongoDB real (4.4.10 local; fallback
+  `mongodb-memory-server` sem `MONGO_URI`). Fluxo verificado ponta a ponta:
+  registro → login → chat global → sussurro → presence via socket.
+  Pendente (precisa de contas do dono): Atlas + Railway + Vercel — ver DEPLOY.md.
 - **Próxima etapa sugerida**: Caso 3 (gateway de pagamento Pix p/ crystals) ou
-  Caso 6 (deploy Atlas+Railway+Vercel) — ambos precisam de contas do dono do repo.
+  fechar o Caso 6 com as contas do dono (Atlas+Railway+Vercel).
 
 ### 0.4 Regras de ouro (não viole)
 1. Nunca quebrar os baselines do §0.2 (auditorias 89/89 e 41/41, testes 18/18).

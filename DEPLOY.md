@@ -35,6 +35,43 @@ Se o client sair da Vercel, ajuste `CLIENT_URL` no server.
 - `GET https://<server>/api/health` → `{ status: 'ok', online: N }`
 - Abra o client → login → chat global e correio devem conectar (socket).
 
+## 6. Teste rápido sem Atlas (dev/preview)
+
+O servidor funciona **sem MongoDB Atlas** — útil para testar antes de criar contas.
+
+### Opção A — fallback automático (mongodb-memory-server)
+Se `MONGO_URI` **não** for definida, o servidor sobe um **MongoDB efêmero em
+memória** (baixa o binário `mongod` na primeira execução; exige internet).
+⚠ Dados somem ao reiniciar o servidor.
+
+```bash
+cd server && npm install && npm start
+```
+
+### Opção B — mongod local (dados persistentes)
+```bash
+# 1. Instale o MongoDB 4.4+ (ou baixe um binário oficial) e rode:
+mongod --dbpath ./data --port 27017 --bind_ip 127.0.0.1
+# 2. Suba o servidor apontando para ele:
+cd server && MONGO_URI=mongodb://127.0.0.1:27017/eclipsia JWT_SECRET=qualquer ADMIN_KEY=qualquer npm start
+```
+
+### Preview online (dev server com proxy)
+O `vite.config.ts` já tem proxy de `/api` e `/socket.io` → `localhost:5000`, e o
+`client/src/services/api.ts` usa **URL relativa** em dev fora de localhost (ex.:
+preview). Ou seja: em dev, o client funciona sem `VITE_API_URL` (ela só tem
+prioridade quando definida).
+
+```bash
+# terminal 1 — servidor
+cd server && npm start
+# terminal 2 — client (aceita qualquer host, inclusive previews)
+cd client && npm run dev -- --host 0.0.0.0
+```
+
+> 💡 Sempre defina `MONGO_URI` em produção (Atlas/Railway); o fallback em memória
+> é só para testes.
+
 ## Economia do mercado (ajustável em `server/src/routes/market.routes.js`)
 - **O mercado mundial usa 💎 Cristais (moeda paga)** — o ouro do jogo fica isolado da economia P2P.
 - `MARKET_TAX_RATE = 0.05` → imposto de 5% sobre vendas (pago em crystals).

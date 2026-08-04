@@ -127,12 +127,18 @@ só os companheiros locais participam do combate. Meta: grupo lutar junto.
 
 ## 📦 CASO 6 — Colocar no ar (bloqueia testes reais multiplayer)
 
-- [ ] Criar cluster MongoDB Atlas (M0) + user + IP liberado
+- [x] **Ambiente de teste online no ar (preview)** — frontend + backend + banco
+      rodando com URL pública: registro → login → chat global → sussurro →
+      party → mercado funcionando ponta a ponta (verificado com REST + socket)
+- [x] Servidor roda sem Atlas: fallback `mongodb-memory-server` (efêmero) e
+      suporte a `mongod` local (MongoDB 4.4+ testado) — ver `DEPLOY.md` §6
+- [x] Client dev com proxy `/api` + `/socket.io` e URL relativa fora de
+      localhost (preview) — `vite.config.ts` + `api.ts`
+- [ ] Criar cluster MongoDB Atlas (M0) + user + IP liberado — **conta do dono**
 - [ ] Subir server no Railway com as envs (MONGO_URI, JWT_SECRET, CLIENT_URL,
-      ADMIN_KEY) — `railway.json` já pronto
-- [ ] Vercel: importar repo + env `VITE_API_URL` apontando pro Railway
-- [ ] Testar fluxo ponta a ponta: registro → criar char → chat global com 2
-      navegadores → sussurro → convite de party → mercado
+      ADMIN_KEY) — `railway.json` já pronto — **conta do dono**
+- [ ] Vercel: importar repo + env `VITE_API_URL` apontando pro Railway — **conta do dono**
+- [ ] Testar fluxo ponta a ponta com 2 navegadores no ambiente definitivo
 - [ ] Definir URL final e atualizar defaults no `api.ts` se necessário
 
 ---
