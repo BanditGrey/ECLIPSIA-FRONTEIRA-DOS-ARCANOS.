@@ -510,6 +510,10 @@ const damagePartyOrPlayer = (damage: number) => {
     roundTaken += Math.max(0, finalDamage);
   }
 
+  if (finalDamage > 0) {
+    useCombatStore.getState().bumpPlayerHit();
+  }
+
   if (!target) {
     usePlayerStore.getState().takeDamage(finalDamage);
     return;

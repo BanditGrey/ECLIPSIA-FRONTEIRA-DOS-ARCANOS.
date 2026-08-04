@@ -46,7 +46,9 @@ export interface SkillEffect {
 interface CombatStoreState extends CombatState {
   skillCooldowns: Record<string, number>;
   skillEffect: SkillEffect | null;
+  playerHit: number;
   setSkillEffect: (effect: SkillEffect | null) => void;
+  bumpPlayerHit: () => void;
   setEnemy: (enemy: Enemy | null) => void;
   setEnemyHp: (hp: number) => void;
   setPhase: (phase: CombatPhase) => void;
@@ -76,7 +78,9 @@ export const useCombatStore = create<CombatStoreState>((set, get) => ({
   ...initialCombatState,
   skillCooldowns: {},
   skillEffect: null,
+  playerHit: 0,
   setSkillEffect: (effect) => set({ skillEffect: effect }),
+  bumpPlayerHit: () => set((state) => ({ playerHit: state.playerHit + 1 })),
   setEnemy: (enemy) => {
     set({
       enemy,
@@ -153,6 +157,7 @@ export const useCombatStore = create<CombatStoreState>((set, get) => ({
       autoConfig: state.autoConfig,
       skillCooldowns: {},
       skillEffect: null,
+      playerHit: 0,
       shieldPool: 0,
       barrierPool: 0
     }));

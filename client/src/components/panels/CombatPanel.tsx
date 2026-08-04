@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAudio } from '../../hooks/useAudio';
 import { SkillEffectPanel } from '../effects/SkillEffectPanel';
 import { ParticleSystem } from '../effects/ParticleSystem';
@@ -14,6 +14,7 @@ import { usePartyCombatStore } from '../../store/usePartyCombatStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
 import { useSkill } from '../../systems/combat';
 import { CombatOutcomeScreen } from '../effects/CombatOutcomeScreen';
+import { ArcaneField } from '../effects/ArcaneField';
 import { Button } from '../ui/Button';
 import { ArcaneIcon } from '../ui/ArcaneIcon';
 import { Modal } from '../ui/Modal';
@@ -133,6 +134,18 @@ export const CombatPanel = () => {
   const openModal = useGameStore((state) => state.openModal);
   const combat = useCombatStore();
   const huntSession = usePartyCombatStore((state) => state.session);
+  const playerHit = useCombatStore((state) => state.playerHit);
+  const [hitFx, setHitFx] = useState(false);
+  const [hitKey, setHitKey] = useState(0);
+
+  useEffect(() => {
+    if (playerHit > 0) {
+      setHitFx(true);
+      setHitKey((k) => k + 1);
+      const timer = setTimeout(() => setHitFx(false), 500);
+      return () => clearTimeout(timer);
+    }
+  }, [playerHit]);
 
   const phase = useCombatStore((state) => state.phase);
 
@@ -196,8 +209,18 @@ export const CombatPanel = () => {
             className="absolute inset-0 bg-cover bg-center opacity-30"
             style={{ backgroundImage: `url(${ART.bg.combat})` }}
           />
+          {/* cenário arcano animado */}
+          <ArcaneField className="absolute inset-0 h-full w-full opacity-70" density={1.2} />
           <div className="absolute inset-0 bg-gradient-to-b from-night-950/70 via-transparent to-night-950/80" />
           <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-red-500/70 to-transparent" />
+
+          {/* feedback de dano sofrido */}
+          {hitFx && (
+            <div key={hitKey} className="pointer-events-none absolute inset-0 z-10">
+              <div className="absolute inset-0 animate-[eclipsiaShake_0.5s_ease] bg-gradient-to-b from-red-800/20 via-transparent to-red-800/20" />
+              <ParticleSystem trigger={hitFx} type="hit" className="absolute inset-0 h-full w-full" />
+            </div>
+          )}
 
           <div className="relative grid p-4">
             <div className="flex items-center gap-4">
