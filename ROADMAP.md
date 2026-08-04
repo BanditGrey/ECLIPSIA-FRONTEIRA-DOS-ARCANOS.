@@ -79,17 +79,19 @@ só os companheiros locais participam do combate. Meta: grupo lutar junto.
 
 ---
 
-## 🏛 CASO 2 — Leilão com bids (evolução do mercado)
+## 🏛 CASO 2 — Leilão com bids (✅ CONCLUÍDO — falta: 'meus lances')
 
-- [ ] Modelo `Auction`: itemStr, sellerName, startPrice, minIncrement,
-      bids[{name, amount, at}], expiresAt, status
-- [ ] Rotas: criar leilão (taxa em 💎), dar lance (bloqueia 💎 do licitante),
-      retract (devolve), finalizar (auto por expiração — job/cron ou lazy
-      check no acesso), entregar item ao vencedor + 💎 ao vendedor (mail)
-- [ ] Client: aba "Leilões" no MarketPanel (listagem, contagem regressiva,
-      lance rápido +2/+5/+10%, meus lances)
-- [ ] Edge cases: vendedor cancela com lances? (regra: não pode após 1º lance)
-- [ ] Notificar via socket: outbid, arremate
+- [x] Modelo `Auction`: itemStr (regex-validado), sellerName, startPrice,
+      minIncrement, bids[{name, amount, at}], expiresAt, status
+- [x] Rotas: create (taxa 3💎 + custódia), bid (bloqueia 💎 e reembolsa
+      licitante coberto na hora), cancel (só sem lances), settleExpired
+      (lazy no list: item ao vencedor por carta + 💎 líquido de 5% ao
+      vendedor; sem lances o item volta)
+- [x] Client: aba Leilões no MarketPanel (tempo restante, lance por valor
+      ou ⚡lance mínimo, criar 6/12/24h, cancelar; 'meus lances' pendente)
+- [x] Edge cases: cancel bloqueado após 1º lance; lance no próprio leilão
+      bloqueado; expirado rejeita lance e liquida
+- [x] Notificar via socket: auction:outbid, auction:won, auction:sold
 
 ## 💳 CASO 3 — Gateway de pagamento para crystals
 

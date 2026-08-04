@@ -1,7 +1,7 @@
 # 🧠 MEMÓRIA DO PROJETO — ECLIPSIA: FRONTEIRA DOS ARCANOS
 
 > **Leia este arquivo primeiro.** Ele existe para você se localizar sem varrer o repo inteiro.
-> Última atualização: caçada de party em combate (Caso 1, Modo A) — ver §5.6 e ROADMAP.md.
+> Última atualização: Caso 1 fechado (dungeons em party + testes + auditoria social) e Caso 2 concluído (leilão com bids) — ver §5.6 e ROADMAP.md.
 
 ---
 
@@ -353,8 +353,14 @@ Feito na segunda leva: ✅ trade P2P via socket, ✅ encantamento (98) + 2 conju
 - **`tools/audit_social.ts`**: 23 checks da camada social/hunt — `cd client && npm run audit:social`.
 - Caso 1 ✅ concluído (ROADMAP marcado).
 
+### 🏛 Leilão com bids (Caso 2 do ROADMAP)
+- **Server**: `models/Auction.js` (itemStr regex-validado, bids, expiração, status) + `routes/auction.routes.js`: create (taxa `AUCTION_LISTING_FEE=3💎`, item custodiado, duração 6/12/24h), bid (debita 💎 do licitante, reembolsa o coberto na hora ou por carta), cancel (só sem lances), **settleExpired lazy** na listagem (vencedor recebe item por carta; vendedor recebe 💎 líquido de `AUCTION_TAX_RATE=5%` por carta; sem lances o item volta).
+- Notificações socket: `auction:outbid`, `auction:won`, `auction:sold`.
+- **Client**: `API.auction.*` + aba **Leilões** no MarketPanel (tempo restante, lance por valor ou ⚡lance mínimo, criar/cancelar).
+- Auditoria social cobre o leilão (8 checks). Pendente menor: tela "meus lances".
+
 Restante:
-1. 🏛 **Leilão com bids** (mercado hoje é preço fixo)
+1. 🖥 **Tela "meus lances"** no leilão (acompanhar lances cobertos/vencedores)
 2. 🧪 Testes de integração das rotas mail/market (precisa mongodb-memory-server) e do fluxo de trade
 3. 💾 Trade/party state em memória no server (reiniciou = pendências somem) — mover p/ Mongo se necessário
 4. 🎛 Balancear economia (preços em crystals, custos de craft/upgrade) com dados reais
