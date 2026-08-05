@@ -58,13 +58,25 @@ export const CombatOutcomeScreen: React.FC = () => {
       {isVictory && <ParticleSystem trigger={visible} type="victory" className="absolute inset-0 w-full h-full" />}
       {!isVictory && <ParticleSystem trigger={visible} type="void" className="absolute inset-0 w-full h-full" />}
 
-      <div className="relative z-10 max-w-lg w-full px-6 text-center">
-        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full border-2 border-game-gold/60 text-4xl"
-          style={{ boxShadow: isVictory ? '0 0 40px rgba(212,175,55,0.5)' : '0 0 40px rgba(255,60,60,0.4)' }}>
-          {isVictory ? '🏆' : '☠'}
+      <div className={`relative z-10 max-w-lg w-full px-6 text-center ${isVictory ? '' : ''}`}
+        style={{ animation: isVictory ? 'eclipsiaVictoryPop 0.9s ease-out both 0.1s' : 'eclipsiaDefeatIn 0.8s ease-out both 0.1s' }}>
+        <div className={`mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full border-2 ${isVictory ? 'border-gold-400/80' : 'border-red-500/70'} bg-night-950/80`}
+          style={{
+            boxShadow: isVictory ? '0 0 40px rgba(240,192,74,0.5)' : '0 0 40px rgba(255,60,60,0.4)',
+            animation: isVictory ? 'eclipsiaVictoryPop 0.8s cubic-bezier(0.34,1.56,0.64,1) both 0.2s' : 'eclipsiaDefeatIn 0.7s ease-out both 0.2s',
+          }}>
+          {isVictory
+            ? <ArcaneIcon name="chest" size={40} className="text-gold-400" glow />
+            : <span className="text-red-500 text-5xl">☠</span>}
         </div>
 
-        <h1 className={`font-title text-4xl md:text-6xl font-black tracking-[0.2em] ${isVictory ? 'text-game-gold' : 'text-red-500'} drop-shadow-[0_0_30px_rgba(212,175,55,0.6)]`}>
+        <h1
+          className={`font-title text-4xl md:text-6xl font-black ${isVictory ? 'title-gold' : 'text-red-500'}`}
+          style={{
+            animation: isVictory ? 'eclipsiaVictoryTitle 1s ease-out both 0.3s' : 'eclipsiaDefeatIn 0.9s ease-out both 0.3s',
+            textShadow: isVictory ? '0 0 30px rgba(240,192,74,0.6)' : '0 0 30px rgba(255,60,60,0.5)',
+          }}
+        >
           {isVictory ? t('combat.outcome.victory') : t('combat.outcome.defeat')}
         </h1>
 

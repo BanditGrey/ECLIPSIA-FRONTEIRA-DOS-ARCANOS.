@@ -11,6 +11,7 @@ import { usePlayerStore } from '../../store/usePlayerStore';
 import { Button } from '../ui/Button';
 import { ProgressBar } from '../ui/ProgressBar';
 import { Portrait } from '../ui/Portrait';
+import { PanelBackdrop } from '../ui/PanelBackdrop';
 
 type WikiLanguage = typeof wikiTranslations['pt-BR'];
 
@@ -38,8 +39,10 @@ export const WikiScreen = () => {
   };
 
   return (
-    <div className="bg-eclipsia grid h-full grid-rows-[auto_1fr] overflow-hidden text-game-text">
-      <header className="relative flex h-header items-center justify-between border-b border-night-700 bg-night-900/85 px-4 backdrop-blur">
+    <div className="relative grid h-full grid-rows-[auto_1fr] overflow-hidden text-game-text">
+      <div className="absolute inset-0 bg-eclipsia" />
+      <PanelBackdrop theme="wiki" />
+      <header className="relative z-10 flex h-header items-center justify-between border-b border-night-700 bg-night-900/85 px-4 backdrop-blur">
         <div>
           <h1 className="title-gold font-title text-xl font-black">{String(wiki.ui.title)}</h1>
           <p className="font-mono text-xs text-game-muted">{String(wiki.ui.subtitle)}</p>
@@ -49,7 +52,7 @@ export const WikiScreen = () => {
         </Button>
       </header>
 
-      <main className="grid min-h-0 grid-cols-[260px_1fr] gap-3 overflow-hidden p-3">
+      <main className="relative z-10 grid min-h-0 grid-cols-[260px_1fr] gap-3 overflow-hidden p-3">
         <aside className="grid min-h-0 grid-rows-[auto_1fr] rounded-xl border border-night-600 bg-night-900/70 p-3 shadow-panel">
           <h2 className="mb-3 font-title text-gold-300">{String(wiki.ui.sections)}</h2>
           <nav className="grid min-h-0 gap-2 overflow-auto pr-1">

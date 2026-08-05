@@ -1,7 +1,7 @@
 import React from 'react';
 
 export type ItemIconName =
-  | 'sword' | 'greatsword' | 'dagger' | 'staff' | 'bow' | 'mace' | 'spear' | 'shield'
+  | 'sword' | 'greatsword' | 'greataxe' | 'dagger' | 'staff' | 'bow' | 'mace' | 'spear' | 'shield'
   | 'helmet' | 'chestplate' | 'leggings' | 'boots' | 'gloves' | 'cloak'
   | 'ring' | 'amulet' | 'earring' | 'belt' | 'bracelet'
   | 'potion_hp' | 'potion_mp' | 'potion_buff' | 'food' | 'scroll' | 'elixir'
@@ -9,13 +9,14 @@ export type ItemIconName =
   | 'key' | 'map' | 'quest_item' | 'mount' | 'pet' | 'coin' | 'diamond'
   | 'item_generic' | 'chest' | 'gift';
 
-interface Props { name: ItemIconName; size?: number; className?: string; rarity?: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary'; }
+interface Props { name: ItemIconName; size?: number; className?: string; rarity?: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'relic'; }
 
-const C = { common: '#9ca3af', uncommon: '#10b981', rare: '#3b82f6', epic: '#a855f7', legendary: '#f59e0b' };
+const C = { common: '#9ca3af', uncommon: '#10b981', rare: '#3b82f6', epic: '#a855f7', legendary: '#f59e0b', relic: '#ef4444' };
 
 const I: Record<ItemIconName, React.ReactNode> = {
   sword: <><path d="M14.5 17.5L3 6V3h3l11.5 11.5" strokeWidth="2" /><path d="M13 19l6-6M16 16l4 4M19 21l2-2" strokeWidth="2" /></>,
   greatsword: <><path d="M12 2v14" strokeWidth="2.5" /><path d="M8 6h8" strokeWidth="2" /><path d="M10 16h4v4h-4z" strokeWidth="1.5" /></>,
+  greataxe: <><path d="M5 3L15 13" strokeWidth="2.5" /><path d="M12 6l6-3-3 8-8 3z" strokeWidth="2" fill="currentColor" opacity="0.25" /><path d="M4 17l2 2" strokeWidth="2" /></>,
   dagger: <><path d="M14.5 17.5L3 6V3h3l11.5 11.5" strokeWidth="1.5" /><path d="M13 19l3-3M14 18l2 2" strokeWidth="1.5" /></>,
   staff: <><path d="M12 2v20" strokeWidth="2" /><circle cx="12" cy="4" r="2.5" strokeWidth="1.5" fill="currentColor" opacity="0.3" /></>,
   bow: <><path d="M17.5 6.5c-3-3-8.5-2-11 1s-2 8.5 1 11" strokeWidth="2" /><path d="M6.5 17.5L17.5 6.5" strokeWidth="1" strokeDasharray="2 2" /></>,

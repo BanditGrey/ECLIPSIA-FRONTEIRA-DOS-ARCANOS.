@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { useAudio } from '../../hooks/useAudio';
 import { SkillEffectPanel } from '../effects/SkillEffectPanel';
@@ -7,7 +7,9 @@ import { useI18n } from '../../hooks/useI18n';
 import { ART } from '../../data/art';
 import { Portrait } from '../ui/Portrait';
 import { LayeredCharacter } from '../ui/LayeredCharacter';
-import { MonsterLayered } from '../ui/MonsterLayered';
+import { MonsterLayered, MONSTER_GLOW } from '../ui/MonsterLayered';
+import { SkillIcon } from '../ui/SkillIcon';
+import { skillIconFor } from '../../utils/skillIcon';
 
 const BOSS_IDS = ['bandit_leader', 'root_guardian', 'void_mirror', 'azhur', 'thal_mora', 'velkaryn'];
 import { useCombatStore } from '../../store/useCombatStore';
@@ -47,7 +49,10 @@ const SkillsModal = () => {
         {skills.map((skillId) => (
           <div key={skillId} className="rounded-lg border border-game-border bg-game-card p-3">
             <div className="flex items-center justify-between gap-3">
-              <strong className="text-game-gold">{t(`skills.${skillId}.name`)}</strong>
+              <div className="flex items-center gap-2">
+                <SkillIcon name={skillIconFor(skillId)} size={24} />
+                <strong className="text-game-gold">{t(`skills.${skillId}.name`)}</strong>
+              </div>
               <span className="font-mono text-xs text-game-muted">
                 {t('profile.skillInfo.cd')}: {cooldowns[skillId] ?? 0}
               </span>
@@ -144,6 +149,8 @@ export const CombatPanel = () => {
   const [enemyShake, setEnemyShake] = useState(false);
   const [playerShake, setPlayerShake] = useState(false);
   const [monsterAttacking, setMonsterAttacking] = useState(false);
+  const [screenShake, setScreenShake] = useState<null | 'light' | 'heavy'>(null);
+  const lastHpRef = React.useRef(player?.hp ?? 0);
 
   useEffect(() => {
     if (combat.log.length > 0) {
@@ -154,11 +161,20 @@ export const CombatPanel = () => {
       } else if (last.type === 'enemy') {
         setPlayerShake(true);
         setMonsterAttacking(true);
+        // Screen shake: heavy se dano > 25% maxHp, light caso contrário
+        const curHp = player?.hp ?? 0;
+        const maxHp = player?.maxHp ?? 1;
+        const prev = lastHpRef.current;
+        const dmg = Math.max(0, prev - curHp);
+        const intensity = dmg / Math.max(1, maxHp);
+        setScreenShake(intensity > 0.25 ? 'heavy' : 'light');
+        setTimeout(() => setScreenShake(null), 450);
         setTimeout(() => setPlayerShake(false), 400);
         setTimeout(() => setMonsterAttacking(false), 500);
       }
     }
-  }, [combat.log]);
+    lastHpRef.current = player?.hp ?? 0;
+  }, [combat.log, player?.hp, player?.maxHp]);
 
   useEffect(() => {
     if (playerHit > 0) {
@@ -190,7 +206,7 @@ export const CombatPanel = () => {
   return (
     <div className="relative flex h-full flex-col overflow-hidden text-game-text">
       {/* ═══ FULL-SCREEN BATTLEFIELD ═══ */}
-      <div className="relative flex-1 overflow-hidden">
+      <div className={`relative flex-1 overflow-hidden ${screenShake === "heavy" ? "animate-[eclipsiaCritShake_0.45s_ease-out]" : screenShake === "light" ? "animate-[eclipsiaShake_0.35s_ease-out]" : ""}`}>
         {/* Background scenery */}
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -202,37 +218,8 @@ export const CombatPanel = () => {
         {/* Floating combat text */}
         <FloatingCombatText />
 
-        {/* ─── ENEMY SECTION (left side) ─── */}
+        {/* ─── PLAYER SECTION (left side) ─── */}
         <div className="absolute left-0 top-0 flex h-full w-1/2 flex-col items-center justify-center">
-          {/* Enemy sprite */}
-          <div className="relative mb-4">
-            {['goblin', 'rat', 'wolf_pup', 'mist_wolf', 'shadow_sprite', 'sand_scorpion', 'mirage_beast', 'dune_crawler', 'storm_harpy', 'cloud_titan', 'sea_wraith', 'deep_leviathan_jr'].includes(combat.enemy.id) ? (
-              <MonsterLayered
-                monsterId={combat.enemy.id as any}
-                state={
-                  enemyShake ? 'hit' :
-                  monsterAttacking ? 'attack' :
-                  'idle'
-                }
-                size={160}
-                flip={false}
-                glowColor={BOSS_IDS.includes(combat.enemy.id) ? '#ef4444' : '#3fd9c4'}
-              />
-            ) : (
-              <Portrait kind={BOSS_IDS.includes(combat.enemy.id) ? 'boss' : 'monster'} id={combat.enemy.id} size={130} fallbackIcon={combat.enemy.icon} ring={BOSS_IDS.includes(combat.enemy.id) ? 'red' : 'arcane'} />
-            )}
-          </div>
-
-          {/* Enemy info overlay */}
-          <div className="w-48 rounded-lg border border-red-800/50 bg-night-950/80 p-2 backdrop-blur-sm">
-            <h3 className="title-gold font-title text-sm font-bold text-center mb-1">{t(combat.enemy.nameKey)}</h3>
-            <p className="font-mono text-[10px] text-game-muted text-center mb-1">Lvl {combat.enemy.level}</p>
-            <ProgressBar current={combat.enemyHp} max={combat.enemyMaxHp} type="hp" showText />
-          </div>
-        </div>
-
-        {/* ─── PLAYER SECTION (right side) ─── */}
-        <div className="absolute right-0 top-0 flex h-full w-1/2 flex-col items-center justify-center">
           {/* Player sprite */}
           <div className="relative mb-4">
             {/* Hit flash overlay */}
@@ -246,13 +233,14 @@ export const CombatPanel = () => {
             <LayeredCharacter
               gender={(player?.gender as any) ?? 'male'}
               state={
+                activeSkillEffect?.isCritical ? 'attack' :
                 activeSkillEffect ? 'cast' :
                 hitFx ? 'hit' :
                 showParticles ? 'attack' :
                 combat.autoFight ? 'walk' : 'idle'
               }
               size={160}
-              flip
+              flip={false}
               glowColor="#3fd9c4"
             />
           </div>
@@ -265,6 +253,35 @@ export const CombatPanel = () => {
               <ProgressBar current={player?.hp ?? 0} max={player?.maxHp ?? 1} type="hp" showText />
               <ProgressBar current={player?.mp ?? 0} max={player?.maxMp ?? 1} type="mp" showText />
             </div>
+          </div>
+        </div>
+
+        {/* ─── ENEMY SECTION (right side) ─── */}
+        <div className="absolute right-0 top-0 flex h-full w-1/2 flex-col items-center justify-center">
+          {/* Enemy sprite */}
+          <div className="relative mb-4">
+            {['goblin', 'rat', 'wolf_pup', 'mist_wolf', 'shadow_sprite', 'sand_scorpion', 'mirage_beast', 'dune_crawler', 'storm_harpy', 'cloud_titan', 'sea_wraith', 'deep_leviathan_jr', 'forest_golem'].includes(combat.enemy.id) ? (
+              <MonsterLayered
+                monsterId={combat.enemy.id as any}
+                state={
+                  enemyShake ? 'hit' :
+                  monsterAttacking ? 'attack' :
+                  'idle'
+                }
+                size={160}
+                flip
+                glowColor={BOSS_IDS.includes(combat.enemy.id) ? '#ef4444' : (MONSTER_GLOW as any)[combat.enemy.id]}
+              />
+            ) : (
+              <Portrait kind={BOSS_IDS.includes(combat.enemy.id) ? 'boss' : 'monster'} id={combat.enemy.id} size={130} fallbackIcon={combat.enemy.icon} ring={BOSS_IDS.includes(combat.enemy.id) ? 'red' : 'arcane'} />
+            )}
+          </div>
+
+          {/* Enemy info overlay */}
+          <div className="w-48 rounded-lg border border-red-800/50 bg-night-950/80 p-2 backdrop-blur-sm">
+            <h3 className="title-gold font-title text-sm font-bold text-center mb-1">{t(combat.enemy.nameKey)}</h3>
+            <p className="font-mono text-[10px] text-game-muted text-center mb-1">Lvl {combat.enemy.level}</p>
+            <ProgressBar current={combat.enemyHp} max={combat.enemyMaxHp} type="hp" showText />
           </div>
         </div>
 

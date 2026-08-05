@@ -1,44 +1,85 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 export type MonsterState = 'idle' | 'walk' | 'attack' | 'hit' | 'death' | 'skill_1' | 'skill_2' | 'spawn';
-export type MonsterId = 'cloud_titan' | 'storm_harpy' | 'goblin' | 'rat' | 'wolf_pup' | 'mist_wolf' | 'shadow_sprite' | 'sand_scorpion' | 'mirage_beast' | 'dune_crawler' | 'sea_wraith' | 'deep_leviathan_jr';
+export type MonsterId =
+  | 'cloud_titan' | 'storm_harpy' | 'goblin' | 'rat' | 'wolf_pup'
+  | 'mist_wolf' | 'shadow_sprite' | 'sand_scorpion' | 'mirage_beast'
+  | 'dune_crawler' | 'sea_wraith' | 'deep_leviathan_jr' | 'forest_golem';
 
-const SPRITES: Record<MonsterId, Record<string, string>> = {
-  goblin:            { idle: 'monster_goblin_idle_1', attack: 'monster_goblin_attack_1', hit: 'monster_goblin_idle_1', death: 'monster_goblin_idle_1', walk: 'monster_goblin_idle_1' },
-  rat:               { idle: 'monster_rat_idle_1', attack: 'monster_rat_idle_1', hit: 'monster_rat_idle_1', death: 'monster_rat_idle_1', walk: 'monster_rat_idle_1' },
-  wolf_pup:          { idle: 'monster_wolf_pup_idle_1', attack: 'monster_wolf_pup_attack_1', hit: 'monster_wolf_pup_idle_1', death: 'monster_wolf_pup_idle_1', walk: 'monster_wolf_pup_idle_1' },
-  mist_wolf:         { idle: 'monster_goblin_idle_1', attack: 'monster_goblin_attack_1', hit: 'monster_goblin_idle_1', death: 'monster_goblin_idle_1', walk: 'monster_goblin_idle_1' },
-  shadow_sprite:     { idle: 'monster_goblin_idle_1', attack: 'monster_goblin_attack_1', hit: 'monster_goblin_idle_1', death: 'monster_goblin_idle_1', walk: 'monster_goblin_idle_1' },
-  sand_scorpion:     { idle: 'monster_goblin_idle_1', attack: 'monster_goblin_attack_1', hit: 'monster_goblin_idle_1', death: 'monster_goblin_idle_1', walk: 'monster_goblin_idle_1' },
-  mirage_beast:      { idle: 'monster_goblin_idle_1', attack: 'monster_goblin_attack_1', hit: 'monster_goblin_idle_1', death: 'monster_goblin_idle_1', walk: 'monster_goblin_idle_1' },
-  dune_crawler:      { idle: 'monster_goblin_idle_1', attack: 'monster_goblin_attack_1', hit: 'monster_goblin_idle_1', death: 'monster_goblin_idle_1', walk: 'monster_goblin_idle_1' },
-  storm_harpy:       { idle: 'monster_goblin_idle_1', attack: 'monster_goblin_attack_1', hit: 'monster_goblin_idle_1', death: 'monster_goblin_idle_1', walk: 'monster_goblin_idle_1' },
-  cloud_titan:       { idle: 'monster_goblin_idle_1', attack: 'monster_goblin_attack_1', hit: 'monster_goblin_idle_1', death: 'monster_goblin_idle_1', walk: 'monster_goblin_idle_1' },
-  sea_wraith:        { idle: 'monster_goblin_idle_1', attack: 'monster_goblin_attack_1', hit: 'monster_goblin_idle_1', death: 'monster_goblin_idle_1', walk: 'monster_goblin_idle_1' },
-  deep_leviathan_jr: { idle: 'monster_goblin_idle_1', attack: 'monster_goblin_attack_1', hit: 'monster_goblin_idle_1', death: 'monster_goblin_idle_1', walk: 'monster_goblin_idle_1' },
+/**
+ * Helper: escolhe sprite com fallback em cascata.
+ * Se um estado específico não existir, cai para idle.
+ */
+const resolveSprite = (id: MonsterId, state: string): string => {
+  // Mapa de sprites. Se um monstro não tiver sprite para um estado, o helper
+  // de resolução faz fallback para o 'idle' (ou goblin_idle como último recurso).
+  // Os monstros marcados com // TODO ainda não têm sprites próprias em disco —
+  // caem para fallback até serem gerados.
+  const map: Record<MonsterId, Partial<Record<string, string>>> = {
+    goblin:            { idle: 'monster_goblin_idle_1', attack: 'monster_goblin_attack_1', hit: 'monster_goblin_hit_1' },
+    rat:               { idle: 'monster_rat_idle_1', attack: 'monster_rat_attack_1', hit: 'monster_rat_hit_1' },
+    wolf_pup:          { idle: 'monster_wolf_pup_idle_1', attack: 'monster_wolf_pup_attack_1', hit: 'monster_wolf_pup_hit_1', walk: 'monster_wolf_pup_walk_1' },
+    mist_wolf:         { idle: 'monster_mist_wolf_idle_1', attack: 'monster_mist_wolf_attack_1', hit: 'monster_mist_wolf_hit_1' },
+    shadow_sprite:     { idle: 'monster_shadow_sprite_idle_1', attack: 'monster_shadow_sprite_attack_1', hit: 'monster_shadow_sprite_hit_1' },
+    sand_scorpion:     { idle: 'monster_sand_scorpion_idle_1', attack: 'monster_sand_scorpion_attack_1', hit: 'monster_sand_scorpion_hit_1' },
+    mirage_beast:      { hit: 'monster_mirage_beast_hit_1' }, // TODO: idle/attack próprios (faltam gerar)
+    dune_crawler:      { hit: 'monster_dune_crawler_hit_1' }, // TODO: idle/attack próprios
+    storm_harpy:       { hit: 'monster_storm_harpy_hit_1' }, // TODO: idle/attack próprios
+    cloud_titan:       { hit: 'monster_cloud_titan_hit_1' }, // TODO: idle/attack próprios
+    sea_wraith:        { }, // TODO: idle/attack/hit
+    deep_leviathan_jr: { }, // TODO: idle/attack/hit
+    forest_golem:      { idle: 'monster_forest_golem_idle_1', attack: 'monster_forest_golem_attack_1' },
+  };
+  const base = state.startsWith('skill_') ? 'attack' : state === 'spawn' ? 'idle' : state;
+  const rec = map[id] ?? {};
+  return rec[base] ?? rec.idle ?? 'monster_goblin_idle_1';
 };
 
-const getSpritePath = (id: MonsterId, state: MonsterState): string => {
-  const baseState = state.startsWith('skill_') ? 'attack' : state === 'spawn' ? 'idle' : state;
-  const name = SPRITES[id]?.[baseState] ?? SPRITES[id]?.idle ?? 'monster_goblin_idle_1';
-  return `/assets/sprites/${name}.png`;
+const getSpritePath = (id: MonsterId, state: MonsterState): string =>
+  `/assets/sprites/${resolveSprite(id, state)}.png`;
+
+/** Cor elemental do glow por monstro (usado no skill_2 / aura). */
+export const MONSTER_GLOW: Record<MonsterId, string> = {
+  goblin: '#ef4444',
+  rat: '#84cc16',
+  wolf_pup: '#94a3b8',
+  mist_wolf: '#67e8f9',
+  shadow_sprite: '#a855f7',
+  sand_scorpion: '#f59e0b',
+  mirage_beast: '#fde68a',
+  dune_crawler: '#b45309',
+  storm_harpy: '#60a5fa',
+  cloud_titan: '#e0e7ff',
+  sea_wraith: '#22d3ee',
+  deep_leviathan_jr: '#0ea5e9',
+  forest_golem: '#22c55e',
 };
 
-export interface MonsterSkill { id: string; name: string; description: string; damage: number; type: 'physical' | 'magic' | 'buff'; state: MonsterState; cooldown: number; icon: string; }
+export interface MonsterSkill {
+  id: string;
+  name: string;
+  description: string;
+  damage: number;
+  type: 'physical' | 'magic' | 'buff';
+  state: MonsterState;
+  cooldown: number;
+  icon: string;
+}
 
 export const MONSTER_SKILLS: Record<MonsterId, MonsterSkill[]> = {
-  goblin:             [{ id: 'claw_slash', name: 'Golpe de Garra', description: 'Ataque rápido', damage: 15, type: 'physical', state: 'skill_1', cooldown: 0, icon: 'slash' }, { id: 'war_cry', name: 'Grito de Guerra', description: 'ATK +20%', damage: 0, type: 'buff', state: 'skill_2', cooldown: 3, icon: 'volume' }],
-  rat:                [{ id: 'vicious_bite', name: 'Mordida Feroz', description: 'Sangramento', damage: 12, type: 'physical', state: 'skill_1', cooldown: 0, icon: 'slash' }, { id: 'poison_bite', name: 'Mordida Venenosa', description: 'DoT', damage: 8, type: 'magic', state: 'skill_2', cooldown: 4, icon: 'potion' }],
-  wolf_pup:           [{ id: 'pounce', name: 'Bote', description: 'Salto', damage: 18, type: 'physical', state: 'skill_1', cooldown: 1, icon: 'slash' }, { id: 'howl', name: 'Uivo', description: 'Speed', damage: 0, type: 'buff', state: 'skill_2', cooldown: 3, icon: 'volume' }],
-  mist_wolf:          [{ id: 'spectral_bite', name: 'Mordida Espectral', description: 'Ignora def', damage: 22, type: 'magic', state: 'skill_1', cooldown: 1, icon: 'magic' }, { id: 'frost_breath', name: 'Sopro Gélido', description: 'Slow', damage: 15, type: 'magic', state: 'skill_2', cooldown: 4, icon: 'droplet' }],
-  shadow_sprite:      [{ id: 'shadow_claw', name: 'Garras Sombrias', description: 'Drain', damage: 18, type: 'magic', state: 'skill_1', cooldown: 0, icon: 'magic' }, { id: 'shadow_bolt', name: 'Raio das Sombras', description: 'Def debuff', damage: 25, type: 'magic', state: 'skill_2', cooldown: 3, icon: 'void' }],
-  sand_scorpion:      [{ id: 'pincer_crush', name: 'Pinça', description: 'Bleed', damage: 20, type: 'physical', state: 'skill_1', cooldown: 1, icon: 'slash' }, { id: 'stinger_strike', name: 'Ferroada', description: 'Paralyze', damage: 15, type: 'magic', state: 'skill_2', cooldown: 3, icon: 'potion' }],
-  mirage_beast:       [{ id: 'illusion_strike', name: 'Golpe Ilusório', description: 'Hard to dodge', damage: 22, type: 'physical', state: 'skill_1', cooldown: 1, icon: 'slash' }, { id: 'clone_split', name: 'Clones', description: '+50% dmg', damage: 0, type: 'buff', state: 'skill_2', cooldown: 4, icon: 'sparkles' }],
-  dune_crawler:       [{ id: 'mandible_bite', name: 'Mandíbula', description: 'Brutal', damage: 24, type: 'physical', state: 'skill_1', cooldown: 1, icon: 'slash' }, { id: 'sand_burrow', name: 'Emboscada', description: 'Unavoidable', damage: 28, type: 'physical', state: 'skill_2', cooldown: 4, icon: 'earth' }],
+  goblin:             [{ id: 'claw_slash', name: 'Golpe de Garra', description: 'Ataque rápido', damage: 15, type: 'physical', state: 'skill_1', cooldown: 0, icon: 'slash' }, { id: 'war_cry', name: 'Grito de Guerra', description: 'ATK +20%', damage: 0, type: 'buff', state: 'skill_2', cooldown: 3, icon: 'roar' }],
+  rat:                [{ id: 'vicious_bite', name: 'Mordida Feroz', description: 'Sangramento', damage: 12, type: 'physical', state: 'skill_1', cooldown: 0, icon: 'slash' }, { id: 'poison_bite', name: 'Mordida Venenosa', description: 'DoT', damage: 8, type: 'magic', state: 'skill_2', cooldown: 4, icon: 'poison' }],
+  wolf_pup:           [{ id: 'pounce', name: 'Bote', description: 'Salto', damage: 18, type: 'physical', state: 'skill_1', cooldown: 1, icon: 'slash' }, { id: 'howl', name: 'Uivo', description: 'Speed', damage: 0, type: 'buff', state: 'skill_2', cooldown: 3, icon: 'howl' }],
+  mist_wolf:          [{ id: 'spectral_bite', name: 'Mordida Espectral', description: 'Ignora def', damage: 22, type: 'magic', state: 'skill_1', cooldown: 1, icon: 'shadow_bolt' }, { id: 'frost_breath', name: 'Sopro Gélido', description: 'Slow', damage: 15, type: 'magic', state: 'skill_2', cooldown: 4, icon: 'ice_shard' }],
+  shadow_sprite:      [{ id: 'shadow_claw', name: 'Garras Sombrias', description: 'Drain', damage: 18, type: 'magic', state: 'skill_1', cooldown: 0, icon: 'shadow_bolt' }, { id: 'shadow_bolt', name: 'Raio das Sombras', description: 'Def debuff', damage: 25, type: 'magic', state: 'skill_2', cooldown: 3, icon: 'shadow_bolt' }],
+  sand_scorpion:      [{ id: 'pincer_crush', name: 'Pinça', description: 'Bleed', damage: 20, type: 'physical', state: 'skill_1', cooldown: 1, icon: 'slash' }, { id: 'stinger_strike', name: 'Ferroada', description: 'Paralyze', damage: 15, type: 'magic', state: 'skill_2', cooldown: 3, icon: 'poison' }],
+  mirage_beast:       [{ id: 'illusion_strike', name: 'Golpe Ilusório', description: 'Hard to dodge', damage: 22, type: 'physical', state: 'skill_1', cooldown: 1, icon: 'slash' }, { id: 'clone_split', name: 'Clones', description: '+50% dmg', damage: 0, type: 'buff', state: 'skill_2', cooldown: 4, icon: 'summon' }],
+  dune_crawler:       [{ id: 'mandible_bite', name: 'Mandíbula', description: 'Brutal', damage: 24, type: 'physical', state: 'skill_1', cooldown: 1, icon: 'slash' }, { id: 'sand_burrow', name: 'Emboscada', description: 'Unavoidable', damage: 28, type: 'physical', state: 'skill_2', cooldown: 4, icon: 'smash' }],
   storm_harpy:        [{ id: 'diving_talons', name: 'Mergulho', description: 'Electric', damage: 28, type: 'physical', state: 'skill_1', cooldown: 1, icon: 'lightning' }, { id: 'lightning_storm', name: 'Raios', description: 'AoE', damage: 30, type: 'magic', state: 'skill_2', cooldown: 4, icon: 'lightning' }],
-  cloud_titan:        [{ id: 'thunder_smash', name: 'Trovão', description: 'Stun', damage: 45, type: 'physical', state: 'skill_1', cooldown: 3, icon: 'hammer' }, { id: 'divine_storm', name: 'Tempestade', description: 'AoE', damage: 40, type: 'magic', state: 'skill_2', cooldown: 5, icon: 'lightning' }],
-  sea_wraith:         [{ id: 'tidal_wave', name: 'Onda', description: 'Push', damage: 20, type: 'magic', state: 'skill_1', cooldown: 1, icon: 'wave' }, { id: 'drowning_embrace', name: 'Abraço', description: 'DoT', damage: 15, type: 'magic', state: 'skill_2', cooldown: 4, icon: 'droplet' }],
-  deep_leviathan_jr:  [{ id: 'devouring_bite', name: 'Mordida', description: 'Massive', damage: 35, type: 'physical', state: 'skill_1', cooldown: 2, icon: 'slash' }, { id: 'tsunami', name: 'Tsunami', description: 'AoE', damage: 40, type: 'magic', state: 'skill_2', cooldown: 5, icon: 'wave' }],
+  cloud_titan:        [{ id: 'thunder_smash', name: 'Trovão', description: 'Stun', damage: 45, type: 'physical', state: 'skill_1', cooldown: 3, icon: 'smash' }, { id: 'divine_storm', name: 'Tempestade', description: 'AoE', damage: 40, type: 'magic', state: 'skill_2', cooldown: 5, icon: 'lightning' }],
+  sea_wraith:         [{ id: 'tidal_wave', name: 'Onda', description: 'Push', damage: 20, type: 'magic', state: 'skill_1', cooldown: 1, icon: 'buff_atk' }, { id: 'drowning_embrace', name: 'Abraço', description: 'DoT', damage: 15, type: 'magic', state: 'skill_2', cooldown: 4, icon: 'drain' }],
+  deep_leviathan_jr:  [{ id: 'devouring_bite', name: 'Mordida', description: 'Massive', damage: 35, type: 'physical', state: 'skill_1', cooldown: 2, icon: 'smash' }, { id: 'tsunami', name: 'Tsunami', description: 'AoE', damage: 40, type: 'magic', state: 'skill_2', cooldown: 5, icon: 'buff_atk' }],
+  forest_golem:       [{ id: 'root_slam', name: 'Raio Esmagador', description: 'Raízes pesadas', damage: 26, type: 'physical', state: 'skill_1', cooldown: 1, icon: 'smash' }, { id: 'natures_wrath', name: 'Fúria da Natureza', description: 'Stun', damage: 20, type: 'magic', state: 'skill_2', cooldown: 4, icon: 'poison' }],
 };
 
 interface Props {
@@ -54,10 +95,13 @@ interface Props {
 
 export const MonsterLayered: React.FC<Props> = ({
   monsterId, state, size = 128, className = '', flip = true,
-  onAnimationEnd, glowColor = '#ef4444',
+  onAnimationEnd, glowColor: glowOverride,
 }) => {
   const [src, setSrc] = useState('');
   const animEndRef = useRef<ReturnType<typeof setTimeout>>();
+
+  // Glow color: override prop > tabela por monstro > padrão vermelho
+  const glowColor = glowOverride ?? MONSTER_GLOW[monsterId] ?? '#ef4444';
 
   useEffect(() => {
     setSrc(getSpritePath(monsterId, state));
@@ -69,10 +113,18 @@ export const MonsterLayered: React.FC<Props> = ({
     return () => { if (animEndRef.current) clearTimeout(animEndRef.current); };
   }, [state, monsterId, onAnimationEnd]);
 
-  // Preload
+  // Preload idle + attack
   useEffect(() => {
     const img = new Image();
     img.src = getSpritePath(monsterId, 'idle');
+    if (resolveSprite(monsterId, 'attack') !== resolveSprite(monsterId, 'idle')) {
+      const img2 = new Image();
+      img2.src = getSpritePath(monsterId, 'attack');
+    }
+    if (resolveSprite(monsterId, 'hit') !== resolveSprite(monsterId, 'idle')) {
+      const img3 = new Image();
+      img3.src = getSpritePath(monsterId, 'hit');
+    }
   }, [monsterId]);
 
   const getFilter = (): string => {
@@ -101,7 +153,7 @@ export const MonsterLayered: React.FC<Props> = ({
   return (
     <div className={`relative inline-flex items-end justify-center ${className}`}
       style={{ width: size, height: size * 1.2, transform: flip ? 'scaleX(-1)' : undefined }}>
-      
+
       <div className={`absolute bottom-1 left-1/2 -translate-x-1/2 rounded-full blur-2xl ${
         state === 'skill_2' ? 'opacity-50 animate-pulse' : 'opacity-25'
       }`} style={{ width: size * 0.45, height: size * 0.15, backgroundColor: glowColor }} />

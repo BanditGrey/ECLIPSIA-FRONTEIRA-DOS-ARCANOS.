@@ -13,6 +13,7 @@ import type { Item } from '../../types/item.types';
 import { Button } from '../ui/Button';
 import { ART } from '../../data/art';
 import { Portrait } from '../ui/Portrait';
+import { PanelBackdrop } from '../ui/PanelBackdrop';
 
 type TravelTab = 'regions' | 'dungeons';
 
@@ -132,7 +133,9 @@ export const TravelPanel = () => {
   };
 
   return (
-    <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
+    <div className="relative h-full overflow-hidden bg-game-dark text-game-text">
+      <PanelBackdrop theme="travel" />
+      <div className="relative z-10 grid h-full grid-rows-[auto_1fr] gap-3 p-3">
       <div className="grid grid-cols-2 gap-2 rounded-xl border border-night-600 bg-night-900/80 p-1.5 font-mono text-sm shadow-panel">
         <button
           type="button"
@@ -248,6 +251,7 @@ export const TravelPanel = () => {
           </div>
         )}
       </section>
+      </div>
     </div>
   );
 };
