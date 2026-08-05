@@ -4,14 +4,15 @@ export type CharState = 'idle' | 'walk' | 'attack' | 'hit' | 'death' | 'cast' | 
 type Gender = 'male' | 'female';
 
 const AVAILABLE: Record<string, Record<CharState, number[]>> = {
-  male:   { idle: [1], walk: [], attack: [1], hit: [1], cast: [], death: [], dash: [], victory: [] },
-  female: { idle: [1], walk: [], attack: [1], hit: [1], cast: [], death: [], dash: [], victory: [] },
+  male:   { idle: [1, 2], walk: [1], attack: [1], hit: [1], cast: [1], death: [], dash: [], victory: [] },
+  female: { idle: [1, 2], walk: [1], attack: [1], hit: [1], cast: [], death: [], dash: [], victory: [] },
 };
 
-const getSprite = (gender: Gender, state: CharState): string => {
+const getSprite = (gender: Gender, state: CharState, frame: number = 0): string => {
   const frames = AVAILABLE[gender]?.[state] ?? [];
   if (frames.length === 0) return `/assets/sprites/base_${gender}_idle_1.png`;
-  return `/assets/sprites/base_${gender}_${state}_1.png`;
+  const idx = (frame % frames.length);
+  return `/assets/sprites/base_${gender}_${state}_${frames[idx]}.png`;
 };
 
 interface Props {
@@ -31,17 +32,33 @@ export const LayeredCharacter: React.FC<Props> = ({
   onAnimationEnd, glowColor,
 }) => {
   const [src, setSrc] = useState('');
+  const [frame, setFrame] = useState(0);
   const animEndRef = useRef<ReturnType<typeof setTimeout>>();
+  const frameRef = useRef<ReturnType<typeof setInterval>>();
+
+  // Frame cycling for idle animation
+  useEffect(() => {
+    if (frameRef.current) clearInterval(frameRef.current);
+    const frames = AVAILABLE[gender]?.[state] ?? [];
+    if (frames.length > 1) {
+      frameRef.current = setInterval(() => {
+        setFrame((f) => (f + 1) % frames.length);
+      }, 500); // 2 FPS
+    } else {
+      setFrame(0);
+    }
+    return () => { if (frameRef.current) clearInterval(frameRef.current); };
+  }, [state, gender]);
 
   useEffect(() => {
-    setSrc(getSprite(gender, state));
+    setSrc(getSprite(gender, state, frame));
     if (animEndRef.current) clearTimeout(animEndRef.current);
     const oneShot = ['attack', 'hit', 'death', 'cast', 'dash', 'victory'];
     if (oneShot.includes(state) && onAnimationEnd) {
       animEndRef.current = setTimeout(onAnimationEnd, 600);
     }
     return () => { if (animEndRef.current) clearTimeout(animEndRef.current); };
-  }, [state, gender, onAnimationEnd]);
+  }, [state, gender, frame, onAnimationEnd]);
 
   // Preload
   useEffect(() => {

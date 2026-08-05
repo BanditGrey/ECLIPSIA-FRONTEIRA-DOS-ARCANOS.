@@ -21,6 +21,7 @@ import { hiddenEventsSystem } from './hiddenEvents';
 import { impulseSystem } from './impulse';
 import { rollLoot } from './loot';
 import { questSystem } from './quests';
+import { MONSTER_SKILLS, type MonsterId } from '../components/ui/MonsterLayered';
 
 export interface CombatStartOptions {
   dungeon?: boolean;
@@ -926,6 +927,34 @@ export const combatEngine = {
 
     const resolved = getResolvedEffects();
     const player = usePlayerStore.getState().data;
+
+    // ── Monster Skills System ──
+    const monsterSkills = MONSTER_SKILLS[enemy.id as MonsterId];
+    if (monsterSkills && monsterSkills.length > 0 && Math.random() < 0.35) {
+      const mcds = useCombatStore.getState().monsterSkillCooldowns;
+      const available = monsterSkills.filter((sk) => !(mcds[sk.id] && mcds[sk.id] > 0));
+      if (available.length > 0) {
+        const skill = available[Math.floor(Math.random() * available.length)];
+        const skillDmg = Math.max(1, Math.floor(skill.damage * bossBoost));
+        if (skillDmg > 0 && player) {
+          const newHp = Math.max(0, player.hp - skillDmg);
+          usePlayerStore.setState((s) => ({ data: s.data ? { ...s.data, hp: newHp } : s.data }));
+          useCombatStore.getState().bumpPlayerHit();
+        }
+        combat.addLog('enemy', `⚡ ${skill.name}: ${skillDmg > 0 ? `-${skillDmg} HP` : skill.description}`);
+        const updated: Record<string, number> = {};
+        for (const [id, cd] of Object.entries(mcds)) { if (cd > 1) updated[id] = cd - 1; }
+        updated[skill.id] = skill.cooldown + 1;
+        useCombatStore.setState({ monsterSkillCooldowns: updated });
+        if (player && player.hp <= 0) { useCombatStore.getState().setPhase('defeat'); return; }
+        endEnemyTurn();
+        return;
+      }
+      // Tick cooldowns even if no skill used
+      const ticked: Record<string, number> = {};
+      for (const [id, cd] of Object.entries(useCombatStore.getState().monsterSkillCooldowns)) { if (cd > 1) ticked[id] = cd - 1; }
+      useCombatStore.setState({ monsterSkillCooldowns: ticked });
+    }
 
     // ── Esquiva: base por AGI; ON_DODGE_ATK (74) contra-ataca ao esquivar ──
     const dodgeChance = 0.03 + (player?.stats.agility ?? 0) * 0.002;

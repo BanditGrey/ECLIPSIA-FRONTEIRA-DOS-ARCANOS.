@@ -46,6 +46,7 @@ export interface SkillEffect {
 
 interface CombatStoreState extends CombatState {
   skillCooldowns: Record<string, number>;
+  monsterSkillCooldowns: Record<string, number>;
   skillEffect: SkillEffect | null;
   playerHit: number;
   lastLoot: LootResult[];
@@ -80,6 +81,7 @@ const tickEffectList = (effects: Effect[]) => {
 export const useCombatStore = create<CombatStoreState>((set, get) => ({
   ...initialCombatState,
   skillCooldowns: {},
+  monsterSkillCooldowns: {},
   skillEffect: null,
   playerHit: 0,
   lastLoot: [],
@@ -161,6 +163,7 @@ export const useCombatStore = create<CombatStoreState>((set, get) => ({
       ...initialCombatState,
       autoConfig: state.autoConfig,
       skillCooldowns: {},
+  monsterSkillCooldowns: {},
       skillEffect: null,
       playerHit: 0,
       lastLoot: [],
