@@ -86,8 +86,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       type
     };
 
-    set((state) => ({
-      notifications: [...state.notifications, notification]
+    set(() => ({
+      notifications: [notification]
     }));
   },
   removeNotification: (id) => {

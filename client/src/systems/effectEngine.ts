@@ -252,9 +252,23 @@ const applyEffectPair = (target: ResolvedEffects, effectId: number, rawValue: nu
  */
 export const resolveEffects = (item: Pick<Item, 'effects'>): ResolvedEffects => {
   const resolved = emptyResolvedEffects();
+  const pairs = getEffectPairs(item.effects);
 
-  for (const { effectId, value } of getEffectPairs(item.effects)) {
+  let upgradeLevel = 0;
+  for (const { effectId, value } of pairs) {
+    if (effectId === EFFECT.UPGRADE_LEVEL) {
+      upgradeLevel = value;
+    }
     applyEffectPair(resolved, effectId, value);
+  }
+
+  // Aplica o bônus de upgrade (+5% base ATK/DEF/HP/MP por nível) apenas nos stats flat
+  if (upgradeLevel > 0) {
+    const mult = 1 + (upgradeLevel * 0.05);
+    resolved.atk = Math.floor(resolved.atk * mult);
+    resolved.def = Math.floor(resolved.def * mult);
+    resolved.hp = Math.floor(resolved.hp * mult);
+    resolved.mp = Math.floor(resolved.mp * mult);
   }
 
   return resolved;

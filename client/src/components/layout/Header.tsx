@@ -37,10 +37,10 @@ export const Header = () => {
           <ArcaneIcon name="coin" size={15} glow />
           <span className="tabular-nums">{player?.gold ?? 0}</span>
         </span>
-        <span className="chip gap-1 text-arcane-300" title={t('header.crystalsHint')}>
+        <button type="button" className="chip gap-1 text-arcane-300 hover:text-cyan-300 transition-colors" title={t('header.crystalsHint')} onClick={() => openModal('modal-shop')}>
           <ArcaneIcon name="gem" size={15} glow />
           <span className="tabular-nums">{player?.crystals ?? 0}</span>
-        </span>
+        </button>
         <button
           type="button"
           className="icon-tile grid h-8 w-8 place-items-center rounded-lg text-game-muted transition-all hover:text-gold-300 active:scale-95"

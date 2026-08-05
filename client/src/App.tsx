@@ -27,6 +27,7 @@ import { HiddenEvents } from './systems/hiddenEvents';
 import { Impulse } from './systems/impulse';
 import { Quests } from './systems/quests';
 import { useGameStore } from './store/useGameStore';
+import { Notifications } from './components/ui/Notifications';
 
 // Registra o catálogo de itens (com effects) no store do jogador.
 registerPlayerItems(Object.values(ITEMS));
@@ -112,24 +113,33 @@ export const App = () => {
     );
   }
 
-  switch (screen) {
-    case 'login':
-      return <LoginScreen />;
-    case 'char-create':
-      return <CharCreateScreen />;
-    case 'char-select':
-      return <CharacterSelectScreen />;
-    case 'game':
-      return (
-        <GameLayout>
-          <ActivePanel />
-        </GameLayout>
-      );
-    case 'wiki':
-      return <WikiScreen />;
-    default:
-      return <LoginScreen />;
-  }
+  const renderScreen = () => {
+    switch (screen) {
+      case 'login':
+        return <LoginScreen />;
+      case 'char-create':
+        return <CharCreateScreen />;
+      case 'char-select':
+        return <CharacterSelectScreen />;
+      case 'game':
+        return (
+          <GameLayout>
+            <ActivePanel />
+          </GameLayout>
+        );
+      case 'wiki':
+        return <WikiScreen />;
+      default:
+        return <LoginScreen />;
+    }
+  };
+
+  return (
+    <>
+      {renderScreen()}
+      <Notifications />
+    </>
+  );
 };
 
 export default App;

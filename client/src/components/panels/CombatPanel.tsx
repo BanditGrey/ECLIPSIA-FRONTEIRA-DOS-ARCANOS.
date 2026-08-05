@@ -12,8 +12,9 @@ import { useCombatStore } from '../../store/useCombatStore';
 import { useGameStore } from '../../store/useGameStore';
 import { usePartyCombatStore } from '../../store/usePartyCombatStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
-import { useSkill } from '../../systems/combat';
+import { attack, defend, useSkill, flee } from '../../systems/combat';
 import { CombatOutcomeScreen } from '../effects/CombatOutcomeScreen';
+import { FloatingCombatText } from '../effects/FloatingCombatText';
 import { ArcaneField } from '../effects/ArcaneField';
 import { Button } from '../ui/Button';
 import { ArcaneIcon } from '../ui/ArcaneIcon';
@@ -138,6 +139,22 @@ export const CombatPanel = () => {
   const [hitFx, setHitFx] = useState(false);
   const [hitKey, setHitKey] = useState(0);
 
+  const [enemyShake, setEnemyShake] = useState(false);
+  const [playerShake, setPlayerShake] = useState(false);
+
+  useEffect(() => {
+    if (combat.log.length > 0) {
+      const last = combat.log[combat.log.length - 1];
+      if (['attack', 'skill', 'execute', 'pet'].includes(last.type)) {
+        setEnemyShake(true);
+        setTimeout(() => setEnemyShake(false), 400);
+      } else if (last.type === 'enemy') {
+        setPlayerShake(true);
+        setTimeout(() => setPlayerShake(false), 400);
+      }
+    }
+  }, [combat.log]);
+
   useEffect(() => {
     if (playerHit > 0) {
       setHitFx(true);
@@ -202,9 +219,10 @@ export const CombatPanel = () => {
         )}
       </div>
 
-      <main className="grid min-h-0 grid-rows-[1fr_auto_1fr] gap-3 overflow-hidden">
+      <main className="relative grid min-h-0 grid-rows-[1fr_auto_1fr] gap-3 overflow-hidden">
+        <FloatingCombatText />
         {/* Inimigo — campo de batalha ao fundo */}
-        <section className="relative overflow-hidden rounded-xl border border-red-800/70 bg-night-900/70 shadow-panel">
+        <section className="relative flex flex-col justify-end overflow-hidden rounded-xl border border-red-800/70 bg-night-900/70 shadow-panel">
           <div
             className="absolute inset-0 bg-cover bg-center opacity-30"
             style={{ backgroundImage: `url(${ART.bg.combat})` }}
@@ -214,6 +232,35 @@ export const CombatPanel = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-night-950/70 via-transparent to-night-950/80" />
           <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-red-500/70 to-transparent" />
 
+          <div className="relative flex flex-col items-center justify-center p-4">
+            <div className={`transition-transform duration-200 ${enemyShake ? 'animate-[dash-left_0.3s_ease-in-out_forwards]' : ''}`}>
+              {BOSS_IDS.includes(combat.enemy.id) ? (
+                <Portrait kind="boss" id={combat.enemy.id} size={110} fallbackIcon={combat.enemy.icon} ring="red" />
+              ) : (
+                <Portrait kind="monster" id={combat.enemy.id} size={110} fallbackIcon={combat.enemy.icon} ring="arcane" />
+              )}
+            </div>
+            
+            <div className="mt-4 flex w-full flex-col items-center">
+              <h2 className="title-gold font-title text-xl font-bold">{t(combat.enemy.nameKey)}</h2>
+              <p className="font-mono text-xs text-game-muted mb-2">Lvl {combat.enemy.level}</p>
+              <div className="w-full max-w-[200px]">
+                <ProgressBar current={combat.enemyHp} max={combat.enemyMaxHp} type="hp" showText />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className="divider-ornate flex items-center justify-center px-10 font-title text-xl font-black shrink-0">
+          <span className="diamond" />
+          <span className="title-gold mx-3">{t('combat.vs')}</span>
+          <span className="diamond" />
+        </div>
+
+        {/* Jogador */}
+        <section className="relative flex flex-col justify-start overflow-hidden rounded-xl border border-blue-800/70 bg-night-900/70 shadow-panel">
+          <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500/70 to-transparent" />
+
           {/* feedback de dano sofrido */}
           {hitFx && (
             <div key={hitKey} className="pointer-events-none absolute inset-0 z-10">
@@ -222,51 +269,18 @@ export const CombatPanel = () => {
             </div>
           )}
 
-          <div className="relative grid p-4">
-            <div className="flex items-center gap-4">
-              {BOSS_IDS.includes(combat.enemy.id) ? (
-                <Portrait kind="boss" id={combat.enemy.id} size={72} fallbackIcon={combat.enemy.icon} ring="red" />
-              ) : (
-                <Portrait kind="monster" id={combat.enemy.id} size={72} fallbackIcon={combat.enemy.icon} ring="arcane" />
-              )}
-              <div className="min-w-0 flex-1">
-                <h2 className="title-gold truncate font-title text-xl font-bold">{t(combat.enemy.nameKey)}</h2>
-                <p className="font-mono text-sm text-game-muted">
-                  {t('game.lvl')} {combat.enemy.level}
-                </p>
-              </div>
+          <div className="relative flex flex-col items-center justify-center p-4">
+            <div className={`transition-transform duration-200 ${playerShake ? 'animate-[dash-right_0.3s_ease-in-out_forwards]' : ''}`}>
+              <Portrait kind="class" id={player?.archetype ?? 'blade'} size={110} fallbackIcon="⚔" ring="arcane" />
             </div>
-            <ProgressBar className="mt-3" current={combat.enemyHp} max={combat.enemyMaxHp} type="hp" showText />
-          </div>
-        </section>
-
-        <div className="divider-ornate flex items-center justify-center px-10 font-title text-xl font-black">
-          <span className="diamond" />
-          <span className="title-gold mx-3">{t('combat.vs')}</span>
-          <span className="diamond" />
-        </div>
-
-        <section className="relative overflow-hidden rounded-xl border border-blue-800/70 bg-night-900/70 p-4 shadow-panel">
-          <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500/70 to-transparent" />
-          <div className="relative">
-            <div className="flex items-center gap-4">
-              <Portrait
-                kind="class"
-                id={player?.archetype ?? 'blade'}
-                size={60}
-                fallbackIcon="⚔"
-                ring="arcane"
-              />
-              <div>
-                <h2 className="font-title text-xl text-game-text">{player?.name ?? t('game.unknown')}</h2>
-                <p className="font-mono text-sm text-game-muted">
-                  {t('game.lvl')} {player?.level ?? 0}
-                </p>
+            
+            <div className="mt-4 flex w-full flex-col items-center">
+              <h2 className="font-title text-xl font-bold text-game-text">{player?.name ?? t('game.unknown')}</h2>
+              <p className="font-mono text-xs text-game-muted mb-2">Lvl {player?.level ?? 0}</p>
+              <div className="grid w-full max-w-[200px] gap-1.5">
+                <ProgressBar current={player?.hp ?? 0} max={player?.maxHp ?? 1} type="hp" showText />
+                <ProgressBar current={player?.mp ?? 0} max={player?.maxMp ?? 1} type="mp" showText />
               </div>
-            </div>
-            <div className="mt-3 grid gap-2">
-              <ProgressBar current={player?.hp ?? 0} max={player?.maxHp ?? 1} type="hp" showText />
-              <ProgressBar current={player?.mp ?? 0} max={player?.maxMp ?? 1} type="mp" showText />
             </div>
           </div>
         </section>
@@ -276,10 +290,10 @@ export const CombatPanel = () => {
       {activeSkillEffect && <SkillEffectPanel {...activeSkillEffect} onComplete={() => setActiveSkillEffect(null)} showParticles narrate playSound />}
       <footer className="grid shrink-0 gap-2">
         <div className="grid grid-cols-2 gap-2">
-          <ActionButton onClick={() => { audio.playSound('/assets/audio/sfx/attack.mp3'); setShowParticles(true); combat.addLog('attack', t('combat.attack')); }}><ArcaneIcon name="sword" glow /> {t('combat.attack')}</ActionButton>
-          <ActionButton onClick={() => combat.addLog('defend', t('combat.defend'))}><ArcaneIcon name="shield" glow /> {t('combat.defend')}</ActionButton>
+          <ActionButton onClick={() => { setShowParticles(true); attack(); }}><ArcaneIcon name="sword" glow /> {t('combat.attack')}</ActionButton>
+          <ActionButton onClick={() => defend()}><ArcaneIcon name="shield" glow /> {t('combat.defend')}</ActionButton>
           <ActionButton onClick={() => openModal(SKILLS_MODAL)}><ArcaneIcon name="magic" glow /> {t('combat.skills')}</ActionButton>
-          <ActionButton variant="danger" onClick={() => combat.resetCombat()}><ArcaneIcon name="flee" /> {t('combat.flee')}</ActionButton>
+          <ActionButton variant="danger" onClick={() => flee()}><ArcaneIcon name="flee" /> {t('combat.flee')}</ActionButton>
         </div>
         <Button variant="ghost" fullWidth onClick={() => openModal(LOG_MODAL)}>
           {t('combat.log.title')}

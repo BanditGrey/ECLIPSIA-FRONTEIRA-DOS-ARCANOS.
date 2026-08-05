@@ -8,86 +8,95 @@ import { ART } from '../../data/art';
 import { ImpulseDisplay } from '../ui/ImpulseDisplay';
 import { PetDisplay } from '../ui/PetDisplay';
 import { ProgressBar } from '../ui/ProgressBar';
-
-const hubButtons: Array<{ icon: string; labelKey: string; panel: GamePanel }> = [
-  { icon: '🗺', labelKey: 'hub.travel', panel: 'travel' },
-  { icon: '⚔', labelKey: 'hub.hunt', panel: 'combat' },
-  { icon: '🏰', labelKey: 'hub.city', panel: 'city' },
-  { icon: '🎒', labelKey: 'hub.items', panel: 'items' },
-  { icon: '👤', labelKey: 'hub.profile', panel: 'profile' },
-  { icon: '📜', labelKey: 'hub.quests', panel: 'quest' },
-  { icon: '🏆', labelKey: 'hub.ranking', panel: 'ranking' },
-  { icon: '👥', labelKey: 'hub.guild', panel: 'guild' },
-  { icon: '💬', labelKey: 'hub.chat', panel: 'chat' }
-];
+import { Portrait } from '../ui/Portrait';
 
 export const HubPanel = () => {
   const { lang, t } = useI18n();
   const wiki = wikiTranslations[lang];
   const player = usePlayerStore((state) => state.data);
+  const getTotalAtk = usePlayerStore((state) => state.getTotalAtk);
+  const getTotalDef = usePlayerStore((state) => state.getTotalDef);
   const setPanel = useGameStore((state) => state.setPanel);
   const setScreen = useGameStore((state) => state.setScreen);
   const activePetId = usePetStore((state) => state.activePetId);
   const hasPetOrMount = Boolean(activePetId || player?.equipment.pet || player?.equipment.mount);
 
+  const combatPower = (getTotalAtk() ?? 0) + (getTotalDef() ?? 0) + (player?.hp ?? 0);
+
   return (
-    <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden p-3 text-game-text">
-      {/* Faixa hero: a cidade ao fundo */}
-      <section className="relative shrink-0 overflow-hidden rounded-xl border border-night-600 shadow-panel">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${ART.bg.hub})` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-night-950/92 via-night-950/70 to-night-950/40" />
-        <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-gold-400/70 to-transparent" />
-
-        <div className="relative grid gap-3 p-4">
-          <div className="grid grid-cols-[1fr_auto_auto] items-center gap-3">
-            <div className="min-w-0">
-              <h2 className="title-gold text-glow truncate font-title text-xl font-black tracking-wide">
-                {player?.name ?? '—'}
-              </h2>
-              <p className="font-mono text-xs text-game-muted">
-                {t('game.lvl')} {player?.level ?? 0}
-                {player?.activeTitle && <span className="ml-2 italic text-gold-400/90">{player.activeTitle}</span>}
-              </p>
+    <div className="flex h-full flex-col gap-4 overflow-y-auto p-4 text-game-text bg-game-dark">
+      
+      {/* ── CARD DO PERSONAGEM (DASHBOARD IDLE) ── */}
+      <div className="relative overflow-hidden rounded-2xl border border-gold-500/40 bg-night-900 p-4 shadow-glow-sm">
+        <div className="absolute inset-0 bg-gradient-to-tr from-night-950 via-night-900 to-night-800 opacity-90" />
+        <div className="absolute right-0 top-0 h-32 w-32 -translate-y-8 translate-x-8 rounded-full bg-gold-500/10 blur-2xl" />
+        
+        <div className="relative flex items-center gap-4">
+          <Portrait kind="class" id={player?.archetype ?? 'blade'} size={80} ring="gold" />
+          <div className="flex-1 min-w-0">
+            <h2 className="title-gold font-title text-2xl font-black truncate">{player?.name}</h2>
+            <div className="flex items-center gap-2 mt-0.5">
+              <span className="font-mono text-xs text-game-muted">{t('game.lvl')} {player?.level}</span>
+              <span className="h-1 w-1 rounded-full bg-game-muted" />
+              <span className="font-mono text-[10px] text-cyan-300 font-black">CP: {combatPower.toLocaleString()} ⚔️</span>
             </div>
-            <ImpulseDisplay />
-            <button
-              type="button"
-              className="icon-tile h-9 rounded-lg px-3 font-mono text-xs text-game-muted transition-all hover:text-gold-300 active:scale-95"
-              onClick={() => setScreen('wiki')}
-            >
-              {String(wiki.ui.open)}
-            </button>
+            <div className="mt-2">
+              <ProgressBar current={player?.xp ?? 0} max={player?.xpToNext ?? 100} type="xp" showText />
+            </div>
           </div>
-
-          <div className="grid max-w-md gap-1.5">
-            <ProgressBar current={player?.hp ?? 0} max={player?.maxHp ?? 1} type="hp" showText />
-            <ProgressBar current={player?.mp ?? 0} max={player?.maxMp ?? 1} type="mp" showText />
-          </div>
-
-          {hasPetOrMount && <PetDisplay />}
         </div>
-      </section>
 
-      {/* Atalhos */}
-      <section className="grid min-h-0 grid-cols-3 grid-rows-3 gap-3 overflow-hidden">
-        {hubButtons.map((button) => (
-          <button
-            key={button.panel}
-            type="button"
-            className="group relative flex flex-col items-center justify-center gap-2 overflow-hidden rounded-xl border border-night-600 bg-gradient-to-b from-night-700/70 to-night-900/90 font-title text-sm font-bold text-game-text transition-all duration-200 hover:-translate-y-0.5 hover:border-gold-600/70 hover:shadow-glow-sm active:scale-95"
-            onClick={() => setPanel(button.panel)}
-          >
-            <span className="pointer-events-none absolute inset-x-6 top-0 h-[2px] bg-gradient-to-r from-transparent via-gold-400/0 to-transparent transition-all group-hover:via-gold-400/80" />
-            <span className="icon-tile text-2xl leading-none transition-transform group-hover:scale-110" style={{ width: 52, height: 52 }}>
-              {button.icon}
-            </span>
-            <span className="transition-colors group-hover:text-gold-300">{t(button.labelKey)}</span>
-          </button>
-        ))}
-      </section>
+        {/* Recursos Rápidos */}
+        <div className="relative mt-4 flex items-center justify-between rounded-xl bg-black/40 p-2 px-4 border border-white/5">
+          <div className="flex items-center gap-2 font-mono text-sm text-gold-300">
+            <span className="text-lg">🪙</span> {player?.gold?.toLocaleString() ?? 0}
+          </div>
+          <div className="flex items-center gap-2 font-mono text-sm text-cyan-300">
+            <span className="text-lg">💎</span> {player?.crystals?.toLocaleString() ?? 0}
+          </div>
+        </div>
+      </div>
+
+      {/* ── CTA PRINCIPAL: COMBATE ── */}
+      <button 
+        onClick={() => setPanel('combat')}
+        className="group relative flex h-36 shrink-0 w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-red-900/80 shadow-[0_0_20px_rgba(220,38,38,0.15)] transition-all hover:border-red-500 active:scale-[0.98]"
+      >
+        <div className="absolute inset-0 bg-cover bg-center opacity-40 transition-opacity group-hover:opacity-60" style={{ backgroundImage: `url(${ART.bg.combat})` }} />
+        <div className="absolute inset-0 bg-gradient-to-t from-night-950 via-night-950/60 to-transparent" />
+        <div className="relative z-10 flex flex-col items-center gap-1">
+          <span className="text-4xl drop-shadow-md transition-transform group-hover:scale-110 group-hover:animate-eclipsiaShake">⚔️</span>
+          <span className="font-title text-2xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">ENTRAR EM COMBATE</span>
+          <span className="font-mono text-[10px] text-red-300 uppercase tracking-widest bg-red-950/80 px-2 py-0.5 rounded border border-red-900">Modo Auto-Batalha</span>
+        </div>
+      </button>
+
+      {/* ── BOTÕES SECUNDÁRIOS EM GRID IDLE ── */}
+      <div className="grid grid-cols-2 gap-3 min-h-0">
+        <button onClick={() => setPanel('city')} className="flex flex-col items-center justify-center gap-2 rounded-xl border border-night-600 bg-night-800/80 py-4 transition-all hover:bg-night-700 hover:border-gold-500/50 active:scale-95 shadow-sm">
+          <span className="text-3xl drop-shadow-md">🏰</span>
+          <span className="font-title text-sm font-bold text-game-text">{t('hub.city')}</span>
+        </button>
+        <button onClick={() => setPanel('items')} className="flex flex-col items-center justify-center gap-2 rounded-xl border border-night-600 bg-night-800/80 py-4 transition-all hover:bg-night-700 hover:border-arcane-500/50 active:scale-95 shadow-sm">
+          <span className="text-3xl drop-shadow-md">🎒</span>
+          <span className="font-title text-sm font-bold text-game-text">{t('hub.items')}</span>
+        </button>
+        <button onClick={() => setPanel('quest')} className="flex flex-col items-center justify-center gap-2 rounded-xl border border-night-600 bg-night-800/80 py-4 transition-all hover:bg-night-700 hover:border-game-border active:scale-95 shadow-sm">
+          <span className="text-3xl drop-shadow-md">📜</span>
+          <span className="font-title text-sm font-bold text-game-text">{t('hub.quests')}</span>
+        </button>
+        <button onClick={() => setPanel('travel')} className="flex flex-col items-center justify-center gap-2 rounded-xl border border-night-600 bg-night-800/80 py-4 transition-all hover:bg-night-700 hover:border-game-border active:scale-95 shadow-sm">
+          <span className="text-3xl drop-shadow-md">🗺️</span>
+          <span className="font-title text-sm font-bold text-game-text">{t('hub.travel')}</span>
+        </button>
+      </div>
+
+      {hasPetOrMount && (
+        <div className="grid grid-cols-2 gap-3 mb-2 mt-auto">
+          {player?.equipment.mount && <ImpulseDisplay />}
+          {activePetId && <PetDisplay />}
+        </div>
+      )}
     </div>
   );
 };

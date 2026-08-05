@@ -14,8 +14,16 @@ const RARITIES = new Set(['common', 'uncommon', 'rare', 'epic', 'legendary', 're
 // ── Economia (gold sinks) ──
 /** Imposto sobre a venda: vendedor recebe (1 - taxa). */
 export const MARKET_TAX_RATE = 0.05;
-/** Taxa de listagem (não reembolsada no cancelamento). */
-export const MARKET_LISTING_FEE = 2;
+
+/** Taxa de listagem em OURO, baseada na raridade do item (não reembolsada no cancelamento). */
+export const MARKET_LISTING_FEES = {
+  common: 100,
+  uncommon: 250,
+  rare: 500,
+  epic: 1000,
+  legendary: 2500,
+  relic: 5000
+};
 
 /** GET /api/market/listings?rarity=&numId=&q= — listagens ativas */
 marketRoutes.get('/listings', async (req, res) => {
@@ -83,23 +91,26 @@ marketRoutes.post('/list', async (req, res) => {
       return res.status(400).json({ message: 'Preço inválido' });
     }
 
-    // Taxa de listagem em crystals (não reembolsável)
-    if ((character.crystals ?? 0) < MARKET_LISTING_FEE) {
-      return res.status(400).json({ message: `Cristais insuficientes para a taxa de listagem (${MARKET_LISTING_FEE})` });
+    const itemRarity = RARITIES.has(rarity) ? rarity : 'common';
+    const fee = MARKET_LISTING_FEES[itemRarity];
+
+    // Taxa de listagem em OURO (não reembolsável)
+    if ((character.gold ?? 0) < fee) {
+      return res.status(400).json({ message: `Ouro insuficiente para a taxa de listagem (${fee} 🪙)` });
     }
 
     if (!removeFromInventory(character, ref, 1)) {
       return res.status(400).json({ message: 'Item não está no inventário' });
     }
 
-    character.crystals = (character.crystals ?? 0) - MARKET_LISTING_FEE;
+    character.gold -= fee;
 
     const listing = await MarketListing.create({
       sellerId: player._id.toString(),
       sellerName: character.name,
       itemStr: ref,
       numId: getNumId(ref),
-      rarity: RARITIES.has(rarity) ? rarity : 'common',
+      rarity: itemRarity,
       price: listingPrice
     });
 

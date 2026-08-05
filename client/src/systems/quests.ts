@@ -275,8 +275,12 @@ export const questSystem = {
     state.completed[questId] = completedProgress;
 
     const playerStore = usePlayerStore.getState();
-    playerStore.gainXp(quest.reward.xp);
+    const { leveledUp } = playerStore.gainXp(quest.reward.xp);
     playerStore.gainGold(quest.reward.gold);
+
+    if (leveledUp) {
+      useGameStore.getState().addNotification('NÍVEL AUMENTOU!', 'gold');
+    }
 
     if (quest.reward.item) {
       playerStore.addItem(quest.reward.item, 1);

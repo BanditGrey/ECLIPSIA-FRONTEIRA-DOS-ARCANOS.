@@ -12,6 +12,22 @@ export const supportedLangs: LangCode[] = ['pt-BR', 'en-US', 'es-ES', 'ja-JP'];
 
 export const translations: Record<LangCode, TranslationTree> = {
   "pt-BR": {
+    "shop": {
+      "title": "💎 Banco dos Arcanos",
+      "subtitle": "Adquira cristais para negociar no mercado e expandir seu poder.",
+      "package": "Pacote",
+      "crystals": "Cristais",
+      "bonus": "Bônus",
+      "buyBrl": "Comprar R$",
+      "pending": "Pix Pendente",
+      "pixInstructions": "Copie o código abaixo e pague no aplicativo do seu banco:",
+      "copy": "Copiar Pix Copia e Cola",
+      "copied": "Copiado!",
+      "simulateDev": "Simular Pagamento (DEV)",
+      "waiting": "Aguardando pagamento...",
+      "paid": "Pagamento confirmado! Cristais creditados.",
+      "close": "Fechar Banco"
+    },
     "game": {
       "title": "ECLIPSIA",
       "subtitle": "Fronteira dos Arcanos",
@@ -791,7 +807,7 @@ export const translations: Record<LangCode, TranslationTree> = {
         "all_boost": "Impulso total"
       },
       "tabs": {
-        "equipped": "EQUIPADO",
+        "equipped": "PERSONAGEM",
         "bag": "MOCHILA",
         "crafting": "CRAFTING",
         "market": "MERCADO",
@@ -1052,7 +1068,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "status": { "active": "Ativa", "sold": "Vendida", "cancelled": "Cancelada" },
       "offline": "Mercado indisponível (servidor offline).",
       "error": "Erro no mercado",
-      "taxNote": "Taxas: 2 💎 para listar (não reembolsável) e 5% sobre a venda.",
+      "taxNote": "Taxas: taxa de ouro escalável por raridade para listar e 5% sobre a venda.",
       "searchPlaceholder": "🔎 Buscar item por nome...",
       "crystalsCurrency": "O mercado mundial usa 💎 Cristais (moeda paga) — o ouro do jogo fica protegido da economia entre jogadores."
     },
@@ -1754,6 +1770,22 @@ export const translations: Record<LangCode, TranslationTree> = {
     }
   },
   "en-US": {
+    "shop": {
+      "title": "💎 Arcane Bank",
+      "subtitle": "Acquire crystals to trade in the market and expand your power.",
+      "package": "Package",
+      "crystals": "Crystals",
+      "bonus": "Bonus",
+      "buyBrl": "Buy R$",
+      "pending": "Pending Payment",
+      "pixInstructions": "Copy the code below and pay in your bank's app:",
+      "copy": "Copy Code",
+      "copied": "Copied!",
+      "simulateDev": "Simulate Payment (DEV)",
+      "waiting": "Waiting for payment...",
+      "paid": "Payment confirmed! Crystals credited.",
+      "close": "Close Bank"
+    },
     "game": {
       "title": "ECLIPSIA",
       "subtitle": "Frontier of the Arcanes",
@@ -2533,7 +2565,7 @@ export const translations: Record<LangCode, TranslationTree> = {
         "all_boost": "All boost"
       },
       "tabs": {
-        "equipped": "EQUIPPED",
+        "equipped": "CHARACTER",
         "bag": "BAG",
         "crafting": "CRAFTING",
         "market": "MARKET",
@@ -2706,7 +2738,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "status": { "active": "Active", "sold": "Sold", "cancelled": "Cancelled" },
       "offline": "Market unavailable (server offline).",
       "error": "Market error",
-      "taxNote": "Fees: 2 💎 listing fee (non-refundable) and 5% tax on sale.",
+      "taxNote": "Fees: scaling gold fee by rarity to list and 5% tax on sale.",
       "searchPlaceholder": "🔎 Search item by name...",
       "crystalsCurrency": "The world market uses 💎 Crystals (paid currency) — in-game gold stays protected from the player economy."
     },
@@ -3495,6 +3527,22 @@ export const translations: Record<LangCode, TranslationTree> = {
     }
   },
   "es-ES": {
+    "shop": {
+      "title": "💎 Banco de los Arcanos",
+      "subtitle": "Adquiere cristales para negociar en el mercado y expandir tu poder.",
+      "package": "Paquete",
+      "crystals": "Cristales",
+      "bonus": "Bono",
+      "buyBrl": "Comprar R$",
+      "pending": "Pago Pendiente",
+      "pixInstructions": "Copia el código a continuación y paga en la aplicación de tu banco:",
+      "copy": "Copiar Código",
+      "copied": "¡Copiado!",
+      "simulateDev": "Simular Pago (DEV)",
+      "waiting": "Esperando pago...",
+      "paid": "¡Pago confirmado! Cristales acreditados.",
+      "close": "Cerrar Banco"
+    },
     "game": {
       "title": "ECLIPSIA",
       "subtitle": "Frontera de los Arcanos",
@@ -4274,7 +4322,7 @@ export const translations: Record<LangCode, TranslationTree> = {
         "all_boost": "Impulso total"
       },
       "tabs": {
-        "equipped": "EQUIPADO",
+        "equipped": "PERSONAGEM",
         "bag": "MOCHILA",
         "crafting": "CRAFTING",
         "market": "MERCADO",
@@ -4356,7 +4404,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "status": { "active": "Activa", "sold": "Vendida", "cancelled": "Cancelada" },
       "offline": "Mercado no disponible (servidor offline).",
       "error": "Error de mercado",
-      "taxNote": "Tasas: 2 💎 por listar (no reembolsable) y 5% sobre la venta.",
+      "taxNote": "Tasas: tarifa de oro escalable por rareza para listar y 5% sobre la venta.",
       "searchPlaceholder": "🔎 Buscar objeto por nombre...",
       "crystalsCurrency": "El mercado mundial usa 💎 Cristales (moneda de pago): el oro del juego queda protegido de la economía entre jugadores."
     },
@@ -5236,6 +5284,22 @@ export const translations: Record<LangCode, TranslationTree> = {
     }
   },
   "ja-JP": {
+    "shop": {
+      "title": "💎 アルカナ銀行",
+      "subtitle": "市場で取引し、力を拡大するためにクリスタルを取得します。",
+      "package": "パッケージ",
+      "crystals": "クリスタル",
+      "bonus": "ボーナス",
+      "buyBrl": "購入 R$",
+      "pending": "支払い待ち",
+      "pixInstructions": "以下のコードをコピーして、銀行のアプリで支払います:",
+      "copy": "コードをコピー",
+      "copied": "コピーしました！",
+      "simulateDev": "支払いをシミュレート (DEV)",
+      "waiting": "支払いを待っています...",
+      "paid": "支払い確認済み！クリスタルが付与されました。",
+      "close": "銀行を閉じる"
+    },
     "game": {
       "title": "ECLIPSIA",
       "subtitle": "アルカナの辺境",
@@ -6097,7 +6161,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "status": { "active": "出品中", "sold": "売却済", "cancelled": "取消済" },
       "offline": "市場は利用できません（サーバーオフライン）。",
       "error": "市場エラー",
-      "taxNote": "手数料：出品2💎（返金不可）＋売却額5%の税金。",
+      "taxNote": "手数料：レアリティに応じたゴールド出品料＋売却額5%の税金。",
       "searchPlaceholder": "🔎 アイテムを名前で検索...",
       "crystalsCurrency": "世界市場は💎クリスタル（有料通貨）を使用 — ゲーム内ゴールドはプレイヤー間経済から守られます。"
     },

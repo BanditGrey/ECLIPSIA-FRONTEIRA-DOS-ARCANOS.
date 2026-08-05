@@ -134,8 +134,13 @@ export const worldSystem = {
 
     if (roll < 0.6) {
       const xp = randomBetween(30, 180);
-      usePlayerStore.getState().gainXp(xp);
+      const { leveledUp } = usePlayerStore.getState().gainXp(xp);
       useGameStore.getState().addNotification(`${t('ranking.xp')} +${xp}`, 'info');
+
+      if (leveledUp) {
+        useGameStore.getState().addNotification('NÍVEL AUMENTOU!', 'gold');
+      }
+
       return {
         type: 'xp',
         region,

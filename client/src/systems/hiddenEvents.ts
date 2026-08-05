@@ -116,7 +116,10 @@ export const hiddenEventDefinitions: HiddenEventDefinition[] = [
   {
     id: 'ghost_npc',
     check: (tracker) => (tracker.explores.nythera ?? 0) >= 5,
-    reward: () => usePlayerStore.getState().gainXp(250)
+    reward: () => {
+      const { leveledUp } = usePlayerStore.getState().gainXp(250);
+      if (leveledUp) useGameStore.getState().addNotification('NÍVEL AUMENTOU!', 'gold');
+    }
   },
   {
     id: 'hidden_weapon',

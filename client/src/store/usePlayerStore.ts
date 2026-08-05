@@ -5,7 +5,8 @@ import { skills } from '../data/skills';
 import { resolveEffects, resolvedToItemStats } from '../systems/effectEngine';
 import type { Item, ItemStats, Slot, WeaponCategory } from '../types/item.types';
 import type { Equipment, InventoryItem, PlayerData, Stats } from '../types/player.types';
-import { isSerializedItemStr, resolveItemRef } from '../utils/itemSerializer';
+import { buildItemEffect, EFFECT } from '../data/effectRegistry';
+import { isSerializedItemStr, resolveItemRef, parseItemStr, serializeItem } from '../utils/itemSerializer';
 import { getDailyQuest } from '../data/dailyQuests';
 import { usePassiveStore } from './usePassiveStore';
 
@@ -202,6 +203,7 @@ interface PlayerState {
   claimDaily: (questId: string) => boolean;
   equip: (itemId: string, preferredSlot?: 'weapon_main' | 'weapon_off') => boolean;
   unequip: (slot: EquipmentSlot) => boolean;
+  upgradeEquippedItem: (slot: EquipmentSlot, cost: number) => boolean;
   takeDamage: (amount: number) => number;
   recoverHp: (percent: number) => void;
   recoverMp: (percent: number) => void;
@@ -250,6 +252,10 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
         }
         xpToNext = Math.floor(xpToNext * 1.15 + 25);
         leveledUp = true;
+      }
+
+      if (leveledUp && typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('eclipsia:levelup', { detail: { level } }));
       }
 
       return {
@@ -628,6 +634,62 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     set({
       data: {
         ...data,
+        equipment,
+        luck: {
+          ...data.luck,
+          equipment: getEquipmentLuck(equipment)
+        }
+      }
+    });
+
+    return true;
+  },
+  upgradeEquippedItem: (slot, cost) => {
+    const data = get().data;
+
+    if (!data || data.gold < cost) return false;
+
+    const itemStr = data.equipment[slot];
+    if (!itemStr) return false;
+
+    let parsed;
+    try {
+      parsed = isSerializedItemStr(itemStr) 
+        ? parseItemStr(itemStr)
+        : { numId: resolveItemRef(itemStr)!.numId, pairs: [] };
+    } catch {
+      return false;
+    }
+
+    let upgradeLevel = 0;
+    const filteredPairs = parsed.pairs.filter(p => {
+      if (p.effectId === EFFECT.UPGRADE_LEVEL) {
+        upgradeLevel = p.value;
+        return false;
+      }
+      return true;
+    });
+
+    if (upgradeLevel >= 10) return false;
+
+    filteredPairs.push({ effectId: EFFECT.UPGRADE_LEVEL, value: upgradeLevel + 1 });
+    const effects = buildItemEffect(filteredPairs);
+    
+    // Fake the item ref to re-serialize it correctly
+    const baseItem = resolveItemRef(itemStr);
+    if (!baseItem) return false;
+
+    const newStr = serializeItem(baseItem, effects);
+
+    const equipment: Equipment = {
+      ...data.equipment,
+      [slot]: newStr
+    };
+
+    set({
+      data: {
+        ...data,
+        gold: data.gold - cost,
         equipment,
         luck: {
           ...data.luck,

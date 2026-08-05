@@ -20,7 +20,7 @@ export const Notifications = () => {
     }
 
     const timers = notifications.map((notification) =>
-      window.setTimeout(() => removeNotification(notification.id), 3000)
+      window.setTimeout(() => removeNotification(notification.id), 5000)
     );
 
     return () => timers.forEach((timer) => window.clearTimeout(timer));

@@ -582,11 +582,16 @@ const handleVictory = () => {
   const xp = Math.floor(enemy.xp * xpMultiplier * impulseSystem.getBonus('xp') * (1 + xpBonus + (sizeBonus?.xp ?? 0) / 100));
   const gold = Math.floor(enemy.gold * impulseSystem.getBonus('gold') * (1 + goldBonus + (sizeBonus?.gold ?? 0) / 100));
 
-  playerStore.gainXp(xp);
+  const { leveledUp } = playerStore.gainXp(xp);
   playerStore.gainGold(gold);
   playerStore.addKill(enemy.id);
   gainProficiencyXp(PROF_XP.kill);
   questSystem.onKill(enemy.id);
+
+  if (leveledUp) {
+    combat.addLog('recover', 'LEVEL UP!');
+    useGameStore.getState().addNotification('NÍVEL AUMENTOU!', 'gold');
+  }
 
   // Missões diárias
   playerStore.recordDailyEvent('kill');
@@ -790,12 +795,15 @@ export const combatEngine = {
     combat.setCooldown(skillId, Math.max(1, Math.round(skill.cd * (1 - haste - cdReduce))));
 
     // FX: dispara o painel de efeito da skill (partículas + som + narração)
+    const critChance = resolved ? resolved.critChance : 0.05;
+    const isCrit = Math.random() < critChance;
+
     useCombatStore.getState().setSkillEffect({
       skillId,
       skillName: t(`skills.${skillId}.name`),
       damageType: skill.damageType,
       damagePercent: skill.damagePercent,
-      isCritical: Math.random() < 0.1
+      isCritical: isCrit
     });
 
     if (skill.healPercent) {

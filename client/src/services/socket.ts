@@ -103,6 +103,18 @@ class SocketService {
       }
     });
 
+    this.socket.on('chat:party_history', (payload: { messages?: ChatUiMessage[] }) => {
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('eclipsia:chat-party-history', { detail: payload }));
+      }
+    });
+
+    this.socket.on('chat:guild_history', (payload: { messages?: ChatUiMessage[] }) => {
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('eclipsia:chat-guild-history', { detail: payload }));
+      }
+    });
+
     // Notificações push (correio, mercado, trade) → eventos de janela
     const pushEvents = [
       'mail:new',
@@ -183,6 +195,14 @@ class SocketService {
   }
 
   emit(event: string, data?: unknown) {
+    if (typeof window !== 'undefined' && window.localStorage.getItem('eclipsia_offline_mode') === 'true') {
+      console.log(`[Offline Mock Socket] Ignorado: ${event}`, data);
+      
+      if (event === 'who:online') {
+        window.dispatchEvent(new CustomEvent('eclipsia:who:list', { detail: { names: ['Arena Tester (Você)'], count: 1 } }));
+      }
+      return;
+    }
     const socket = this.connect();
     socket.emit(event, data);
   }
