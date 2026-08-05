@@ -311,6 +311,7 @@ export const AuthService = {
     const mockData: PlayerData = {
       name: "Arena Tester",
       archetype: "blade",
+      gender: "female",
       level: 99,
       xp: 0,
       xpToNext: 999999,
