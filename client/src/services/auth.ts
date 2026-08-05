@@ -307,6 +307,81 @@ export const AuthService = {
     useGameStore.getState().setPanel('hub');
   },
 
+  playOfflineMock() {
+    const mockData: PlayerData = {
+      name: "Arena Tester",
+      archetype: "blade",
+      level: 99,
+      xp: 0,
+      xpToNext: 999999,
+      gold: 50000,
+      crystals: 5000,
+      hp: 8500,
+      maxHp: 8500,
+      mp: 2000,
+      maxMp: 2000,
+      daily: undefined,
+      stats: { strength: 150, agility: 90, vitality: 120, arcana: 40, perception: 50, will: 60 },
+      luck: { base: 10, equipment: 50, titles: 0, impulse: 0, events: 0 },
+      freePoints: 0,
+      equipment: {
+        weapon_main: "w1h_1150|1:120|99:5",
+        weapon_off: null,
+        head: "ar_3002",
+        chest: "ar_3102",
+        legs: "ar_3202",
+        gloves: null,
+        boots: null,
+        earring: null,
+        necklace: null,
+        belt: null,
+        resistance: null,
+        amulet: null,
+        spirit_stone: null,
+        pet: "pt_8001",
+        mount: "mt_8501"
+      },
+      inventory: [
+        { itemStr: "mat_9000", id: "mat_9000", qty: 99 },
+        { itemStr: "mat_9050", id: "mat_9050", qty: 10 },
+        { itemStr: "w2h_1600", id: "w2h_1600", qty: 1 },
+      ],
+      maxInventory: 100,
+      storage: [],
+      maxStorage: 500,
+      skills: ["slash", "heavy_strike", "vital_strike", "eclipse_slash"],
+      skillCooldowns: {},
+      titles: ["beta_tester"],
+      activeTitle: "beta_tester",
+      proficiencies: {
+        sword_one: 5000,
+        sword_two: 2000,
+        great_sword: 0,
+        dagger: 0,
+        dagger_off: 0,
+        bow_short: 0,
+        bow_long: 0,
+        staff_one: 0,
+        staff_two: 0,
+        orb: 0,
+        tome: 0,
+        hammer: 0,
+        spear: 0,
+        shield: 0
+      },
+      kills: {},
+      discoveries: [],
+      weakPointHits: 150,
+      rareDrops: 12,
+      createdAt: new Date().toISOString(),
+      lastLogin: new Date().toISOString()
+    };
+
+    usePlayerStore.getState().setPlayer(mockData);
+    useGameStore.getState().setScreen('game');
+    useGameStore.getState().addNotification("Modo Sandbox Ativado!", "success");
+  },
+
   async checkSession() {
     if (!API.token) {
       useGameStore.getState().setScreen('login');

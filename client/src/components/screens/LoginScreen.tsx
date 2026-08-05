@@ -55,6 +55,11 @@ export const LoginScreen = () => {
     setLoading(true);
 
     try {
+      if (email === 'teste' && password === 'teste') {
+        AuthService.playOfflineMock();
+        return;
+      }
+
       if (tab === 'login') {
         const response = await AuthService.login(email, password);
 
@@ -174,10 +179,10 @@ export const LoginScreen = () => {
               <span>{t('login.email')}</span>
               <input
                 className="input-field"
-                type="email"
+                type="text"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                placeholder={t('login.emailPlaceholder')}
+                placeholder={t('login.emailPlaceholder') + " (ou 'teste' para Sandbox)"}
                 autoComplete="email"
                 required
               />
