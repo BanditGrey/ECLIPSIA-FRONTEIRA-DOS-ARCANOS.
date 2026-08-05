@@ -42,7 +42,7 @@ export const Portrait = ({ kind, id, size = 96, className = '', fallbackIcon = '
         <img
           src={src as string}
           alt=""
-          className={`h-full w-full object-cover ${dim ? 'opacity-80' : ''}`}
+          className={`h-full w-full object-cover animate-breathe ${dim ? 'opacity-80' : ''}`}
           loading="lazy"
           draggable={false}
         />

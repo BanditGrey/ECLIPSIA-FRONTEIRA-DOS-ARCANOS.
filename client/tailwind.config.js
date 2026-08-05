@@ -34,6 +34,7 @@ export default {
         'slide-up': 'slideUp 240ms ease-out both',
         'eclipsiaShake': 'eclipsiaShake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both',
         'eclipsiaFloat': 'eclipsiaFloat 1.2s ease-out forwards',
+        'breathe': 'breathe 3s ease-in-out infinite',
       },
       keyframes: {
         floaty: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-6px)' } },
@@ -42,6 +43,10 @@ export default {
         shineSweep: { '0%': { transform: 'translateX(-140%)' }, '60%, 100%': { transform: 'translateX(240%)' } },
         slowspin: { to: { transform: 'rotate(360deg)' } },
         kenburns: { '0%': { transform: 'scale(1) translateY(0)' }, '100%': { transform: 'scale(1.08) translateY(-1.5%)' } },
+        breathe: {
+          '0%, 100%': { transform: 'scale(1) translateY(0)' },
+          '50%': { transform: 'scale(1.02) translateY(-2px)' }
+        },
         eclipsiaShake: {
           '10%, 90%': { transform: 'translate3d(-2px, 0, 0)' },
           '20%, 80%': { transform: 'translate3d(3px, 0, 0)' },

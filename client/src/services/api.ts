@@ -78,7 +78,39 @@ export const API = {
     return headers;
   },
 
+  async handleMockRequest<T>(method: ApiMethod, endpoint: string, body?: unknown): Promise<ApiResult<T>> {
+    console.log(`[Offline Mock] Interceptado: ${method} ${endpoint}`, body);
+    
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        // Se for leitura de chat global, devolve vazio
+        if (endpoint.includes('/world/state')) {
+          return resolve({ success: true, data: { online: 1 } as T });
+        }
+        if (endpoint.includes('/mail/inbox')) {
+          return resolve({ success: true, data: { mails: [] } as T });
+        }
+        if (endpoint.includes('/market/listings') || endpoint.includes('/market/my') || endpoint.includes('/auction/list') || endpoint.includes('/auction/bids')) {
+          return resolve({ success: true, data: { listings: [], auctions: [] } as T });
+        }
+        if (endpoint.includes('/guild/list') || endpoint.includes('/guild/my')) {
+          return resolve({ success: true, data: { guilds: [], guild: null } as T });
+        }
+        if (endpoint.includes('/ranking/')) {
+          return resolve({ success: true, data: { rankings: [] } as T });
+        }
+        
+        // Simular sucessos genéricos para vendas/criações
+        resolve({ success: true, data: { message: "Mock Success", character: { gold: 999999, inventory: [] }, listing: {} } as T });
+      }, 300);
+    });
+  },
+
   async request<T = unknown>(method: ApiMethod, endpoint: string, body?: unknown, auth = true): Promise<ApiResult<T>> {
+    if (typeof window !== 'undefined' && window.localStorage.getItem('eclipsia_offline_mode') === 'true' && !endpoint.includes('/auth/login') && !endpoint.includes('/auth/register')) {
+      return this.handleMockRequest<T>(method, endpoint, body);
+    }
+    
     try {
       const response = await fetch(`${BASE_URL}${endpoint}`, {
         method,
