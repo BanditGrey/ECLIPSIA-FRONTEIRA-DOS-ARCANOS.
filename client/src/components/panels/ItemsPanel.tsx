@@ -11,6 +11,7 @@ import type { Equipment, InventoryItem } from '../../types/player.types';
 import { resolveItemRef, serializeItem } from '../../utils/itemSerializer';
 import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
+import { Portrait } from '../ui/Portrait';
 import { CraftingPanel } from './items/CraftingPanel';
 import { MarketPanel } from './items/MarketPanel';
 
@@ -168,8 +169,9 @@ export const ItemsPanel = () => {
   const { t, lang } = useI18n();
   const [tab, setTab] = useState<ItemsTab>('equipped');
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
-  const [selectedSource, setSelectedSource] = useState<'bag' | 'storage'>('bag');
+  const [selectedSource, setSelectedSource] = useState<'bag' | 'storage' | 'equipped'>('bag');
   const openModal = useGameStore((state) => state.openModal);
+  const closeModal = useGameStore((state) => state.closeModal);
   const addNotification = useGameStore((state) => state.addNotification);
   const player = usePlayerStore((state) => state.data);
   const equip = usePlayerStore((state) => state.equip);
@@ -180,9 +182,12 @@ export const ItemsPanel = () => {
 
   const mainWeaponTwoHanded = useMemo(() => Boolean(player?.equipment.weapon_main && isTwoHanded(player.equipment.weapon_main)), [player]);
 
-  const openDetail = (item: InventoryItem, source: 'bag' | 'storage' = 'bag') => {
+  const [selectedEquippedSlot, setSelectedEquippedSlot] = useState<EquipmentSlot | null>(null);
+
+  const openDetail = (item: InventoryItem, source: 'bag' | 'storage' | 'equipped' = 'bag', equippedSlot: EquipmentSlot | null = null) => {
     setSelectedItem(item);
     setSelectedSource(source);
+    setSelectedEquippedSlot(equippedSlot);
     openModal(DETAIL_MODAL);
   };
 
@@ -272,12 +277,35 @@ export const ItemsPanel = () => {
     );
   };
 
-  const renderEquipmentGroup = (titleKey: string, slots: EquipmentSlot[]) => (
-    <section className="grid gap-2">
-      <h2 className="font-title text-lg text-game-gold">{t(titleKey)}</h2>
-      <div className="grid grid-cols-2 gap-2">{slots.map(renderSlot)}</div>
-    </section>
-  );
+  const renderVisualizerSlot = (slot: EquipmentSlot) => {
+    const itemId = player?.equipment[slot];
+    const meta = itemId ? getItemMeta(itemId) : null;
+    const blocked = slot === 'weapon_off' && mainWeaponTwoHanded;
+
+    return (
+      <button
+        key={slot}
+        type="button"
+        disabled={blocked}
+        onClick={() => (itemId ? openDetail({ itemStr: itemId, qty: 1 }, 'equipped', slot) : undefined)}
+        className={[
+          'relative flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border bg-game-card text-2xl transition-all shadow-sm',
+          meta ? rarityBorder[meta.rarity] + ' hover:scale-105 active:scale-95' : 'border-night-600',
+          blocked ? 'opacity-40 grayscale' : '',
+          !itemId && !blocked ? 'text-game-muted opacity-60 hover:border-game-border hover:opacity-100 hover:scale-105 active:scale-95' : ''
+        ].join(' ')}
+        title={t(`items.slots.${slot}`)}
+      >
+        {meta ? meta.icon : slotIconFallback[slot]}
+        {/* Nível de Upgrade na UI do inventário se for > 0 */}
+        {meta?.effects && getEffectPairs(meta.effects).find(p => p.effectId === 99) && (
+          <span className="absolute -bottom-1 -right-1 rounded bg-game-primary px-1.5 font-mono text-[10px] text-yellow-300 border border-yellow-500/50 shadow-sm">
+            +{getEffectPairs(meta.effects).find(p => p.effectId === 99)?.value}
+          </span>
+        )}
+      </button>
+    );
+  };
 
   const selectedMeta = selectedItem ? getItemMeta(refOf(selectedItem)) : null;
   const equippedCurrent = selectedMeta?.slot && player ? player.equipment[selectedMeta.slot] : null;
@@ -300,10 +328,46 @@ export const ItemsPanel = () => {
 
       <section className="min-h-0 overflow-hidden rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
         {tab === 'equipped' && (
-          <div className="grid h-full gap-4 overflow-auto pr-1">
-            {renderEquipmentGroup('items.groups.weapons', weaponSlots)}
-            {renderEquipmentGroup('items.groups.armor', armorSlots)}
-            {renderEquipmentGroup('items.groups.accessories', accessorySlots)}
+          <div className="flex h-full flex-col items-center justify-center overflow-auto py-4">
+            <div className="relative flex items-center justify-center gap-4 w-full max-w-sm">
+              {/* Esquerda */}
+              <div className="flex flex-col gap-3">
+                {renderVisualizerSlot('head')}
+                {renderVisualizerSlot('weapon_main')}
+                {renderVisualizerSlot('chest')}
+                {renderVisualizerSlot('gloves')}
+                {renderVisualizerSlot('spirit_stone')}
+              </div>
+
+              {/* Centro: Personagem e Status Resumido */}
+              <div className="flex flex-col items-center">
+                <div className="relative mb-2">
+                  <div className="absolute -inset-4 rounded-full bg-arcane-500/20 blur-xl animate-pulse" />
+                  <Portrait kind="class" id={player?.archetype ?? 'blade'} size={140} ring="arcane" />
+                </div>
+                <span className="font-title font-bold text-game-gold text-lg tracking-wide">{player?.name}</span>
+                <span className="font-mono text-xs text-game-muted mb-3">{t('game.lvl')} {player?.level} • {t(`classes.${player?.archetype}.name`)}</span>
+
+                <div className="flex gap-2">
+                  {renderVisualizerSlot('belt')}
+                  {renderVisualizerSlot('legs')}
+                  {renderVisualizerSlot('boots')}
+                </div>
+                <div className="flex gap-2 mt-2">
+                  {renderVisualizerSlot('pet')}
+                  {renderVisualizerSlot('mount')}
+                </div>
+              </div>
+
+              {/* Direita */}
+              <div className="flex flex-col gap-3">
+                {renderVisualizerSlot('necklace')}
+                {renderVisualizerSlot('weapon_off')}
+                {renderVisualizerSlot('amulet')}
+                {renderVisualizerSlot('earring')}
+                {renderVisualizerSlot('resistance')}
+              </div>
+            </div>
           </div>
         )}
 
@@ -455,7 +519,20 @@ export const ItemsPanel = () => {
               </p>
             )}
 
-            {selectedSource === 'bag' ? (
+            {selectedSource === 'equipped' ? (
+              <div className="grid grid-cols-1 gap-2">
+                <Button 
+                  onClick={() => {
+                    if (selectedEquippedSlot) {
+                      unequip(selectedEquippedSlot);
+                      closeModal();
+                    }
+                  }}
+                >
+                  {t('items.unequip')}
+                </Button>
+              </div>
+            ) : selectedSource === 'bag' ? (
               <div className="grid grid-cols-3 gap-2">
                 {selectedWeaponCategory ? (
                   <>
