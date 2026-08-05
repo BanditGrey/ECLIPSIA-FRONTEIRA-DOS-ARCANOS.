@@ -328,70 +328,86 @@ export const ItemsPanel = () => {
 
       <section className="min-h-0 overflow-hidden rounded-xl border border-night-600 bg-night-900/60 p-3 shadow-panel">
         {tab === 'equipped' && (
-          <div className="flex h-full flex-col items-center justify-center overflow-auto py-4">
-            <div className="relative flex items-center justify-center gap-4 w-full max-w-sm">
-              {/* Esquerda */}
-              <div className="flex flex-col gap-3">
-                {renderVisualizerSlot('head')}
-                {renderVisualizerSlot('weapon_main')}
-                {renderVisualizerSlot('chest')}
-                {renderVisualizerSlot('gloves')}
-                {renderVisualizerSlot('spirit_stone')}
-              </div>
-
-              {/* Centro: Personagem e Status Resumido */}
-              <div className="flex flex-col items-center">
-                <div className="relative mb-2">
-                  <div className="absolute -inset-4 rounded-full bg-arcane-500/20 blur-xl animate-pulse" />
-                  <Portrait kind="class" id={player?.archetype ?? 'blade'} size={140} ring="arcane" />
+          <div className="flex h-full gap-4 overflow-hidden py-2">
+            
+            {/* PAINEL ESQUERDO: Boneco de Papel (Paperdoll) */}
+            <div className="flex w-[340px] shrink-0 flex-col items-center justify-center overflow-auto rounded-xl bg-night-900/40 border border-night-600 shadow-inner py-4">
+              <div className="relative flex items-center justify-center gap-3 w-full scale-90 sm:scale-100 origin-center">
+                {/* Slots Esquerda */}
+                <div className="flex flex-col gap-2">
+                  {renderVisualizerSlot('head')}
+                  {renderVisualizerSlot('weapon_main')}
+                  {renderVisualizerSlot('chest')}
+                  {renderVisualizerSlot('gloves')}
+                  {renderVisualizerSlot('spirit_stone')}
                 </div>
-                <span className="font-title font-bold text-game-gold text-lg tracking-wide">{player?.name}</span>
-                <span className="font-mono text-xs text-game-muted mb-3">{t('game.lvl')} {player?.level} • {t(`classes.${player?.archetype}.name`)}</span>
 
-                <div className="flex gap-2">
-                  {renderVisualizerSlot('belt')}
-                  {renderVisualizerSlot('legs')}
-                  {renderVisualizerSlot('boots')}
-                </div>
-                <div className="flex gap-2 mt-2">
-                  {renderVisualizerSlot('pet')}
-                  {renderVisualizerSlot('mount')}
-                </div>
-              </div>
+                {/* Centro: Personagem */}
+                <div className="flex flex-col items-center shrink-0 w-[140px]">
+                  <div className="relative mb-2">
+                    <div className="absolute -inset-4 rounded-full bg-arcane-500/10 blur-xl animate-pulse" />
+                    <Portrait kind="class" id={player?.archetype ?? 'blade'} size={120} ring="arcane" />
+                  </div>
+                  <span className="font-title font-bold text-game-gold text-base tracking-wide text-center leading-tight truncate w-full">{player?.name}</span>
+                  <span className="font-mono text-[10px] text-game-muted mb-3">{t('game.lvl')} {player?.level} • {t(`classes.${player?.archetype}.name`)}</span>
 
-              {/* Direita */}
-              <div className="flex flex-col gap-3">
-                {renderVisualizerSlot('necklace')}
-                {renderVisualizerSlot('weapon_off')}
-                {renderVisualizerSlot('amulet')}
-                {renderVisualizerSlot('earring')}
-                {renderVisualizerSlot('resistance')}
+                  <div className="flex gap-2">
+                    {renderVisualizerSlot('belt')}
+                    {renderVisualizerSlot('legs')}
+                    {renderVisualizerSlot('boots')}
+                  </div>
+                  <div className="flex gap-2 mt-2">
+                    {renderVisualizerSlot('pet')}
+                    {renderVisualizerSlot('mount')}
+                  </div>
+                </div>
+
+                {/* Slots Direita */}
+                <div className="flex flex-col gap-2">
+                  {renderVisualizerSlot('necklace')}
+                  {renderVisualizerSlot('weapon_off')}
+                  {renderVisualizerSlot('amulet')}
+                  {renderVisualizerSlot('earring')}
+                  {renderVisualizerSlot('resistance')}
+                </div>
               </div>
             </div>
-          </div>
-        )}
 
-        {tab === 'bag' && (
-          <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden">
-            <div className="font-mono text-sm text-game-muted">
-              {player?.inventory.length ?? 0}/{player?.maxInventory ?? 60} {t('items.slots')}
-            </div>
-            <div className="grid min-h-0 grid-cols-4 gap-2 overflow-auto pr-1">
-              {(player?.inventory ?? []).map((item) => {
-                const meta = getItemMeta(refOf(item));
+            {/* PAINEL DIREITO: Inventário Geral */}
+            <div className="flex-1 flex flex-col min-w-0 bg-night-900/40 rounded-xl border border-night-600 p-3 overflow-hidden shadow-inner">
+              <div className="flex justify-between items-center mb-3 shrink-0 border-b border-night-600 pb-2">
+                <h3 className="font-title text-sm text-game-gold">🎒 {t('items.tabs.bag')}</h3>
+                <span className="font-mono text-[11px] text-game-muted">
+                  {player?.inventory.length ?? 0}/{player?.maxInventory ?? 60} {t('items.slots')}
+                </span>
+              </div>
+              
+              <div className="grid min-h-0 grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 gap-2 overflow-y-auto pr-1 pb-2">
+                {(player?.inventory ?? []).map((item) => {
+                  const meta = getItemMeta(refOf(item));
 
-                return (
-                  <button
-                    key={refOf(item)}
-                    type="button"
-                    className={['relative rounded-xl border bg-game-card p-3 transition-colors hover:bg-game-hover active:scale-95', rarityBorder[meta.rarity]].join(' ')}
-                    onClick={() => openDetail(item, 'bag')}
-                  >
-                    <span className="text-4xl">{meta.icon}</span>
-                    {item.qty > 1 && <span className="absolute right-2 top-2 rounded bg-game-primary px-1.5 font-mono text-xs">×{item.qty}</span>}
-                  </button>
-                );
-              })}
+                  return (
+                    <button
+                      key={refOf(item)}
+                      type="button"
+                      className={['relative rounded-xl border bg-game-card p-2 transition-colors hover:bg-game-hover active:scale-95 flex items-center justify-center aspect-square shadow-sm hover:shadow-md hover:scale-105', rarityBorder[meta.rarity]].join(' ')}
+                      onClick={() => openDetail(item, 'bag')}
+                    >
+                      <span className="text-3xl drop-shadow-md">{meta.icon}</span>
+                      {item.qty > 1 && <span className="absolute right-1 top-1 rounded bg-game-primary px-1 font-mono text-[10px] text-white shadow-sm border border-game-border">×{item.qty}</span>}
+                      {/* Badge Ferreiro Inventário */}
+                      {meta?.effects && getEffectPairs(meta.effects).find(p => p.effectId === 99) && (
+                        <span className="absolute -bottom-1 -left-1 rounded bg-game-primary px-1 font-mono text-[9px] text-yellow-300 border border-yellow-500/50 shadow-sm">
+                          +{getEffectPairs(meta.effects).find(p => p.effectId === 99)?.value}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+                {(player?.inventory ?? []).length === 0 && (
+                  <p className="col-span-full text-xs text-game-muted text-center mt-4 opacity-50">Sua mochila está vazia.</p>
+                )}
+              </div>
             </div>
           </div>
         )}

@@ -807,7 +807,7 @@ export const translations: Record<LangCode, TranslationTree> = {
         "all_boost": "Impulso total"
       },
       "tabs": {
-        "equipped": "EQUIPADO",
+        "equipped": "PERSONAGEM",
         "bag": "MOCHILA",
         "crafting": "CRAFTING",
         "market": "MERCADO",
@@ -2565,7 +2565,7 @@ export const translations: Record<LangCode, TranslationTree> = {
         "all_boost": "All boost"
       },
       "tabs": {
-        "equipped": "EQUIPPED",
+        "equipped": "CHARACTER",
         "bag": "BAG",
         "crafting": "CRAFTING",
         "market": "MARKET",
@@ -4322,7 +4322,7 @@ export const translations: Record<LangCode, TranslationTree> = {
         "all_boost": "Impulso total"
       },
       "tabs": {
-        "equipped": "EQUIPADO",
+        "equipped": "PERSONAGEM",
         "bag": "MOCHILA",
         "crafting": "CRAFTING",
         "market": "MERCADO",
