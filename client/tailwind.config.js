@@ -35,6 +35,9 @@ export default {
         'eclipsiaShake': 'eclipsiaShake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both',
         'eclipsiaFloat': 'eclipsiaFloat 1.2s ease-out forwards',
         'breathe': 'breathe 3s ease-in-out infinite',
+        'dash-right': 'dashRight 0.3s ease-in-out forwards',
+        'dash-left': 'dashLeft 0.3s ease-in-out forwards',
+        'recoil': 'recoil 0.4s ease-out forwards',
       },
       keyframes: {
         floaty: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-6px)' } },
@@ -46,6 +49,21 @@ export default {
         breathe: {
           '0%, 100%': { transform: 'scale(1) translateY(0)' },
           '50%': { transform: 'scale(1.02) translateY(-2px)' }
+        },
+        dashRight: {
+          '0%': { transform: 'translateX(0) scale(1)' },
+          '50%': { transform: 'translateX(40px) scale(1.1) rotate(5deg)' },
+          '100%': { transform: 'translateX(0) scale(1) rotate(0deg)' }
+        },
+        dashLeft: {
+          '0%': { transform: 'translateX(0) scale(1)' },
+          '50%': { transform: 'translateX(-40px) scale(1.1) rotate(-5deg)' },
+          '100%': { transform: 'translateX(0) scale(1) rotate(0deg)' }
+        },
+        recoil: {
+          '0%': { transform: 'translateX(0)' },
+          '20%': { transform: 'translateX(-10px) rotate(-2deg)', filter: 'brightness(2) sepia(1) hue-rotate(-50deg) saturate(5)' },
+          '100%': { transform: 'translateX(0) rotate(0deg)', filter: 'brightness(1)' }
         },
         eclipsiaShake: {
           '10%, 90%': { transform: 'translate3d(-2px, 0, 0)' },
