@@ -55,7 +55,7 @@ export const LoginScreen = () => {
     setLoading(true);
 
     try {
-      if (email === 'teste' && password === 'teste') {
+      if (email.toLowerCase().trim() === 'teste' && password.toLowerCase().trim() === 'teste') {
         AuthService.playOfflineMock();
         return;
       }

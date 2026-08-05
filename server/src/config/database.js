@@ -10,6 +10,7 @@ export const connectDatabase = async () => {
       console.log('⚠ SANDBOX_OFFLINE ativo — Servidor backend mockado sem DB.');
       // Stub Mongoose to prevent crashing when queries are called
       mongoose.connect = async () => {};
+      mongoose.set('bufferCommands', false); // Para não travar requisições para sempre
       return;
     }
 
