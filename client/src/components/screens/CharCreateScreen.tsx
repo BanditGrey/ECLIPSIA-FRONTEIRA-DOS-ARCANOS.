@@ -83,7 +83,7 @@ export const CharCreateScreen = () => {
   };
 
   return (
-    <div className="relative flex h-screen overflow-hidden bg-game-dark text-game-text">
+    <div className="relative flex h-full overflow-hidden bg-game-dark text-game-text">
       <div
         className="absolute inset-0 bg-cover bg-center opacity-25"
         style={{ backgroundImage: `url(${ART.bg.hub})` }}
