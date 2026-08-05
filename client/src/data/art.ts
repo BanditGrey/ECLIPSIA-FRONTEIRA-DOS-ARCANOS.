@@ -54,3 +54,4 @@ export const ART = {
 export type ClassArtId = keyof typeof ART.classes;
 export type BossArtId = keyof typeof ART.bosses;
 export type MonsterArtId = keyof typeof ART.monsters;
+export type Gender = 'male' | 'female';

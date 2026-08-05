@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
 import { useAudio } from '../../hooks/useAudio';
 import { SkillEffectPanel } from '../effects/SkillEffectPanel';
 import { ParticleSystem } from '../effects/ParticleSystem';
-import type { ReactNode } from 'react';
 import { useI18n } from '../../hooks/useI18n';
 import { ART } from '../../data/art';
 import { Portrait } from '../ui/Portrait';
+import { LayeredCharacter } from '../ui/LayeredCharacter';
+import { MonsterLayered } from '../ui/MonsterLayered';
 
 const BOSS_IDS = ['bandit_leader', 'root_guardian', 'void_mirror', 'azhur', 'thal_mora', 'velkaryn'];
 import { useCombatStore } from '../../store/useCombatStore';
@@ -141,6 +143,7 @@ export const CombatPanel = () => {
 
   const [enemyShake, setEnemyShake] = useState(false);
   const [playerShake, setPlayerShake] = useState(false);
+  const [monsterAttacking, setMonsterAttacking] = useState(false);
 
   useEffect(() => {
     if (combat.log.length > 0) {
@@ -150,7 +153,9 @@ export const CombatPanel = () => {
         setTimeout(() => setEnemyShake(false), 400);
       } else if (last.type === 'enemy') {
         setPlayerShake(true);
+        setMonsterAttacking(true);
         setTimeout(() => setPlayerShake(false), 400);
+        setTimeout(() => setMonsterAttacking(false), 500);
       }
     }
   }, [combat.log]);
@@ -181,136 +186,207 @@ export const CombatPanel = () => {
     );
   }
 
+  // ─── FINAL FANTASY STYLE LAYOUT ───
   return (
-    <div className="grid h-full grid-rows-[auto_1fr_auto] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
-      <div className="grid gap-2">
-        <header className="flex items-center justify-between rounded-lg border border-night-600 bg-night-900/70 px-3 py-2 font-mono text-sm text-game-muted">
-          <span>{combat.region || t('game.unknown')}</span>
-          {combat.isDungeon && (
-            <span>
-              {t('combat.floor')} {combat.floor}/{combat.maxFloor}
-            </span>
-          )}
-        </header>
+    <div className="relative flex h-full flex-col overflow-hidden text-game-text">
+      {/* ═══ FULL-SCREEN BATTLEFIELD ═══ */}
+      <div className="relative flex-1 overflow-hidden">
+        {/* Background scenery */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${ART.bg.combat})` }}
+        />
+        <ArcaneField className="absolute inset-0 h-full w-full opacity-50" density={0.8} />
+        <div className="absolute inset-0 bg-gradient-to-t from-night-950/90 via-night-950/30 to-night-950/50" />
 
+        {/* Floating combat text */}
+        <FloatingCombatText />
+
+        {/* ─── ENEMY SECTION (left side) ─── */}
+        <div className="absolute left-0 top-0 flex h-full w-1/2 flex-col items-center justify-center">
+          {/* Enemy sprite */}
+          <div className="relative mb-4">
+            {['goblin', 'rat', 'wolf_pup', 'mist_wolf', 'shadow_sprite', 'sand_scorpion', 'mirage_beast', 'dune_crawler', 'storm_harpy', 'cloud_titan', 'sea_wraith', 'deep_leviathan_jr'].includes(combat.enemy.id) ? (
+              <MonsterLayered
+                monsterId={combat.enemy.id as any}
+                state={
+                  enemyShake ? 'hit' :
+                  monsterAttacking ? 'attack' :
+                  'idle'
+                }
+                size={160}
+                flip={false}
+                glowColor={BOSS_IDS.includes(combat.enemy.id) ? '#ef4444' : '#3fd9c4'}
+              />
+            ) : (
+              <Portrait kind={BOSS_IDS.includes(combat.enemy.id) ? 'boss' : 'monster'} id={combat.enemy.id} size={130} fallbackIcon={combat.enemy.icon} ring={BOSS_IDS.includes(combat.enemy.id) ? 'red' : 'arcane'} />
+            )}
+          </div>
+
+          {/* Enemy info overlay */}
+          <div className="w-48 rounded-lg border border-red-800/50 bg-night-950/80 p-2 backdrop-blur-sm">
+            <h3 className="title-gold font-title text-sm font-bold text-center mb-1">{t(combat.enemy.nameKey)}</h3>
+            <p className="font-mono text-[10px] text-game-muted text-center mb-1">Lvl {combat.enemy.level}</p>
+            <ProgressBar current={combat.enemyHp} max={combat.enemyMaxHp} type="hp" showText />
+          </div>
+        </div>
+
+        {/* ─── PLAYER SECTION (right side) ─── */}
+        <div className="absolute right-0 top-0 flex h-full w-1/2 flex-col items-center justify-center">
+          {/* Player sprite */}
+          <div className="relative mb-4">
+            {/* Hit flash overlay */}
+            {hitFx && (
+              <div key={hitKey} className="pointer-events-none absolute inset-0 z-10">
+                <div className="absolute inset-0 animate-[eclipsiaShake_0.5s_ease] bg-gradient-to-b from-red-800/20 via-transparent to-red-800/20 rounded-full" />
+                <ParticleSystem trigger={hitFx} type="hit" className="absolute inset-0 h-full w-full" />
+              </div>
+            )}
+
+            <LayeredCharacter
+              gender={(player?.gender as any) ?? 'male'}
+              state={
+                activeSkillEffect ? 'cast' :
+                hitFx ? 'hit' :
+                showParticles ? 'attack' :
+                combat.autoFight ? 'walk' : 'idle'
+              }
+              size={160}
+              flip
+              glowColor="#3fd9c4"
+            />
+          </div>
+
+          {/* Player info overlay */}
+          <div className="w-48 rounded-lg border border-blue-800/50 bg-night-950/80 p-2 backdrop-blur-sm">
+            <h3 className="font-title text-sm font-bold text-game-text text-center mb-1">{player?.name ?? t('game.unknown')}</h3>
+            <p className="font-mono text-[10px] text-game-muted text-center mb-1">Lvl {player?.level ?? 0}</p>
+            <div className="grid gap-1">
+              <ProgressBar current={player?.hp ?? 0} max={player?.maxHp ?? 1} type="hp" showText />
+              <ProgressBar current={player?.mp ?? 0} max={player?.maxMp ?? 1} type="mp" showText />
+            </div>
+          </div>
+        </div>
+
+        {/* ─── VS DIVIDER (center) ─── */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+          <div className="flex items-center gap-2">
+            <div className="h-px w-8 bg-gradient-to-r from-transparent to-gold-400/60" />
+            <span className="title-gold font-title text-lg font-black">VS</span>
+            <div className="h-px w-8 bg-gradient-to-l from-transparent to-gold-400/60" />
+          </div>
+        </div>
+
+        {/* ─── REGION INFO (top center) ─── */}
+        <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20">
+          <div className="rounded-full border border-night-600 bg-night-950/80 px-4 py-1 backdrop-blur-sm">
+            <span className="font-mono text-xs text-game-muted">
+              {combat.region || t('game.unknown')}
+              {combat.isDungeon && ` · ${t('combat.floor')} ${combat.floor}/${combat.maxFloor}`}
+            </span>
+          </div>
+        </div>
+
+        {/* ─── HUNT SESSION INFO (if party hunting) ─── */}
         {huntSession && (
-          <div className="rounded-lg border border-green-700 bg-night-900/70 px-3 py-1.5 font-mono text-xs text-green-300">
-            <p>
-              🎯 {t('partyCombat.activeHunt')} · {t('partyCombat.round')} {huntSession.round} · ⚔ +{huntSession.auraAtk}% 🛡 +{huntSession.auraDef}%
-              {huntSession.sizeBonus && (
-                <>
-                  {' '}· 👥 {huntSession.members.length} → +{huntSession.sizeBonus.xp}% XP · +{huntSession.sizeBonus.gold}% 🪙 · +{huntSession.sizeBonus.loot}% 🎁
-                </>
-              )}
-              {huntSession.dungeonId && (
-                <>
-                  {' '}· 🏰 {t('partyCombat.floor')} {huntSession.floor ?? 1}
-                </>
-              )}
-              {combat.region !== huntSession.region && <span className="text-yellow-300"> · {t('partyCombat.regionMismatch')}</span>}
-            </p>
-            <p className="text-green-200/80">
-              {[...huntSession.members]
-                .sort((a, b) => b.dmg - a.dmg)
-                .map((member) => `${member.name} ${member.dmg}⚔ ${member.kills}💀`)
-                .join(' · ')}
-            </p>
+          <div className="absolute top-10 left-1/2 -translate-x-1/2 z-20">
+            <div className="rounded-lg border border-green-700/50 bg-night-950/80 px-3 py-1 backdrop-blur-sm">
+              <span className="font-mono text-[10px] text-green-300">
+                Party Hunt · Round {huntSession.round} · {huntSession.members.length} members
+              </span>
+            </div>
           </div>
         )}
       </div>
 
-      <main className="relative grid min-h-0 grid-rows-[1fr_auto_1fr] gap-3 overflow-hidden">
-        <FloatingCombatText />
-        {/* Inimigo — campo de batalha ao fundo */}
-        <section className="relative flex flex-col justify-end overflow-hidden rounded-xl border border-red-800/70 bg-night-900/70 shadow-panel">
-          <div
-            className="absolute inset-0 bg-cover bg-center opacity-30"
-            style={{ backgroundImage: `url(${ART.bg.combat})` }}
-          />
-          {/* cenário arcano animado */}
-          <ArcaneField className="absolute inset-0 h-full w-full opacity-70" density={1.2} />
-          <div className="absolute inset-0 bg-gradient-to-b from-night-950/70 via-transparent to-night-950/80" />
-          <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-red-500/70 to-transparent" />
-
-          <div className="relative flex flex-col items-center justify-center p-4">
-            <div className={`transition-transform duration-200 ${enemyShake ? 'animate-[dash-left_0.3s_ease-in-out_forwards]' : ''}`}>
-              {BOSS_IDS.includes(combat.enemy.id) ? (
-                <Portrait kind="boss" id={combat.enemy.id} size={110} fallbackIcon={combat.enemy.icon} ring="red" />
-              ) : (
-                <Portrait kind="monster" id={combat.enemy.id} size={110} fallbackIcon={combat.enemy.icon} ring="arcane" />
-              )}
-            </div>
-            
-            <div className="mt-4 flex w-full flex-col items-center">
-              <h2 className="title-gold font-title text-xl font-bold">{t(combat.enemy.nameKey)}</h2>
-              <p className="font-mono text-xs text-game-muted mb-2">Lvl {combat.enemy.level}</p>
-              <div className="w-full max-w-[200px]">
-                <ProgressBar current={combat.enemyHp} max={combat.enemyMaxHp} type="hp" showText />
-              </div>
-            </div>
+      {/* ═══ ACTION MENU (bottom) ═══ */}
+      <div className="relative z-30 border-t-2 border-gold-400/30 bg-night-950/95 backdrop-blur-md">
+        {/* Auto-fight indicator */}
+        <div className="absolute -top-8 left-1/2 -translate-x-1/2">
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={combat.toggleAutoFight}
+              className={`rounded-full border px-3 py-1 font-mono text-xs transition-all ${
+                combat.autoFight
+                  ? 'border-green-400 bg-green-900/50 text-green-300 shadow-[0_0_10px_rgba(34,197,94,0.3)]'
+                  : 'border-night-600 bg-night-900/80 text-game-muted hover:text-game-text'
+              }`}
+            >
+              <ArcaneIcon name="auto" size={12} glow={combat.autoFight} className="inline mr-1" />
+              AUTO {combat.autoFight ? 'ON' : 'OFF'}
+            </button>
+            <button
+              type="button"
+              onClick={combat.toggleAutoAdvance}
+              className={`rounded-full border px-3 py-1 font-mono text-xs transition-all ${
+                combat.autoAdvance
+                  ? 'border-blue-400 bg-blue-900/50 text-blue-300 shadow-[0_0_10px_rgba(59,130,246,0.3)]'
+                  : 'border-night-600 bg-night-900/80 text-game-muted hover:text-game-text'
+              }`}
+            >
+              <ArcaneIcon name="advance" size={12} glow={combat.autoAdvance} className="inline mr-1" />
+              ADVANCE {combat.autoAdvance ? 'ON' : 'OFF'}
+            </button>
           </div>
-        </section>
-
-        <div className="divider-ornate flex items-center justify-center px-10 font-title text-xl font-black shrink-0">
-          <span className="diamond" />
-          <span className="title-gold mx-3">{t('combat.vs')}</span>
-          <span className="diamond" />
         </div>
 
-        {/* Jogador */}
-        <section className="relative flex flex-col justify-start overflow-hidden rounded-xl border border-blue-800/70 bg-night-900/70 shadow-panel">
-          <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500/70 to-transparent" />
+        {/* Action buttons grid */}
+        <div className="grid grid-cols-4 gap-2 p-3">
+          <button
+            type="button"
+            onClick={() => { setShowParticles(true); attack(); }}
+            className="flex flex-col items-center gap-1 rounded-lg border border-red-800/50 bg-red-950/40 py-3 transition-all hover:bg-red-900/50 hover:border-red-600/50 active:scale-95"
+          >
+            <ArcaneIcon name="sword" size={24} className="text-red-400" glow />
+            <span className="font-title text-xs font-bold text-red-300">{t('combat.attack')}</span>
+          </button>
 
-          {/* feedback de dano sofrido */}
-          {hitFx && (
-            <div key={hitKey} className="pointer-events-none absolute inset-0 z-10">
-              <div className="absolute inset-0 animate-[eclipsiaShake_0.5s_ease] bg-gradient-to-b from-red-800/20 via-transparent to-red-800/20" />
-              <ParticleSystem trigger={hitFx} type="hit" className="absolute inset-0 h-full w-full" />
-            </div>
-          )}
+          <button
+            type="button"
+            onClick={() => defend()}
+            className="flex flex-col items-center gap-1 rounded-lg border border-blue-800/50 bg-blue-950/40 py-3 transition-all hover:bg-blue-900/50 hover:border-blue-600/50 active:scale-95"
+          >
+            <ArcaneIcon name="shield" size={24} className="text-blue-400" glow />
+            <span className="font-title text-xs font-bold text-blue-300">{t('combat.defend')}</span>
+          </button>
 
-          <div className="relative flex flex-col items-center justify-center p-4">
-            <div className={`transition-transform duration-200 ${playerShake ? 'animate-[dash-right_0.3s_ease-in-out_forwards]' : ''}`}>
-              <Portrait kind="class" id={player?.archetype ?? 'blade'} size={110} fallbackIcon="⚔" ring="arcane" />
-            </div>
-            
-            <div className="mt-4 flex w-full flex-col items-center">
-              <h2 className="font-title text-xl font-bold text-game-text">{player?.name ?? t('game.unknown')}</h2>
-              <p className="font-mono text-xs text-game-muted mb-2">Lvl {player?.level ?? 0}</p>
-              <div className="grid w-full max-w-[200px] gap-1.5">
-                <ProgressBar current={player?.hp ?? 0} max={player?.maxHp ?? 1} type="hp" showText />
-                <ProgressBar current={player?.mp ?? 0} max={player?.maxMp ?? 1} type="mp" showText />
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
+          <button
+            type="button"
+            onClick={() => openModal(SKILLS_MODAL)}
+            className="flex flex-col items-center gap-1 rounded-lg border border-purple-800/50 bg-purple-950/40 py-3 transition-all hover:bg-purple-900/50 hover:border-purple-600/50 active:scale-95"
+          >
+            <ArcaneIcon name="magic" size={24} className="text-purple-400" glow />
+            <span className="font-title text-xs font-bold text-purple-300">{t('combat.skills')}</span>
+          </button>
 
-      {showParticles && <ParticleSystem trigger={showParticles} type="attack" onComplete={() => setShowParticles(false)} className="absolute top-0 left-0 w-full h-full" />}
+          <button
+            type="button"
+            onClick={() => flee()}
+            className="flex flex-col items-center gap-1 rounded-lg border border-yellow-800/50 bg-yellow-950/40 py-3 transition-all hover:bg-yellow-900/50 hover:border-yellow-600/50 active:scale-95"
+          >
+            <ArcaneIcon name="flee" size={24} className="text-yellow-400" />
+            <span className="font-title text-xs font-bold text-yellow-300">{t('combat.flee')}</span>
+          </button>
+        </div>
+
+        {/* Secondary actions */}
+        <div className="flex justify-center gap-2 pb-2">
+          <button type="button" onClick={() => openModal(LOG_MODAL)} className="font-mono text-[10px] text-game-muted hover:text-game-text transition-colors">
+            {t('combat.log.title')}
+          </button>
+          <span className="text-game-faded">·</span>
+          <button type="button" onClick={() => openModal(AUTO_MODAL)} className="font-mono text-[10px] text-game-muted hover:text-game-text transition-colors">
+            {t('combat.autoConfig.title')}
+          </button>
+        </div>
+      </div>
+
+      {/* ═══ VFX OVERLAYS ═══ */}
+      {showParticles && <ParticleSystem trigger={showParticles} type="attack" onComplete={() => setShowParticles(false)} className="absolute top-0 left-0 w-full h-full pointer-events-none z-20" />}
       {activeSkillEffect && <SkillEffectPanel {...activeSkillEffect} onComplete={() => setActiveSkillEffect(null)} showParticles narrate playSound />}
-      <footer className="grid shrink-0 gap-2">
-        <div className="grid grid-cols-2 gap-2">
-          <ActionButton onClick={() => { setShowParticles(true); attack(); }}><ArcaneIcon name="sword" glow /> {t('combat.attack')}</ActionButton>
-          <ActionButton onClick={() => defend()}><ArcaneIcon name="shield" glow /> {t('combat.defend')}</ActionButton>
-          <ActionButton onClick={() => openModal(SKILLS_MODAL)}><ArcaneIcon name="magic" glow /> {t('combat.skills')}</ActionButton>
-          <ActionButton variant="danger" onClick={() => flee()}><ArcaneIcon name="flee" /> {t('combat.flee')}</ActionButton>
-        </div>
-        <Button variant="ghost" fullWidth onClick={() => openModal(LOG_MODAL)}>
-          {t('combat.log.title')}
-        </Button>
-        <div className="grid grid-cols-2 gap-2">
-          <Button variant={combat.autoFight ? 'success' : 'secondary'} onClick={combat.toggleAutoFight}>
-            <ArcaneIcon name="auto" glow={combat.autoFight} /> {t('combat.autoFight')} [{combat.autoFight ? t('combat.on') : t('combat.off')}]
-          </Button>
-          <Button variant={combat.autoAdvance ? 'success' : 'secondary'} onClick={combat.toggleAutoAdvance}>
-            <ArcaneIcon name="advance" glow={combat.autoAdvance} /> {t('combat.autoAdvance')} [{combat.autoAdvance ? t('combat.on') : t('combat.off')}]
-          </Button>
-        </div>
-        <Button variant="ghost" size="sm" onClick={() => openModal(AUTO_MODAL)}>
-          {t('combat.autoConfig.title')}
-        </Button>
-      </footer>
 
+      {/* ═══ MODALS ═══ */}
       <SkillsModal />
       <CombatLogModal />
       <AutoConfigModal />

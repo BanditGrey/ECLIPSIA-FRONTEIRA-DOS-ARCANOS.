@@ -9,6 +9,7 @@ import { ImpulseDisplay } from '../ui/ImpulseDisplay';
 import { PetDisplay } from '../ui/PetDisplay';
 import { ProgressBar } from '../ui/ProgressBar';
 import { Portrait } from '../ui/Portrait';
+import { LayeredCharacter } from '../ui/LayeredCharacter';
 
 export const HubPanel = () => {
   const { lang, t } = useI18n();
@@ -32,7 +33,7 @@ export const HubPanel = () => {
         <div className="absolute right-0 top-0 h-32 w-32 -translate-y-8 translate-x-8 rounded-full bg-gold-500/10 blur-2xl" />
         
         <div className="relative flex items-center gap-4">
-          <Portrait kind="class" id={player?.archetype ?? 'blade'} size={80} ring="gold" />
+          <LayeredCharacter gender={(player?.gender as any) ?? 'female'} state="idle" size={90} glowColor="#f0c04a" />
           <div className="flex-1 min-w-0">
             <h2 className="title-gold font-title text-2xl font-black truncate">{player?.name}</h2>
             <div className="flex items-center gap-2 mt-0.5">
