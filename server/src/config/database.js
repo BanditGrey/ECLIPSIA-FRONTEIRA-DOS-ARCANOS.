@@ -4,8 +4,15 @@ export const connectDatabase = async () => {
   try {
     let mongoUri = process.env.MONGO_URI;
 
-    // Fallback sem Atlas: MongoDB efêmero em memória (testes/preview).
-    // ⚠ Dados somem ao reiniciar — em produção configure MONGO_URI (Atlas).
+    // Se estivermos rodando no Sandbox Offline (sem rede para baixar mongod),
+    // a gente apenas "finge" conectar para não explodir o processo do Node.
+    if (process.env.SANDBOX_OFFLINE) {
+      console.log('⚠ SANDBOX_OFFLINE ativo — Servidor backend mockado sem DB.');
+      // Stub Mongoose to prevent crashing when queries are called
+      mongoose.connect = async () => {};
+      return;
+    }
+
     if (!mongoUri) {
       const { MongoMemoryServer } = await import('mongodb-memory-server');
       const memoryServer = await MongoMemoryServer.create();

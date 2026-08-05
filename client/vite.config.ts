@@ -5,7 +5,6 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
-    // Dev/preview: aceitar qualquer host (inclui o host do preview online).
     allowedHosts: true,
     proxy: {
       '/api': 'http://localhost:5000',
