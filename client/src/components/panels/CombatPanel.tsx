@@ -12,7 +12,7 @@ import { useCombatStore } from '../../store/useCombatStore';
 import { useGameStore } from '../../store/useGameStore';
 import { usePartyCombatStore } from '../../store/usePartyCombatStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
-import { useSkill } from '../../systems/combat';
+import { attack, defend, useSkill, flee } from '../../systems/combat';
 import { CombatOutcomeScreen } from '../effects/CombatOutcomeScreen';
 import { FloatingCombatText } from '../effects/FloatingCombatText';
 import { ArcaneField } from '../effects/ArcaneField';
@@ -294,10 +294,10 @@ export const CombatPanel = () => {
       {activeSkillEffect && <SkillEffectPanel {...activeSkillEffect} onComplete={() => setActiveSkillEffect(null)} showParticles narrate playSound />}
       <footer className="grid shrink-0 gap-2">
         <div className="grid grid-cols-2 gap-2">
-          <ActionButton onClick={() => { audio.playSound('/assets/audio/sfx/attack.mp3'); setShowParticles(true); combat.addLog('attack', t('combat.attack')); }}><ArcaneIcon name="sword" glow /> {t('combat.attack')}</ActionButton>
-          <ActionButton onClick={() => combat.addLog('defend', t('combat.defend'))}><ArcaneIcon name="shield" glow /> {t('combat.defend')}</ActionButton>
+          <ActionButton onClick={() => { setShowParticles(true); attack(); }}><ArcaneIcon name="sword" glow /> {t('combat.attack')}</ActionButton>
+          <ActionButton onClick={() => defend()}><ArcaneIcon name="shield" glow /> {t('combat.defend')}</ActionButton>
           <ActionButton onClick={() => openModal(SKILLS_MODAL)}><ArcaneIcon name="magic" glow /> {t('combat.skills')}</ActionButton>
-          <ActionButton variant="danger" onClick={() => combat.resetCombat()}><ArcaneIcon name="flee" /> {t('combat.flee')}</ActionButton>
+          <ActionButton variant="danger" onClick={() => flee()}><ArcaneIcon name="flee" /> {t('combat.flee')}</ActionButton>
         </div>
         <Button variant="ghost" fullWidth onClick={() => openModal(LOG_MODAL)}>
           {t('combat.log.title')}
