@@ -61,6 +61,7 @@ export interface DailyProgress {
 export interface PlayerData {
   name: string;
   archetype: string;
+  gender?: 'male' | 'female';
   level: number;
   xp: number;
   xpToNext: number;
