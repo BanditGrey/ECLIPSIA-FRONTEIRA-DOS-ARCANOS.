@@ -7,7 +7,6 @@ import { useGameStore } from '../../store/useGameStore';
 import { usePartyCombatStore, type PartyHuntSnapshot } from '../../store/usePartyCombatStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
 import { ART } from '../../data/art';
-import { Notifications } from '../ui/Notifications';
 import { Header } from './Header';
 import { Navbar } from './Navbar';
 import { CrystalShopModal } from '../panels/shop/CrystalShopModal';
@@ -122,7 +121,6 @@ export const GameLayout = ({ children }: GameLayoutProps) => {
         </main>
         <Navbar />
       </div>
-      <Notifications />
       <LevelUpAnimation />
       <CrystalShopModal />
     </div>
