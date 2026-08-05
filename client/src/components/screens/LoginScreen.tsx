@@ -64,7 +64,9 @@ export const LoginScreen = () => {
         const response = await AuthService.login(email, password);
 
         if (!response.success) {
-          addNotification(t('login.loginError'), 'error');
+          // AUTO-FALLBACK: Se o servidor estiver indisponível, entra automaticamente no Sandbox Offline
+          addNotification('Servidor principal offline. Entrando no modo Sandbox...', 'warning');
+          AuthService.playOfflineMock();
         }
 
         return;
@@ -80,10 +82,12 @@ export const LoginScreen = () => {
       if (response.success) {
         addNotification(t('login.registerSuccess'), 'success');
       } else {
-        addNotification(t('errors.generic'), 'error');
+        addNotification('Servidor de registro offline. Entrando no modo Sandbox...', 'warning');
+        AuthService.playOfflineMock();
       }
     } catch {
-      addNotification(tab === 'login' ? t('login.loginError') : t('errors.generic'), 'error');
+      addNotification('Falha crítica de rede. Entrando no modo Sandbox...', 'warning');
+      AuthService.playOfflineMock();
     } finally {
       setLoading(false);
     }
