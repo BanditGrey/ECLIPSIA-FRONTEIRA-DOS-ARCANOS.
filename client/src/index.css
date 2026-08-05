@@ -480,6 +480,57 @@ select {
   }
 }
 
+@keyframes eclipsiaCritShake {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-12px, -4px) rotate(-0.5deg); }
+  25% { transform: translate(14px, 5px) rotate(0.7deg); }
+  40% { transform: translate(-10px, 3px) rotate(-0.4deg); }
+  55% { transform: translate(11px, -4px) rotate(0.5deg); }
+  70% { transform: translate(-7px, 2px); }
+  85% { transform: translate(5px, -1px); }
+}
+
+@keyframes eclipsiaFloatCrit {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.4) rotate(-8deg);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.4) rotate(3deg);
+  }
+  55% {
+    transform: translateY(-24px) scale(1.2) rotate(-2deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-90px) scale(1) rotate(0);
+  }
+}
+
+@keyframes eclipsiaVictoryPop {
+  0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+  60% { transform: scale(1.2) rotate(10deg); opacity: 1; }
+  80% { transform: scale(0.95) rotate(-4deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes eclipsiaVictoryTitle {
+  0% { transform: translateY(30px) scale(0.5); opacity: 0; letter-spacing: 0.5em; filter: blur(8px); }
+  60% { transform: translateY(-4px) scale(1.05); opacity: 1; filter: blur(0); }
+  100% { transform: translateY(0) scale(1); opacity: 1; letter-spacing: 0.2em; filter: blur(0); }
+}
+
+@keyframes eclipsiaDefeatIn {
+  0% { transform: scale(0.3); opacity: 0; filter: blur(12px) hue-rotate(-30deg); }
+  100% { transform: scale(1); opacity: 1; filter: blur(0) hue-rotate(0); }
+}
+
+@keyframes shineSweep {
+  0% { transform: translateX(-160%); }
+  100% { transform: translateX(260%); }
+}
+
 .anim-fade {
   animation: fadeIn 180ms ease-out both;
 }

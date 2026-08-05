@@ -12,6 +12,7 @@ interface RankingEntry {
 }
 import { useGameStore } from '../../store/useGameStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
+import { PanelBackdrop } from '../ui/PanelBackdrop';
 
 type RankingTab = 'level' | 'pvp' | 'discovery';
 
@@ -88,7 +89,9 @@ export const RankingPanel = () => {
   };
 
   return (
-    <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
+    <div className="relative h-full overflow-hidden bg-game-dark text-game-text">
+      <PanelBackdrop theme="ranking" />
+      <div className="relative z-10 grid h-full grid-rows-[auto_1fr] gap-3 p-3">
       <div className="grid grid-cols-3 gap-2 rounded-xl border border-night-600 bg-night-900/80 p-1.5 font-mono shadow-panel text-sm">
         {(['level', 'pvp', 'discovery'] as RankingTab[]).map((item) => (
           <button
@@ -136,6 +139,7 @@ export const RankingPanel = () => {
           </div>
         )}
       </section>
+      </div>
     </div>
   );
 };
