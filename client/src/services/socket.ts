@@ -195,6 +195,14 @@ class SocketService {
   }
 
   emit(event: string, data?: unknown) {
+    if (typeof window !== 'undefined' && window.localStorage.getItem('eclipsia_offline_mode') === 'true') {
+      console.log(`[Offline Mock Socket] Ignorado: ${event}`, data);
+      
+      if (event === 'who:online') {
+        window.dispatchEvent(new CustomEvent('eclipsia:who:list', { detail: { names: ['Arena Tester (Você)'], count: 1 } }));
+      }
+      return;
+    }
     const socket = this.connect();
     socket.emit(event, data);
   }

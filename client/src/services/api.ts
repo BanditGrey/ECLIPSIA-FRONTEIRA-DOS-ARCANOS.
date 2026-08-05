@@ -100,8 +100,8 @@ export const API = {
           return resolve({ success: true, data: { rankings: [] } as T });
         }
         
-        // Simular sucessos genéricos para vendas/criações
-        resolve({ success: true, data: { message: "Mock Success", character: { gold: 999999, inventory: [] }, listing: {} } as T });
+        // Simular sucessos genéricos para vendas/criações sem limpar o inventário
+        resolve({ success: true, data: { message: "Mock Success", listing: {} } as T });
       }, 300);
     });
   },

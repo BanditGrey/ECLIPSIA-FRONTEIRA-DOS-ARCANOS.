@@ -795,12 +795,15 @@ export const combatEngine = {
     combat.setCooldown(skillId, Math.max(1, Math.round(skill.cd * (1 - haste - cdReduce))));
 
     // FX: dispara o painel de efeito da skill (partículas + som + narração)
+    const critChance = resolved ? resolved.critChance : 0.05;
+    const isCrit = Math.random() < critChance;
+
     useCombatStore.getState().setSkillEffect({
       skillId,
       skillName: t(`skills.${skillId}.name`),
       damageType: skill.damageType,
       damagePercent: skill.damagePercent,
-      isCritical: Math.random() < 0.1
+      isCritical: isCrit
     });
 
     if (skill.healPercent) {

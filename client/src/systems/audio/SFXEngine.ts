@@ -27,8 +27,12 @@ const playTone = (freq: number, type: OscillatorType, duration: number, gainVal:
   }
 };
 
-export const playAttack = () => { playTone(440, 'square', 0.15, 0.15); playTone(880, 'square', 0.1, 0.1); };
+export const playAttack = () => { playTone(220, 'sawtooth', 0.15, 0.2); playTone(440, 'square', 0.1, 0.1); };
 export const playCrit = () => { playTone(880, 'triangle', 0.3, 0.2); playTone(1320, 'triangle', 0.3, 0.15); };
 export const playHeal = () => { playTone(660, 'sine', 0.5, 0.15); playTone(880, 'sine', 0.5, 0.1); };
 export const playLoot = () => { playTone(1100, 'triangle', 0.2, 0.15); playTone(1320, 'triangle', 0.2, 0.1); };
 export const playLevelUp = () => { playTone(440, 'sine', 0.3, 0.15); playTone(880, 'sine', 0.3, 0.1); playTone(1760, 'sine', 0.5, 0.15); };
+
+export const playSkillMagic = () => { playTone(600, 'sine', 0.4, 0.2); playTone(1200, 'triangle', 0.6, 0.15); };
+export const playSkillPhysical = () => { playTone(150, 'sawtooth', 0.2, 0.3); playTone(300, 'square', 0.3, 0.2); };
+export const playSkillVoid = () => { playTone(100, 'sine', 0.8, 0.3); playTone(50, 'sawtooth', 0.8, 0.2); };
