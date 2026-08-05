@@ -11,6 +11,10 @@ export type MonsterId =
  * Se um estado específico não existir, cai para idle.
  */
 const resolveSprite = (id: MonsterId, state: string): string => {
+  // Mapa de sprites. Se um monstro não tiver sprite para um estado, o helper
+  // de resolução faz fallback para o 'idle' (ou goblin_idle como último recurso).
+  // Os monstros marcados com // TODO ainda não têm sprites próprias em disco —
+  // caem para fallback até serem gerados.
   const map: Record<MonsterId, Partial<Record<string, string>>> = {
     goblin:            { idle: 'monster_goblin_idle_1', attack: 'monster_goblin_attack_1', hit: 'monster_goblin_hit_1' },
     rat:               { idle: 'monster_rat_idle_1', attack: 'monster_rat_attack_1', hit: 'monster_rat_hit_1' },
@@ -18,12 +22,12 @@ const resolveSprite = (id: MonsterId, state: string): string => {
     mist_wolf:         { idle: 'monster_mist_wolf_idle_1', attack: 'monster_mist_wolf_attack_1', hit: 'monster_mist_wolf_hit_1' },
     shadow_sprite:     { idle: 'monster_shadow_sprite_idle_1', attack: 'monster_shadow_sprite_attack_1', hit: 'monster_shadow_sprite_hit_1' },
     sand_scorpion:     { idle: 'monster_sand_scorpion_idle_1', attack: 'monster_sand_scorpion_attack_1', hit: 'monster_sand_scorpion_hit_1' },
-    mirage_beast:      { idle: 'monster_mirage_beast_idle_1', attack: 'monster_mirage_beast_attack_1', hit: 'monster_mirage_beast_hit_1' },
-    dune_crawler:      { idle: 'monster_dune_crawler_idle_1', attack: 'monster_dune_crawler_attack_1', hit: 'monster_dune_crawler_hit_1' },
-    storm_harpy:       { idle: 'monster_storm_harpy_idle_1', attack: 'monster_storm_harpy_attack_1', hit: 'monster_storm_harpy_hit_1' },
-    cloud_titan:       { idle: 'monster_cloud_titan_idle_1', attack: 'monster_cloud_titan_attack_1', hit: 'monster_cloud_titan_hit_1' },
-    sea_wraith:        { idle: 'monster_sea_wraith_idle_1', attack: 'monster_sea_wraith_attack_1' },
-    deep_leviathan_jr: { idle: 'monster_deep_leviathan_jr_idle_1', attack: 'monster_deep_leviathan_jr_attack_1' },
+    mirage_beast:      { hit: 'monster_mirage_beast_hit_1' }, // TODO: idle/attack próprios (faltam gerar)
+    dune_crawler:      { hit: 'monster_dune_crawler_hit_1' }, // TODO: idle/attack próprios
+    storm_harpy:       { hit: 'monster_storm_harpy_hit_1' }, // TODO: idle/attack próprios
+    cloud_titan:       { hit: 'monster_cloud_titan_hit_1' }, // TODO: idle/attack próprios
+    sea_wraith:        { }, // TODO: idle/attack/hit
+    deep_leviathan_jr: { }, // TODO: idle/attack/hit
     forest_golem:      { idle: 'monster_forest_golem_idle_1', attack: 'monster_forest_golem_attack_1' },
   };
   const base = state.startsWith('skill_') ? 'attack' : state === 'spawn' ? 'idle' : state;
