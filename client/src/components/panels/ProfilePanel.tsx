@@ -5,6 +5,7 @@ import type { Stats } from '../../types/player.types';
 import { Button } from '../ui/Button';
 import { ProgressBar } from '../ui/ProgressBar';
 import { Portrait } from '../ui/Portrait';
+import { LayeredCharacter } from '../ui/LayeredCharacter';
 import { PROFICIENCIES, PROFICIENCY_ICONS } from '../../data/proficiencies';
 import { skills } from '../../data/skills';
 import { getComboKey } from '../../data/weaponCombos';
@@ -62,7 +63,7 @@ export const ProfilePanel = () => {
           <div className="grid h-full gap-3 overflow-auto pr-1">
             <header className="relative overflow-hidden rounded-xl border border-night-600 bg-gradient-to-r from-night-700/70 to-night-900/80 p-3">
               <div className="flex items-center gap-4">
-                <Portrait kind="class" id={player.archetype} size={84} fallbackIcon="⚔" />
+                <LayeredCharacter gender={(player.gender as any) ?? 'female'} state="idle" size={90} glowColor="#f0c04a" />
                 <div className="min-w-0 flex-1">
                   <h1 className="title-gold text-glow truncate font-title text-2xl font-black">{player.name}</h1>
                   <p className="font-mono text-sm text-game-muted">

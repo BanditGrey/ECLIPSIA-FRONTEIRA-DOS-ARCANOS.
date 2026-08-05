@@ -4,8 +4,8 @@ export type CharState = 'idle' | 'walk' | 'attack' | 'hit' | 'death' | 'cast' | 
 type Gender = 'male' | 'female';
 
 const AVAILABLE: Record<string, Record<CharState, number[]>> = {
-  male:   { idle: [1, 2], walk: [1], attack: [1], hit: [1], cast: [1], death: [], dash: [], victory: [] },
-  female: { idle: [1, 2], walk: [1], attack: [1], hit: [1], cast: [], death: [], dash: [], victory: [] },
+  male:   { idle: [1, 2], walk: [1], attack: [1], hit: [1], cast: [1], death: [1], dash: [], victory: [] },
+  female: { idle: [1, 2], walk: [1], attack: [1], hit: [1], cast: [1], death: [1], dash: [], victory: [] },
 };
 
 const getSprite = (gender: Gender, state: CharState, frame: number = 0): string => {

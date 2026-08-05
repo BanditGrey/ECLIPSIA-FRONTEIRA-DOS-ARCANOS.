@@ -6,7 +6,7 @@ export type MonsterId = 'cloud_titan' | 'storm_harpy' | 'goblin' | 'rat' | 'wolf
 const SPRITES: Record<MonsterId, Record<string, string>> = {
   goblin:            { idle: 'monster_goblin_idle_1', attack: 'monster_goblin_attack_1', hit: 'monster_goblin_idle_1', death: 'monster_goblin_idle_1', walk: 'monster_goblin_idle_1' },
   rat:               { idle: 'monster_rat_idle_1', attack: 'monster_rat_idle_1', hit: 'monster_rat_idle_1', death: 'monster_rat_idle_1', walk: 'monster_rat_idle_1' },
-  wolf_pup:          { idle: 'monster_goblin_idle_1', attack: 'monster_goblin_attack_1', hit: 'monster_goblin_idle_1', death: 'monster_goblin_idle_1', walk: 'monster_goblin_idle_1' },
+  wolf_pup:          { idle: 'monster_wolf_pup_idle_1', attack: 'monster_wolf_pup_attack_1', hit: 'monster_wolf_pup_idle_1', death: 'monster_wolf_pup_idle_1', walk: 'monster_wolf_pup_idle_1' },
   mist_wolf:         { idle: 'monster_goblin_idle_1', attack: 'monster_goblin_attack_1', hit: 'monster_goblin_idle_1', death: 'monster_goblin_idle_1', walk: 'monster_goblin_idle_1' },
   shadow_sprite:     { idle: 'monster_goblin_idle_1', attack: 'monster_goblin_attack_1', hit: 'monster_goblin_idle_1', death: 'monster_goblin_idle_1', walk: 'monster_goblin_idle_1' },
   sand_scorpion:     { idle: 'monster_goblin_idle_1', attack: 'monster_goblin_attack_1', hit: 'monster_goblin_idle_1', death: 'monster_goblin_idle_1', walk: 'monster_goblin_idle_1' },
