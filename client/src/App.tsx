@@ -101,7 +101,7 @@ export const App = () => {
 
   if (isInitializing) {
     return (
-      <div className="bg-eclipsia flex h-screen flex-col items-center justify-center gap-4 overflow-hidden text-game-gold">
+      <div className="bg-eclipsia flex h-full flex-col items-center justify-center gap-4 overflow-hidden text-game-gold">
         <img
           src="/assets/emblem.png"
           alt=""

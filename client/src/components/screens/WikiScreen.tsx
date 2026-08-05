@@ -38,7 +38,7 @@ export const WikiScreen = () => {
   };
 
   return (
-    <div className="bg-eclipsia grid h-screen grid-rows-[auto_1fr] overflow-hidden text-game-text">
+    <div className="bg-eclipsia grid h-full grid-rows-[auto_1fr] overflow-hidden text-game-text">
       <header className="relative flex h-header items-center justify-between border-b border-night-700 bg-night-900/85 px-4 backdrop-blur">
         <div>
           <h1 className="title-gold font-title text-xl font-black">{String(wiki.ui.title)}</h1>
