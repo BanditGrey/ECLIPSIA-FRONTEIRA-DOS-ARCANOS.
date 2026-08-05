@@ -97,7 +97,7 @@ export const GameLayout = ({ children }: GameLayoutProps) => {
   const panel = useGameStore((state) => state.panel);
 
   return (
-    <div className="bg-eclipsia relative flex h-screen flex-col overflow-hidden text-game-text">
+    <div className="bg-eclipsia relative flex h-full flex-col overflow-hidden text-game-text">
       {/* Atmosfera: arte da cidade ao fundo + véus */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.13]"

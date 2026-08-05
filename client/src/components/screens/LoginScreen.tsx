@@ -81,7 +81,7 @@ export const LoginScreen = () => {
   };
 
   return (
-    <div className="relative flex h-screen overflow-hidden bg-game-dark text-game-text">
+    <div className="relative flex h-full overflow-hidden bg-game-dark text-game-text">
       {/* Background Cinematográfico */}
       <div
         className="absolute inset-0 bg-cover bg-center animate-kenburns"
