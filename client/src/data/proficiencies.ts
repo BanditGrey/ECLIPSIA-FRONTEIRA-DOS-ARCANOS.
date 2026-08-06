@@ -6,6 +6,9 @@ import { getItemByNumId } from '../utils/itemSerializer';
  * Cada categoria de arma do catálogo é uma proficiência. O jogador sobe
  * proficiência usando a arma (ataques/skills/kills) e desbloqueia skills
  * e bônus passivos conforme o nível.
+ *
+ * NOTA: glyph NÃO é proficiência — glifos são ferramentas de off-hand
+ * (selam 2º elemento/fusão). Não sobem nível nem concedem skills.
  */
 export const PROFICIENCIES: WeaponCategory[] = [
   'sword_one',
@@ -52,7 +55,8 @@ export const PROFICIENCY_ICONS: Record<WeaponCategory, string> = {
   tome: '📖',
   hammer: '🔨',
   spear: '🔱',
-  shield: '🛡'
+  shield: '🛡',
+  glyph: '🔯'
 };
 
 /**
@@ -194,7 +198,10 @@ export const PROFICIENCY_PASSIVES: Record<WeaponCategory, ProficiencyPassiveTier
     { at: 50, defBonus: 0.04, healBonus: 0.02 },
     { at: 150, defBonus: 0.04, healBonus: 0.02 },
     { at: 300, defBonus: 0.04, healBonus: 0.02 }
-  ]
+  ],
+  // GLIFO de off-hand: ferramenta arcana (2º elemento/fusão), sem bônus de
+  // combate próprio — o poder vem do elemento que ele carimba na arma.
+  glyph: []
 };
 
 export interface ProficiencyPassiveTotals {

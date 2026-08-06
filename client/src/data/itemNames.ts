@@ -1979,6 +1979,222 @@ export const itemNames: Record<string, Record<'pt-BR' | 'en-US' | 'es-ES' | 'ja-
       "desc": "防御か力を担う副手装備。"
     }
   },
+  "gl_2240": {
+    "pt-BR": { "name": "Glifo Ígneo (Comum)", "desc": "Glifo de mão secundária (comum) que sela um segundo elemento (fire) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Igneous Glyph (Common)", "desc": "Off-hand glyph (common) that seals a second element (fire) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Ígneo (Común)", "desc": "Glifo de mano secundaria (común) que sella un segundo elemento (fire) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "焔のグリフ（コモン）", "desc": "副手のグリフ（コモン）。武器に第二の属性（fire）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2250": {
+    "pt-BR": { "name": "Glifo Ígneo (Raro)", "desc": "Glifo de mão secundária (raro) que sela um segundo elemento (fire) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Igneous Glyph (Rare)", "desc": "Off-hand glyph (rare) that seals a second element (fire) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Ígneo (Raro)", "desc": "Glifo de mano secundaria (raro) que sella un segundo elemento (fire) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "焔のグリフ（レア）", "desc": "副手のグリフ（レア）。武器に第二の属性（fire）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2260": {
+    "pt-BR": { "name": "Glifo Ígneo (Épico)", "desc": "Glifo de mão secundária (épico) que sela um segundo elemento (fire) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Igneous Glyph (Epic)", "desc": "Off-hand glyph (epic) that seals a second element (fire) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Ígneo (Épico)", "desc": "Glifo de mano secundaria (épico) que sella un segundo elemento (fire) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "焔のグリフ（エピック）", "desc": "副手のグリフ（エピック）。武器に第二の属性（fire）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2270": {
+    "pt-BR": { "name": "Glifo Ígneo (Lendário)", "desc": "Glifo de mão secundária (lendário) que sela um segundo elemento (fire) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Igneous Glyph (Legendary)", "desc": "Off-hand glyph (legendary) that seals a second element (fire) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Ígneo (Legendario)", "desc": "Glifo de mano secundaria (legendario) que sella un segundo elemento (fire) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "焔のグリフ（レジェンダリー）", "desc": "副手のグリフ（レジェンダリー）。武器に第二の属性（fire）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2290": {
+    "pt-BR": { "name": "Glifo Ígneo (Relíquia)", "desc": "Glifo de mão secundária (mítico) que sela um segundo elemento (fire) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Igneous Glyph (Relic)", "desc": "Off-hand glyph (relic) that seals a second element (fire) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Ígneo (Relíquia)", "desc": "Glifo de mano secundaria (mítico) que sella un segundo elemento (fire) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "焔のグリフ（ミシック）", "desc": "副手のグリフ（ミシック）。武器に第二の属性（fire）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2241": {
+    "pt-BR": { "name": "Glifo Telúrico (Comum)", "desc": "Glifo de mão secundária (comum) que sela um segundo elemento (earth) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Telluric Glyph (Common)", "desc": "Off-hand glyph (common) that seals a second element (earth) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Telúrico (Común)", "desc": "Glifo de mano secundaria (común) que sella un segundo elemento (earth) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "地のグリフ（コモン）", "desc": "副手のグリフ（コモン）。武器に第二の属性（earth）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2251": {
+    "pt-BR": { "name": "Glifo Telúrico (Raro)", "desc": "Glifo de mão secundária (raro) que sela um segundo elemento (earth) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Telluric Glyph (Rare)", "desc": "Off-hand glyph (rare) that seals a second element (earth) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Telúrico (Raro)", "desc": "Glifo de mano secundaria (raro) que sella un segundo elemento (earth) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "地のグリフ（レア）", "desc": "副手のグリフ（レア）。武器に第二の属性（earth）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2261": {
+    "pt-BR": { "name": "Glifo Telúrico (Épico)", "desc": "Glifo de mão secundária (épico) que sela um segundo elemento (earth) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Telluric Glyph (Epic)", "desc": "Off-hand glyph (epic) that seals a second element (earth) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Telúrico (Épico)", "desc": "Glifo de mano secundaria (épico) que sella un segundo elemento (earth) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "地のグリフ（エピック）", "desc": "副手のグリフ（エピック）。武器に第二の属性（earth）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2271": {
+    "pt-BR": { "name": "Glifo Telúrico (Lendário)", "desc": "Glifo de mão secundária (lendário) que sela um segundo elemento (earth) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Telluric Glyph (Legendary)", "desc": "Off-hand glyph (legendary) that seals a second element (earth) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Telúrico (Legendario)", "desc": "Glifo de mano secundaria (legendario) que sella un segundo elemento (earth) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "地のグリフ（レジェンダリー）", "desc": "副手のグリフ（レジェンダリー）。武器に第二の属性（earth）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2291": {
+    "pt-BR": { "name": "Glifo Telúrico (Relíquia)", "desc": "Glifo de mão secundária (mítico) que sela um segundo elemento (earth) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Telluric Glyph (Relic)", "desc": "Off-hand glyph (relic) that seals a second element (earth) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Telúrico (Relíquia)", "desc": "Glifo de mano secundaria (mítico) que sella un segundo elemento (earth) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "地のグリフ（ミシック）", "desc": "副手のグリフ（ミシック）。武器に第二の属性（earth）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2242": {
+    "pt-BR": { "name": "Glifo das Marés (Comum)", "desc": "Glifo de mão secundária (comum) que sela um segundo elemento (water) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Tidal Glyph (Common)", "desc": "Off-hand glyph (common) that seals a second element (water) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo de las Mareas (Común)", "desc": "Glifo de mano secundaria (común) que sella un segundo elemento (water) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "潮のグリフ（コモン）", "desc": "副手のグリフ（コモン）。武器に第二の属性（water）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2252": {
+    "pt-BR": { "name": "Glifo das Marés (Raro)", "desc": "Glifo de mão secundária (raro) que sela um segundo elemento (water) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Tidal Glyph (Rare)", "desc": "Off-hand glyph (rare) that seals a second element (water) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo de las Mareas (Raro)", "desc": "Glifo de mano secundaria (raro) que sella un segundo elemento (water) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "潮のグリフ（レア）", "desc": "副手のグリフ（レア）。武器に第二の属性（water）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2262": {
+    "pt-BR": { "name": "Glifo das Marés (Épico)", "desc": "Glifo de mão secundária (épico) que sela um segundo elemento (water) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Tidal Glyph (Epic)", "desc": "Off-hand glyph (epic) that seals a second element (water) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo de las Mareas (Épico)", "desc": "Glifo de mano secundaria (épico) que sella un segundo elemento (water) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "潮のグリフ（エピック）", "desc": "副手のグリフ（エピック）。武器に第二の属性（water）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2272": {
+    "pt-BR": { "name": "Glifo das Marés (Lendário)", "desc": "Glifo de mão secundária (lendário) que sela um segundo elemento (water) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Tidal Glyph (Legendary)", "desc": "Off-hand glyph (legendary) that seals a second element (water) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo de las Mareas (Legendario)", "desc": "Glifo de mano secundaria (legendario) que sella un segundo elemento (water) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "潮のグリフ（レジェンダリー）", "desc": "副手のグリフ（レジェンダリー）。武器に第二の属性（water）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2292": {
+    "pt-BR": { "name": "Glifo das Marés (Relíquia)", "desc": "Glifo de mão secundária (mítico) que sela um segundo elemento (water) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Tidal Glyph (Relic)", "desc": "Off-hand glyph (relic) that seals a second element (water) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo de las Mareas (Relíquia)", "desc": "Glifo de mano secundaria (mítico) que sella un segundo elemento (water) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "潮のグリフ（ミシック）", "desc": "副手のグリフ（ミシック）。武器に第二の属性（water）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2243": {
+    "pt-BR": { "name": "Glifo Vendaval (Comum)", "desc": "Glifo de mão secundária (comum) que sela um segundo elemento (wind) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Gale Glyph (Common)", "desc": "Off-hand glyph (common) that seals a second element (wind) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Vendaval (Común)", "desc": "Glifo de mano secundaria (común) que sella un segundo elemento (wind) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "風のグリフ（コモン）", "desc": "副手のグリフ（コモン）。武器に第二の属性（wind）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2253": {
+    "pt-BR": { "name": "Glifo Vendaval (Raro)", "desc": "Glifo de mão secundária (raro) que sela um segundo elemento (wind) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Gale Glyph (Rare)", "desc": "Off-hand glyph (rare) that seals a second element (wind) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Vendaval (Raro)", "desc": "Glifo de mano secundaria (raro) que sella un segundo elemento (wind) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "風のグリフ（レア）", "desc": "副手のグリフ（レア）。武器に第二の属性（wind）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2263": {
+    "pt-BR": { "name": "Glifo Vendaval (Épico)", "desc": "Glifo de mão secundária (épico) que sela um segundo elemento (wind) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Gale Glyph (Epic)", "desc": "Off-hand glyph (epic) that seals a second element (wind) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Vendaval (Épico)", "desc": "Glifo de mano secundaria (épico) que sella un segundo elemento (wind) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "風のグリフ（エピック）", "desc": "副手のグリフ（エピック）。武器に第二の属性（wind）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2273": {
+    "pt-BR": { "name": "Glifo Vendaval (Lendário)", "desc": "Glifo de mão secundária (lendário) que sela um segundo elemento (wind) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Gale Glyph (Legendary)", "desc": "Off-hand glyph (legendary) that seals a second element (wind) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Vendaval (Legendario)", "desc": "Glifo de mano secundaria (legendario) que sella un segundo elemento (wind) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "風のグリフ（レジェンダリー）", "desc": "副手のグリフ（レジェンダリー）。武器に第二の属性（wind）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2293": {
+    "pt-BR": { "name": "Glifo Vendaval (Relíquia)", "desc": "Glifo de mão secundária (mítico) que sela um segundo elemento (wind) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Gale Glyph (Relic)", "desc": "Off-hand glyph (relic) that seals a second element (wind) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Vendaval (Relíquia)", "desc": "Glifo de mano secundaria (mítico) que sella un segundo elemento (wind) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "風のグリフ（ミシック）", "desc": "副手のグリフ（ミシック）。武器に第二の属性（wind）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2244": {
+    "pt-BR": { "name": "Glifo Sombrío (Comum)", "desc": "Glifo de mão secundária (comum) que sela um segundo elemento (dark) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Gloom Glyph (Common)", "desc": "Off-hand glyph (common) that seals a second element (dark) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Sombrío (Común)", "desc": "Glifo de mano secundaria (común) que sella un segundo elemento (dark) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "闇のグリフ（コモン）", "desc": "副手のグリフ（コモン）。武器に第二の属性（dark）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2254": {
+    "pt-BR": { "name": "Glifo Sombrío (Raro)", "desc": "Glifo de mão secundária (raro) que sela um segundo elemento (dark) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Gloom Glyph (Rare)", "desc": "Off-hand glyph (rare) that seals a second element (dark) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Sombrío (Raro)", "desc": "Glifo de mano secundaria (raro) que sella un segundo elemento (dark) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "闇のグリフ（レア）", "desc": "副手のグリフ（レア）。武器に第二の属性（dark）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2264": {
+    "pt-BR": { "name": "Glifo Sombrío (Épico)", "desc": "Glifo de mão secundária (épico) que sela um segundo elemento (dark) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Gloom Glyph (Epic)", "desc": "Off-hand glyph (epic) that seals a second element (dark) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Sombrío (Épico)", "desc": "Glifo de mano secundaria (épico) que sella un segundo elemento (dark) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "闇のグリフ（エピック）", "desc": "副手のグリフ（エピック）。武器に第二の属性（dark）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2274": {
+    "pt-BR": { "name": "Glifo Sombrío (Lendário)", "desc": "Glifo de mão secundária (lendário) que sela um segundo elemento (dark) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Gloom Glyph (Legendary)", "desc": "Off-hand glyph (legendary) that seals a second element (dark) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Sombrío (Legendario)", "desc": "Glifo de mano secundaria (legendario) que sella un segundo elemento (dark) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "闇のグリフ（レジェンダリー）", "desc": "副手のグリフ（レジェンダリー）。武器に第二の属性（dark）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2294": {
+    "pt-BR": { "name": "Glifo Sombrío (Relíquia)", "desc": "Glifo de mão secundária (mítico) que sela um segundo elemento (dark) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Gloom Glyph (Relic)", "desc": "Off-hand glyph (relic) that seals a second element (dark) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Sombrío (Relíquia)", "desc": "Glifo de mano secundaria (mítico) que sella un segundo elemento (dark) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "闇のグリフ（ミシック）", "desc": "副手のグリフ（ミシック）。武器に第二の属性（dark）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2245": {
+    "pt-BR": { "name": "Glifo Luminoso (Comum)", "desc": "Glifo de mão secundária (comum) que sela um segundo elemento (light) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Luminous Glyph (Common)", "desc": "Off-hand glyph (common) that seals a second element (light) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Luminoso (Común)", "desc": "Glifo de mano secundaria (común) que sella un segundo elemento (light) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "光のグリフ（コモン）", "desc": "副手のグリフ（コモン）。武器に第二の属性（light）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2255": {
+    "pt-BR": { "name": "Glifo Luminoso (Raro)", "desc": "Glifo de mão secundária (raro) que sela um segundo elemento (light) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Luminous Glyph (Rare)", "desc": "Off-hand glyph (rare) that seals a second element (light) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Luminoso (Raro)", "desc": "Glifo de mano secundaria (raro) que sella un segundo elemento (light) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "光のグリフ（レア）", "desc": "副手のグリフ（レア）。武器に第二の属性（light）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2265": {
+    "pt-BR": { "name": "Glifo Luminoso (Épico)", "desc": "Glifo de mão secundária (épico) que sela um segundo elemento (light) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Luminous Glyph (Epic)", "desc": "Off-hand glyph (epic) that seals a second element (light) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Luminoso (Épico)", "desc": "Glifo de mano secundaria (épico) que sella un segundo elemento (light) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "光のグリフ（エピック）", "desc": "副手のグリフ（エピック）。武器に第二の属性（light）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2275": {
+    "pt-BR": { "name": "Glifo Luminoso (Lendário)", "desc": "Glifo de mão secundária (lendário) que sela um segundo elemento (light) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Luminous Glyph (Legendary)", "desc": "Off-hand glyph (legendary) that seals a second element (light) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Luminoso (Legendario)", "desc": "Glifo de mano secundaria (legendario) que sella un segundo elemento (light) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "光のグリフ（レジェンダリー）", "desc": "副手のグリフ（レジェンダリー）。武器に第二の属性（light）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2295": {
+    "pt-BR": { "name": "Glifo Luminoso (Relíquia)", "desc": "Glifo de mão secundária (mítico) que sela um segundo elemento (light) na arma. Se o elemento da arma e o do glifo fundirem, uma aura elemental nasce ao redor da lâmina." },
+    "en-US": { "name": "Luminous Glyph (Relic)", "desc": "Off-hand glyph (relic) that seals a second element (light) onto your weapon. If the weapon and glyph elements fuse, an elemental aura blooms around the blade." },
+    "es-ES": { "name": "Glifo Luminoso (Relíquia)", "desc": "Glifo de mano secundaria (mítico) que sella un segundo elemento (light) en el arma. Si los elementos funden, un aura elemental surge alrededor de la hoja." },
+    "ja-JP": { "name": "光のグリフ（ミシック）", "desc": "副手のグリフ（ミシック）。武器に第二の属性（light）を宿す。武器とグリフの属性が融合すると、刃の周りに属性のオーラが生まれる。" }
+  },
+  "gl_2280": {
+    "pt-BR": { "name": "Glifo Apócrifo (Comum)", "desc": "Glifo neutro de raridade comum. Não sela nenhum elemento, então não cria fusão — apenas concede bônus de stats." },
+    "en-US": { "name": "Apocryphal Glyph (Common)", "desc": "Neutral glyph (common rarity). Seals no element, so it creates no fusion — it only grants stat bonuses." },
+    "es-ES": { "name": "Glifo Apócrifo (Común)", "desc": "Glifo neutro (rareza común). No sella ningún elemento, así que no crea fusión — solo otorga bonus de stats." },
+    "ja-JP": { "name": "異端のグリフ（コモン）", "desc": "ニュートラルグリフ（コモン）。属性を宿さないため融合せず、ステータスボーナスのみを与える。" }
+  },
+  "gl_2281": {
+    "pt-BR": { "name": "Glifo Apócrifo (Incomum)", "desc": "Glifo neutro de raridade incomum. Não sela nenhum elemento, então não cria fusão — apenas concede bônus de stats." },
+    "en-US": { "name": "Apocryphal Glyph (Uncommon)", "desc": "Neutral glyph (uncommon rarity). Seals no element, so it creates no fusion — it only grants stat bonuses." },
+    "es-ES": { "name": "Glifo Apócrifo (Poco común)", "desc": "Glifo neutro (rareza poco común). No sella ningún elemento, así que no crea fusión — solo otorga bonus de stats." },
+    "ja-JP": { "name": "異端のグリフ（アンコモン）", "desc": "ニュートラルグリフ（アンコモン）。属性を宿さないため融合せず、ステータスボーナスのみを与える。" }
+  },
+  "gl_2282": {
+    "pt-BR": { "name": "Glifo Apócrifo (Raro)", "desc": "Glifo neutro de raridade raro. Não sela nenhum elemento, então não cria fusão — apenas concede bônus de stats." },
+    "en-US": { "name": "Apocryphal Glyph (Rare)", "desc": "Neutral glyph (rare rarity). Seals no element, so it creates no fusion — it only grants stat bonuses." },
+    "es-ES": { "name": "Glifo Apócrifo (Raro)", "desc": "Glifo neutro (rareza raro). No sella ningún elemento, así que no crea fusión — solo otorga bonus de stats." },
+    "ja-JP": { "name": "異端のグリフ（レア）", "desc": "ニュートラルグリフ（レア）。属性を宿さないため融合せず、ステータスボーナスのみを与える。" }
+  },
+  "gl_2283": {
+    "pt-BR": { "name": "Glifo Apócrifo (Épico)", "desc": "Glifo neutro de raridade épico. Não sela nenhum elemento, então não cria fusão — apenas concede bônus de stats." },
+    "en-US": { "name": "Apocryphal Glyph (Epic)", "desc": "Neutral glyph (epic rarity). Seals no element, so it creates no fusion — it only grants stat bonuses." },
+    "es-ES": { "name": "Glifo Apócrifo (Épico)", "desc": "Glifo neutro (rareza épico). No sella ningún elemento, así que no crea fusión — solo otorga bonus de stats." },
+    "ja-JP": { "name": "異端のグリフ（エピック）", "desc": "ニュートラルグリフ（エピック）。属性を宿さないため融合せず、ステータスボーナスのみを与える。" }
+  },
+  "gl_2284": {
+    "pt-BR": { "name": "Glifo Apócrifo (Lendário)", "desc": "Glifo neutro de raridade lendário. Não sela nenhum elemento, então não cria fusão — apenas concede bônus de stats." },
+    "en-US": { "name": "Apocryphal Glyph (Legendary)", "desc": "Neutral glyph (legendary rarity). Seals no element, so it creates no fusion — it only grants stat bonuses." },
+    "es-ES": { "name": "Glifo Apócrifo (Legendario)", "desc": "Glifo neutro (rareza legendario). No sella ningún elemento, así que no crea fusión — solo otorga bonus de stats." },
+    "ja-JP": { "name": "異端のグリフ（レジェンダリー）", "desc": "ニュートラルグリフ（レジェンダリー）。属性を宿さないため融合せず、ステータスボーナスのみを与える。" }
+  },
+  "gl_2285": {
+    "pt-BR": { "name": "Glifo Apócrifo (Relíquia)", "desc": "Glifo neutro de raridade mítico. Não sela nenhum elemento, então não cria fusão — apenas concede bônus de stats." },
+    "en-US": { "name": "Apocryphal Glyph (Relic)", "desc": "Neutral glyph (relic rarity). Seals no element, so it creates no fusion — it only grants stat bonuses." },
+    "es-ES": { "name": "Glifo Apócrifo (Relíquia)", "desc": "Glifo neutro (rareza mítico). No sella ningún elemento, así que no crea fusión — solo otorga bonus de stats." },
+    "ja-JP": { "name": "異端のグリフ（ミシック）", "desc": "ニュートラルグリフ（ミシック）。属性を宿さないため融合せず、ステータスボーナスのみを与える。" }
+  },
   "hd_2500": {
     "pt-BR": {
       "name": "Elmo Simples",

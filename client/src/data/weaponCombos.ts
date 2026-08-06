@@ -1,7 +1,7 @@
 import type { WeaponCategory } from '../types/item.types';
 
 /** Ordem canônica das proficiências (para a matriz de combinações). */
-export const COMBO_CATS: Array<WeaponCategory | 'none'> = ["none","sword_one","sword_two","great_sword","dagger","dagger_off","bow_short","bow_long","staff_one","staff_two","orb","tome","hammer","spear","shield"];
+export const COMBO_CATS: Array<WeaponCategory | 'none'> = ["none","sword_one","sword_two","great_sword","dagger","dagger_off","bow_short","bow_long","staff_one","staff_two","orb","tome","hammer","spear","shield","glyph"];
 
 /** Nomes de combinação: chave "main_off" → chave i18n "combos.<key>.name". */
 export const COMBO_NAME_KEYS: Record<string, string> = {
@@ -215,6 +215,36 @@ export const COMBO_NAME_KEYS: Record<string, string> = {
   'shield_hammer': 'combos.shield_hammer.name',
   'shield_spear': 'combos.shield_spear.name',
   'shield_shield': 'combos.shield_shield.name',
+  'sword_one_glyph': 'combos.sword_one_glyph.name',
+  'sword_two_glyph': 'combos.sword_two_glyph.name',
+  'great_sword_glyph': 'combos.great_sword_glyph.name',
+  'dagger_glyph': 'combos.dagger_glyph.name',
+  'dagger_off_glyph': 'combos.dagger_off_glyph.name',
+  'bow_short_glyph': 'combos.bow_short_glyph.name',
+  'bow_long_glyph': 'combos.bow_long_glyph.name',
+  'staff_one_glyph': 'combos.staff_one_glyph.name',
+  'staff_two_glyph': 'combos.staff_two_glyph.name',
+  'orb_glyph': 'combos.orb_glyph.name',
+  'tome_glyph': 'combos.tome_glyph.name',
+  'hammer_glyph': 'combos.hammer_glyph.name',
+  'spear_glyph': 'combos.spear_glyph.name',
+  'shield_glyph': 'combos.shield_glyph.name',
+  'glyph_none': 'combos.glyph_none.name',
+  'glyph_sword_one': 'combos.glyph_sword_one.name',
+  'glyph_sword_two': 'combos.glyph_sword_two.name',
+  'glyph_great_sword': 'combos.glyph_great_sword.name',
+  'glyph_dagger': 'combos.glyph_dagger.name',
+  'glyph_dagger_off': 'combos.glyph_dagger_off.name',
+  'glyph_bow_short': 'combos.glyph_bow_short.name',
+  'glyph_bow_long': 'combos.glyph_bow_long.name',
+  'glyph_staff_one': 'combos.glyph_staff_one.name',
+  'glyph_staff_two': 'combos.glyph_staff_two.name',
+  'glyph_orb': 'combos.glyph_orb.name',
+  'glyph_tome': 'combos.glyph_tome.name',
+  'glyph_hammer': 'combos.glyph_hammer.name',
+  'glyph_spear': 'combos.glyph_spear.name',
+  'glyph_shield': 'combos.glyph_shield.name',
+  'glyph_glyph': 'combos.glyph_glyph.name',
 };
 
 export const getComboKey = (main: WeaponCategory | null | undefined, off: WeaponCategory | null | undefined): string => {

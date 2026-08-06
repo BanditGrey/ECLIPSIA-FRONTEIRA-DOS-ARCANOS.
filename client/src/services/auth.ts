@@ -326,8 +326,9 @@ export const AuthService = {
       luck: { base: 10, equipment: 50, titles: 0, impulse: 0, events: 0 },
       freePoints: 0,
       equipment: {
-        weapon_main: "1150|1:120|99:5",
-        weapon_off: null,
+        // DEMO DE FUSÃO: espada com elemento ÁGUA + glifo de VENTO = aura de GELO
+        weapon_main: "1004|14:35",
+        weapon_off: "gl_2253",
         head: "hd_2500",
         chest: "ch_3000", // Vestimenta de Couro (visual ativo no sandbox)
         legs: "lg_3500",
@@ -403,6 +404,20 @@ export const AuthService = {
         { itemStr: "1504|12:60", id: "w2h_1504", qty: 1 }, // Espadão FOGO T3
         { itemStr: "1103|16:35", id: "w1h_1103", qty: 1 }, // Adaga SOMBRIO T2 (avançado)
         { itemStr: "1204|14:60", id: "w1h_1204", qty: 1 }, // Arco ÁGUA T3
+        // GLIFOS de off-hand: amostra de raridades (comum→rélica) + neutro
+        { itemStr: "gl_2240", id: "gl_2240", qty: 1 }, // Fogo comum
+        { itemStr: "gl_2250", id: "gl_2250", qty: 1 }, // Fogo raro
+        { itemStr: "gl_2260", id: "gl_2260", qty: 1 }, // Fogo épico
+        { itemStr: "gl_2270", id: "gl_2270", qty: 1 }, // Fogo lendário
+        { itemStr: "gl_2290", id: "gl_2290", qty: 1 }, // Fogo rélica
+        { itemStr: "gl_2253", id: "gl_2253", qty: 1 }, // Vento raro
+        { itemStr: "gl_2273", id: "gl_2273", qty: 1 }, // Vento lendário
+        { itemStr: "gl_2295", id: "gl_2295", qty: 1 }, // Luz rélica
+        { itemStr: "gl_2280", id: "gl_2280", qty: 1 }, // NEUTRO comum (sem fusão)
+        { itemStr: "gl_2285", id: "gl_2285", qty: 1 }, // NEUTRO rélica
+        { itemStr: "oh_2003", id: "oh_2003", qty: 1 }, // Escudo Arcano (espada+escudo)
+        // DEMO DE FUSÃO: Espada ÁGUA + glifo VENTO = aura de GELO
+        { itemStr: "1004|14:35", id: "w1h_1004", qty: 1 }, // Espada da Guarda ÁGUA T2
       ],
       maxInventory: 100,
       storage: [],

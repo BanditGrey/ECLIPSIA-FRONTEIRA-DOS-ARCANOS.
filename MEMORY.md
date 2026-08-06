@@ -424,3 +424,35 @@ git push origin arena/019fd3c8-eclipsia-fronteira-dos-arcanos
 ---
 ## 🔓 PRÓXIMA SEÇÃO (aberta para outro chat)
 **Problema/Objetivo:** Expandir os 3 keyframes base (`eclipseSlashAnim`, `eclipseBurstAnim`, `eclipseShieldAnim`) para animações individuais por `skillId` (98 skills total) no `SkillEffectPanel` e `CombatPanel`. Cada skill deve ter sua própria cor/partícula/animação personalizada, não apenas por categoria. O arquivo `SKILLS_SPRINT.md` já contém o mapeamento completo. Próximo passo: criar `client/src/index.css` keyframes específicos para as 10 principais (slab, arcane_burst, heal_pulse, etc.) e integrar por `skillId` no componente.
+
+---
+
+## 🎴 SESSÃO: GLIFOS DE OFF-HAND + FUSÃO ELEMENTAL (2026-08-06)
+
+**Objetivo do usuário:** "glifos de off-hand que selam o 2º elemento (fusão). Vários glifos (comum→rélica+), incluindo elemento NEUTRO para quem não quer combinações."
+
+### Implementado
+- **Novo catálogo `client/src/data/glyphs.ts`**: 36 glifos
+  - 6 elementos × 5 raridades (comum, raro, épico, lendário, rélica) = 30 elementais
+  - 6 glifos NEUTROS (sem elemento, só stats — não fundem)
+  - Poder elemental escala por raridade: 15/35/50/70/90 (define tier da aura T1/T2/T3)
+  - IDs `gl_2240-2295` (elementais) e `gl_2280-2285` (neutros)
+- **Sistema de fusão** (`client/src/data/fusionAuras.ts`):
+  - `resolveFusion(main, off)` retorna a fusão (ice/lightning/magma/nature/mist/dust) ou null
+  - Glifo neutro (sem efeito elemental 12-17) → null, sem aura
+  - Cor da aura por resultado; multiplicador de dano +10% (`FUSION_DAMAGE_BONUS`)
+- **Visual (`client/src/components/ui/OffHandLayer.tsx`)**: escudo SVG ou selo de glifo com cor do elemento + aro de raridade
+- **Aura na arma** (`LayeredCharacter`): halo radial atrás da arma ao ter fusão ativa (não troca a arte)
+- **Combate**: log "Fusão elemental: X!" no início + multiplicador no dano
+- **UI ItemsPanel**: badge "Glifo", preview da fusão ao inspecionar; glifos só equipam na mão secundária
+- **Glifo NÃO é proficiência** (removido de `PROFICIENCIES`) — não sobe nível, não tem skills
+- **i18n completo** (pt/en/es/ja): 36 nomes/descrições, combos `*_glyph`/`glyph_*`, `combat.fusionActive`, `items.glyphBadge/fusionBadge`, proficiência "Glifo"
+- **Sandbox** vem com glifos de várias raridades + 2 neutros + demo água+vento=GELO
+- **Bug corrigido**: chaves de `ELEMENT_FUSION` estavam fora de ordem alfabética (fire+earth vs earth+fire) — 6 fusões agora funcionam nos dois sentidos
+
+### Validação
+- `tsc --noEmit`: OK
+- `vite build`: OK
+- `npm run audit`: 89/89 OK
+- `npm run audit:social`: 41/41 OK
+- `npm run audit:balance`: OK (98 skills)

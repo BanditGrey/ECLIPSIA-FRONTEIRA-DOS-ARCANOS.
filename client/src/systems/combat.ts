@@ -1,6 +1,7 @@
 import { bosses } from '../data/bosses';
 import { elementOfWeapon } from '../data/weaponElements';
 import { counters, COUNTER_MULTIPLIER } from '../data/elementSynergy';
+import { resolveFusion, FUSION_DAMAGE_BONUS } from '../data/fusionAuras';
 import { resolveItemRef } from '../utils/itemSerializer';
 import { getDungeon } from '../data/dungeons';
 import { translations } from '../i18n';
@@ -370,6 +371,16 @@ const getElementAdvantageMultiplier = (): number => {
   return 1;
 };
 
+/**
+ * Bônus da FUSÃO de glifo (off-hand): arma + glifo fundem dois elementos e
+ * concedem um pequeno bônus de dano. Sem fusão = 0.
+ */
+const getFusionDamageMultiplier = (): number => {
+  const eq = usePlayerStore.getState().data?.equipment;
+  const fusion = resolveFusion(eq?.weapon_main, eq?.weapon_off);
+  return fusion ? 1 + FUSION_DAMAGE_BONUS : 1;
+};
+
 const getPlayerDamage = (percent = 100, extraMultiplier = 1, isSkill = false) => {
   const playerStore = usePlayerStore.getState();
   const combat = useCombatStore.getState();
@@ -423,7 +434,7 @@ const getPlayerDamage = (percent = 100, extraMultiplier = 1, isSkill = false) =>
 
   // PASSIVAS de proficiência (marcos 50/150/300): bônus de dano.
   const passiveDmg = getPassiveTotals().dmgBonus;
-  const finalBase = base * (1 + weaponBonus + passiveDmg) * extraMultiplier * getElementAdvantageMultiplier();
+  const finalBase = base * (1 + weaponBonus + passiveDmg) * extraMultiplier * getElementAdvantageMultiplier() * getFusionDamageMultiplier();
 
   const { isCrit, multiplier } = isSkill ? rollSkillCrit() : rollCrit();
   const defenseReduction = Math.max(0, combat.enemy?.def ?? 0) * 0.35;
@@ -745,6 +756,13 @@ export const combatEngine = {
       } else if (we && counters(enemy.element, we)) {
         useCombatStore.getState().addLog('enemy', t('combat.elementDisadvantage'));
       }
+    }
+
+    // FUSÃO DE GLIFO: arma + glifo off-hand fundem dois elementos (aura + bônus)
+    const startEquipment = player?.equipment;
+    const activeFusion = startEquipment ? resolveFusion(startEquipment.weapon_main, startEquipment.weapon_off) : null;
+    if (activeFusion) {
+      useCombatStore.getState().addLog('attack', t('combat.fusionActive').replace('{fusion}', t(activeFusion.nameKey)));
     }
 
 
