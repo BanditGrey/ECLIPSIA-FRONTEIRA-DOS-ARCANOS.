@@ -1,4 +1,11 @@
 import { useEffect, useState } from 'react';
+import { Suspense, lazy } from 'react';
+
+const HubPanel = lazy(() => import('./components/panels/HubPanel').then(m => ({ default: m.HubPanel })));
+const RankingPanel = lazy(() => import('./components/panels/RankingPanel').then(m => ({ default: m.RankingPanel })));
+const TravelPanel = lazy(() => import('./components/panels/TravelPanel').then(m => ({ default: m.TravelPanel })));
+const WikiScreen = lazy(() => import('./components/screens/WikiScreen').then(m => ({ default: m.WikiScreen })));
+const ItemsPanel = lazy(() => import('./components/panels/ItemsPanel').then(m => ({ default: m.ItemsPanel })));
 import './index.css';
 import { ITEMS } from './data/items';
 import { registerPetData } from './store/usePetStore';
@@ -8,19 +15,19 @@ import { GameLayout } from './components/layout/GameLayout';
 import { CharCreateScreen } from './components/screens/CharCreateScreen';
 import { CharacterSelectScreen } from './components/screens/CharacterSelectScreen';
 import { LoginScreen } from './components/screens/LoginScreen';
-import { WikiScreen } from './components/screens/WikiScreen';
+
 import { ChatPanel } from './components/panels/ChatPanel';
 import { CityPanel } from './components/panels/CityPanel';
 import { CombatPanel } from './components/panels/CombatPanel';
 import { GuildPanel } from './components/panels/GuildPanel';
-import { HubPanel } from './components/panels/HubPanel';
-import { ItemsPanel } from './components/panels/ItemsPanel';
+
+
 import { PartyPanel } from './components/panels/PartyPanel';
 import { ProfilePanel } from './components/panels/ProfilePanel';
 import { QuestPanel } from './components/panels/QuestPanel';
-import { RankingPanel } from './components/panels/RankingPanel';
+
 import { BossPanel } from './components/panels/BossPanel';
-import { TravelPanel } from './components/panels/TravelPanel';
+
 import { useI18n } from './hooks/useI18n';
 import { Auth } from './services/auth';
 import { HiddenEvents } from './systems/hiddenEvents';
@@ -43,9 +50,12 @@ for (const item of Object.values(ITEMS) as Item[]) {
 const ActivePanel = () => {
   const panel = useGameStore((state) => state.panel);
 
-  switch (panel) {
-    case 'hub':
-      return <HubPanel />;
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center h-screen text-gold">Carregando painel...</div>}>
+      {(() => {
+        switch (panel) {
+          case 'hub':
+            return <HubPanel />;
     case 'travel':
       return <TravelPanel />;
     case 'combat':
@@ -68,9 +78,12 @@ const ActivePanel = () => {
       return <CityPanel />;
     case 'party':
       return <PartyPanel />;
-    default:
-      return <HubPanel />;
-  }
+          default:
+            return <HubPanel />;
+        }
+      })()}
+    </Suspense>
+  );
 };
 
 export const App = () => {
