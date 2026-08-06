@@ -271,21 +271,17 @@ export const CombatPanel = () => {
         <div className="absolute right-0 top-0 flex h-full w-1/2 flex-col items-center justify-center">
           {/* Enemy sprite */}
           <div className="relative mb-4">
-            {['goblin', 'rat', 'wolf_pup', 'mist_wolf', 'shadow_sprite', 'sand_scorpion', 'mirage_beast', 'dune_crawler', 'storm_harpy', 'cloud_titan', 'sea_wraith', 'deep_leviathan_jr', 'forest_golem'].includes(combat.enemy.id) ? (
-              <MonsterLayered
+            <MonsterLayered
                 monsterId={combat.enemy.id as any}
                 state={
                   enemyShake ? 'hit' :
                   monsterAttacking ? 'attack' :
                   'idle'
                 }
-                size={160}
+                size={BOSS_IDS.includes(combat.enemy.id) ? 220 : 160}
                 flip
-                glowColor={BOSS_IDS.includes(combat.enemy.id) ? '#ef4444' : (MONSTER_GLOW as any)[combat.enemy.id]}
+                glowColor={(MONSTER_GLOW as any)[combat.enemy.id] || '#ef4444'}
               />
-            ) : (
-              <Portrait kind={BOSS_IDS.includes(combat.enemy.id) ? 'boss' : 'monster'} id={combat.enemy.id} size={130} fallbackIcon={combat.enemy.icon} ring={BOSS_IDS.includes(combat.enemy.id) ? 'red' : 'arcane'} />
-            )}
           </div>
 
           {/* Enemy info overlay */}
