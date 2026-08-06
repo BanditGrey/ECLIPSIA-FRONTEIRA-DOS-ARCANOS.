@@ -11,7 +11,7 @@ import type { Equipment, InventoryItem } from '../../types/player.types';
 import { resolveItemRef, serializeItem } from '../../utils/itemSerializer';
 import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
-import { Portrait } from '../ui/Portrait';
+import { LayeredCharacter } from '../ui/LayeredCharacter';
 import { CraftingPanel } from './items/CraftingPanel';
 import { MarketPanel } from './items/MarketPanel';
 
@@ -346,10 +346,10 @@ export const ItemsPanel = () => {
                 <div className="flex flex-col items-center shrink-0 w-[140px]">
                   <div className="relative mb-2">
                     <div className="absolute -inset-4 rounded-full bg-arcane-500/10 blur-xl animate-pulse" />
-                    <Portrait kind="class" id={player?.archetype ?? 'blade'} size={120} ring="arcane" />
+                    <LayeredCharacter gender={(player?.gender as 'male' | 'female') ?? 'female'} state="idle" size={110} glowColor="#3fd9c4" />
                   </div>
                   <span className="font-title font-bold text-game-gold text-base tracking-wide text-center leading-tight truncate w-full">{player?.name}</span>
-                  <span className="font-mono text-[10px] text-game-muted mb-3">{t('game.lvl')} {player?.level} • {t(`classes.${player?.archetype}.name`)}</span>
+                  <span className="font-mono text-[10px] text-game-muted mb-3">{t('game.lvl')} {player?.level} • {t(`archetypes.${player?.archetype}.name`)}</span>
 
                   <div className="flex gap-2">
                     {renderVisualizerSlot('belt')}
@@ -405,7 +405,7 @@ export const ItemsPanel = () => {
                   );
                 })}
                 {(player?.inventory ?? []).length === 0 && (
-                  <p className="col-span-full text-xs text-game-muted text-center mt-4 opacity-50">Sua mochila está vazia.</p>
+                  <p className="col-span-full text-xs text-game-muted text-center mt-4 opacity-50">{t('items.emptyBag')}</p>
                 )}
               </div>
             </div>

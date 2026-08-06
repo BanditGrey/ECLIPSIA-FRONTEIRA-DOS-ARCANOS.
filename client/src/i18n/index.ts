@@ -749,6 +749,7 @@ export const translations: Record<LangCode, TranslationTree> = {
     "items": {
       "equipped": "Equipado",
       "bag": "Bolsa",
+      "emptyBag": "Sua mochila está vazia.",
       "crafting": "Criação",
       "market": "Mercado",
       "equip": "Equipar",
@@ -2513,6 +2514,7 @@ export const translations: Record<LangCode, TranslationTree> = {
     "items": {
       "equipped": "Equipped",
       "bag": "Bag",
+      "emptyBag": "Your bag is empty.",
       "crafting": "Crafting",
       "market": "Market",
       "equip": "Equip",
@@ -4276,6 +4278,7 @@ export const translations: Record<LangCode, TranslationTree> = {
     "items": {
       "equipped": "Equipado",
       "bag": "Bolsa",
+      "emptyBag": "Tu mochila está vacía.",
       "crafting": "Fabricación",
       "market": "Mercado",
       "equip": "Equipar",
@@ -6039,6 +6042,7 @@ export const translations: Record<LangCode, TranslationTree> = {
     "items": {
       "equipped": "装備中",
       "bag": "バッグ",
+      "emptyBag": "バッグは空です。",
       "crafting": "クラフト",
       "market": "市場",
         "storage": "倉庫",

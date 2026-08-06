@@ -49,6 +49,9 @@ Correções aplicadas (baselines depois: **89/89 · 41/41 · 18/18 · build OK**
    e libera ch_3002/w1h_1001/w1h_1150 no inventário p/ testar.
    Futuro: overlays combináveis + mais poses/gêneros (cota de imagens ~10/sessão;
    edits da base feminina às vezes caem na moderação — reformular p/ "fully covered").
+   **Paperdoll do ItemsPanel agora mostra o LayeredCharacter equipado** (antes era o
+   retrato da classe) + corrigido `classes.*`→`archetypes.*` (chave inexistente
+   aparecia crua na tela) + `items.emptyBag` i18n 4 idiomas.
 
 ### ⚠ Ambiente do sandbox (2026-08-06)
 - Rede só alcança: registry.npmjs.org, github.com, api.github.com, codeload.github.com,
