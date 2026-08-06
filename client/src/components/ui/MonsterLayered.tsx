@@ -26,7 +26,7 @@ const resolveSprite = (id: MonsterId, state: string): string => {
     dune_crawler:      { idle: 'monster_dune_crawler_idle_1', attack: 'monster_dune_crawler_attack_1', hit: 'monster_dune_crawler_hit_1' },
     storm_harpy:       { idle: 'monster_storm_harpy_idle_1', attack: 'monster_storm_harpy_attack_1', hit: 'monster_storm_harpy_hit_1' },
     cloud_titan:       { idle: 'monster_cloud_titan_idle_1', attack: 'monster_cloud_titan_attack_1', hit: 'monster_cloud_titan_hit_1' },
-    sea_wraith:        { idle: 'monster_sea_wraith_idle_1', attack: 'monster_sea_wraith_attack_1' },
+    sea_wraith:        { idle: 'monster_sea_wraith_idle_1', attack: 'monster_sea_wraith_attack_1', hit: 'monster_sea_wraith_hit_1' },
     deep_leviathan_jr: { idle: 'monster_deep_leviathan_jr_idle_1', attack: 'monster_deep_leviathan_jr_attack_1' },
     forest_golem:      { idle: 'monster_forest_golem_idle_1', attack: 'monster_forest_golem_attack_1', hit: 'monster_forest_golem_hit_1' },
   };
