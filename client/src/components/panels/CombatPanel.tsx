@@ -241,7 +241,12 @@ export const CombatPanel = () => {
               }
               size={160}
               flip={false}
-              glowColor="#3fd9c4"
+              glowColor={
+                activeSkillEffect?.damageType === 'physical' ? '#ef4444' :
+                activeSkillEffect?.damageType === 'magical' ? '#3b82f6' :
+                activeSkillEffect?.damageType === 'void' ? '#9333ea' :
+                '#3fd9c4'
+              }
             />
           </div>
 

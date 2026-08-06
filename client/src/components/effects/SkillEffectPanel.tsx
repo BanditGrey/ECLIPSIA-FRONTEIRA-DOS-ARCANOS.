@@ -66,6 +66,15 @@ export const SkillEffectPanel: React.FC<SkillEffectConfig> = ({
       {showParticles && (
         <ParticleSystem trigger={visible} type={meta.particle} className="absolute inset-0 w-full h-full" />
       )}
+      <div className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center">
+        <div
+          className="w-48 h-48 md:w-72 md:h-72 rounded-full opacity-60 mix-blend-screen"
+          style={{
+            background: `radial-gradient(circle, ${meta.color}55 0%, transparent 70%)`,
+            animation: damageType === 'physical' ? 'eclipseSlashAnim 0.6s ease-out forwards' : damageType === 'magical' ? 'eclipseBurstAnim 0.8s ease-out forwards' : 'eclipseShieldAnim 0.7s ease-out forwards',
+          }}
+        />
+      </div>
       <div className="relative text-center">
         <div className="absolute inset-0 bg-black/40 blur-3xl rounded-full" />
         <h2 className={`relative text-5xl md:text-7xl font-black tracking-widest drop-shadow-[0_0_30px_rgba(255,215,0,0.9)] ${isCritical ? 'text-yellow-300 animate-pulse' : 'text-white animate-bounce'}`}>
