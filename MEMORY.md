@@ -27,6 +27,16 @@ Correções aplicadas (baselines depois: **89/89 · 41/41 · 18/18 · build OK**
 6. **LoginScreen com strings hardcoded em PT** → i18n novo `login.sandboxMode/
    offlineError/networkError/wikiButton/serverOffline/onlineWord` nos 4 idiomas.
 7. **AutoConfigModal**: botão Salvar não fazia nada → agora fecha o modal.
+8. **Sprites "meio invisíveis" CORRIGIDAS**: limpezas antigas comeram brancos
+   legítimos (lâmina da espada no attack, highlights) — 17 sprites afetadas
+   (12 da base jogador + goblin idle/attack, rat idle, wolf_pup idle/attack).
+   Recuperação: `git fetch --unshallow origin main` + `/home/user/fix_sprites.py`
+   (pega a 1ª versão commitada, que ainda tem o conteúdo inteiro sob xadrez
+   semi-transparente alpha 104–145/RGB~236; remove SÓ o xadrez cinza-claro e
+   preserva o resto: alpha≥200→255, AA colorido com boost). **NUNCA mais remover
+   "branco puro" globalmente** — foi isso que comeu as lâminas. Sprites limpas
+   por flood-fill conservador (mist_wolf, sea_wraith, etc.) são detectadas e
+   poupadas automaticamente (xadrez ≤2%).
 
 ### ⚠ Ambiente do sandbox (2026-08-06)
 - Rede só alcança: registry.npmjs.org, github.com, api.github.com, codeload.github.com,
