@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { resolveEquippedSprite } from '../../data/equipmentVisuals';
+import { resolveEquippedSprite, visualForItem } from '../../data/equipmentVisuals';
+import { resolveWeaponOverlay } from '../../data/weaponOverlays';
 import { usePlayerStore } from '../../store/usePlayerStore';
 
 export type CharState = 'idle' | 'walk' | 'attack' | 'hit' | 'death' | 'cast' | 'dash' | 'victory';
@@ -34,6 +35,7 @@ export const LayeredCharacter: React.FC<Props> = ({
   onAnimationEnd, glowColor, armorId, weaponId,
 }) => {
   const [src, setSrc] = useState('');
+  const [overlay, setOverlay] = useState<{ file: string; anchor: { x: number; y: number; w: number; rot?: number } } | null>(null);
   const [frame, setFrame] = useState(0);
   const animEndRef = useRef<ReturnType<typeof setTimeout>>();
   const frameRef = useRef<ReturnType<typeof setInterval>>();
@@ -61,8 +63,16 @@ export const LayeredCharacter: React.FC<Props> = ({
   }, [state, gender]);
 
   useEffect(() => {
-    // Visual de equipamento (arma main > off > armadura) c/ fallback p/ base
-    const equipped = resolveEquippedSprite(gender, state, frame, armorRef, weaponRef, weaponOffRef);
+    // v2 camadas: arma com overlay próprio vira camada SEPARADA (combina com
+    // qualquer armadura); sem overlay, mantém o fluxo full-body (main>off>armadura)
+    const hasFullWeapon = Boolean(visualForItem(weaponRef));
+    const ov = !hasFullWeapon ? resolveWeaponOverlay(gender, state, weaponRef) : null;
+    setOverlay(ov);
+    const equipped = resolveEquippedSprite(
+      gender, state, frame, armorRef,
+      ov ? null : weaponRef,
+      ov ? null : weaponOffRef,
+    );
     setSrc(equipped || getSprite(gender, state, frame));
     if (animEndRef.current) clearTimeout(animEndRef.current);
     const oneShot = ['attack', 'hit', 'death', 'cast', 'dash', 'victory'];
@@ -120,6 +130,19 @@ export const LayeredCharacter: React.FC<Props> = ({
             width: size, height: size * 1.2,
             objectFit: 'contain', objectPosition: 'bottom',
             animation: getAnim(), filter: getFilter(),
+          }}
+        />
+      )}
+
+      {/* Camada de arma (overlay) — combina com qualquer armadura */}
+      {overlay && (
+        <img src={overlay.file} alt="" draggable={false} className="pointer-events-none absolute z-10 select-none"
+          style={{
+            width: overlay.anchor.w * size,
+            left: overlay.anchor.x * size,
+            top: overlay.anchor.y * size * 1.3,
+            transform: `rotate(${overlay.anchor.rot ?? 0}deg)`,
+            objectFit: 'contain',
           }}
         />
       )}

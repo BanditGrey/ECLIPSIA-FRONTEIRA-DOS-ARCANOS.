@@ -121,6 +121,17 @@ Correções aplicadas (baselines depois: **89/89 · 41/41 · 18/18 · build OK**
       ② visuais próprios das OUTRAS relics (só 1010 tem; 1005 usa 'eclipse'
       antigo; w2h_1505/1755 caem no t3 do elemento); ③ poses attack das armas
       elementais; ④ (opcional) combinar arma+armadura via overlays no futuro.
+15. **SISTEMA v2 DE CAMADAS (overlays de arma)** — responde à dúvida "arma não
+    some c/ armadura nova?": `data/weaponOverlays.ts` renderiza a arma como
+    camada SEPARADA (PNG só da arma + anchor x/y/w/rot por gênero/pose,
+    relativos ao container). **Qualquer armadura × qualquer arma/elemento**.
+    Fluxo: arma c/ overlay → corpo = armadura/base + overlay da arma; arma sem
+    overlay → mantém full-body legado (elemento full-body c/ leather).
+    - FEITO: overlays ov_sword_steel + gelo/fogo t1-t3 (trim de bbox + anchors
+      idle M+F calibrados por composite). Itens: w1h_1001 (steel), espadas de
+      gelo 1002-1009 e cajados de fogo 1151-1154 agora combinam c/ armaduras.
+    - FALTANDO overlays: demais 10 elementos · anchors de attack/walk/cast ·
+      overlays p/ off-hand.
     - `tools/sprite_clean.py` AGORA VIVE NO REPO (scripts em /home/user somem
       entre sessões): flood das bordas + nibble_fringe; nunca branco global.
 
