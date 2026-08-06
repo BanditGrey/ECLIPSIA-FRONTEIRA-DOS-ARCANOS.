@@ -384,6 +384,16 @@ export const AuthService = {
         { itemStr: "w2h_1751", id: "w2h_1751", qty: 1 }, // Arcana t1
         { itemStr: "w2h_1752", id: "w2h_1752", qty: 1 }, // Arcana t2
         { itemStr: "w2h_1754", id: "w2h_1754", qty: 1 }, // Arcana t3
+        // Novos elementos da roda: veneno/sagrado/vazio t1→t3
+        { itemStr: "w2h_1601", id: "w2h_1601", qty: 1 }, // Veneno t1
+        { itemStr: "w2h_1602", id: "w2h_1602", qty: 1 }, // Veneno t2
+        { itemStr: "w2h_1604", id: "w2h_1604", qty: 1 }, // Veneno t3
+        { itemStr: "w2h_1651", id: "w2h_1651", qty: 1 }, // Sagrado t1
+        { itemStr: "w2h_1652", id: "w2h_1652", qty: 1 }, // Sagrado t2
+        { itemStr: "w2h_1654", id: "w2h_1654", qty: 1 }, // Sagrado t3
+        { itemStr: "w2h_1701", id: "w2h_1701", qty: 1 }, // Vazio t1
+        { itemStr: "w2h_1702", id: "w2h_1702", qty: 1 }, // Vazio t2
+        { itemStr: "w2h_1704", id: "w2h_1704", qty: 1 }, // Vazio t3
       ],
       maxInventory: 100,
       storage: [],

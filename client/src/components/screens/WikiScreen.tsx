@@ -108,9 +108,9 @@ export const WikiScreen = () => {
                             ring="gold"
                             className="opacity-95"
                           />
-                          <strong className="title-gold font-title">{t(`charCreate.archetypes.${archetype.id}.name`)}</strong>
+                          <strong className="title-gold font-title">{t(`archetypes.${archetype.id}.name`)}</strong>
                         </div>
-                        <p className="mt-1 text-sm italic text-game-muted">{t(`charCreate.archetypes.${archetype.id}.desc`)}</p>
+                        <p className="mt-1 text-sm italic text-game-muted">{t(`archetypes.${archetype.id}.desc`)}</p>
                       </div>
                     ))}
                   </div>

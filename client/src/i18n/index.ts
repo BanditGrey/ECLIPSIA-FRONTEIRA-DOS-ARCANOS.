@@ -293,25 +293,63 @@ export const translations: Record<LangCode, TranslationTree> = {
       "networkError": "Erro de rede ao conectar. Tente o Modo Sandbox.",
       "wikiButton": "Enciclopédia / Wiki",
       "serverOffline": "Servidor Offline",
-      "onlineWord": "Online",
-    "proficiencies": {
-      "sword_one": "Espada de uma mão",
-      "sword_two": "Espada longa",
-      "great_sword": "Espadão",
-      "dagger": "Adaga",
-      "dagger_off": "Adaga de apoio",
-      "bow_short": "Arco curto",
-      "bow_long": "Arco longo",
-      "staff_one": "Cajado",
-      "staff_two": "Cajado arcano",
-      "orb": "Orbe",
-      "tome": "Grimório",
-      "hammer": "Martelo",
-      "spear": "Lança",
-      "shield": "Escudo"
+      "onlineWord": "Online"
     },
-      "onlineLabel": "Aventureiros na fronteira",
-      "onlineJoin": "e"
+    "proficiencies": {
+      "sword_one": { "name": "Espada de uma mão" },
+      "sword_two": { "name": "Espada longa" },
+      "great_sword": { "name": "Espadão" },
+      "dagger": { "name": "Adaga" },
+      "dagger_off": { "name": "Adaga de apoio" },
+      "bow_short": { "name": "Arco curto" },
+      "bow_long": { "name": "Arco longo" },
+      "staff_one": { "name": "Cajado" },
+      "staff_two": { "name": "Cajado arcano" },
+      "orb": { "name": "Orbe" },
+      "tome": { "name": "Grimório" },
+      "hammer": { "name": "Martelo" },
+      "spear": { "name": "Lança" },
+      "shield": { "name": "Escudo" }
+    },
+    "archetypes": {
+      "blade": {
+        "name": "Lâmina",
+        "desc": "Velocidade e precisão"
+      },
+      "arcane": {
+        "name": "Arcano",
+        "desc": "Poder mágico e destruição"
+      },
+      "druid": {
+        "name": "Druida",
+        "desc": "Cura e controle da natureza"
+      },
+      "vanguard": {
+        "name": "Vanguarda",
+        "desc": "Defesa e proteção"
+      },
+      "ranger": {
+        "name": "Atirador",
+        "desc": "Alcance e mobilidade"
+      },
+      "spectre": {
+        "name": "Espectro",
+        "desc": "Furtividade e veneno"
+      }
+    },
+    "elements": {
+      "fire": { "name": "Fogo" },
+      "ice": { "name": "Gelo" },
+      "lightning": { "name": "Raio" },
+      "earth": { "name": "Terra" },
+      "wind": { "name": "Vento" },
+      "nature": { "name": "Natureza" },
+      "poison": { "name": "Veneno" },
+      "blood": { "name": "Sangue" },
+      "shadow": { "name": "Sombra" },
+      "holy": { "name": "Sagrado" },
+      "void": { "name": "Vazio" },
+      "arcane": { "name": "Arcano" }
     },
     "register": {
       "username": "Nome de usuário",
@@ -334,32 +372,6 @@ export const translations: Record<LangCode, TranslationTree> = {
         "atk": "Ataque",
         "def": "Defesa",
         "arc": "Arcano"
-      },
-      "archetypes": {
-        "blade": {
-          "name": "Lâmina",
-          "desc": "Velocidade e precisão"
-        },
-        "arcane": {
-          "name": "Arcano",
-          "desc": "Poder mágico e destruição"
-        },
-        "druid": {
-          "name": "Druida",
-          "desc": "Cura e controle da natureza"
-        },
-        "vanguard": {
-          "name": "Vanguarda",
-          "desc": "Defesa e proteção"
-        },
-        "ranger": {
-          "name": "Atirador",
-          "desc": "Alcance e mobilidade"
-        },
-        "spectre": {
-          "name": "Espectro",
-          "desc": "Furtividade e veneno"
-        }
       },
       "destinyTitle": "Escolha seu Destino",
       "awaken": "DESPERTAR EM ECLIPSIA",
@@ -2058,25 +2070,63 @@ export const translations: Record<LangCode, TranslationTree> = {
       "networkError": "Network error while connecting. Try Sandbox Mode.",
       "wikiButton": "Encyclopedia / Wiki",
       "serverOffline": "Server Offline",
-      "onlineWord": "Online",
-    "proficiencies": {
-      "sword_one": "One-Handed Sword",
-      "sword_two": "Long Sword",
-      "great_sword": "Greatsword",
-      "dagger": "Dagger",
-      "dagger_off": "Off-Hand Dagger",
-      "bow_short": "Short Bow",
-      "bow_long": "Long Bow",
-      "staff_one": "Staff",
-      "staff_two": "Arcane Staff",
-      "orb": "Orb",
-      "tome": "Tome",
-      "hammer": "Hammer",
-      "spear": "Spear",
-      "shield": "Shield"
+      "onlineWord": "Online"
     },
-      "onlineLabel": "Adventurers at the frontier",
-      "onlineJoin": "and"
+    "proficiencies": {
+      "sword_one": { "name": "One-Handed Sword" },
+      "sword_two": { "name": "Long Sword" },
+      "great_sword": { "name": "Greatsword" },
+      "dagger": { "name": "Dagger" },
+      "dagger_off": { "name": "Off-Hand Dagger" },
+      "bow_short": { "name": "Short Bow" },
+      "bow_long": { "name": "Long Bow" },
+      "staff_one": { "name": "Staff" },
+      "staff_two": { "name": "Arcane Staff" },
+      "orb": { "name": "Orb" },
+      "tome": { "name": "Tome" },
+      "hammer": { "name": "Hammer" },
+      "spear": { "name": "Spear" },
+      "shield": { "name": "Shield" }
+    },
+    "archetypes": {
+      "blade": {
+        "name": "Blade",
+        "desc": "Speed and precision"
+      },
+      "arcane": {
+        "name": "Arcane",
+        "desc": "Magic power and destruction"
+      },
+      "druid": {
+        "name": "Druid",
+        "desc": "Healing and nature control"
+      },
+      "vanguard": {
+        "name": "Vanguard",
+        "desc": "Defense and protection"
+      },
+      "ranger": {
+        "name": "Marksman",
+        "desc": "Range and mobility"
+      },
+      "spectre": {
+        "name": "Spectre",
+        "desc": "Stealth and poison"
+      }
+    },
+    "elements": {
+      "fire": { "name": "Fire" },
+      "ice": { "name": "Ice" },
+      "lightning": { "name": "Lightning" },
+      "earth": { "name": "Earth" },
+      "wind": { "name": "Wind" },
+      "nature": { "name": "Nature" },
+      "poison": { "name": "Poison" },
+      "blood": { "name": "Blood" },
+      "shadow": { "name": "Shadow" },
+      "holy": { "name": "Holy" },
+      "void": { "name": "Void" },
+      "arcane": { "name": "Arcane" }
     },
     "register": {
       "username": "Username",
@@ -2099,32 +2149,6 @@ export const translations: Record<LangCode, TranslationTree> = {
         "atk": "Attack",
         "def": "Defense",
         "arc": "Arcane"
-      },
-      "archetypes": {
-        "blade": {
-          "name": "Blade",
-          "desc": "Speed and precision"
-        },
-        "arcane": {
-          "name": "Arcane",
-          "desc": "Magic power and destruction"
-        },
-        "druid": {
-          "name": "Druid",
-          "desc": "Healing and nature control"
-        },
-        "vanguard": {
-          "name": "Vanguard",
-          "desc": "Defense and protection"
-        },
-        "ranger": {
-          "name": "Marksman",
-          "desc": "Range and mobility"
-        },
-        "spectre": {
-          "name": "Spectre",
-          "desc": "Stealth and poison"
-        }
       },
       "destinyTitle": "Choose Your Destiny",
       "awaken": "AWAKEN IN ECLIPSIA",
@@ -3822,25 +3846,63 @@ export const translations: Record<LangCode, TranslationTree> = {
       "networkError": "Error de red al conectar. Prueba el Modo Sandbox.",
       "wikiButton": "Enciclopedia / Wiki",
       "serverOffline": "Servidor fuera de línea",
-      "onlineWord": "en línea",
-    "proficiencies": {
-      "sword_one": "Espada de una mano",
-      "sword_two": "Espada larga",
-      "great_sword": "Espadón",
-      "dagger": "Daga",
-      "dagger_off": "Daga de apoyo",
-      "bow_short": "Arco corto",
-      "bow_long": "Arco largo",
-      "staff_one": "Bastón",
-      "staff_two": "Bastón arcano",
-      "orb": "Orbe",
-      "tome": "Grimorio",
-      "hammer": "Martillo",
-      "spear": "Lanza",
-      "shield": "Escudo"
+      "onlineWord": "en línea"
     },
-      "onlineLabel": "Aventureros en la frontera",
-      "onlineJoin": "y"
+    "proficiencies": {
+      "sword_one": { "name": "Espada de una mano" },
+      "sword_two": { "name": "Espada larga" },
+      "great_sword": { "name": "Espadón" },
+      "dagger": { "name": "Daga" },
+      "dagger_off": { "name": "Daga de apoyo" },
+      "bow_short": { "name": "Arco corto" },
+      "bow_long": { "name": "Arco largo" },
+      "staff_one": { "name": "Bastón" },
+      "staff_two": { "name": "Bastón arcano" },
+      "orb": { "name": "Orbe" },
+      "tome": { "name": "Grimorio" },
+      "hammer": { "name": "Martillo" },
+      "spear": { "name": "Lanza" },
+      "shield": { "name": "Escudo" }
+    },
+    "archetypes": {
+      "blade": {
+        "name": "Hoja",
+        "desc": "Velocidad y precisión"
+      },
+      "arcane": {
+        "name": "Arcano",
+        "desc": "Poder mágico y destrucción"
+      },
+      "druid": {
+        "name": "Druida",
+        "desc": "Curación y control de la naturaleza"
+      },
+      "vanguard": {
+        "name": "Vanguardia",
+        "desc": "Defensa y protección"
+      },
+      "ranger": {
+        "name": "Tirador",
+        "desc": "Alcance y movilidad"
+      },
+      "spectre": {
+        "name": "Espectro",
+        "desc": "Sigilo y veneno"
+      }
+    },
+    "elements": {
+      "fire": { "name": "Fuego" },
+      "ice": { "name": "Hielo" },
+      "lightning": { "name": "Rayo" },
+      "earth": { "name": "Tierra" },
+      "wind": { "name": "Viento" },
+      "nature": { "name": "Naturaleza" },
+      "poison": { "name": "Veneno" },
+      "blood": { "name": "Sangre" },
+      "shadow": { "name": "Sombra" },
+      "holy": { "name": "Sagrado" },
+      "void": { "name": "Vacío" },
+      "arcane": { "name": "Arcano" }
     },
     "register": {
       "username": "Nombre de usuario",
@@ -3863,32 +3925,6 @@ export const translations: Record<LangCode, TranslationTree> = {
         "atk": "Ataque",
         "def": "Defensa",
         "arc": "Arcano"
-      },
-      "archetypes": {
-        "blade": {
-          "name": "Hoja",
-          "desc": "Velocidad y precisión"
-        },
-        "arcane": {
-          "name": "Arcano",
-          "desc": "Poder mágico y destrucción"
-        },
-        "druid": {
-          "name": "Druida",
-          "desc": "Curación y control de la naturaleza"
-        },
-        "vanguard": {
-          "name": "Vanguardia",
-          "desc": "Defensa y protección"
-        },
-        "ranger": {
-          "name": "Tirador",
-          "desc": "Alcance y movilidad"
-        },
-        "spectre": {
-          "name": "Espectro",
-          "desc": "Sigilo y veneno"
-        }
       },
       "destinyTitle": "Elige tu Destino",
       "awaken": "DESPERTAR EN ECLIPSIA",
@@ -5586,25 +5622,63 @@ export const translations: Record<LangCode, TranslationTree> = {
       "networkError": "接続中にネットワークエラーが発生しました。サンドボックスモードをお試しください。",
       "wikiButton": "百科事典 / Wiki",
       "serverOffline": "サーバーオフライン",
-      "onlineWord": "オンライン",
-    "proficiencies": {
-      "sword_one": "片手剣",
-      "sword_two": "長剣",
-      "great_sword": "大剣",
-      "dagger": "短剣",
-      "dagger_off": "サブ短剣",
-      "bow_short": "短弓",
-      "bow_long": "長弓",
-      "staff_one": "杖",
-      "staff_two": "秘術の杖",
-      "orb": "オーブ",
-      "tome": "魔導書",
-      "hammer": "ハンマー",
-      "spear": "槍",
-      "shield": "盾"
+      "onlineWord": "オンライン"
     },
-      "onlineLabel": "辺境の冒険者",
-      "onlineJoin": "と"
+    "proficiencies": {
+      "sword_one": { "name": "片手剣" },
+      "sword_two": { "name": "長剣" },
+      "great_sword": { "name": "大剣" },
+      "dagger": { "name": "短剣" },
+      "dagger_off": { "name": "サブ短剣" },
+      "bow_short": { "name": "短弓" },
+      "bow_long": { "name": "長弓" },
+      "staff_one": { "name": "杖" },
+      "staff_two": { "name": "秘術の杖" },
+      "orb": { "name": "オーブ" },
+      "tome": { "name": "魔導書" },
+      "hammer": { "name": "ハンマー" },
+      "spear": { "name": "槍" },
+      "shield": { "name": "盾" }
+    },
+    "archetypes": {
+      "blade": {
+        "name": "剣士",
+        "desc": "速度と精密さ"
+      },
+      "arcane": {
+        "name": "アルカナ",
+        "desc": "魔力と破壊"
+      },
+      "druid": {
+        "name": "ドルイド",
+        "desc": "回復と自然操作"
+      },
+      "vanguard": {
+        "name": "ヴァンガード",
+        "desc": "防御と保護"
+      },
+      "ranger": {
+        "name": "射手",
+        "desc": "射程と機動力"
+      },
+      "spectre": {
+        "name": "スペクター",
+        "desc": "隠密と毒"
+      }
+    },
+    "elements": {
+      "fire": { "name": "炎" },
+      "ice": { "name": "氷" },
+      "lightning": { "name": "雷" },
+      "earth": { "name": "大地" },
+      "wind": { "name": "風" },
+      "nature": { "name": "自然" },
+      "poison": { "name": "毒" },
+      "blood": { "name": "血" },
+      "shadow": { "name": "影" },
+      "holy": { "name": "聖" },
+      "void": { "name": "虚無" },
+      "arcane": { "name": "秘術" }
     },
     "register": {
       "username": "ユーザー名",
@@ -5627,32 +5701,6 @@ export const translations: Record<LangCode, TranslationTree> = {
         "atk": "攻撃",
         "def": "防御",
         "arc": "アルカナ"
-      },
-      "archetypes": {
-        "blade": {
-          "name": "剣士",
-          "desc": "速度と精密さ"
-        },
-        "arcane": {
-          "name": "アルカナ",
-          "desc": "魔力と破壊"
-        },
-        "druid": {
-          "name": "ドルイド",
-          "desc": "回復と自然操作"
-        },
-        "vanguard": {
-          "name": "ヴァンガード",
-          "desc": "防御と保護"
-        },
-        "ranger": {
-          "name": "射手",
-          "desc": "射程と機動力"
-        },
-        "spectre": {
-          "name": "スペクター",
-          "desc": "隠密と毒"
-        }
       },
       "destinyTitle": "運命を選べ",
       "awaken": "エクリプシアで覚醒",

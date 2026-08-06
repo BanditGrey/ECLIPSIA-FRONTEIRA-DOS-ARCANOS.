@@ -76,7 +76,15 @@ Correções aplicadas (baselines depois: **89/89 · 41/41 · 18/18 · build OK**
     base p/ evitar moderação): ch_3001 padded · ch_3003 guard (tabardo azul) ·
     ch_3004 shadow · ch_3005 legendary (placas douradas) · ch_3102 mist (manto
     teal de mago). Total de armaduras com visual: 7. Sandbox libera todas no bag.
-13. **SISTEMA ELEMENTO × RARIDADE p/ armas** (`data/weaponElements.ts`):
+13. **🎡 RODA DE ELEMENTOS OFICIAL (12)** — decidida c/ usuário (gama grande):
+    clássicos **fire · ice · lightning · earth · wind** | orgânicos
+    **nature · poison · blood** | metafísicos **shadow · holy · void · arcane**.
+    Identidade de cor/VFX p/ arte e UI: fire laranja/brasas · ice ciano/cristais ·
+    lightning amarelo/faiscas · earth âmbar/rocha · wind turquesa/vórtices ·
+    nature verde/folhas · poison verde-ácido/borbulhas · blood carmesim/gotas ·
+    shadow violeta-escuro/névoa · holy dourado/halos+penas · void roxo-preto/
+    fendas · arcane teal/glifos. Nomes nos 4 idiomas em `elements.*` (i18n).
+14. **SISTEMA ELEMENTO × RARIDADE p/ armas** (`data/weaponElements.ts`):
     - Elemento da arma (espelha linhas das pedras: fire/ice/lightning/nature/
       shadow/arcane/pure) escolhe a família do visual; raridade escolhe o tier:
       t1 common/uncommon (runas sutis) · t2 rare/epic (ornamentada) · t3
@@ -91,13 +99,23 @@ Correções aplicadas (baselines depois: **89/89 · 41/41 · 18/18 · build OK**
     - FEITO (2ª leva): **natureza** (arcos 1201-1204), **sombra** (espadões
       1501-1504) e **arcana** (cajados 1751-1754) t1-t3 female = +9 sprites;
       resolvedor com **fallback de tier** (t3→t2→t1 quando falta arte do tier).
-      Elementos com arte female completa: 6 de 7 (gelo, fogo, raio, natureza,
-      sombra, arcana). Sandbox: progressões dos 3 novos no bag.
-    - **FALTANDO (backlog de arte)**: ① elemento **pure** (t1-t3); ② tiers de
-      todos os elementos p/ MALE; ③ visuais próprios das OUTRAS relics (só
-      1010 tem; 1005 usa 'eclipse' antigo; w2h_1505/1755 caem no t3 do elemento);
-      ④ poses attack das armas elementais; ⑤ nomes de elemento na UI (i18n)
-      caso exiba o elemento no tooltip do item.
+    - FEITO (3ª leva, sprint dos novos elementos): **veneno** (martelos
+      1601-1604), **sagrado** (lanças 1651-1654) e **vazio** (arcos longos
+      1701-1704) t1-t3 female = +9 sprites. Elementos c/ arte female completa:
+      **9 de 12** (fire, ice, lightning, nature, shadow, arcane, poison, holy,
+      void). Sandbox: progressões t1→t3 dos novos no bag.
+    - **CIRURGIA DE i18n (2026-08-06)**: login tinha 'proficiencies' flat +
+      órfãs aninhados e 'archetypes' estava preso em charCreate (chaves
+      top-level inalcançáveis — causava paths crus na UI). Script
+      `/home/user/fix_i18n_structure.py` promoveu archetypes, recriou
+      proficiencies no formato {name} e inseriu `elements.*` (12) nos 4
+      idiomas; WikiScreen ajustada p/ `archetypes.*`. NÃO repetir injeções
+      manuais sem validar depth (parser de chaves antes de commitar).
+    - **FALTANDO (backlog de arte)**: ① elementos **earth · wind · blood**
+      (t1-t3); ② tiers de todos os elementos p/ MALE; ③ visuais próprios das
+      OUTRAS relics (só 1010 tem; 1005 usa 'eclipse' antigo; w2h_1505/1755
+      caem no t3 do elemento); ④ poses attack das armas elementais;
+      ⑤ exibir o elemento no tooltip do item (i18n `elements.*` já existe).
     - `tools/sprite_clean.py` AGORA VIVE NO REPO (scripts em /home/user somem
       entre sessões): flood das bordas + nibble_fringe; nunca branco global.
 

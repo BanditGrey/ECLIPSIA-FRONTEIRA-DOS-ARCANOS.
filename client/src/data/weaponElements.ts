@@ -1,35 +1,52 @@
 /**
  * ELEMENTOS DE ARMA (sistema de visuais por elemento × raridade)
  * --------------------------------------------------------------
- * O elemento da arma escolhe a "família" do visual (gelo, fogo, raio...)
- * e a RARIDADE escolhe o tier de beleza:
- *   t1 = common/uncommon (runas sutis) · t2 = rare/epic (ornamentada) ·
- *   t3 = legendary (radiante).
- * RELIC ("a última") foge da tabela: cada arma relic tem visual PRÓPRIO
- * (registrado em equipmentVisuals.ITEM_VISUALS); sem arte própria, cai no t3.
+ * O elemento da arma escolhe a "família" do visual e a RARIDADE escolhe o
+ * tier de beleza: t1 = common/uncommon (sutil) · t2 = rare/epic (ornamentada) ·
+ * t3 = legendary (radiante). RELIC ("a última") foge da tabela: cada arma
+ * relic tem visual PRÓPRIO (sem arte própria, cai no t3 do elemento).
  *
- * Elementos espelham as linhas das pedras espirituais do catálogo:
- * fogo 7500 · gelo 7550 · raio 7600 · natureza 7650 · sombria 7700 ·
- * arcana 7750 · pura 7800.
+ * 🎡 RODA DE ELEMENTOS (12) — decidida com o usuário, gama grande:
+ *   clássicos:  fire · ice · lightning · earth · wind
+ *   orgânicos:  nature · poison · blood
+ *   metafísicos: shadow · holy · void · arcane
+ * Identidade de cor/VFX p/ arte e UI:
+ *   fire laranja/brasas · ice ciano/cristais · lightning amarelo/faiscas ·
+ *   earth âmbar/rocha · wind turquesa/vórtices · nature verde/folhas ·
+ *   poison verde-ácido/borbulhas · blood carmesim/gotas ·
+ *   shadow violeta-escuro/névoa · holy dourado/halos · void roxo-preto/fendas ·
+ *   arcane teal/glifos.
+ * (As pedras espirituais mantêm as 7 linhas próprias do catálogo; a roda de
+ * armas é expandida.)
  */
 
 export type WeaponElement =
   | 'fire'
   | 'ice'
   | 'lightning'
+  | 'earth'
+  | 'wind'
   | 'nature'
+  | 'poison'
+  | 'blood'
   | 'shadow'
-  | 'arcane'
-  | 'pure';
+  | 'holy'
+  | 'void'
+  | 'arcane';
 
 export const ELEMENTS: WeaponElement[] = [
   'fire',
   'ice',
   'lightning',
+  'earth',
+  'wind',
   'nature',
+  'poison',
+  'blood',
   'shadow',
+  'holy',
+  'void',
   'arcane',
-  'pure',
 ];
 
 /**
@@ -70,6 +87,21 @@ const CURATED: Record<string, WeaponElement> = {
   w2h_1752: 'arcane',
   w2h_1753: 'arcane',
   w2h_1754: 'arcane',
+  // Veneno (martelos)
+  w2h_1601: 'poison',
+  w2h_1602: 'poison',
+  w2h_1603: 'poison',
+  w2h_1604: 'poison',
+  // Sagrado (lanças)
+  w2h_1651: 'holy',
+  w2h_1652: 'holy',
+  w2h_1653: 'holy',
+  w2h_1654: 'holy',
+  // Vazio (arcos longos)
+  w2h_1701: 'void',
+  w2h_1702: 'void',
+  w2h_1703: 'void',
+  w2h_1704: 'void',
 };
 
 /**
