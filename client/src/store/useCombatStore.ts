@@ -42,6 +42,8 @@ export interface SkillEffect {
   damageType?: 'physical' | 'magical' | 'void';
   damagePercent?: number;
   isCritical?: boolean;
+  /** Incrementa a cada cast — usado p/ re-disparar o painel de FX (key React). */
+  castId?: number;
 }
 
 interface CombatStoreState extends CombatState {
@@ -85,7 +87,12 @@ export const useCombatStore = create<CombatStoreState>((set, get) => ({
   skillEffect: null,
   playerHit: 0,
   lastLoot: [],
-  setSkillEffect: (effect) => set({ skillEffect: effect }),
+  setSkillEffect: (effect) =>
+    set((state) => ({
+      skillEffect: effect
+        ? { ...effect, castId: (state.skillEffect?.castId ?? 0) + 1 }
+        : null
+    })),
   bumpPlayerHit: () => set((state) => ({ playerHit: state.playerHit + 1 })),
   setLastLoot: (loot) => set({ lastLoot: loot }),
   setEnemy: (enemy) => {

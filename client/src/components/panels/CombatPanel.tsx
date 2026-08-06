@@ -41,6 +41,7 @@ const SkillsModal = () => {
   const data = usePlayerStore((state) => state.data);
   const skills = data ? usePlayerStore.getState().getUsableSkillIds() : [];
   const cooldowns = useCombatStore((state) => state.skillCooldowns);
+  const closeModal = useGameStore((state) => state.closeModal);
 
   return (
     <Modal id={SKILLS_MODAL} title={t('combat.skillsModal')}>
@@ -59,7 +60,11 @@ const SkillsModal = () => {
             </div>
             <p className="mt-1 text-sm text-game-muted">{t(`skills.${skillId}.desc`)}</p>
             <div className="mt-2 flex justify-end">
-              <Button size="sm" disabled={Boolean(cooldowns[skillId])} onClick={() => useSkill(skillId)}>
+              <Button
+                size="sm"
+                disabled={Boolean(cooldowns[skillId])}
+                onClick={() => { useSkill(skillId); closeModal(); }}
+              >
                 {t('combat.cast')}
               </Button>
             </div>
@@ -433,7 +438,7 @@ export const CombatPanel = () => {
 
       {/* ═══ VFX OVERLAYS ═══ */}
       {showParticles && <ParticleSystem trigger={showParticles} type="attack" onComplete={() => setShowParticles(false)} className="absolute top-0 left-0 w-full h-full pointer-events-none z-20" />}
-      {activeSkillEffect && <SkillEffectPanel {...activeSkillEffect} onComplete={() => setActiveSkillEffect(null)} showParticles narrate playSound />}
+      {activeSkillEffect && <SkillEffectPanel key={activeSkillEffect.castId} {...activeSkillEffect} onComplete={() => setActiveSkillEffect(null)} showParticles narrate playSound />}
 
       {/* ═══ MODALS ═══ */}
       <SkillsModal />

@@ -52,6 +52,14 @@ Correções aplicadas (baselines depois: **89/89 · 41/41 · 18/18 · build OK**
    **Paperdoll do ItemsPanel agora mostra o LayeredCharacter equipado** (antes era o
    retrato da classe) + corrigido `classes.*`→`archetypes.*` (chave inexistente
    aparecia crua na tela) + `items.emptyBag` i18n 4 idiomas.
+10. **FX de skill "travava"** (banner WAR CRY ficava na tela e o personagem preso em
+    cast sem armadura): o `useEffect` do SkillEffectPanel tinha deps instáveis
+    (`onComplete`/`audio` novos a cada render do CombatPanel → timer reiniciava
+    sem nunca concluir). Corrigido com `onCompleteRef` + deps `[skillId, castId]`;
+    store ganhou `castId` (incrementa por cast) e o CombatPanel dá `key={castId}`
+    p/ re-disparar casts seguidos. **Armadura não some mais em cast/hit/walk**:
+    `resolveEquippedSprite` cai no IDLE do equipamento antes da base.
+    **Modal de skills agora recolhe sozinho** ao usar uma skill (closeModal).
 
 ### ⚠ Ambiente do sandbox (2026-08-06)
 - Rede só alcança: registry.npmjs.org, github.com, api.github.com, codeload.github.com,

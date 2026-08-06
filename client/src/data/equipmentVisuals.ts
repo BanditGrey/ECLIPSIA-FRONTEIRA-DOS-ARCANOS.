@@ -76,9 +76,13 @@ export const resolveEquippedSprite = (
   );
 
   for (const visual of candidates) {
-    const frames = SPRITES[visual.key]?.[gender]?.[state];
-    if (frames && frames.length > 0) {
-      return `/assets/sprites/eq_${visual.key}_${gender}_${state}_${frames[frame % frames.length]}.png`;
+    const byState = SPRITES[visual.key]?.[gender];
+    // Pose pedida > idle do equipamento (mantém a armadura visível em
+    // cast/hit/walk) — só então o fallback p/ sprite base do chamador.
+    const pose: CharState | null = byState?.[state]?.length ? state : byState?.idle?.length ? 'idle' : null;
+    if (pose && byState) {
+      const frames = byState[pose]!;
+      return `/assets/sprites/eq_${visual.key}_${gender}_${pose}_${frames[frame % frames.length]}.png`;
     }
   }
 
