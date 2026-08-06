@@ -60,6 +60,18 @@ Correções aplicadas (baselines depois: **89/89 · 41/41 · 18/18 · build OK**
     p/ re-disparar casts seguidos. **Armadura não some mais em cast/hit/walk**:
     `resolveEquippedSprite` cai no IDLE do equipamento antes da base.
     **Modal de skills agora recolhe sozinho** ao usar uma skill (closeModal).
+11. **10 VISUAIS DE ARMA (jogadora segurando)** + recorte melhorado:
+    - Armas mapeadas: w1h_1001 sword · w1h_1005 eclipse · w1h_1100 dagger ·
+      w1h_1150 staff · w1h_1200 bowshort · w2h_1500 greatsword · w2h_1600 hammer ·
+      w2h_1650 spear · w2h_1700 bowlong · w2h_1750 greatstaff (todas female idle,
+      geradas SOBRE a leather p/ parecer combinado; male = fallback base).
+    - **Prioridade agora é ARMA > ARMADURA** (o usuário quer ver a arma na mão).
+    - Recorte: `remove_bg2.py` ganhou `nibble_fringe` (rói halo claro de AA na
+      borda, 3 passadas) — franjas brancas das eq_* antigas foram re-limpas.
+    - Sandbox: as 10 armas + 2 armaduras no inventário (w2h_1600 já estava).
+    - Lição de recorte: bolsões brancos PRESOS entre arma e corpo não conectam
+      na borda → o flood não pega; nesses casos remover pure-white isolado
+      (min>238) pontualmente + nibble (caso do cajado).
 
 ### ⚠ Ambiente do sandbox (2026-08-06)
 - Rede só alcança: registry.npmjs.org, github.com, api.github.com, codeload.github.com,

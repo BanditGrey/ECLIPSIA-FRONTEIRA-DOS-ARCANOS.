@@ -346,10 +346,17 @@ export const AuthService = {
         { itemStr: "mat_9000", id: "mat_9000", qty: 99 },
         { itemStr: "mat_9050", id: "mat_9050", qty: 10 },
         { itemStr: "w2h_1600", id: "w2h_1600", qty: 1 },
-        // Itens com visual equipado (teste do sistema de visuais)
+        // Itens com visual (teste do sistema de visuais): 2 armaduras + 10 armas
         { itemStr: "ch_3002", id: "ch_3002", qty: 1 }, // Cota de Ferro
         { itemStr: "w1h_1001", id: "w1h_1001", qty: 1 }, // Espada de Ferro
+        { itemStr: "w1h_1005", id: "w1h_1005", qty: 1 }, // Lâmina do Eclipse
+        { itemStr: "w1h_1100", id: "w1h_1100", qty: 1 }, // Adaga
         { itemStr: "w1h_1150", id: "w1h_1150", qty: 1 }, // Cajado Simples
+        { itemStr: "w1h_1200", id: "w1h_1200", qty: 1 }, // Arco Curto
+        { itemStr: "w2h_1500", id: "w2h_1500", qty: 1 }, // Espadão
+        { itemStr: "w2h_1650", id: "w2h_1650", qty: 1 }, // Lança
+        { itemStr: "w2h_1700", id: "w2h_1700", qty: 1 }, // Arco Longo
+        { itemStr: "w2h_1750", id: "w2h_1750", qty: 1 }, // Cajado de Batalha
       ],
       maxInventory: 100,
       storage: [],

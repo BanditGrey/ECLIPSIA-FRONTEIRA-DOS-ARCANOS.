@@ -8,9 +8,11 @@ export type Gender = 'male' | 'female';
  * Itens do catálogo mapeados para uma chave visual (`key`) que possui sprites
  * full-body em `client/public/assets/sprites/eq_<key>_<gender>_<state>_<n>.png`.
  *
- * v1 usa variantes FULL-BODY exclusivas (prioridade: armadura > arma > base),
- * pois as sprites são folhas inteiras e não overlays combináveis.
- * Estado/pose sem variante cai no fallback da sprite base — por design.
+ * v1 usa variantes FULL-BODY exclusivas (prioridade: arma > armadura > base),
+ * pois as sprites são folhas inteiras e não overlays combináveis. As sprites de
+ * arma foram geradas SOBRE a armadura de couro, então "arma equipada" já mostra
+ * couro+arma juntos. Estado/pose sem variante cai no idle do equipamento e só
+ * então na sprite base — por design.
  */
 
 export interface ItemVisual {
@@ -23,9 +25,17 @@ export const ITEM_VISUALS: Record<string, ItemVisual> = {
   // Armaduras (peito)
   ch_3000: { kind: 'armor', key: 'leather' }, // Vestimenta de Couro
   ch_3002: { kind: 'armor', key: 'iron' }, // Cota de Ferro
-  // Armas (mão principal)
-  w1h_1001: { kind: 'weapon', key: 'sword' }, // Espada de Ferro
-  w1h_1150: { kind: 'weapon', key: 'staff' }, // Cajado Simples
+  // Armas (mão principal) — 10 categorias com visual
+  w1h_1001: { kind: 'weapon', key: 'sword' }, // Espada de Ferro (sword_one)
+  w1h_1005: { kind: 'weapon', key: 'eclipse' }, // Lâmina do Eclipse (sword_one épica)
+  w1h_1100: { kind: 'weapon', key: 'dagger' }, // Adaga (dagger)
+  w1h_1200: { kind: 'weapon', key: 'bowshort' }, // Arco Curto (bow_short)
+  w1h_1150: { kind: 'weapon', key: 'staff' }, // Cajado Simples (staff_one)
+  w2h_1500: { kind: 'weapon', key: 'greatsword' }, // Espadão (great_sword)
+  w2h_1600: { kind: 'weapon', key: 'hammer' }, // Martelo (hammer)
+  w2h_1650: { kind: 'weapon', key: 'spear' }, // Lança (spear)
+  w2h_1700: { kind: 'weapon', key: 'bowlong' }, // Arco Longo (bow_long)
+  w2h_1750: { kind: 'weapon', key: 'greatstaff' }, // Cajado de Batalha (staff_two)
 };
 
 /** Sprites que EXISTEM em disco por visual/gênero/estado. */
@@ -39,12 +49,22 @@ const SPRITES: Record<string, Partial<Record<Gender, Partial<Record<CharState, n
     male: { idle: [1] },
   },
   sword: {
+    female: { idle: [1] },
     male: { idle: [1] },
   },
   staff: {
     female: { idle: [1] },
     male: { idle: [1] },
   },
+  // Armas geradas com a heroína de couro segurando o item
+  dagger: { female: { idle: [1] } },
+  eclipse: { female: { idle: [1] } },
+  bowshort: { female: { idle: [1] } },
+  bowlong: { female: { idle: [1] } },
+  greatsword: { female: { idle: [1] } },
+  hammer: { female: { idle: [1] } },
+  spear: { female: { idle: [1] } },
+  greatstaff: { female: { idle: [1] } },
 };
 
 /** Aceita id de catálogo OU itemStr ("w1h_1150|1:120|99:5" → "w1h_1150"). */
@@ -61,7 +81,7 @@ export const visualForItem = (ref: string | null | undefined): ItemVisual | null
 
 /**
  * Resolve a sprite de equipamento para o estado/pose pedidos.
- * Prioridade: armadura > arma. Retorna '' quando não há variante
+ * Prioridade: arma > armadura. Retorna '' quando não há variante
  * (o chamador usa a sprite base).
  */
 export const resolveEquippedSprite = (
@@ -71,7 +91,7 @@ export const resolveEquippedSprite = (
   armorRef: string | null | undefined,
   weaponRef: string | null | undefined,
 ): string => {
-  const candidates = [visualForItem(armorRef), visualForItem(weaponRef)].filter(
+  const candidates = [visualForItem(weaponRef), visualForItem(armorRef)].filter(
     (v): v is ItemVisual => Boolean(v),
   );
 
