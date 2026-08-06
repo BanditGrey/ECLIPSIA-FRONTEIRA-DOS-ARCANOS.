@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { resolveEquippedSprite, visualForItem } from '../../data/equipmentVisuals';
 import { resolveWeaponOverlay } from '../../data/weaponOverlays';
+import { resolveFusion, resolveFusionAuraAnchor, type ActiveFusion } from '../../data/fusionAuras';
+import { OffHandLayer, resolveOffHandVisual } from './OffHandLayer';
 import { usePlayerStore } from '../../store/usePlayerStore';
 
 export type CharState = 'idle' | 'walk' | 'attack' | 'hit' | 'death' | 'cast' | 'dash' | 'victory';
@@ -36,6 +38,8 @@ export const LayeredCharacter: React.FC<Props> = ({
 }) => {
   const [src, setSrc] = useState('');
   const [overlay, setOverlay] = useState<{ file: string; anchor: { x: number; y: number; w: number; rot?: number } } | null>(null);
+  const [fusion, setFusion] = useState<ActiveFusion | null>(null);
+  const [offVisual, setOffVisual] = useState<ReturnType<typeof resolveOffHandVisual>>(null);
   const [frame, setFrame] = useState(0);
   const animEndRef = useRef<ReturnType<typeof setTimeout>>();
   const frameRef = useRef<ReturnType<typeof setInterval>>();
@@ -66,8 +70,11 @@ export const LayeredCharacter: React.FC<Props> = ({
     // v2 camadas: elemento carimbado na instância (meta-par 101) vira overlay
     // SEPARADO e vence até visual único; sem overlay, fluxo full-body legado
     const ov = resolveWeaponOverlay(gender, state, weaponRef);
-    const hasFullWeapon = !ov && Boolean(visualForItem(weaponRef));
     setOverlay(ov);
+    // Fusão de glifo: aura elemental ao redor da arma (sem trocar a arte dela).
+    setFusion(resolveFusion(weaponRef, weaponOffRef));
+    // Visual da mão secundária (escudo/glifo) para espada+escudo coerente.
+    setOffVisual(resolveOffHandVisual(weaponOffRef));
     const equipped = resolveEquippedSprite(
       gender, state, frame, armorRef,
       ov ? null : weaponRef,
@@ -134,6 +141,31 @@ export const LayeredCharacter: React.FC<Props> = ({
         />
       )}
 
+      {/* AURA DE FUSÃO (glifo): halo atrás da arma, sem trocar a arte dela */}
+      {fusion && (() => {
+        const a = resolveFusionAuraAnchor(gender, state);
+        const intensity = 0.32 + fusion.tier * 0.1;
+        return (
+          <div
+            className="pointer-events-none absolute z-[5] rounded-full"
+            style={{
+              width: a.r * size * 2,
+              height: a.r * size * 2,
+              left: a.x * size - a.r * size,
+              top: a.y * size * 1.3 - a.r * size,
+              background: `radial-gradient(circle, ${fusion.glow}cc 0%, ${fusion.color}99 35%, ${fusion.color}33 60%, transparent 75%)`,
+              opacity: intensity,
+              filter: `blur(${size * 0.04}px)`,
+              animation: 'lcFusionAura 2.4s ease-in-out infinite',
+              mixBlendMode: 'screen'
+            }}
+          />
+        );
+      })()}
+
+      {/* Camada da mão secundária (escudo/glifo) — espada+escudo coerente */}
+      {offVisual && <OffHandLayer visual={offVisual} size={size} />}
+
       {/* Camada de arma (overlay) — combina com qualquer armadura */}
       {overlay && (
         <img src={overlay.file} alt="" draggable={false} className="pointer-events-none absolute z-10 select-none"
@@ -185,6 +217,9 @@ export const LayeredCharacter: React.FC<Props> = ({
         @keyframes lcSlash { 0%{opacity:0;transform:translateX(-8px)} 15%{opacity:1} 100%{opacity:0;transform:translateX(8px)} }
         @keyframes lcCastAura { 0%{transform:scale(0.5);opacity:0} 35%{transform:scale(1.2);opacity:0.8} 100%{transform:scale(1.6);opacity:0} }
         @keyframes lcHitFlash { 0%{opacity:0.7} 40%{opacity:0.4} 100%{opacity:0} }
+        @keyframes lcFusionAura { 0%,100%{transform:scale(0.92)} 50%{transform:scale(1.1)} }
+        @keyframes ohGlyphFloat { 0%,100%{transform:translateY(0) rotate(-4deg)} 50%{transform:translateY(-4px) rotate(4deg)} }
+        @keyframes ohShieldIdle { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-2px)} }
       `}</style>
     </div>
   );

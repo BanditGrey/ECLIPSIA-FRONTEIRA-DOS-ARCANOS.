@@ -25,7 +25,8 @@ export type WeaponCategory =
   | 'shield'
   | 'orb'
   | 'tome'
-  | 'dagger_off';
+  | 'dagger_off'
+  | 'glyph';
 
 export type Slot =
   | 'weapon_main'

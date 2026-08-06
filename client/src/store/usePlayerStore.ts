@@ -570,9 +570,15 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     const isWeapon = Boolean(weaponCategory);
 
     if (isWeapon) {
+      // GLIFOS são exclusivos de mão secundária (selam o 2º elemento/fusão).
+      if (weaponCategory === 'glyph' && preferredSlot === 'weapon_main') {
+        return false;
+      }
       const requestedSlot = preferredSlot === 'weapon_main' || preferredSlot === 'weapon_off'
         ? preferredSlot
-        : (item.slot === 'weapon_main' || item.slot === 'weapon_off' ? item.slot : 'weapon_main');
+        : (weaponCategory === 'glyph'
+          ? 'weapon_off'
+          : (item.slot === 'weapon_main' || item.slot === 'weapon_off' ? item.slot : 'weapon_main'));
       const otherSlot = requestedSlot === 'weapon_main' ? 'weapon_off' : 'weapon_main';
       const otherId = data.equipment[otherSlot];
       const otherCategory = otherId ? weaponCategoryOf(otherId) : null;

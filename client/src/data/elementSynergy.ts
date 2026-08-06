@@ -35,12 +35,13 @@ export const counters = (attacker: WeaponElement, defender: WeaponElement): bool
  * "a+b". Resultado null = sem fusão (ex.: sombrio+luz são rivais, não fundem).
  */
 export const ELEMENT_FUSION: Record<string, { result: string; nameKey: string }> = {
-  'fire+wind': { result: 'lightning', nameKey: 'fusions.lightning' }, // tempestade
+  // Chaves em ordem alfabética (fusionOf ordena com .sort()):
+  'earth+fire': { result: 'magma', nameKey: 'fusions.magma' },
   'earth+water': { result: 'nature', nameKey: 'fusions.nature' }, // vida/seiva
-  'fire+earth': { result: 'magma', nameKey: 'fusions.magma' },
-  'water+wind': { result: 'ice', nameKey: 'fusions.ice' }, // GELO (ex. do usuário)
-  'fire+water': { result: 'mist', nameKey: 'fusions.mist' }, // névoa
   'earth+wind': { result: 'dust', nameKey: 'fusions.dust' }, // poeira
+  'fire+water': { result: 'mist', nameKey: 'fusions.mist' }, // névoa
+  'fire+wind': { result: 'lightning', nameKey: 'fusions.lightning' }, // tempestade
+  'water+wind': { result: 'ice', nameKey: 'fusions.ice' }, // GELO (ex. do usuário)
 };
 
 export const fusionOf = (a: WeaponElement, b: WeaponElement): { result: string; nameKey: string } | null => {

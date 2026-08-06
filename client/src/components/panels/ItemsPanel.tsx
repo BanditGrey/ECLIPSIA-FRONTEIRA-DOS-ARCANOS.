@@ -4,6 +4,7 @@ import { getEffect, getEffectPairs } from '../../data/effectRegistry';
 import { itemNames } from '../../data/itemNames';
 import { weaponCategoryOf } from '../../data/proficiencies';
 import { elementOfItemInstance } from '../../data/weaponElements';
+import { resolveFusion } from '../../data/fusionAuras';
 import { useI18n } from '../../hooks/useI18n';
 import { useGameStore } from '../../store/useGameStore';
 import { refOf, usePlayerStore } from '../../store/usePlayerStore';
@@ -313,6 +314,16 @@ export const ItemsPanel = () => {
   const selectedWeaponCategory = selectedItem ? weaponCategoryOf(refOf(selectedItem)) : null;
   const selectedItemObj = selectedItem ? resolveItemRef(refOf(selectedItem)) : undefined;
   const selectedElement = selectedItemObj ? elementOfItemInstance(selectedItemObj)?.element ?? null : null;
+  // Prévia da fusão: ao inspecionar um glifo, mostra o que ele funde com a
+  // arma principal equipada; ao inspecionar uma arma, mostra a fusão com o glifo.
+  const selectedFusion = useMemo(() => {
+    if (!selectedItem || !player) return null;
+    const ref = refOf(selectedItem);
+    const cat = weaponCategoryOf(ref);
+    if (cat === 'glyph') return resolveFusion(player.equipment.weapon_main, ref);
+    if (cat) return resolveFusion(ref, player.equipment.weapon_off);
+    return null;
+  }, [selectedItem, player]);
 
   return (
     <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
@@ -459,9 +470,15 @@ export const ItemsPanel = () => {
                   {t(`items.rarities.${selectedMeta.rarity}`)} • {selectedMeta.slot ? t(`items.slots.${selectedMeta.slot}`) : t('game.unknown')}
                   {selectedMeta.numId !== undefined && <> • #{selectedMeta.numId}</>}
                 </p>
-                {selectedWeaponCategory && selectedElement && (
+                {selectedElement && (
                   <p className="font-mono text-xs text-arcane-300">
                     ✦ {t(`elements.${selectedElement}.name`)}
+                    {selectedWeaponCategory === 'glyph' && <span className="ml-1 text-game-muted">· {t('items.glyphBadge')}</span>}
+                  </p>
+                )}
+                {selectedFusion && (
+                  <p className="font-mono text-xs text-fuchsia-300">
+                    ✧ {t('items.fusionBadge')}: {t(selectedFusion.nameKey)} (+10%)
                   </p>
                 )}
               </div>
@@ -558,7 +575,19 @@ export const ItemsPanel = () => {
               </div>
             ) : selectedSource === 'bag' ? (
               <div className="grid grid-cols-3 gap-2">
-                {selectedWeaponCategory ? (
+                {selectedWeaponCategory === 'glyph' ? (
+                  // Glifos são exclusivos de mão secundária (selam 2º elemento).
+                  <Button
+                    disabled={!selectedMeta.slot}
+                    onClick={() => {
+                      if (!equip(refOf(selectedItem), 'weapon_off')) {
+                        addNotification(t('items.sameWeaponCategory'), 'warning');
+                      }
+                    }}
+                  >
+                    {t('items.equipOff')}
+                  </Button>
+                ) : selectedWeaponCategory ? (
                   <>
                     <Button
                       onClick={() => {
