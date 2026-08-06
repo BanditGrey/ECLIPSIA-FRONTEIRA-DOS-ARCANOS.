@@ -504,3 +504,29 @@ git push origin arena/019fd3c8-eclipsia-fronteira-dos-arcanos
 - Animações de ataque por categoria (hoje slash genérico)
 - Partículas de runas piscando no T3/relic
 - Categorias orb/tome (não têm overlay ainda)
+
+---
+
+## 🎴 CORREÇÃO DE DIREÇÃO: SPRINT GENÉRICO P/ RELÍQUIAS (2026-08-06)
+
+**Correção do usuário:** "o sistema de tier de evolução e sprint só vão funcionar nas armas lendárias e abaixo. Vamos usar sprint genéricos sem muito chamar atenção acredito que esteja nas memórias."
+
+### O que mudou
+- **Tiers de evolução** (T1/T2/T3 com aço/azul/dourado+runas) vão **somente até o lendário**.
+- **Relíquia** (`relic`) agora usa **SPRINT GENÉRICO** (`ov_<cat>_sprint.png`): visual LIMPO e SÓBRIO — base levemente clareada com tom dourado-pálido e glow sutil, **sem arco-íris, sem runas piscando**.
+- Removidas as sprites `*_relic.png` (arco-íris exagerado); substituídas por `*_sprint.png`.
+- `WeaponTier` type agora é `'t1' | 't2' | 't3' | 'sprint'` (antes `'relic'`).
+- `tools/gen_sprint_overlay.py` gera o sprint para todas as categorias.
+- Adicionados overlays de **orb** e **tome** (categorias que faltavam) com seus tiers e sprint.
+
+### Regra visual
+| Raridade | Tier | Visual |
+|----------|------|--------|
+| comum/incomum | t1 | aço prateado |
+| raro/épico | t2 | azul + brilho |
+| lendário | t3 | dourado + runas |
+| relíquia | sprint | limpo/sóbrio (sem chamar atenção) |
+
+### Validação
+- 7/7 casos de categoria×raridade resolvendo overlay correto
+- `tsc`, `build`, auditorias 89/89 OK

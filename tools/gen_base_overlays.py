@@ -201,6 +201,41 @@ def draw_bow(short=True):
     return img
 
 
+
+def draw_orb():
+    """Orbe mágico flutuante com anel."""
+    img, d = new_canvas()
+    cx = W // 2
+    glow = Image.new('RGBA', (W, H), (0, 0, 0, 0))
+    gd = ImageDraw.Draw(glow)
+    gd.ellipse([cx - 55, 340, cx + 55, 450], fill=(167, 139, 250, 110))
+    glow = glow.filter(ImageFilter.GaussianBlur(16))
+    img.alpha_composite(glow)
+    d.ellipse([cx - 52, 338, cx + 52, 452], outline=GOLD, width=5)
+    d.ellipse([cx - 46, 344, cx + 46, 446], outline=GOLD_DARK, width=2)
+    d.ellipse([cx - 38, 352, cx + 38, 438], fill=(125, 211, 252), outline=(14, 116, 144), width=2)
+    d.ellipse([cx - 28, 358, cx + 4, 390], fill=(224, 242, 254, 180))
+    d.rounded_rectangle([cx - 12, 440, cx + 12, 470], radius=3, fill=GOLD, outline=GOLD_DARK, width=2)
+    return img
+
+
+def draw_tome():
+    """Tomo/livro mágico com fecho dourado."""
+    img, d = new_canvas()
+    cx = W // 2
+    d.rounded_rectangle([cx - 58, 290, cx + 58, 470], radius=6,
+                        fill=(90, 62, 34), outline=(42, 30, 18), width=3)
+    d.rectangle([cx - 62, 296, cx - 50, 464], fill=(60, 40, 22), outline=(42, 30, 18), width=2)
+    d.rectangle([cx - 48, 300, cx + 52, 460], fill=(230, 220, 190), outline=(120, 100, 70), width=1)
+    for i in range(6):
+        y = 315 + i * 22
+        d.line([cx - 40, y, cx + 44, y], fill=(180, 160, 120), width=1)
+    d.rounded_rectangle([cx - 8, 370, cx + 8, 395], radius=2, fill=GOLD, outline=GOLD_DARK, width=2)
+    d.arc([cx + 30, 420, cx + 58, 460], 0, 90, fill=GOLD, width=3)
+    d.arc([cx - 52, 300, cx - 30, 330], 90, 180, fill=GOLD, width=3)
+    return img
+
+
 CATEGORIES = {
     'sword': draw_sword,
     'dagger': draw_dagger,
@@ -211,6 +246,8 @@ CATEGORIES = {
     'hammer': draw_hammer,
     'bowshort': lambda: draw_bow(short=True),
     'bowlong': lambda: draw_bow(short=False),
+    'orb': draw_orb,
+    'tome': draw_tome,
 }
 
 
