@@ -41,8 +41,10 @@ export const LayeredCharacter: React.FC<Props> = ({
   // Equipamento atual do jogador (props têm prioridade p/ previews)
   const eqChest = usePlayerStore((s) => s.data?.equipment?.chest ?? null);
   const eqWeapon = usePlayerStore((s) => s.data?.equipment?.weapon_main ?? null);
+  const eqWeaponOff = usePlayerStore((s) => s.data?.equipment?.weapon_off ?? null);
   const armorRef = armorId ?? eqChest;
   const weaponRef = weaponId ?? eqWeapon;
+  const weaponOffRef = eqWeaponOff;
 
   // Frame cycling for idle animation
   useEffect(() => {
@@ -59,8 +61,8 @@ export const LayeredCharacter: React.FC<Props> = ({
   }, [state, gender]);
 
   useEffect(() => {
-    // Visual de equipamento (armadura > arma) com fallback p/ sprite base
-    const equipped = resolveEquippedSprite(gender, state, frame, armorRef, weaponRef);
+    // Visual de equipamento (arma main > off > armadura) c/ fallback p/ base
+    const equipped = resolveEquippedSprite(gender, state, frame, armorRef, weaponRef, weaponOffRef);
     setSrc(equipped || getSprite(gender, state, frame));
     if (animEndRef.current) clearTimeout(animEndRef.current);
     const oneShot = ['attack', 'hit', 'death', 'cast', 'dash', 'victory'];
@@ -68,7 +70,7 @@ export const LayeredCharacter: React.FC<Props> = ({
       animEndRef.current = setTimeout(onAnimationEnd, 600);
     }
     return () => { if (animEndRef.current) clearTimeout(animEndRef.current); };
-  }, [state, gender, frame, onAnimationEnd, armorRef, weaponRef]);
+  }, [state, gender, frame, onAnimationEnd, armorRef, weaponRef, weaponOffRef]);
 
   // Preload
   useEffect(() => {

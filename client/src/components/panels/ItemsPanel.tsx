@@ -3,6 +3,7 @@ import { describeEffect, getEffectIcon, getEffectName } from '../../data/effectN
 import { getEffect, getEffectPairs } from '../../data/effectRegistry';
 import { itemNames } from '../../data/itemNames';
 import { weaponCategoryOf } from '../../data/proficiencies';
+import { elementOfWeapon } from '../../data/weaponElements';
 import { useI18n } from '../../hooks/useI18n';
 import { useGameStore } from '../../store/useGameStore';
 import { refOf, usePlayerStore } from '../../store/usePlayerStore';
@@ -310,6 +311,7 @@ export const ItemsPanel = () => {
   const selectedMeta = selectedItem ? getItemMeta(refOf(selectedItem)) : null;
   const equippedCurrent = selectedMeta?.slot && player ? player.equipment[selectedMeta.slot] : null;
   const selectedWeaponCategory = selectedItem ? weaponCategoryOf(refOf(selectedItem)) : null;
+  const selectedElement = selectedItem ? elementOfWeapon(refOf(selectedItem).split('|')[0]) : null;
 
   return (
     <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
@@ -456,6 +458,11 @@ export const ItemsPanel = () => {
                   {t(`items.rarities.${selectedMeta.rarity}`)} • {selectedMeta.slot ? t(`items.slots.${selectedMeta.slot}`) : t('game.unknown')}
                   {selectedMeta.numId !== undefined && <> • #{selectedMeta.numId}</>}
                 </p>
+                {selectedWeaponCategory && selectedElement && (
+                  <p className="font-mono text-xs text-arcane-300">
+                    ✦ {t(`elements.${selectedElement}.name`)}
+                  </p>
+                )}
               </div>
             </header>
 

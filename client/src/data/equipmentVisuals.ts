@@ -113,6 +113,15 @@ const SPRITES: Record<string, Partial<Record<Gender, Partial<Record<CharState, n
   el_void_t1: { female: { idle: [1] } },
   el_void_t2: { female: { idle: [1] } },
   el_void_t3: { female: { idle: [1] } },
+  el_earth_t1: { female: { idle: [1] } },
+  el_earth_t2: { female: { idle: [1] } },
+  el_earth_t3: { female: { idle: [1] } },
+  el_wind_t1: { female: { idle: [1] } },
+  el_wind_t2: { female: { idle: [1] } },
+  el_wind_t3: { female: { idle: [1] } },
+  el_blood_t1: { female: { idle: [1] } },
+  el_blood_t2: { female: { idle: [1] } },
+  el_blood_t3: { female: { idle: [1] } },
   relic_eclipse: { female: { idle: [1] } },
   // Armas geradas com a heroína de couro segurando o item
   dagger: { female: { idle: [1] } },
@@ -148,23 +157,28 @@ export const resolveEquippedSprite = (
   frame: number,
   armorRef: string | null | undefined,
   weaponRef: string | null | undefined,
+  weaponOffRef: string | null | undefined = undefined,
 ): string => {
   const candidates: ItemVisual[] = [];
 
-  // Arma: 1) visual único do item · 2) elemento × tier de raridade
-  const weaponUnique = visualForItem(weaponRef);
-  if (weaponUnique) candidates.push(weaponUnique);
-  const weaponItem = weaponRef ? resolveItemRef(weaponRef) : undefined;
-  if (weaponItem) {
-    const element = elementOfWeapon(weaponItem.id);
-    if (element) {
-      // Fallback de tier: sem arte no tier da raridade, desce p/ o anterior
-      const tier = tierOfRarity(weaponItem.rarity);
-      for (let t = tier; t >= 1; t--) {
-        candidates.push({ kind: 'weapon', key: `el_${element}_t${t}` });
+  // Arma (main e off): 1) visual único do item · 2) elemento × tier de raridade
+  const pushWeapon = (ref: string | null | undefined) => {
+    const unique = visualForItem(ref);
+    if (unique) candidates.push(unique);
+    const item = ref ? resolveItemRef(ref) : undefined;
+    if (item) {
+      const element = elementOfWeapon(item.id);
+      if (element) {
+        // Fallback de tier: sem arte no tier da raridade, desce p/ o anterior
+        const tier = tierOfRarity(item.rarity);
+        for (let t = tier; t >= 1; t--) {
+          candidates.push({ kind: 'weapon', key: `el_${element}_t${t}` });
+        }
       }
     }
-  }
+  };
+  pushWeapon(weaponRef);
+  pushWeapon(weaponOffRef);
 
   // Armadura por último
   const armorUnique = visualForItem(armorRef);

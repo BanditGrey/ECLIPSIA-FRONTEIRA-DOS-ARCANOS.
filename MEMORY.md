@@ -111,11 +111,16 @@ Correções aplicadas (baselines depois: **89/89 · 41/41 · 18/18 · build OK**
       proficiencies no formato {name} e inseriu `elements.*` (12) nos 4
       idiomas; WikiScreen ajustada p/ `archetypes.*`. NÃO repetir injeções
       manuais sem validar depth (parser de chaves antes de commitar).
-    - **FALTANDO (backlog de arte)**: ① elementos **earth · wind · blood**
-      (t1-t3); ② tiers de todos os elementos p/ MALE; ③ visuais próprios das
-      OUTRAS relics (só 1010 tem; 1005 usa 'eclipse' antigo; w2h_1505/1755
-      caem no t3 do elemento); ④ poses attack das armas elementais;
-      ⑤ exibir o elemento no tooltip do item (i18n `elements.*` já existe).
+    - FEITO (4ª leva, RODA COMPLETA): **terra** (escudos oh_2002-2005),
+      **vento** (orbes oh_2150-2153) e **sangue** (tomos oh_2200-2203) t1-t3
+      female = +9 sprites. **12/12 elementos com arte female completa.**
+      Sistema agora lê tb a mão SECUNDÁRIA (weapon_off; main > off > armadura)
+      e o modal de detalhe do ItemsPanel mostra chip `✦ elemento` (i18n
+      elements.*) em armas. Sandbox: off-hands t1→t3 no bag.
+    - **FALTANDO (backlog de arte)**: ① tiers de todos os elementos p/ MALE;
+      ② visuais próprios das OUTRAS relics (só 1010 tem; 1005 usa 'eclipse'
+      antigo; w2h_1505/1755 caem no t3 do elemento); ③ poses attack das armas
+      elementais; ④ (opcional) combinar arma+armadura via overlays no futuro.
     - `tools/sprite_clean.py` AGORA VIVE NO REPO (scripts em /home/user somem
       entre sessões): flood das bordas + nibble_fringe; nunca branco global.
 

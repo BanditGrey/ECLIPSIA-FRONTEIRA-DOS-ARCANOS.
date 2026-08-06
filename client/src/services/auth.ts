@@ -394,6 +394,16 @@ export const AuthService = {
         { itemStr: "w2h_1701", id: "w2h_1701", qty: 1 }, // Vazio t1
         { itemStr: "w2h_1702", id: "w2h_1702", qty: 1 }, // Vazio t2
         { itemStr: "w2h_1704", id: "w2h_1704", qty: 1 }, // Vazio t3
+        // Roda completa: terra/vento/sangue (off-hand) t1→t3
+        { itemStr: "oh_2002", id: "oh_2002", qty: 1 }, // Terra t1
+        { itemStr: "oh_2003", id: "oh_2003", qty: 1 }, // Terra t2
+        { itemStr: "oh_2005", id: "oh_2005", qty: 1 }, // Terra t3
+        { itemStr: "oh_2150", id: "oh_2150", qty: 1 }, // Vento t1
+        { itemStr: "oh_2151", id: "oh_2151", qty: 1 }, // Vento t2
+        { itemStr: "oh_2153", id: "oh_2153", qty: 1 }, // Vento t3
+        { itemStr: "oh_2200", id: "oh_2200", qty: 1 }, // Sangue t1
+        { itemStr: "oh_2201", id: "oh_2201", qty: 1 }, // Sangue t2
+        { itemStr: "oh_2203", id: "oh_2203", qty: 1 }, // Sangue t3
       ],
       maxInventory: 100,
       storage: [],

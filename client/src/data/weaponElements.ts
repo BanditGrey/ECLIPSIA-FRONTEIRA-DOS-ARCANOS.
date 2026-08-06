@@ -102,6 +102,21 @@ const CURATED: Record<string, WeaponElement> = {
   w2h_1702: 'void',
   w2h_1703: 'void',
   w2h_1704: 'void',
+  // Terra (escudos, off-hand)
+  oh_2002: 'earth',
+  oh_2003: 'earth',
+  oh_2004: 'earth',
+  oh_2005: 'earth',
+  // Vento (orbes, off-hand)
+  oh_2150: 'wind',
+  oh_2151: 'wind',
+  oh_2152: 'wind',
+  oh_2153: 'wind',
+  // Sangue (tomos, off-hand)
+  oh_2200: 'blood',
+  oh_2201: 'blood',
+  oh_2202: 'blood',
+  oh_2203: 'blood',
 };
 
 /**
