@@ -5,7 +5,13 @@ Lote 1: A1-A3, A6-A8, A10-A12 (crítico) — implementado via SkillEffectPanel +
 Lote 2: A4, A5, A9, A13, A14, A18 — concluído nesta sessão (ver abaixo)
 Lote 3: A15-A17, A19-A22 — concluído nesta sessão (ver abaixo)
 
-Estado: Fase 2 concluída.
+Estado: Fase 2 concluída + continuação 2026-08-06.
+
+Progresso adicional (2026-08-06):
+- ✅ 13 sprites novas (monstros + base male/female) + remove_bg.py corrigido (black_bg + sat<5)
+- ✅ MonsterLayered resolveSprite atualizado (mirage/dune/storm/cloud/sea/deep/forest)
+- ✅ Glow do jogador dinâmico por damageType (CombatPanel) — physical/magical/void/default
+- ✅ Build OK (923 KB chunk) · branch `arena/019fd457...` · push OK
 
 Progresso desta sessão (2026-08-04):
 - ✅ Build restaurado (4 erros de tsc corrigidos) + baselines 89/89 · 41/41 · 18/18
