@@ -1,58 +1,56 @@
 /**
- * ELEMENTOS DE ARMA (sistema de visuais por elemento × raridade)
- * --------------------------------------------------------------
- * 🎡 RODA REDUZIDA (decisão do usuário p/ viabilizar arte de TODAS as armas):
- *   6 BÁSICOS: fire · ice · lightning · nature · shadow · holy
- *   2 ULTRA-RAROS: void · blood (só deveriam dropar em loot épico+)
+ * ELEMENTOS DE ARMA — roda oficial de 6 (decisão do usuário)
+ * ----------------------------------------------------------
+ *   BÁSICOS (anel de counter — ver elementSynergy.ts):
+ *     fire · earth · water · wind   (água>fogo>vento>terra>água)
+ *   AVANÇADOS (rivais mútuos):
+ *     dark ↔ light
  *
- * ⚡ TODA ARMA PODE TER TODO ELEMENTO: o elemento é propriedade da INSTÂNCIA,
- * gravado no itemStr como META-PAR `101:<índice>` (índice = posição em
- * ELEMENTS + 1). O 101 fica FORA do registry de effects do spec (1-100) — é
- * meta-dado visual/elemental: o regex genérico do server já aceita, auditorias
- * não são afetadas e a tabela de effects da UI ignora o par.
- * Sem meta-par, vale a atribuição DESENHADA (CURATED) e, por fim, derivação
- * determinística numId % 8.
+ * Cada elemento é um EFFECT próprio no registry (12–17) e o `value` é o
+ * PODER do elemento na instância — tiers sugeridos p/ visual/balanceamento:
+ *   <25 = T1 · <50 = T2 · 50+ = T3   (valores de exemplo, balancear depois)
  *
- * RARIDADE → tier de beleza: t1 common/uncommon · t2 rare/epic · t3 legendary.
- * RELIC = visual próprio por arma (sem arte, cai no t3 do elemento).
- * Identidade de cor/VFX: fire laranja/brasas · ice ciano/cristais ·
- * lightning amarelo/faiscas · nature verde/folhas · shadow violeta/névoa ·
- * holy dourado/halos · void roxo-preto/fendas · blood carmesim/gotas.
+ * Toda arma pode nascer com qualquer elemento (stamp no loot/craft = PENDENTE);
+ * sem stamp vale a atribuição DESENHADA (CURATED) e, por fim, numId % 6.
+ * RELIC = visual próprio por arma (sem arte, cai no T3 do elemento).
  */
+import { EFFECT } from './effectRegistry';
 import type { Item } from '../types/item.types';
 
-export type WeaponElement =
-  | 'fire'
-  | 'ice'
-  | 'lightning'
-  | 'nature'
-  | 'shadow'
-  | 'holy'
-  | 'void'
-  | 'blood';
+export type WeaponElement = 'fire' | 'earth' | 'water' | 'wind' | 'dark' | 'light';
 
-export const ELEMENTS: WeaponElement[] = [
-  'fire',
-  'ice',
-  'lightning',
-  'nature',
-  'shadow',
-  'holy',
-  'void',
-  'blood',
-];
+export const ELEMENTS: WeaponElement[] = ['fire', 'earth', 'water', 'wind', 'dark', 'light'];
 
-/** Meta-par no itemStr: `101:<1-8>` = elemento da instância (fora do spec 1-100). */
-export const META_ELEMENT_ID = 101;
+/** effectId de cada elemento (registry 12–17). */
+export const ELEMENT_EFFECT_ID: Record<WeaponElement, number> = {
+  fire: EFFECT.ELEMENT_FIRE,
+  earth: EFFECT.ELEMENT_EARTH,
+  water: EFFECT.ELEMENT_WATER,
+  wind: EFFECT.ELEMENT_WIND,
+  dark: EFFECT.ELEMENT_DARK,
+  light: EFFECT.ELEMENT_LIGHT,
+};
 
-/** Lê o elemento gravado na instância (itemStr), se houver. */
-export const elementOfItemInstance = (item: Item | undefined): WeaponElement | null => {
+export const ELEMENT_BY_EFFECT_ID: Record<number, WeaponElement> = Object.fromEntries(
+  Object.entries(ELEMENT_EFFECT_ID).map(([el, id]) => [id, el as WeaponElement]),
+);
+
+/** Poder → tier de visual/balanceamento (exemplo: <25 T1 · <50 T2 · 50+ T3). */
+export const tierOfElementValue = (value: number): 1 | 2 | 3 =>
+  value >= 50 ? 3 : value >= 25 ? 2 : 1;
+
+/** Lê o elemento gravado na instância (effect 12–17 na itemStr), se houver. */
+export const elementOfItemInstance = (
+  item: Item | undefined,
+): { element: WeaponElement; power: number; tier: 1 | 2 | 3 } | null => {
   if (!item?.effects) return null;
   const e = item.effects as Record<string, unknown>;
   for (let i = 1; i <= 10; i++) {
-    if (Number(e[`e${i}`]) === META_ELEMENT_ID) {
-      const idx = Number(e[`v${i}`]) - 1;
-      return ELEMENTS[idx] ?? null;
+    const id = Number(e[`e${i}`]);
+    const element = ELEMENT_BY_EFFECT_ID[id];
+    if (element) {
+      const power = Number(e[`v${i}`]) || 1;
+      return { element, power, tier: tierOfElementValue(power) };
     }
   }
   return null;
@@ -60,31 +58,31 @@ export const elementOfItemInstance = (item: Item | undefined): WeaponElement | n
 
 /**
  * Atribuições DESENHADAS (elemento faz parte do design da linha):
- * espadas 1002-1009 GELO · cajados 1151-1154 FOGO · adagas 1102-1105 RAIO ·
- * arcos 1201-1204 NATUREZA · espadões 1501-1504 SOMBRA · lanças 1551? NÃO —
- * lanças 1651-1654 SAGRADO · arcos longos 1701-1704 VAZIO · tomos 2200-2203 SANGUE.
+ * espadas 1002-1009 ÁGUA · cajados 1151-1154 FOGO · adagas 1102-1105 VENTO ·
+ * arcos 1201-1204 TERRA · espadões 1501-1504 SOMBRIO · lanças 1651-1654 LUZ ·
+ * arcos longos 1701-1704 ÁGUA · tomos 2200-2203 SOMBRIO.
  */
 const CURATED: Record<string, WeaponElement> = {
-  w1h_1002: 'ice', w1h_1003: 'ice', w1h_1004: 'ice', w1h_1006: 'ice', w1h_1008: 'ice', w1h_1009: 'ice',
+  w1h_1002: 'water', w1h_1003: 'water', w1h_1004: 'water', w1h_1006: 'water', w1h_1008: 'water', w1h_1009: 'water',
   w1h_1151: 'fire', w1h_1152: 'fire', w1h_1153: 'fire', w1h_1154: 'fire',
-  w1h_1102: 'lightning', w1h_1103: 'lightning', w1h_1104: 'lightning', w1h_1105: 'lightning',
-  w1h_1201: 'nature', w1h_1202: 'nature', w1h_1203: 'nature', w1h_1204: 'nature',
-  w2h_1501: 'shadow', w2h_1502: 'shadow', w2h_1503: 'shadow', w2h_1504: 'shadow',
-  w2h_1651: 'holy', w2h_1652: 'holy', w2h_1653: 'holy', w2h_1654: 'holy',
-  w2h_1701: 'void', w2h_1702: 'void', w2h_1703: 'void', w2h_1704: 'void',
-  oh_2200: 'blood', oh_2201: 'blood', oh_2202: 'blood', oh_2203: 'blood',
+  w1h_1102: 'wind', w1h_1103: 'wind', w1h_1104: 'wind', w1h_1105: 'wind',
+  w1h_1201: 'earth', w1h_1202: 'earth', w1h_1203: 'earth', w1h_1204: 'earth',
+  w2h_1501: 'dark', w2h_1502: 'dark', w2h_1503: 'dark', w2h_1504: 'dark',
+  w2h_1651: 'light', w2h_1652: 'light', w2h_1653: 'light', w2h_1654: 'light',
+  w2h_1701: 'water', w2h_1702: 'water', w2h_1703: 'water', w2h_1704: 'water',
+  oh_2200: 'dark', oh_2201: 'dark', oh_2202: 'dark', oh_2203: 'dark',
 };
 
 /**
- * Elemento de uma arma: 1) meta-par da instância (TODA arma pode ter TODO
- * elemento) · 2) atribuição desenhada · 3) derivação determinística numId % 8.
+ * Elemento de uma arma: 1) effect da instância (12–17) · 2) curated ·
+ * 3) derivação determinística numId % 6.
  */
 export const elementOfWeapon = (
   itemId: string | null | undefined,
   item?: Item,
 ): WeaponElement | null => {
-  const fromInstance = elementOfItemInstance(item);
-  if (fromInstance) return fromInstance;
+  const inst = elementOfItemInstance(item);
+  if (inst) return inst.element;
   if (itemId && CURATED[itemId]) return CURATED[itemId];
   const n = Number(itemId?.replace(/\D+/g, ''));
   if (!Number.isFinite(n) || n <= 0) return null;

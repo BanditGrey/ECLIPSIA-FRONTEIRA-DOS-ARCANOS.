@@ -20,7 +20,6 @@
 
 import { ITEMS } from '../data/items';
 import { buildItemEffect, getEffectPairs, isValidEffectId, MAX_EFFECTS_PER_ITEM, RESERVED_EFFECT_ID } from '../data/effectRegistry';
-import { META_ELEMENT_ID } from '../data/weaponElements';
 import type { Item, ItemEffect } from '../types/item.types';
 
 /** Índice numId → item base (dados estáticos do catálogo). */
@@ -75,9 +74,7 @@ export const parseItemStr = (str: string): ParsedItemStr => {
       throw new Error(`itemStr inválida (par "${segment}"): "${str}"`);
     }
 
-    // META_ELEMENT_ID (101) é meta-dado de elemento da instância — fora do
-    // registry de effects do spec, mas aceito na itemStr.
-    if (effectId === RESERVED_EFFECT_ID || (!isValidEffectId(effectId) && effectId !== META_ELEMENT_ID)) {
+    if (effectId === RESERVED_EFFECT_ID || !isValidEffectId(effectId)) {
       throw new Error(`itemStr inválida (effectId ${effectId} desconhecido): "${str}"`);
     }
 

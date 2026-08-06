@@ -399,10 +399,10 @@ export const AuthService = {
         { itemStr: "oh_2201", id: "oh_2201", qty: 1 }, // Sangue t2
         { itemStr: "oh_2203", id: "oh_2203", qty: 1 }, // Sangue t3
         // META-PAR 101 = elemento da instância: QUALQUER arma × QUALQUER elemento
-        { itemStr: "1500|101:2", id: "w2h_1500", qty: 1 }, // Espadão GELO t1
-        { itemStr: "1504|101:1", id: "w2h_1504", qty: 1 }, // Espadão FOGO t3
-        { itemStr: "1103|101:7", id: "w1h_1103", qty: 1 }, // Adaga VAZIO (ultra)
-        { itemStr: "1204|101:8", id: "w1h_1204", qty: 1 }, // Arco SANGUE (ultra) t3
+        { itemStr: "1500|13:35", id: "w2h_1500", qty: 1 }, // Espadão TERRA T2
+        { itemStr: "1504|12:60", id: "w2h_1504", qty: 1 }, // Espadão FOGO T3
+        { itemStr: "1103|16:35", id: "w1h_1103", qty: 1 }, // Adaga SOMBRIO T2 (avançado)
+        { itemStr: "1204|14:60", id: "w1h_1204", qty: 1 }, // Arco ÁGUA T3
       ],
       maxInventory: 100,
       storage: [],

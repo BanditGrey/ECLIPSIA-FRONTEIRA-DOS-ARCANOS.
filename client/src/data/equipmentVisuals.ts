@@ -48,79 +48,32 @@ export const ITEM_VISUALS: Record<string, ItemVisual> = {
 };
 
 /** Sprites que EXISTEM em disco por visual/gênero/estado. */
-const SPRITES: Record<string, Partial<Record<Gender, Partial<Record<CharState, number[]>>>>> = {
-  leather: {
-    female: { idle: [1], attack: [1] },
-    male: { idle: [1] },
-  },
-  iron: {
-    female: { idle: [1] },
-    male: { idle: [1] },
-  },
-  padded: {
-    female: { idle: [1] },
-    male: { idle: [1] },
-  },
-  guard: {
-    female: { idle: [1] },
-    male: { idle: [1] },
-  },
-  shadow: {
-    female: { idle: [1] },
-    male: { idle: [1] },
-  },
-  legendary: {
-    female: { idle: [1] },
-    male: { idle: [1] },
-  },
-  mist: {
-    female: { idle: [1] },
-    male: { idle: [1] },
-  },
-  sword: {
-    female: { idle: [1] },
-    male: { idle: [1] },
-  },
-  staff: {
-    female: { idle: [1] },
-    male: { idle: [1] },
-  },
-  // Elemento × tier (female por enquanto; male = fallback)
-  el_ice_t1: { female: { idle: [1] } },
-  el_ice_t2: { female: { idle: [1] } },
-  el_ice_t3: { female: { idle: [1] } },
-  el_fire_t1: { female: { idle: [1] } },
-  el_fire_t2: { female: { idle: [1] } },
-  el_fire_t3: { female: { idle: [1] } },
-  el_lightning_t1: { female: { idle: [1] } },
-  el_lightning_t2: { female: { idle: [1] } },
-  el_lightning_t3: { female: { idle: [1] } },
-  el_nature_t1: { female: { idle: [1] } },
-  el_nature_t2: { female: { idle: [1] } },
-  el_nature_t3: { female: { idle: [1] } },
-  el_shadow_t1: { female: { idle: [1] } },
-  el_shadow_t2: { female: { idle: [1] } },
-  el_shadow_t3: { female: { idle: [1] } },
-  el_holy_t1: { female: { idle: [1] } },
-  el_holy_t2: { female: { idle: [1] } },
-  el_holy_t3: { female: { idle: [1] } },
-  el_void_t1: { female: { idle: [1] } },
-  el_void_t2: { female: { idle: [1] } },
-  el_void_t3: { female: { idle: [1] } },
-  el_blood_t1: { female: { idle: [1] } },
-  el_blood_t2: { female: { idle: [1] } },
-  el_blood_t3: { female: { idle: [1] } },
-  relic_eclipse: { female: { idle: [1] } },
-  // Armas geradas com a heroína de couro segurando o item
-  dagger: { female: { idle: [1] } },
-  eclipse: { female: { idle: [1] } },
-  bowshort: { female: { idle: [1] } },
-  bowlong: { female: { idle: [1] } },
-  greatsword: { female: { idle: [1] } },
-  hammer: { female: { idle: [1] } },
-  spear: { female: { idle: [1] } },
-  greatstaff: { female: { idle: [1] } },
+/** Sprites full-body por elemento da roda de 6 (female; male = fallback).
+ * água/sombrio/luz reusam arquivos da roda antiga (gelo/sombra/sagrada). */
+const SPRITE_FILE: Record<string, string> = {
+  water: 'el_ice',
+  dark: 'el_shadow',
+  light: 'el_holy',
 };
+
+const SPRITES: Record<string, Partial<Record<Gender, Partial<Record<CharState, number[]>>>>> = {
+  // armaduras (full-body)
+  leather: { female: { idle: [1], attack: [1] }, male: { idle: [1] } },
+  padded: { female: { idle: [1] }, male: { idle: [1] } },
+  iron: { female: { idle: [1] }, male: { idle: [1] } },
+  guard: { female: { idle: [1] }, male: { idle: [1] } },
+  shadow: { female: { idle: [1] }, male: { idle: [1] } },
+  legendary: { female: { idle: [1] }, male: { idle: [1] } },
+  mist: { female: { idle: [1] }, male: { idle: [1] } },
+  // elementos da roda (full-body legado)
+  fire: { female: { idle: [1], attack: [1] } },
+  earth: { female: { idle: [1] } },
+  wind: { female: { idle: [1] } },
+  water: { female: { idle: [1] } },
+  dark: { female: { idle: [1] } },
+  light: { female: { idle: [1] } },
+  relic_eclipse: { female: { idle: [1] } },
+}
 
 /** Aceita id de catálogo OU itemStr (numId | "1150|1:120" → id do catálogo). */
 const itemIdOf = (ref: string | null | undefined): string | null => {
@@ -181,7 +134,8 @@ export const resolveEquippedSprite = (
     const pose: CharState | null = byState?.[state]?.length ? state : byState?.idle?.length ? 'idle' : null;
     if (pose && byState) {
       const frames = byState[pose]!;
-      return `/assets/sprites/eq_${visual.key}_${gender}_${pose}_${frames[frame % frames.length]}.png`;
+      const fileKey = SPRITE_FILE[visual.key] ?? visual.key;
+      return `/assets/sprites/eq_${fileKey}_${gender}_${pose}_${frames[frame % frames.length]}.png`;
     }
   }
 

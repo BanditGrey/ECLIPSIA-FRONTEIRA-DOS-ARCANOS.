@@ -44,12 +44,12 @@ export const EFFECT_NAMES: Record<LangCode, Record<number, string>> = {
     99: 'Nível de Upgrade', 100: 'Conjunto'
   ,
     // slots reservados do espaço 1-100 (sem efeito definido ainda)
-    12: 'Reservado',
-    13: 'Reservado',
-    14: 'Reservado',
-    15: 'Reservado',
-    16: 'Reservado',
-    17: 'Reservado',
+    12: 'Fogo',
+    13: 'Terra',
+    14: 'Água',
+    15: 'Vento',
+    16: 'Sombrio',
+    17: 'Luz',
     18: 'Reservado',
     19: 'Reservado',
     20: 'Reservado',
@@ -106,12 +106,12 @@ export const EFFECT_NAMES: Record<LangCode, Record<number, string>> = {
     99: 'Upgrade Level', 100: 'Set'
   ,
     // slots reservados do espaço 1-100 (sem efeito definido ainda)
-    12: 'Reserved',
-    13: 'Reserved',
-    14: 'Reserved',
-    15: 'Reserved',
-    16: 'Reserved',
-    17: 'Reserved',
+    12: 'Fire',
+    13: 'Earth',
+    14: 'Water',
+    15: 'Wind',
+    16: 'Dark',
+    17: 'Light',
     18: 'Reserved',
     19: 'Reserved',
     20: 'Reserved',
@@ -171,12 +171,12 @@ export const EFFECT_NAMES: Record<LangCode, Record<number, string>> = {
     99: 'Nivel de Mejora', 100: 'Conjunto'
   ,
     // slots reservados do espaço 1-100 (sem efeito definido ainda)
-    12: 'Reservado',
-    13: 'Reservado',
-    14: 'Reservado',
-    15: 'Reservado',
-    16: 'Reservado',
-    17: 'Reservado',
+    12: 'Fire',
+    13: 'Earth',
+    14: 'Water',
+    15: 'Wind',
+    16: 'Dark',
+    17: 'Light',
     18: 'Reservado',
     19: 'Reservado',
     20: 'Reservado',
@@ -232,12 +232,12 @@ export const EFFECT_NAMES: Record<LangCode, Record<number, string>> = {
     97: '素材', 98: 'エンチャントスロット',
     99: 'アップグレードレベル', 100: 'セット',
     // slots reservados do espaço 1-100 (sem efeito definido ainda)
-    12: '予備',
-    13: '予備',
-    14: '予備',
-    15: '予備',
-    16: '予備',
-    17: '予備',
+    12: '炎',
+    13: '大地',
+    14: '水',
+    15: '風',
+    16: '影',
+    17: '光',
     18: '予備',
     19: '予備',
     20: '予備',
@@ -340,6 +340,15 @@ export const describeEffect = (effectId: number, value: number, lang: LangCode):
   // ── Stats primários (1–11): flat, verde/vermelho ──
   if (effectId >= 1 && effectId <= 11) {
     return { text: `${signed(value)} ${name}`, colorClass: value >= 0 ? GREEN : RED };
+  }
+
+  // ── Elementos da arma (12–17): poder + tier sugerido (<25 T1 · <50 T2 · 50+ T3) ──
+  if (effectId >= 12 && effectId <= 17) {
+    const tier = value >= 50 ? 3 : value >= 25 ? 2 : 1;
+    const colorByElement: Record<number, string> = {
+      12: ORANGE, 13: YELLOW, 14: BLUE, 15: GREEN, 16: PURPLE, 17: YELLOW,
+    };
+    return { text: `${name} · T${tier} (${value})`, colorClass: colorByElement[effectId] ?? YELLOW };
   }
 
   // ── Chance/dano de crítico ──

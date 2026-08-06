@@ -76,70 +76,41 @@ Correções aplicadas (baselines depois: **89/89 · 41/41 · 18/18 · build OK**
     base p/ evitar moderação): ch_3001 padded · ch_3003 guard (tabardo azul) ·
     ch_3004 shadow · ch_3005 legendary (placas douradas) · ch_3102 mist (manto
     teal de mago). Total de armaduras com visual: 7. Sandbox libera todas no bag.
-13. **🎡 RODA DE ELEMENTOS OFICIAL (8)** — usuário reduziu p/ viabilizar arte de
-    TODA arma: 6 BÁSICOS **fire · ice · lightning · nature · shadow · holy** +
-    2 ULTRA-RAROS **void · blood** (regra de design: ultra só em loot épico+).
-    (Rodas antigas de 7/12 ficaram como legado; artes earth/wind/arcane/poison
-    permanecem no disco mas fora da roda.)
-    Identidade de cor/VFX p/ arte e UI: fire laranja/brasas · ice ciano/cristais ·
-    lightning amarelo/faiscas · earth âmbar/rocha · wind turquesa/vórtices ·
-    nature verde/folhas · poison verde-ácido/borbulhas · blood carmesim/gotas ·
-    shadow violeta-escuro/névoa · holy dourado/halos+penas · void roxo-preto/
-    fendas · arcane teal/glifos. Nomes nos 4 idiomas em `elements.*` (i18n).
-14. **SISTEMA ELEMENTO × RARIDADE p/ armas** (`data/weaponElements.ts`):
-    - Elemento da arma (espelha linhas das pedras: fire/ice/lightning/nature/
-      shadow/arcane/pure) escolhe a família do visual; raridade escolhe o tier:
-      t1 common/uncommon (runas sutis) · t2 rare/epic (ornamentada) · t3
-      legendary (radiante). **RELIC = visual próprio por arma** (sem arte própria
-      cai no t3 do elemento).
-    - Atribuição desenhada: GELO espadas 1002-1009 · FOGO cajados 1151-1154 ·
-      RAIO adagas 1102-1105; demais armas derivam elemento por `numId % 7`
-      (todas participam do sistema; sem arte = fallback base).
-    - Resolução: único do item > elemento×tier > armadura > base (itemStr ok).
-    - FEITO (arte): gelo/fogo/raio t1-t3 female + relic própria `w1h_1010`
-      (`relic_eclipse`) = 10 sprites. Sandbox: progressões completas no bag.
-    - FEITO (2ª leva): **natureza** (arcos 1201-1204), **sombra** (espadões
-      1501-1504) e **arcana** (cajados 1751-1754) t1-t3 female = +9 sprites;
-      resolvedor com **fallback de tier** (t3→t2→t1 quando falta arte do tier).
-    - FEITO (3ª leva, sprint dos novos elementos): **veneno** (martelos
-      1601-1604), **sagrado** (lanças 1651-1654) e **vazio** (arcos longos
-      1701-1704) t1-t3 female = +9 sprites. Elementos c/ arte female completa:
-      **9 de 12** (fire, ice, lightning, nature, shadow, arcane, poison, holy,
-      void). Sandbox: progressões t1→t3 dos novos no bag.
-    - **CIRURGIA DE i18n (2026-08-06)**: login tinha 'proficiencies' flat +
-      órfãs aninhados e 'archetypes' estava preso em charCreate (chaves
-      top-level inalcançáveis — causava paths crus na UI). Script
-      `/home/user/fix_i18n_structure.py` promoveu archetypes, recriou
-      proficiencies no formato {name} e inseriu `elements.*` (12) nos 4
-      idiomas; WikiScreen ajustada p/ `archetypes.*`. NÃO repetir injeções
-      manuais sem validar depth (parser de chaves antes de commitar).
-    - FEITO (4ª leva, RODA COMPLETA): **terra** (escudos oh_2002-2005),
-      **vento** (orbes oh_2150-2153) e **sangue** (tomos oh_2200-2203) t1-t3
-      female = +9 sprites. **12/12 elementos com arte female completa.**
-      Sistema agora lê tb a mão SECUNDÁRIA (weapon_off; main > off > armadura)
-      e o modal de detalhe do ItemsPanel mostra chip `✦ elemento` (i18n
-      elements.*) em armas. Sandbox: off-hands t1→t3 no bag.
-    - **FALTANDO (backlog de arte)**: ① tiers de todos os elementos p/ MALE;
-      ② visuais próprios das OUTRAS relics (só 1010 tem; 1005 usa 'eclipse'
-      antigo; w2h_1505/1755 caem no t3 do elemento); ③ poses attack das armas
-      elementais; ④ (opcional) combinar arma+armadura via overlays no futuro.
-15. **SISTEMA v2 DE CAMADAS + ELEMENTO POR INSTÂNCIA** — "TODA arma pode ter
-    TODO elemento": elemento é meta-dado da INSTÂNCIA no itemStr como par
-    **`101:<1-8>`** (META_ELEMENT_ID; fora do registry 1-100 do spec — regex
-    genérica do server aceita; parseItemStr do client libera o 101; tabela de
-    effects da UI filtra o par; sem stamp vale curated/derivado p/ full-body).
-    `data/weaponOverlays.ts`: arma = camada SEPARADA (PNG só da arma + anchor
-    x/y/w/rot por gênero/pose). Prioridade: **stamp 101 (overlay) > visual
-    único full-body > curated full-body > armadura > base**.
-    - FEITO: overlays ov_sword_steel, gelo/fogo t1-t3 e t2 dos outros 6
-      elementos (lightning/nature/shadow/holy/void/blood); anchors idle M+F
-      calibrados (t2 ≈ x.22 y.48 w.22 rot8). Sandbox tem stamps demo:
-      1500|101:2 · 1504|101:1 · 1103|101:7 · 1204|101:8.
-    - **BUG LEGADO CORRIGIDO**: itemStr usa NUMID — o mock usava
-      "w1h_1150|1:120|99:5" (inválido, nunca resolvia!) → agora "1150|...";
-      itemIdOf/visualForItem convertem numId→id via resolveItemRef.
-    - FALTANDO overlays: t1/t3 dos 6 elementos novos · anchors de
-      attack/walk/cast · overlays p/ off-hand · stamps em loot/craft (design).
+13. **🎨 SISTEMA DE VISUAIS DE EQUIPAMENTO — estado FEITO / PENDENTE**
+    Última revisão: roda oficial de 6 elementos + elements como effects próprios.
+
+    ✅ FEITO:
+    - Roda oficial (6): básicos **fire · earth · water · wind** (anel de counter
+      água>fogo>vento>terra>água) + avançados rivais **dark ↔ light**
+      (`data/elementSynergy.ts`: counters + COUNTER_MULTIPLIER 1.25 + tabela de
+      FUSÕES p/ glifos: água+vento=GELO, fogo+vento=tempestade, etc.).
+    - **Elemento = effect próprio** no registry: 12–17 (ELEMENT_FIRE..LIGHT),
+      value = PODER (tiers sugeridos <25 T1 · <50 T2 · 50+ T3 — balancear depois);
+      names 4 idiomas + describeEffect mostra "Fogo · T2 (35)". Audit check 1
+      atualizado p/ 90 definidos + 10 reservados.
+    - v2 camadas: corpo (armadura/base) + overlay da arma (`weaponOverlays.ts`,
+      anchor por gênero/pose). Toda arma × todo elemento × toda armadura.
+    - Arte: 7 armaduras M+F · overlays fogo t1-3 + terra/vento/água/sombrio(→shadow)/
+      luz(→holy) t2 + steel · full-body legado da roda antiga reusado p/ água/
+      dark/light · relic própria w1h_1010 · 10 armas únicas full-body (v1 legado).
+    - Sandbox: stamps demo "1500|13:35" (terra T2) · "1504|12:60" (fogo T3) ·
+      "1103|16:35" (sombrio) · "1204|14:60" (água T3) + todas armaduras/armas.
+    - Paperdoll do ItemsPanel mostra o personagem; chip ✦ elemento no detalhe;
+      i18n elements.* (6) + fusions.* (6) nos 4 idiomas.
+    - `tools/sprite_clean.py` no repo (flood bordas + nibble; nunca branco global).
+
+    ⏳ PENDENTE:
+    - **Glifos de off-hand** (design do usuário): rework do slot off-hand p/
+      aceitar glifos que dão 2º elemento + fusão vira camada de AURA ao redor da
+      arma (sem mudar a arte); incluir "espada+escudo" coerente no slot.
+    - **Stamps de elemento no loot/craft** (regra de drop: toda arma pode nascer
+      c/ qualquer elemento; avançados dark/light só épico+).
+    - **Sinergia em combate**: aplicar COUNTER_MULTIPLIER vs elemento inimigo
+      (inimigos precisam de campo `element`).
+    - Overlays: t1/t3 de terra/vento/água/sombrio/luz · anchors attack/walk/cast ·
+      overlays male · arte própria de água/sombrio/luz (hoje reusa gelo/sombra/sagrada).
+    - Tiers masculinos full-body das armaduras já existem; male elemental = overlay.
+    - Relics próprias além da 1010 · balanceamento dos poderes (valores dos tiers).
     - `tools/sprite_clean.py` AGORA VIVE NO REPO (scripts em /home/user somem
       entre sessões): flood das bordas + nibble_fringe; nunca branco global.
 

@@ -339,13 +339,19 @@ export const translations: Record<LangCode, TranslationTree> = {
     },
     "elements": {
       "fire": { "name": "Fogo" },
+      "earth": { "name": "Terra" },
+      "water": { "name": "Água" },
+      "wind": { "name": "Vento" },
+      "dark": { "name": "Sombrio" },
+      "light": { "name": "Luz" }
+    },
+    "fusions": {
+      "lightning": { "name": "Tempestade" },
+      "nature": { "name": "Seiva" },
+      "magma": { "name": "Magma" },
       "ice": { "name": "Gelo" },
-      "lightning": { "name": "Raio" },
-      "nature": { "name": "Natureza" },
-      "blood": { "name": "Sangue" },
-      "shadow": { "name": "Sombra" },
-      "holy": { "name": "Sagrado" },
-      "void": { "name": "Vazio" },
+      "mist": { "name": "Névoa" },
+      "dust": { "name": "Poeira" }
     },
     "register": {
       "username": "Nome de usuário",
@@ -2112,13 +2118,19 @@ export const translations: Record<LangCode, TranslationTree> = {
     },
     "elements": {
       "fire": { "name": "Fire" },
+      "earth": { "name": "Earth" },
+      "water": { "name": "Water" },
+      "wind": { "name": "Wind" },
+      "dark": { "name": "Dark" },
+      "light": { "name": "Light" }
+    },
+    "fusions": {
+      "lightning": { "name": "Storm" },
+      "nature": { "name": "Sap" },
+      "magma": { "name": "Magma" },
       "ice": { "name": "Ice" },
-      "lightning": { "name": "Lightning" },
-      "nature": { "name": "Nature" },
-      "blood": { "name": "Blood" },
-      "shadow": { "name": "Shadow" },
-      "holy": { "name": "Holy" },
-      "void": { "name": "Void" },
+      "mist": { "name": "Mist" },
+      "dust": { "name": "Dust" }
     },
     "register": {
       "username": "Username",
@@ -3884,13 +3896,19 @@ export const translations: Record<LangCode, TranslationTree> = {
     },
     "elements": {
       "fire": { "name": "Fuego" },
+      "earth": { "name": "Tierra" },
+      "water": { "name": "Agua" },
+      "wind": { "name": "Viento" },
+      "dark": { "name": "Sombrío" },
+      "light": { "name": "Luz" }
+    },
+    "fusions": {
+      "lightning": { "name": "Tempestad" },
+      "nature": { "name": "Savia" },
+      "magma": { "name": "Magma" },
       "ice": { "name": "Hielo" },
-      "lightning": { "name": "Rayo" },
-      "nature": { "name": "Naturaleza" },
-      "blood": { "name": "Sangre" },
-      "shadow": { "name": "Sombra" },
-      "holy": { "name": "Sagrado" },
-      "void": { "name": "Vacío" },
+      "mist": { "name": "Niebla" },
+      "dust": { "name": "Polvo" }
     },
     "register": {
       "username": "Nombre de usuario",
@@ -5656,13 +5674,19 @@ export const translations: Record<LangCode, TranslationTree> = {
     },
     "elements": {
       "fire": { "name": "炎" },
+      "earth": { "name": "大地" },
+      "water": { "name": "水" },
+      "wind": { "name": "風" },
+      "dark": { "name": "影" },
+      "light": { "name": "光" }
+    },
+    "fusions": {
+      "lightning": { "name": "嵐" },
+      "nature": { "name": "緑" },
+      "magma": { "name": "マグマ" },
       "ice": { "name": "氷" },
-      "lightning": { "name": "雷" },
-      "nature": { "name": "自然" },
-      "blood": { "name": "血" },
-      "shadow": { "name": "影" },
-      "holy": { "name": "聖" },
-      "void": { "name": "虚無" },
+      "mist": { "name": "霧" },
+      "dust": { "name": "砂塵" }
     },
     "register": {
       "username": "ユーザー名",

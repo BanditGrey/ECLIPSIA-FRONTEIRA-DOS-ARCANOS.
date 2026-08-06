@@ -1,18 +1,19 @@
 import type { CharState } from '../components/ui/LayeredCharacter';
 import type { Gender } from './equipmentVisuals';
 import { resolveItemRef } from '../utils/itemSerializer';
-import { elementOfItemInstance, tierOfRarity } from './weaponElements';
+import { elementOfItemInstance } from './weaponElements';
 
 /**
  * OVERLAYS DE ARMA (sistema v2 de camadas)
  * ----------------------------------------
  * Arma renderizada como camada SEPARADA do corpo: qualquer armadura combina
- * com qualquer arma/elemento/raridade. Coordenadas do anchor relativas ao
- * container do LayeredCharacter (largura = size, altura = size * 1.3):
- *   x/y = canto sup-esq do overlay · w = largura · rot = rotação (graus).
+ * com qualquer arma/elemento. Coordenadas do anchor relativas ao container
+ * do LayeredCharacter (largura = size, altura = size * 1.3).
  *
- * Chave: ov_<itemId-especial> ou ov_<elemento>_t<tier> (fallback de tier).
- * Itens com visual full-body próprio (ITEM_VISUALS) NÃO usam overlay.
+ * Chave: ov_<itemId-especial> ou ov_<elemento>_t<tier>, onde tier vem do
+ * PODER carimbado no effect do elemento (12–17), com fallback descendente.
+ * Arte de elemento que ainda não existe como overlay próprio reusa a arte
+ * mais próxima (água→gelo, sombrio→sombra antiga, luz→sagrada antiga).
  */
 
 export interface OverlayAnchor {
@@ -27,81 +28,22 @@ export interface WeaponOverlayDef {
   anchors: Partial<Record<Gender, Partial<Record<CharState, OverlayAnchor>>>>;
 }
 
+const IDLE_ANCHOR: OverlayAnchor = { x: 0.22, y: 0.48, w: 0.22, rot: 8 };
+const BOTH = { female: { idle: IDLE_ANCHOR }, male: { idle: IDLE_ANCHOR } };
+
 export const WEAPON_OVERLAYS: Record<string, WeaponOverlayDef> = {
-  ov_sword: {
-    file: 'ov_sword_steel',
-    anchors: {
-      female: { idle: { x: 0.22, y: 0.49, w: 0.18, rot: 8 } },
-      male: { idle: { x: 0.22, y: 0.49, w: 0.18, rot: 8 } },
-    },
-  },
-  ov_ice_t1: {
-    file: 'ov_el_ice_t1',
-    anchors: {
-      female: { idle: { x: 0.22, y: 0.49, w: 0.18, rot: 8 } },
-      male: { idle: { x: 0.22, y: 0.49, w: 0.18, rot: 8 } },
-    },
-  },
-  ov_ice_t2: {
-    file: 'ov_el_ice_t2',
-    anchors: {
-      female: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } },
-      male: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } },
-    },
-  },
-  ov_ice_t3: {
-    file: 'ov_el_ice_t3',
-    anchors: {
-      female: { idle: { x: 0.20, y: 0.46, w: 0.26, rot: 8 } },
-      male: { idle: { x: 0.20, y: 0.46, w: 0.26, rot: 8 } },
-    },
-  },
-  ov_fire_t1: {
-    file: 'ov_el_fire_t1',
-    anchors: {
-      female: { idle: { x: 0.22, y: 0.49, w: 0.18, rot: 8 } },
-      male: { idle: { x: 0.22, y: 0.49, w: 0.18, rot: 8 } },
-    },
-  },
-  ov_fire_t2: {
-    file: 'ov_el_fire_t2',
-    anchors: {
-      female: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } },
-      male: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } },
-    },
-  },
-  ov_fire_t3: {
-    file: 'ov_el_fire_t3',
-    anchors: {
-      female: { idle: { x: 0.20, y: 0.46, w: 0.26, rot: 8 } },
-      male: { idle: { x: 0.20, y: 0.46, w: 0.26, rot: 8 } },
-    },
-  },
-  // t2 dos demais elementos da roda de 8 (fallback de tier cobre t1/t3)
-  ov_lightning_t2: {
-    file: 'ov_el_lightning_t2',
-    anchors: { female: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } }, male: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } } },
-  },
-  ov_nature_t2: {
-    file: 'ov_el_nature_t2',
-    anchors: { female: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } }, male: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } } },
-  },
-  ov_shadow_t2: {
-    file: 'ov_el_shadow_t2',
-    anchors: { female: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } }, male: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } } },
-  },
-  ov_holy_t2: {
-    file: 'ov_el_holy_t2',
-    anchors: { female: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } }, male: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } } },
-  },
-  ov_void_t2: {
-    file: 'ov_el_void_t2',
-    anchors: { female: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } }, male: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } } },
-  },
-  ov_blood_t2: {
-    file: 'ov_el_blood_t2',
-    anchors: { female: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } }, male: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } } },
-  },
+  ov_sword: { file: 'ov_sword_steel', anchors: BOTH },
+  // FOGO (t1–t3 próprios)
+  ov_fire_t1: { file: 'ov_el_fire_t1', anchors: BOTH },
+  ov_fire_t2: { file: 'ov_el_fire_t2', anchors: BOTH },
+  ov_fire_t3: { file: 'ov_el_fire_t3', anchors: { female: { idle: { x: 0.2, y: 0.46, w: 0.26, rot: 8 } }, male: { idle: { x: 0.2, y: 0.46, w: 0.26, rot: 8 } } } },
+  // TERRA / VENTO / ÁGUA (t2 por enquanto; fallback cobre t1/t3)
+  ov_earth_t2: { file: 'ov_el_earth_t2', anchors: BOTH },
+  ov_wind_t2: { file: 'ov_el_wind_t2', anchors: BOTH },
+  ov_water_t2: { file: 'ov_el_water_t2', anchors: BOTH },
+  // AVANÇADOS reusando arte próxima (sombrio→shadow, luz→holy)
+  ov_dark_t2: { file: 'ov_el_shadow_t2', anchors: BOTH },
+  ov_light_t2: { file: 'ov_el_holy_t2', anchors: BOTH },
 };
 
 /** Itens com overlay específico (fora da regra por elemento). */
@@ -117,8 +59,8 @@ export interface ResolvedOverlay {
 }
 
 /**
- * Resolve o overlay de arma do item (elemento × tier com fallback).
- * Retorna null se o item não tem overlay (usa full-body ou base).
+ * Resolve o overlay de arma da instância (elemento carimbado nos effects
+ * 12–17). Tier = poder do elemento, com fallback descendente de arte.
  */
 export const resolveWeaponOverlay = (
   gender: Gender,
@@ -128,16 +70,13 @@ export const resolveWeaponOverlay = (
   const item = weaponRef ? resolveItemRef(weaponRef) : undefined;
   if (!item) return null;
 
-  // Overlay só para elemento CARIMBADO na instância (meta-par 101):
-  // é isso que garante "QUALQUER arma × QUALQUER elemento".
   let key: string | null = ITEM_OVERLAY[item.id] ?? null;
   if (!key || !hasOverlayKey(key)) {
-    const element = elementOfItemInstance(item);
-    if (element) {
-      const tier = tierOfRarity(item.rarity);
-      for (let t = tier; t >= 1; t--) {
-        if (hasOverlayKey(`ov_${element}_t${t}`)) {
-          key = `ov_${element}_t${t}`;
+    const inst = elementOfItemInstance(item);
+    if (inst) {
+      for (let t = inst.tier; t >= 1; t--) {
+        if (hasOverlayKey(`ov_${inst.element}_t${t}`)) {
+          key = `ov_${inst.element}_t${t}`;
           break;
         }
       }

@@ -30,8 +30,9 @@ for (const [id, code] of REQUIRED) {
 }
 rec(1, `Effects obrigatórios presentes (${REQUIRED.length - missingRequired.length}/${REQUIRED.length})`, missingRequired.length === 0 ? 'OK' : 'CRITICAL', missingRequired.length ? `faltando: ${missingRequired.join(', ')}` : undefined);
 const registryCount = Object.keys(EFFECT_REGISTRY).length;
-const RESERVED_SLOTS = [...Array.from({ length: 9 }, (_, i) => 12 + i), ...Array.from({ length: 5 }, (_, i) => 86 + i), 94, 95];
-rec(1, 'Espaço numérico 1-100 completo (84 definidos pelo spec + 16 slots reservados)', registryCount === 84 && RESERVED_SLOTS.length === 16 && RESERVED_SLOTS.every((id) => !EFFECT_REGISTRY[id]) ? 'OK' : 'PARTIAL', `${registryCount} definidos + ${RESERVED_SLOTS.length} reservados`);
+// 12–17 viraram ELEMENTOS DA ARMA (roda de 6) — reservados restantes: 18-20, 86-90, 94, 95
+const RESERVED_SLOTS = [...Array.from({ length: 3 }, (_, i) => 18 + i), ...Array.from({ length: 5 }, (_, i) => 86 + i), 94, 95];
+rec(1, 'Espaço numérico 1-100 completo (84 spec + 6 elementos de arma + 10 slots reservados)', registryCount === 90 && RESERVED_SLOTS.length === 10 && RESERVED_SLOTS.every((id) => !EFFECT_REGISTRY[id]) ? 'OK' : 'PARTIAL', `${registryCount} definidos + ${RESERVED_SLOTS.length} reservados`);
 const constValues = Object.values(EFFECT);
 const dupConst = constValues.length !== new Set(constValues).size;
 const dupIds = Object.keys(EFFECT_REGISTRY).length !== new Set(Object.keys(EFFECT_REGISTRY)).size;
