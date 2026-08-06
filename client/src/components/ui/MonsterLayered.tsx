@@ -4,7 +4,8 @@ export type MonsterState = 'idle' | 'walk' | 'attack' | 'hit' | 'death' | 'skill
 export type MonsterId =
   | 'cloud_titan' | 'storm_harpy' | 'goblin' | 'rat' | 'wolf_pup'
   | 'mist_wolf' | 'shadow_sprite' | 'sand_scorpion' | 'mirage_beast'
-  | 'dune_crawler' | 'sea_wraith' | 'deep_leviathan_jr' | 'forest_golem';
+  | 'dune_crawler' | 'sea_wraith' | 'deep_leviathan_jr' | 'forest_golem'
+  | 'bandit_leader' | 'root_guardian' | 'void_mirror' | 'azhur' | 'thal_mora' | 'velkaryn';
 
 /**
  * Helper: escolhe sprite com fallback em cascata.
@@ -27,8 +28,14 @@ const resolveSprite = (id: MonsterId, state: string): string => {
     storm_harpy:       { idle: 'monster_storm_harpy_idle_1', attack: 'monster_storm_harpy_attack_1', hit: 'monster_storm_harpy_hit_1' },
     cloud_titan:       { idle: 'monster_cloud_titan_idle_1', attack: 'monster_cloud_titan_attack_1', hit: 'monster_cloud_titan_hit_1' },
     sea_wraith:        { idle: 'monster_sea_wraith_idle_1', attack: 'monster_sea_wraith_attack_1', hit: 'monster_sea_wraith_hit_1' },
-    deep_leviathan_jr: { idle: 'monster_deep_leviathan_jr_idle_1', attack: 'monster_deep_leviathan_jr_attack_1' },
+    deep_leviathan_jr: { idle: 'monster_deep_leviathan_jr_idle_1', attack: 'monster_deep_leviathan_jr_attack_1', hit: 'monster_deep_leviathan_jr_hit_1' },
     forest_golem:      { idle: 'monster_forest_golem_idle_1', attack: 'monster_forest_golem_attack_1', hit: 'monster_forest_golem_hit_1' },
+    bandit_leader:     { idle: 'monster_bandit_leader_idle_1', attack: 'monster_bandit_leader_attack_1', hit: 'monster_bandit_leader_hit_1' },
+    root_guardian:     { idle: 'monster_root_guardian_idle_1', attack: 'monster_root_guardian_attack_1', hit: 'monster_root_guardian_hit_1' },
+    void_mirror:       { idle: 'monster_void_mirror_idle_1', attack: 'monster_void_mirror_attack_1', hit: 'monster_void_mirror_hit_1' },
+    azhur:             { idle: 'monster_azhur_idle_1', attack: 'monster_azhur_attack_1', hit: 'monster_azhur_hit_1' },
+    thal_mora:         { idle: 'monster_thal_mora_idle_1', attack: 'monster_thal_mora_attack_1', hit: 'monster_thal_mora_hit_1' },
+    velkaryn:          { idle: 'monster_velkaryn_idle_1', attack: 'monster_velkaryn_attack_1', hit: 'monster_velkaryn_hit_1' },
   };
   const base = state.startsWith('skill_') ? 'attack' : state === 'spawn' ? 'idle' : state;
   const rec = map[id] ?? {};
@@ -40,19 +47,12 @@ const getSpritePath = (id: MonsterId, state: MonsterState): string =>
 
 /** Cor elemental do glow por monstro (usado no skill_2 / aura). */
 export const MONSTER_GLOW: Record<MonsterId, string> = {
-  goblin: '#ef4444',
-  rat: '#84cc16',
-  wolf_pup: '#94a3b8',
-  mist_wolf: '#67e8f9',
-  shadow_sprite: '#a855f7',
-  sand_scorpion: '#f59e0b',
-  mirage_beast: '#fde68a',
-  dune_crawler: '#b45309',
-  storm_harpy: '#60a5fa',
-  cloud_titan: '#e0e7ff',
-  sea_wraith: '#22d3ee',
-  deep_leviathan_jr: '#0ea5e9',
-  forest_golem: '#22c55e',
+  goblin: '#ef4444', rat: '#84cc16', wolf_pup: '#94a3b8', mist_wolf: '#67e8f9',
+  shadow_sprite: '#a855f7', sand_scorpion: '#f59e0b', mirage_beast: '#fde68a',
+  dune_crawler: '#b45309', storm_harpy: '#60a5fa', cloud_titan: '#e0e7ff',
+  sea_wraith: '#22d3ee', deep_leviathan_jr: '#0ea5e9', forest_golem: '#22c55e',
+  bandit_leader: '#ef4444', root_guardian: '#4ade80', void_mirror: '#c084fc',
+  azhur: '#f97316', thal_mora: '#a855f7', velkaryn: '#ef4444'
 };
 
 export interface MonsterSkill {
@@ -80,6 +80,12 @@ export const MONSTER_SKILLS: Record<MonsterId, MonsterSkill[]> = {
   sea_wraith:         [{ id: 'tidal_wave', name: 'Onda', description: 'Push', damage: 20, type: 'magic', state: 'skill_1', cooldown: 1, icon: 'buff_atk' }, { id: 'drowning_embrace', name: 'Abraço', description: 'DoT', damage: 15, type: 'magic', state: 'skill_2', cooldown: 4, icon: 'drain' }],
   deep_leviathan_jr:  [{ id: 'devouring_bite', name: 'Mordida', description: 'Massive', damage: 35, type: 'physical', state: 'skill_1', cooldown: 2, icon: 'smash' }, { id: 'tsunami', name: 'Tsunami', description: 'AoE', damage: 40, type: 'magic', state: 'skill_2', cooldown: 5, icon: 'buff_atk' }],
   forest_golem:       [{ id: 'root_slam', name: 'Raio Esmagador', description: 'Raízes pesadas', damage: 26, type: 'physical', state: 'skill_1', cooldown: 1, icon: 'smash' }, { id: 'natures_wrath', name: 'Fúria da Natureza', description: 'Stun', damage: 20, type: 'magic', state: 'skill_2', cooldown: 4, icon: 'poison' }],
+  bandit_leader:      [{ id: 'dual_strike', name: 'Ataque Duplo', description: 'Ataca duas vezes', damage: 25, type: 'physical', state: 'skill_1', cooldown: 2, icon: 'slash' }, { id: 'rally', name: 'Incitamento', description: 'ATK +20%', damage: 0, type: 'buff', state: 'skill_2', cooldown: 4, icon: 'roar' }],
+  root_guardian:      [{ id: 'vine_whip', name: 'Chicote de Vinhas', description: 'Prende o alvo', damage: 30, type: 'physical', state: 'skill_1', cooldown: 2, icon: 'nature' }, { id: 'nature_heal', name: 'Síntese Natural', description: 'Cura HP', damage: 0, type: 'buff', state: 'skill_2', cooldown: 5, icon: 'heal' }],
+  void_mirror:        [{ id: 'void_ray', name: 'Raio do Vazio', description: 'Dano massivo', damage: 40, type: 'magic', state: 'skill_1', cooldown: 3, icon: 'shadow_bolt' }, { id: 'reflect', name: 'Reflexão', description: 'Reflete dano', damage: 0, type: 'buff', state: 'skill_2', cooldown: 4, icon: 'barrier' }],
+  azhur:              [{ id: 'sand_storm', name: 'Tempestade de Areia', description: 'Dano em área', damage: 35, type: 'magic', state: 'skill_1', cooldown: 3, icon: 'whirlwind' }, { id: 'desert_fury', name: 'Fúria do Deserto', description: 'ATK +30%', damage: 0, type: 'buff', state: 'skill_2', cooldown: 4, icon: 'roar' }],
+  thal_mora:          [{ id: 'illusion_strike', name: 'Golpe Ilusório', description: 'Ignora armadura', damage: 45, type: 'magic', state: 'skill_1', cooldown: 2, icon: 'pierce' }, { id: 'mind_control', name: 'Controle Mental', description: 'Confusão', damage: 15, type: 'magic', state: 'skill_2', cooldown: 5, icon: 'shadow_bolt' }],
+  velkaryn:           [{ id: 'blood_slash', name: 'Corte de Sangue', description: 'Rouba HP', damage: 35, type: 'physical', state: 'skill_1', cooldown: 2, icon: 'drain' }, { id: 'vampiric_aura', name: 'Aura Vampírica', description: 'Regen', damage: 0, type: 'buff', state: 'skill_2', cooldown: 6, icon: 'heal' }],
 };
 
 interface Props {
@@ -170,10 +176,17 @@ export const MonsterLayered: React.FC<Props> = ({
       {/* Attack slash VFX */}
       {(state === 'attack' || state === 'skill_1') && (
         <div className="absolute inset-0 pointer-events-none overflow-visible z-20">
-          <svg className="absolute" style={{ top: '15%', left: '-35%', width: size * 0.7, height: size * 0.5, animation: 'mlSlash 0.4s ease-out forwards' }} viewBox="0 0 70 50" fill="none">
-            <path d="M5 25 L65 10" stroke="rgba(255,255,255,0.85)" strokeWidth="3" strokeLinecap="round" />
-            <path d="M10 35 L55 22" stroke="rgba(255,200,80,0.6)" strokeWidth="2.5" strokeLinecap="round" />
-          </svg>
+          <img 
+            src="/assets/sprites/vfx_slash.png" 
+            alt="slash" 
+            className="absolute"
+            style={{ 
+                top: '15%', left: '-35%', width: size * 0.7, height: size * 0.5, 
+                animation: 'mlSlash 0.4s ease-out forwards',
+                objectFit: 'contain',
+                transform: 'scaleX(-1)' // Inverte horizontalmente pro monstro
+            }} 
+          />
         </div>
       )}
 

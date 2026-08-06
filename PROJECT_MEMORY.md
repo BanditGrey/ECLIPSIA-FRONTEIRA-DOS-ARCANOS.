@@ -31,6 +31,12 @@ cd ../server && npm test
 ⚠ `node_modules` NÃO persiste entre sessões (reinstale sempre).
 
 ### 0.3 Etapa atual do desenvolvimento
+
+⛔ REGRA ABSOLUTA DE ASSETS (SPRITES)
+- NUNCA crie sprites, armas, glifos, ícones ou escudos usando polígonos via código (SVGs inline, paths, canvas geometry, etc). 
+- Todos os assets visuais DEVEM ser imagens reais geradas/criadas em alta definição (arquivos PNG estáticos).
+- Se precisar de uma nova arte, utilize geração de imagem ou providencie o asset em `/assets/sprites/`. O código deve apenas renderizá-los via tags `<img>` ou CSS `background-image`, aplicando filtros se necessário.
+
 - **Casos 1, 2 e 4 ✅ concluídos** + itens rápidos do Caso 5 (busca no mercado,
   meus lances no leilão, CI) — ROADMAP.md marcados.
 - **Última etapa entregue ("Social 2 + Robustez")**: sussurros persistentes
@@ -43,6 +49,8 @@ cd ../server && npm test
   `mongodb-memory-server` sem `MONGO_URI`). Fluxo verificado ponta a ponta:
   registro → login → chat global → sussurro → presence via socket.
   Pendente (precisa de contas do dono): Atlas + Railway + Vercel — ver DEPLOY.md.
+
+- **Arte AAA e Sprites (FEITO)**: Removidos **todos** os improvisos de código (SVGs inline e Canvas API) usados para os sprites de combate, ícones de habilidades e itens, e telas de fundo. A UI e as 11 armas principais escalam em T1, T2, T3 (Elementais) e Relíquias (Sprint Sóbrio) através de milhares de recortes `.png`. Glifos e Escudos Off-hand totalmente reconstruídos. Todas as 19 bestas e Bosses existem como pngs de alta definição nos estados (idle, hit, attack). Regra permanente instituída no `PADRAO_AAA.md`.
 - **⚔ Sistema de PROEFICIÊNCIA DE ARMAS ✅ (Caso 8)**: os 6 arquétipos viraram
   **Origens cosméticas** (retrato/sigilo/descrição, zero mecânica; stats neutros
   8/8/8/8/8/8, HP 480, MP 300, 5 pontos livres). As **14 categorias de arma do

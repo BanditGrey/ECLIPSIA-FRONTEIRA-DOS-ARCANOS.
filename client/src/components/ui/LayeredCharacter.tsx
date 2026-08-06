@@ -131,44 +131,9 @@ export const LayeredCharacter: React.FC<Props> = ({
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 rounded-full bg-black/40 blur-sm"
         style={{ width: size * 0.3, height: size * 0.04 }} />
 
-      {src && (
-        <img src={src} alt="" draggable={false} className="select-none"
-          style={{
-            width: size, height: size * 1.2,
-            objectFit: 'contain', objectPosition: 'bottom',
-            animation: getAnim(), filter: getFilter(),
-          }}
-        />
-      )}
-
-      {/* AURA DE FUSÃO (glifo): halo atrás da arma, sem trocar a arte dela */}
-      {fusion && (() => {
-        const a = resolveFusionAuraAnchor(gender, state);
-        const intensity = 0.32 + fusion.tier * 0.1;
-        return (
-          <div
-            className="pointer-events-none absolute z-[5] rounded-full"
-            style={{
-              width: a.r * size * 2,
-              height: a.r * size * 2,
-              left: a.x * size - a.r * size,
-              top: a.y * size * 1.3 - a.r * size,
-              background: `radial-gradient(circle, ${fusion.glow}cc 0%, ${fusion.color}99 35%, ${fusion.color}33 60%, transparent 75%)`,
-              opacity: intensity,
-              filter: `blur(${size * 0.04}px)`,
-              animation: 'lcFusionAura 2.4s ease-in-out infinite',
-              mixBlendMode: 'screen'
-            }}
-          />
-        );
-      })()}
-
-      {/* Camada da mão secundária (escudo/glifo) — espada+escudo coerente */}
-      {offVisual && <OffHandLayer visual={offVisual} size={size} />}
-
       {/* Camada de arma (overlay) — combina com qualquer armadura */}
       {overlay && (
-        <img src={overlay.file} alt="" draggable={false} className="pointer-events-none absolute z-10 select-none"
+        <img src={overlay.file} alt="" draggable={false} className="pointer-events-none absolute z-0 select-none"
           style={{
             width: overlay.anchor.w * size,
             left: overlay.anchor.x * size,
@@ -179,14 +144,31 @@ export const LayeredCharacter: React.FC<Props> = ({
         />
       )}
 
+      {src && (
+        <img src={src} alt="" draggable={false} className="relative z-10 select-none"
+          style={{
+            width: size, height: size * 1.2,
+            objectFit: 'contain', objectPosition: 'bottom',
+            animation: getAnim(), filter: getFilter(),
+          }}
+        />
+      )}
+
+      {/* AURA DE FUSÃO (glifo): halo atrás da arma, sem trocar a arte dela */}
+
       {/* Attack slash VFX */}
       {state === 'attack' && (
         <div className="absolute inset-0 pointer-events-none overflow-visible z-20">
-          <svg className="absolute" style={{ top: '10%', right: '-40%', width: size * 0.8, height: size * 0.6, animation: 'lcSlash 0.4s ease-out forwards' }} viewBox="0 0 80 60" fill="none">
-            <path d="M5 30 L75 12" stroke="rgba(255,255,255,0.85)" strokeWidth="3" strokeLinecap="round" />
-            <path d="M10 42 L65 27" stroke="rgba(255,220,100,0.6)" strokeWidth="2.5" strokeLinecap="round" />
-            <path d="M15 52 L60 40" stroke="rgba(255,255,255,0.4)" strokeWidth="2" strokeLinecap="round" />
-          </svg>
+          <img 
+            src="/assets/sprites/vfx_slash.png" 
+            alt="slash" 
+            className="absolute"
+            style={{ 
+                top: '10%', right: '-40%', width: size * 0.8, height: size * 0.6, 
+                animation: 'lcSlash 0.4s ease-out forwards',
+                objectFit: 'contain'
+            }} 
+          />
         </div>
       )}
 

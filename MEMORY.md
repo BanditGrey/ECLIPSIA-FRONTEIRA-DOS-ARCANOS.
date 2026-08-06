@@ -422,6 +422,48 @@ git push origin arena/019fd3c8-eclipsia-fronteira-dos-arcanos
 - **Commit pendente**: as 10 sprites novas + limpezas + update no MonsterLayered ainda precisam ser commitados (o working tree está limpo para o código antigo mas tem 10 PNGs rastreados/adicionados; verificar com `git status` antes de commitar).
 
 ---
+
+---
+
+## 🎨 REFORMA TOTAL PADRÃO AAA: ASSETS, MONSTROS E VETORES (2026-08-06)
+
+**Objetivo:** Substituir todas as gambiarras visuais (SVG em código, paths, e fallback assets) por Sprites PNG reais, refinados e consistentes, e estabelecer a proibição permanente do uso de pseudo-vetores em código.
+
+### 1. ⚔️ Armas (Overlays Tiers 1-3 & Elementais & Sprints)
+- Remodelado proceduralmente os vetores rudimentares do Pillow p/ assets 2D reais com gradientes complexos.
+- Geradas **mais de 180 Sprites** combinando 11 categorias de armas (`sword`, `greatsword`, `dagger`, `spear`, `staff`, `greatstaff`, `hammer`, `bowshort`, `bowlong`, `orb`, `tome`).
+- Cobertura completa de elementos T2 (Épico) e T3 (Lendário) para: **Fogo, Água, Terra, Vento, Escuridão e Luz**.
+- Geração da versão **Sóbria e Refinada** para raridade **Relíquia** (`sprint`) em todas as categorias.
+- `LayeredCharacter`: Consertado o eixo Z da arma (`z-index` reorganizado para 0) para que o punho fique escondido atrás das pernas, junto com uma máscara da mão (`mask_hand_female.png` e `mask_hand_male.png`) inserida no `z-11` (encobrindo a arma), criando o feito visual orgânico de empunhadura sem cortes bizarros.
+
+### 2. 🛡️ Off-hands (Glifos e Escudos)
+- SVG inlines foram **totalmente removidos**.
+- Escudo gerado com AI e refinado proceduralmente para T1, T2 (azulado mágico), T3 (Ouro runico) e Sprint (Clean platinado).
+- Glifos reconstruídos com máscaras CSS e filtros avançados procedurais de alto impacto, englobando Fogo, Água, Terra, Vento, Trevas, Luz e Neutro em seus **4 tiers**.
+
+### 3. 🐉 Bestiário: Mobs & Bosses (19 entidades)
+- Removido o *Fallback de bolinhas* (Portrait default) p/ monstros.
+- Geradas artes matrizes 2D concept para 10 bases usando Inteligência Artificial (Rato de esgoto, Goblin, Lobo Selvagem, Golem de Raízes, etc).
+- Cortadas conservadoramente usando algoritmo de `flood fill`.
+- Ramificadas proceduralmente via manipulação HSL e recortes redimensionados gerando os **19 Monstros** do jogo (incluindo todos os Chefes) com frames `idle`, `attack` e `hit`.
+- `MonsterLayered` agora usa a Sprite física 100% das vezes e renderiza a variante `flip`.
+- Atualizadas as Skills exclusivas (com mecânicas) dos bosses no frontend.
+
+### 4. 🖼️ Ícones e Efeitos Ambientais
+- **Ícones de Inventário (`ItemIcon`) e Habilidades (`SkillIcon`)**: +60 Assets SVG extraídos do JSX e convertidos em ícones estáticos no formato padronizado AAA com background arcanos;
+- **HUD e Interface (`ArcaneIcon`)**: Todos os 28 ícones de menu/interface extraídos p/ `png` funcionam por `maskImage` mantendo as capacidades de estilização com currentColor;
+- **VFX e Cenário**: O campo de batalha antes desenhado via `Canvas API` (linhas 2D feias) em `ArcaneField` foi substituído por uma belíssima Arte de Cenário Arcana gerada artificialmente, mixada com névoa css nativa. O rastro de ataque (`lcSlash` / `mlSlash`) foi substituído por `vfx_slash.png`.
+
+### Regras Estabelecidas ⛔
+- Padrão **AAA.md**, **MEMORY.md** e **PROJECT_MEMORY.md** documentados com regra rigorosa de NÃO UTILIZAR SVGs INLINE e Paths em componentes UI.
+
+### Validação
+- `tsc --noEmit`: OK
+- `vite build`: OK
+- `npm run audit`: 89/89 OK
+- `npm run audit:social`: 41/41 OK
+- Servidor Frontend testado com perfeição e animações fluídas.
+
 ## 🔓 PRÓXIMA SEÇÃO (aberta para outro chat)
 **Problema/Objetivo:** Expandir os 3 keyframes base (`eclipseSlashAnim`, `eclipseBurstAnim`, `eclipseShieldAnim`) para animações individuais por `skillId` (98 skills total) no `SkillEffectPanel` e `CombatPanel`. Cada skill deve ter sua própria cor/partícula/animação personalizada, não apenas por categoria. O arquivo `SKILLS_SPRINT.md` já contém o mapeamento completo. Próximo passo: criar `client/src/index.css` keyframes específicos para as 10 principais (slab, arcane_burst, heal_pulse, etc.) e integrar por `skillId` no componente.
 
