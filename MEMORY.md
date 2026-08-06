@@ -121,7 +121,7 @@ Legenda: ✅ existe em disco · 🟡 só hit/attack parcial (faltam outras poses
 3. **`mist_wolf_idle_1` e `monster_mist_wolf_attack_1`** têm névoa azul-clara com resíduos de xadrez (a limpeza conservadora não pega porque a névoa tem saturação >32); visualmente imperceptível em jogo (128px), mas visível em zoom.
 
 ### 🟡 Médios
-4. **Glow do jogador hardcoded** como `#3fd9c4` (teal) em LayeredCharacter — falta mudar cor conforme o tipo de skill ativa (physical=vermelho, magic=azul, etc.)
+4. ✅ **Glow do jogador dinâmico** `LayeredCharacter` — agora `glowColor` muda conforme `damageType`: physical=`#ef4444`, magical=`#3b82f6`, void=`#9333ea`, default=`#3fd9c4` (CombatPanel atualizado)
 5. **Bosses (bandit_leader, root_guardian, void_mirror, azhur, thal_mora, velkaryn)** usam Portrait (não MonsterLayered) — ok, mas confirmar assets.
 6. **forest_golem não tem hit_1** (aparecerá como idle quando levar dano).
 7. **Code-splitting** pendente (chunk 923 KB > 500 KB warning).
