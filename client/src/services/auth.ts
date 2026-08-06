@@ -362,6 +362,18 @@ export const AuthService = {
         { itemStr: "w2h_1650", id: "w2h_1650", qty: 1 }, // Lança
         { itemStr: "w2h_1700", id: "w2h_1700", qty: 1 }, // Arco Longo
         { itemStr: "w2h_1750", id: "w2h_1750", qty: 1 }, // Cajado de Batalha
+        // Progressão elemental por raridade (gelo/raio/fogo t1→t3) + relic única
+        { itemStr: "w1h_1002", id: "w1h_1002", qty: 1 }, // Gelo t1
+        { itemStr: "w1h_1004", id: "w1h_1004", qty: 1 }, // Gelo t2
+        { itemStr: "w1h_1006", id: "w1h_1006", qty: 1 }, // Gelo t2 (epic)
+        { itemStr: "w1h_1008", id: "w1h_1008", qty: 1 }, // Gelo t3
+        { itemStr: "w1h_1010", id: "w1h_1010", qty: 1 }, // RELIC visual próprio
+        { itemStr: "w1h_1102", id: "w1h_1102", qty: 1 }, // Raio t1
+        { itemStr: "w1h_1103", id: "w1h_1103", qty: 1 }, // Raio t2
+        { itemStr: "w1h_1105", id: "w1h_1105", qty: 1 }, // Raio t3
+        { itemStr: "w1h_1151", id: "w1h_1151", qty: 1 }, // Fogo t1
+        { itemStr: "w1h_1152", id: "w1h_1152", qty: 1 }, // Fogo t2
+        { itemStr: "w1h_1154", id: "w1h_1154", qty: 1 }, // Fogo t3
       ],
       maxInventory: 100,
       storage: [],

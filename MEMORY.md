@@ -76,6 +76,25 @@ Correções aplicadas (baselines depois: **89/89 · 41/41 · 18/18 · build OK**
     base p/ evitar moderação): ch_3001 padded · ch_3003 guard (tabardo azul) ·
     ch_3004 shadow · ch_3005 legendary (placas douradas) · ch_3102 mist (manto
     teal de mago). Total de armaduras com visual: 7. Sandbox libera todas no bag.
+13. **SISTEMA ELEMENTO × RARIDADE p/ armas** (`data/weaponElements.ts`):
+    - Elemento da arma (espelha linhas das pedras: fire/ice/lightning/nature/
+      shadow/arcane/pure) escolhe a família do visual; raridade escolhe o tier:
+      t1 common/uncommon (runas sutis) · t2 rare/epic (ornamentada) · t3
+      legendary (radiante). **RELIC = visual próprio por arma** (sem arte própria
+      cai no t3 do elemento).
+    - Atribuição desenhada: GELO espadas 1002-1009 · FOGO cajados 1151-1154 ·
+      RAIO adagas 1102-1105; demais armas derivam elemento por `numId % 7`
+      (todas participam do sistema; sem arte = fallback base).
+    - Resolução: único do item > elemento×tier > armadura > base (itemStr ok).
+    - FEITO (arte): gelo/fogo/raio t1-t3 female + relic própria `w1h_1010`
+      (`relic_eclipse`) = 10 sprites. Sandbox: progressões completas no bag.
+    - **FALTANDO (backlog de arte)**: ① tiers de gelo/fogo/raio p/ MALE;
+      ② elementos nature/shadow/arcane/pure (t1-t3, ambos gêneros); ③ visuais
+      próprios das OUTRAS relics (só 1010 tem; 1005 usa 'eclipse' antigo);
+      ④ poses attack das armas elementais; ⑤ nomes de elemento na UI (i18n)
+      caso exiba o elemento no tooltip do item.
+    - `tools/sprite_clean.py` AGORA VIVE NO REPO (scripts em /home/user somem
+      entre sessões): flood das bordas + nibble_fringe; nunca branco global.
 
 ### ⚠ Ambiente do sandbox (2026-08-06)
 - Rede só alcança: registry.npmjs.org, github.com, api.github.com, codeload.github.com,

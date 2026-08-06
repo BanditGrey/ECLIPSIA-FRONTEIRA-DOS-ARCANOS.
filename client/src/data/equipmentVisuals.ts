@@ -1,4 +1,6 @@
 import type { CharState } from '../components/ui/LayeredCharacter';
+import { resolveItemRef } from '../utils/itemSerializer';
+import { elementOfWeapon, tierOfRarity } from './weaponElements';
 
 export type Gender = 'male' | 'female';
 
@@ -41,6 +43,8 @@ export const ITEM_VISUALS: Record<string, ItemVisual> = {
   w2h_1650: { kind: 'weapon', key: 'spear' }, // Lança (spear)
   w2h_1700: { kind: 'weapon', key: 'bowlong' }, // Arco Longo (bow_long)
   w2h_1750: { kind: 'weapon', key: 'greatstaff' }, // Cajado de Batalha (staff_two)
+  // RELIC: visual próprio (a última raridade foge da tabela de tiers)
+  w1h_1010: { kind: 'weapon', key: 'relic_eclipse' }, // Lâmina do Eclipse (relic)
 };
 
 /** Sprites que EXISTEM em disco por visual/gênero/estado. */
@@ -81,6 +85,17 @@ const SPRITES: Record<string, Partial<Record<Gender, Partial<Record<CharState, n
     female: { idle: [1] },
     male: { idle: [1] },
   },
+  // Elemento × tier (female por enquanto; male = fallback)
+  el_ice_t1: { female: { idle: [1] } },
+  el_ice_t2: { female: { idle: [1] } },
+  el_ice_t3: { female: { idle: [1] } },
+  el_fire_t1: { female: { idle: [1] } },
+  el_fire_t2: { female: { idle: [1] } },
+  el_fire_t3: { female: { idle: [1] } },
+  el_lightning_t1: { female: { idle: [1] } },
+  el_lightning_t2: { female: { idle: [1] } },
+  el_lightning_t3: { female: { idle: [1] } },
+  relic_eclipse: { female: { idle: [1] } },
   // Armas geradas com a heroína de couro segurando o item
   dagger: { female: { idle: [1] } },
   eclipse: { female: { idle: [1] } },
@@ -116,9 +131,25 @@ export const resolveEquippedSprite = (
   armorRef: string | null | undefined,
   weaponRef: string | null | undefined,
 ): string => {
-  const candidates = [visualForItem(weaponRef), visualForItem(armorRef)].filter(
-    (v): v is ItemVisual => Boolean(v),
-  );
+  const candidates: ItemVisual[] = [];
+
+  // Arma: 1) visual único do item · 2) elemento × tier de raridade
+  const weaponUnique = visualForItem(weaponRef);
+  if (weaponUnique) candidates.push(weaponUnique);
+  const weaponItem = weaponRef ? resolveItemRef(weaponRef) : undefined;
+  if (weaponItem) {
+    const element = elementOfWeapon(weaponItem.id);
+    if (element) {
+      candidates.push({
+        kind: 'weapon',
+        key: `el_${element}_t${tierOfRarity(weaponItem.rarity)}`,
+      });
+    }
+  }
+
+  // Armadura por último
+  const armorUnique = visualForItem(armorRef);
+  if (armorUnique) candidates.push(armorUnique);
 
   for (const visual of candidates) {
     const byState = SPRITES[visual.key]?.[gender];
