@@ -328,9 +328,9 @@ export const AuthService = {
       equipment: {
         weapon_main: "w1h_1150|1:120|99:5",
         weapon_off: null,
-        head: "ar_3002",
-        chest: "ar_3102",
-        legs: "ar_3202",
+        head: "hd_2500",
+        chest: "ch_3000", // Vestimenta de Couro (visual ativo no sandbox)
+        legs: "lg_3500",
         gloves: null,
         boots: null,
         earring: null,
@@ -346,6 +346,10 @@ export const AuthService = {
         { itemStr: "mat_9000", id: "mat_9000", qty: 99 },
         { itemStr: "mat_9050", id: "mat_9050", qty: 10 },
         { itemStr: "w2h_1600", id: "w2h_1600", qty: 1 },
+        // Itens com visual equipado (teste do sistema de visuais)
+        { itemStr: "ch_3002", id: "ch_3002", qty: 1 }, // Cota de Ferro
+        { itemStr: "w1h_1001", id: "w1h_1001", qty: 1 }, // Espada de Ferro
+        { itemStr: "w1h_1150", id: "w1h_1150", qty: 1 }, // Cajado Simples
       ],
       maxInventory: 100,
       storage: [],

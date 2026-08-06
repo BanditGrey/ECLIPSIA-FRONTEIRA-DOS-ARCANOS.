@@ -37,6 +37,18 @@ Correções aplicadas (baselines depois: **89/89 · 41/41 · 18/18 · build OK**
    "branco puro" globalmente** — foi isso que comeu as lâminas. Sprites limpas
    por flood-fill conservador (mist_wolf, sea_wraith, etc.) são detectadas e
    poupadas automaticamente (xadrez ≤2%).
+9. **SISTEMA DE VISUAIS DE EQUIPAMENTO (v1)** — `data/equipmentVisuals.ts`:
+   item do catálogo → chave visual; `LayeredCharacter` resolve
+   `eq_<key>_<gender>_<state>_<n>.png` com prioridade **armadura > arma > base**
+   (variantes full-body exclusivas; pose sem variante cai na base por design).
+   Mapeados: `ch_3000`→leather, `ch_3002`→iron, `w1h_1001`→sword, `w1h_1150`→staff.
+   8 sprites geradas (couro/cota de ferro M+F idle, cajado M+F idle,
+   espada M idle, couro F attack) e limpas com `/home/user/remove_bg2.py`
+   (flood das bordas, NUNCA branco global). Sandbox (`playOfflineMock`) agora
+   equipa itens REAIS (hd_2500/ch_3000/lg_3500 — os `ar_*` antigos não existiam!)
+   e libera ch_3002/w1h_1001/w1h_1150 no inventário p/ testar.
+   Futuro: overlays combináveis + mais poses/gêneros (cota de imagens ~10/sessão;
+   edits da base feminina às vezes caem na moderação — reformular p/ "fully covered").
 
 ### ⚠ Ambiente do sandbox (2026-08-06)
 - Rede só alcança: registry.npmjs.org, github.com, api.github.com, codeload.github.com,

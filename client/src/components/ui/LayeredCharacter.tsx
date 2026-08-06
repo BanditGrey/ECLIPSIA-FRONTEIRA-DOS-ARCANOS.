@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { resolveEquippedSprite } from '../../data/equipmentVisuals';
+import { usePlayerStore } from '../../store/usePlayerStore';
 
 export type CharState = 'idle' | 'walk' | 'attack' | 'hit' | 'death' | 'cast' | 'dash' | 'victory';
 type Gender = 'male' | 'female';
@@ -29,12 +31,18 @@ interface Props {
 
 export const LayeredCharacter: React.FC<Props> = ({
   gender, state, size = 128, className = '', flip = false,
-  onAnimationEnd, glowColor,
+  onAnimationEnd, glowColor, armorId, weaponId,
 }) => {
   const [src, setSrc] = useState('');
   const [frame, setFrame] = useState(0);
   const animEndRef = useRef<ReturnType<typeof setTimeout>>();
   const frameRef = useRef<ReturnType<typeof setInterval>>();
+
+  // Equipamento atual do jogador (props têm prioridade p/ previews)
+  const eqChest = usePlayerStore((s) => s.data?.equipment?.chest ?? null);
+  const eqWeapon = usePlayerStore((s) => s.data?.equipment?.weapon_main ?? null);
+  const armorRef = armorId ?? eqChest;
+  const weaponRef = weaponId ?? eqWeapon;
 
   // Frame cycling for idle animation
   useEffect(() => {
@@ -51,14 +59,16 @@ export const LayeredCharacter: React.FC<Props> = ({
   }, [state, gender]);
 
   useEffect(() => {
-    setSrc(getSprite(gender, state, frame));
+    // Visual de equipamento (armadura > arma) com fallback p/ sprite base
+    const equipped = resolveEquippedSprite(gender, state, frame, armorRef, weaponRef);
+    setSrc(equipped || getSprite(gender, state, frame));
     if (animEndRef.current) clearTimeout(animEndRef.current);
     const oneShot = ['attack', 'hit', 'death', 'cast', 'dash', 'victory'];
     if (oneShot.includes(state) && onAnimationEnd) {
       animEndRef.current = setTimeout(onAnimationEnd, 600);
     }
     return () => { if (animEndRef.current) clearTimeout(animEndRef.current); };
-  }, [state, gender, frame, onAnimationEnd]);
+  }, [state, gender, frame, onAnimationEnd, armorRef, weaponRef]);
 
   // Preload
   useEffect(() => {
