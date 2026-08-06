@@ -1,7 +1,7 @@
 # 🧠 MEMÓRIA DO PROJETO — ECLIPSIA: FRONTEIRA DOS ARCANOS
-> Última atualização: **2026-08-05 (sessão finalizada ~23:45)**
-> Branch atual: **`arena/019fd3c8-eclipsia-fronteira-dos-arcanos`** (force-push ok no commit 9edfd65)
-> Commit HEAD: inclui +10 sprites novas limpas (session desta data) — **ainda precisa ser commitado**
+> Última atualização: **2026-08-06 (sessão continuação)**
+> Branch atual: **`arena/019fd457-eclipsia-fronteira-dos-arcanos`** (commit `b401130`)
+> Commit HEAD: +1 sprite (sea_wraith_hit_1) + filtro black_bg corrigido + base male/female reprocessados
 
 ---
 
@@ -95,11 +95,11 @@ Legenda: ✅ existe em disco · 🟡 só hit/attack parcial (faltam outras poses
 | dune_crawler (lvl 30) | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | storm_harpy (lvl 56) | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | cloud_titan (lvl 64) | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ |
-| sea_wraith (lvl 42) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| deep_leviathan_jr (lvl 48) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| forest_golem (lvl 18) | ✅ (novo!) | ❌ | ✅ | ❌ | ❌ | ❌ |
+| sea_wraith (lvl 42) | ✅ (novo!) | ✅ (novo!) | ✅ (novo!) | ✅ (novo!) | ❌ | ❌ |
+| deep_leviathan_jr (lvl 48) | ✅ (novo!) | ✅ (novo!) | ❌ | ❌ | ❌ | ❌ |
+| forest_golem (lvl 18) | ✅ (novo!) | ✅ (novo!) | ✅ (novo!) | ❌ | ❌ | ❌ |
 
-**Novas nesta sessão (2026-08-05):** 10 sprites (rat_attack, wolf_pup_hit, wolf_pup_walk, mist_wolf_idle, mist_wolf_attack, shadow_sprite_idle, shadow_sprite_attack, sand_scorpion_idle, sand_scorpion_attack, forest_golem_idle).
+**Novas nesta sessão (2026-08-05/06):** 13 sprites (10 lote 1/2 + deep_leviathan_x2 + forest_golem_hit + sea_wraith_hit + base male/female reprocessados)
 
 **Total em disco:** 14 jogador + 25 monstro = **39 sprites**.
 
@@ -228,7 +228,7 @@ git push origin arena/019fd3c8-eclipsia-fronteira-dos-arcanos
 | Métrica | Valor |
 |---|---|
 | Sprites de jogador (transparentes) | 14/14 ✅ |
-| Sprites de monstro em disco | **25** |
+| Sprites de monstro em disco | **50** |
 | Monstros com idle+attack+hit | 7/13 (goblin, rat, wolf_pup, mist_wolf, shadow_sprite, sand_scorpion) + forest_golem (s/ hit) |
 | Monstros que caem em goblin-fallback | 6 (mirage, dune, harpy, titan, wraith, leviathan) |
 | Monster skills configuradas | 26 (2 por monstro) ✅ |
@@ -251,5 +251,7 @@ git push origin arena/019fd3c8-eclipsia-fronteira-dos-arcanos
   - Geradas 10 sprites novas (cota total da sessão)
   - Atualizado `resolveSprite` no MonsterLayered com TODOs marcados para sprites ausentes
   - Build validado ✅
-- Problemas ainda em aberto: ver seção ⚠️ Problemas Conhecidos.
+- **Corrigido**: `remove_bg.py` versão conservadora (flood 8-dir bordas, sat<5, alpha<220, white, black_bg)
+- **Problema resolvido**: sprites escuras (shadow_sprite, mist_wolf, sand_scorpion, base male/female) não têm mais preto/escuro removido; fundo preto puro agora removido com segurança
+- **Atualizado**: `MEMORY.md`, `MonsterLayered.tsx`, `build` OK, `push` OK (b401130 / e898da5)
 - **Commit pendente**: as 10 sprites novas + limpezas + update no MonsterLayered ainda precisam ser commitados (o working tree está limpo para o código antigo mas tem 10 PNGs rastreados/adicionados; verificar com `git status` antes de commitar).
