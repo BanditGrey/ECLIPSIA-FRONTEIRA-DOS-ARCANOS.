@@ -3,6 +3,11 @@ PROJETO: ECLIPSIA — FRONTEIRA DOS ARCANOS
 ESTILO: Dark Fantasy Arcano Premium
 
 🎨 DIREÇÃO DE ARTE
+⛔ REGRA ABSOLUTA DE ASSETS (SPRITES)
+- NUNCA crie sprites, armas, glifos, ícones ou escudos usando polígonos via código (SVGs inline, paths, canvas geometry, etc). 
+- Todos os assets visuais DEVEM ser imagens reais geradas/criadas em alta definição (arquivos PNG estáticos).
+- Se precisar de uma nova arte, utilize geração de imagem ou providencie o asset em `/assets/sprites/`. O código deve apenas renderizá-los via tags `<img>` ou CSS `background-image`, aplicando filtros se necessário.
+
 - Estilo: Dark Fantasy Arcano Premium (inspirado em Hollow Knight + Dark Souls + Hades, mas com identidade própria de fronteira arcana)
 - Pixel size base: 32x32 para ambiente, 64x64 para personagens principais, 128x128 para bosses, 24x24 para projéteis e itens pequenos
 - Escala padrão: 2x ou 3x para visibilidade no navegador (jogo rodando em 1280x720 mínimo)

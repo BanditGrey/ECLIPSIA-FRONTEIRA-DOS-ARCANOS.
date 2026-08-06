@@ -31,6 +31,12 @@ cd ../server && npm test
 ⚠ `node_modules` NÃO persiste entre sessões (reinstale sempre).
 
 ### 0.3 Etapa atual do desenvolvimento
+
+⛔ REGRA ABSOLUTA DE ASSETS (SPRITES)
+- NUNCA crie sprites, armas, glifos, ícones ou escudos usando polígonos via código (SVGs inline, paths, canvas geometry, etc). 
+- Todos os assets visuais DEVEM ser imagens reais geradas/criadas em alta definição (arquivos PNG estáticos).
+- Se precisar de uma nova arte, utilize geração de imagem ou providencie o asset em `/assets/sprites/`. O código deve apenas renderizá-los via tags `<img>` ou CSS `background-image`, aplicando filtros se necessário.
+
 - **Casos 1, 2 e 4 ✅ concluídos** + itens rápidos do Caso 5 (busca no mercado,
   meus lances no leilão, CI) — ROADMAP.md marcados.
 - **Última etapa entregue ("Social 2 + Robustez")**: sussurros persistentes
