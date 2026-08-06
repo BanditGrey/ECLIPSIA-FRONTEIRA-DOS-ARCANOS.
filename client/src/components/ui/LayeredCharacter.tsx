@@ -182,11 +182,16 @@ export const LayeredCharacter: React.FC<Props> = ({
       {/* Attack slash VFX */}
       {state === 'attack' && (
         <div className="absolute inset-0 pointer-events-none overflow-visible z-20">
-          <svg className="absolute" style={{ top: '10%', right: '-40%', width: size * 0.8, height: size * 0.6, animation: 'lcSlash 0.4s ease-out forwards' }} viewBox="0 0 80 60" fill="none">
-            <path d="M5 30 L75 12" stroke="rgba(255,255,255,0.85)" strokeWidth="3" strokeLinecap="round" />
-            <path d="M10 42 L65 27" stroke="rgba(255,220,100,0.6)" strokeWidth="2.5" strokeLinecap="round" />
-            <path d="M15 52 L60 40" stroke="rgba(255,255,255,0.4)" strokeWidth="2" strokeLinecap="round" />
-          </svg>
+          <img 
+            src="/assets/sprites/vfx_slash.png" 
+            alt="slash" 
+            className="absolute"
+            style={{ 
+                top: '10%', right: '-40%', width: size * 0.8, height: size * 0.6, 
+                animation: 'lcSlash 0.4s ease-out forwards',
+                objectFit: 'contain'
+            }} 
+          />
         </div>
       )}
 

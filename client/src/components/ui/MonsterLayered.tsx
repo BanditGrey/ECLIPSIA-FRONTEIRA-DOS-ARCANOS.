@@ -170,10 +170,17 @@ export const MonsterLayered: React.FC<Props> = ({
       {/* Attack slash VFX */}
       {(state === 'attack' || state === 'skill_1') && (
         <div className="absolute inset-0 pointer-events-none overflow-visible z-20">
-          <svg className="absolute" style={{ top: '15%', left: '-35%', width: size * 0.7, height: size * 0.5, animation: 'mlSlash 0.4s ease-out forwards' }} viewBox="0 0 70 50" fill="none">
-            <path d="M5 25 L65 10" stroke="rgba(255,255,255,0.85)" strokeWidth="3" strokeLinecap="round" />
-            <path d="M10 35 L55 22" stroke="rgba(255,200,80,0.6)" strokeWidth="2.5" strokeLinecap="round" />
-          </svg>
+          <img 
+            src="/assets/sprites/vfx_slash.png" 
+            alt="slash" 
+            className="absolute"
+            style={{ 
+                top: '15%', left: '-35%', width: size * 0.7, height: size * 0.5, 
+                animation: 'mlSlash 0.4s ease-out forwards',
+                objectFit: 'contain',
+                transform: 'scaleX(-1)' // Inverte horizontalmente pro monstro
+            }} 
+          />
         </div>
       )}
 
