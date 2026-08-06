@@ -533,6 +533,8 @@ export const translations: Record<LangCode, TranslationTree> = {
     "combat": {
       "title": "Combate",
       "dungeonCleared": "Dungeon limpa!",
+      "elementAdvantage": "Vantagem elemental! Seu elemento counter o inimigo (×1.25).",
+      "elementDisadvantage": "Desvantagem elemental: o inimigo counter seu elemento (÷1.25).",
       "attack": "Atacar",
       "defend": "Defender",
       "skills": "Habilidades",
@@ -2312,6 +2314,8 @@ export const translations: Record<LangCode, TranslationTree> = {
     "combat": {
       "title": "Combat",
       "dungeonCleared": "Dungeon cleared!",
+      "elementAdvantage": "Elemental advantage! Your element counters the enemy (×1.25).",
+      "elementDisadvantage": "Elemental disadvantage: the enemy counters your element (÷1.25).",
       "attack": "Attack",
       "defend": "Defend",
       "skills": "Skills",
@@ -4090,6 +4094,8 @@ export const translations: Record<LangCode, TranslationTree> = {
     "combat": {
       "title": "Combate",
       "dungeonCleared": "¡Mazmorra completada!",
+      "elementAdvantage": "¡Ventaja elemental! Tu elemento contrarresta al enemigo (×1.25).",
+      "elementDisadvantage": "Desventaja elemental: el enemigo contrarresta tu elemento (÷1.25).",
       "attack": "Atacar",
       "defend": "Defender",
       "skills": "Habilidades",
@@ -5868,6 +5874,8 @@ export const translations: Record<LangCode, TranslationTree> = {
     "combat": {
       "title": "戦闘",
       "dungeonCleared": "ダンジョン攻略！",
+      "elementAdvantage": "属性優位！あなたの属性は敵を克制します（×1.25）。",
+      "elementDisadvantage": "属性劣勢：敵があなたの属性を克制します（÷1.25）。",
       "attack": "攻撃",
       "defend": "防御",
       "skills": "スキル",

@@ -29,6 +29,7 @@ export interface Enemy {
   nameKey: string;
   /** Raça — alimenta os effects VS_BEAST_DMG (75) e VS_UNDEAD_DMG (76). */
   race?: 'beast' | 'humanoid' | 'undead' | 'elemental' | 'aberration';
+  element?: 'fire' | 'earth' | 'water' | 'wind' | 'dark' | 'light';
   level: number;
   hp: number;
   maxHp: number;

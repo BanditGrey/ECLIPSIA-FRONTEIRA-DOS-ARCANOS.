@@ -19,6 +19,8 @@ export interface MonsterData {
   icon: string;
   /** Raça do monstro — usada pelos effects VS_BEAST/VS_UNDEAD (75/76). */
   race: MonsterRace;
+  /** Elemento nativo (sinergia elemental vs arma do jogador). */
+  element?: import('./weaponElements').WeaponElement;
   level: number;
   hp: number;
   atk: number;
@@ -61,6 +63,7 @@ export const monsters: MonsterData[] = [
   {
     id: 'goblin',
     race: 'humanoid',
+  element: 'fire',
     icon: '👺',
     level: 3,
     hp: 150,
@@ -111,6 +114,7 @@ export const monsters: MonsterData[] = [
   {
     id: 'mist_wolf',
     race: 'beast',
+  element: 'water',
     icon: '🐺',
     level: 12,
     hp: 800,
@@ -127,6 +131,7 @@ export const monsters: MonsterData[] = [
   {
     id: 'shadow_sprite',
     race: 'undead',
+  element: 'dark',
     icon: '👻',
     level: 14,
     hp: 600,
@@ -143,6 +148,7 @@ export const monsters: MonsterData[] = [
   {
     id: 'forest_golem',
     race: 'elemental',
+  element: 'earth',
     icon: '🪨',
     level: 18,
     hp: 1500,
@@ -159,6 +165,7 @@ export const monsters: MonsterData[] = [
   {
     id: 'root_guardian',
     race: 'elemental',
+  element: 'earth',
     icon: '🌳',
     level: 20,
     hp: 3500,
@@ -177,6 +184,7 @@ export const monsters: MonsterData[] = [
   {
     id: 'sand_scorpion',
     race: 'beast',
+  element: 'earth',
     icon: '🦂',
     level: 22,
     hp: 1300,
@@ -193,6 +201,7 @@ export const monsters: MonsterData[] = [
   {
     id: 'mirage_beast',
     race: 'beast',
+  element: 'wind',
     icon: '🐆',
     level: 26,
     hp: 1800,
@@ -209,6 +218,7 @@ export const monsters: MonsterData[] = [
   {
     id: 'dune_crawler',
     race: 'beast',
+  element: 'earth',
     icon: '🪱',
     level: 30,
     hp: 2400,
@@ -225,6 +235,7 @@ export const monsters: MonsterData[] = [
   {
     id: 'sea_wraith',
     race: 'undead',
+  element: 'water',
     icon: '👻',
     level: 42,
     hp: 3600,
@@ -241,6 +252,7 @@ export const monsters: MonsterData[] = [
   {
     id: 'deep_leviathan_jr',
     race: 'beast',
+  element: 'water',
     icon: '🐍',
     level: 48,
     hp: 5200,
@@ -257,6 +269,7 @@ export const monsters: MonsterData[] = [
   {
     id: 'storm_harpy',
     race: 'beast',
+  element: 'wind',
     icon: '🦅',
     level: 56,
     hp: 4800,
@@ -273,6 +286,7 @@ export const monsters: MonsterData[] = [
   {
     id: 'cloud_titan',
     race: 'elemental',
+  element: 'wind',
     icon: '☁',
     level: 64,
     hp: 9000,

@@ -9,6 +9,7 @@ import { useGameStore } from '../../../store/useGameStore';
 import { refOf, usePlayerStore } from '../../../store/usePlayerStore';
 import type { Item } from '../../../types/item.types';
 import { resolveItemRef, serializeItem } from '../../../utils/itemSerializer';
+import { rollElementForWeapon } from '../../../data/weaponElements';
 import { Button } from '../../ui/Button';
 
 const itemNameOf = (id: string, lang: 'pt-BR' | 'en-US' | 'es-ES' | 'ja-JP') => {
@@ -76,9 +77,25 @@ export const CraftingPanel = () => {
       }
     }
 
+    // Armas craftadas nascem com elemento rolado (toda arma × todo elemento;
+    // avançados só épico+) — o par vira effect 12–17 na itemStr.
+    const outputItem = (ITEMS as Record<string, Item>)[recipe.outputId];
+    let outRef: string = recipe.outputId;
+    if (outputItem && (outputItem.slot === 'weapon_main' || outputItem.slot === 'weapon_off')) {
+      const roll = rollElementForWeapon(outputItem.rarity);
+      const pairs = [...getEffectPairs(outputItem.effects), { effectId: roll.effectId, value: roll.power }];
+      outRef = serializeItem(outputItem, buildItemEffect(pairs));
+    }
+
+    // capacidade ANTES de consumir (fix: antes gastava materiais c/ bolsa cheia)
+    if (usePlayerStore.getState().isInvFull()) {
+      addNotification(t('crafting.invFull'), 'warning');
+      return;
+    }
+
     spendGold(recipe.gold);
 
-    if (!addItem(recipe.outputId, 1)) {
+    if (!addItem(outRef, 1)) {
       addNotification(t('crafting.invFull'), 'warning');
       return;
     }

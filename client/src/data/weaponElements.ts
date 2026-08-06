@@ -89,6 +89,35 @@ export const elementOfWeapon = (
   return ELEMENTS[n % ELEMENTS.length];
 };
 
+/** Faixas de poder por tier (valores de exemplo — balancear depois). */
+export const POWER_BY_TIER: Record<1 | 2 | 3, [number, number]> = {
+  1: [10, 24],
+  2: [25, 49],
+  3: [50, 70],
+};
+
+export interface ElementRoll {
+  element: WeaponElement;
+  effectId: number;
+  power: number;
+  tier: 1 | 2 | 3;
+}
+
+/**
+ * Rola um elemento p/ arma gerada (craft/loot futuro): qualquer arma pode
+ * nascer com qualquer elemento BÁSICO; avançados (dark/light) só em
+ * épico/lendário/relic (regra do usuário). Poder dentro do tier da raridade.
+ */
+export const rollElementForWeapon = (rarity: string): ElementRoll => {
+  const allowAdvanced = rarity === 'epic' || rarity === 'legendary' || rarity === 'relic';
+  const pool = ELEMENTS.filter((el) => allowAdvanced || (el !== 'dark' && el !== 'light'));
+  const element = pool[Math.floor(Math.random() * pool.length)];
+  const tier = tierOfRarity(rarity);
+  const [lo, hi] = POWER_BY_TIER[tier];
+  const power = lo + Math.floor(Math.random() * (hi - lo + 1));
+  return { element, effectId: ELEMENT_EFFECT_ID[element], power, tier };
+};
+
 /** Tier de beleza por raridade. Relic não tem tier (visual próprio). */
 export const TIER_BY_RARITY: Record<string, 1 | 2 | 3> = {
   common: 1,

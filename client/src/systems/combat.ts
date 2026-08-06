@@ -1,4 +1,7 @@
 import { bosses } from '../data/bosses';
+import { elementOfWeapon } from '../data/weaponElements';
+import { counters, COUNTER_MULTIPLIER } from '../data/elementSynergy';
+import { resolveItemRef } from '../utils/itemSerializer';
 import { getDungeon } from '../data/dungeons';
 import { translations } from '../i18n';
 import { EFFECT } from '../data/effectRegistry';
@@ -78,6 +81,7 @@ const createEnemyFromMonster = (monsterId: string): Enemy => {
     icon: monster.icon,
     nameKey: `monsters.${monster.id}.name`,
     race: monster.race,
+    element: monster.element,
     level: monster.level,
     hp: monster.hp,
     maxHp: monster.hp,
@@ -110,6 +114,7 @@ const createEnemyFromBoss = (bossId: string): Enemy => {
     icon: boss.icon,
     nameKey: boss.nameKey,
     race: boss.race,
+    element: boss.element,
     level: boss.level,
     hp: boss.hp,
     maxHp: boss.hp,
@@ -351,6 +356,20 @@ const gainProficiencyXp = (amount: number) => {
   }
 };
 
+/** Sinergia elemental: arma do jogador vs elemento nativo do inimigo
+ *  (counter ×1.25 · desvantagem ÷1.25 · avançados rivais mútuos). */
+const getElementAdvantageMultiplier = (): number => {
+  const enemy = useCombatStore.getState().enemy;
+  if (!enemy?.element) return 1;
+  const eq = usePlayerStore.getState().data?.equipment?.weapon_main;
+  const item = eq ? resolveItemRef(eq) : undefined;
+  const weaponElement = elementOfWeapon(item?.id, item);
+  if (!weaponElement) return 1;
+  if (counters(weaponElement, enemy.element)) return COUNTER_MULTIPLIER;
+  if (counters(enemy.element, weaponElement)) return 1 / COUNTER_MULTIPLIER;
+  return 1;
+};
+
 const getPlayerDamage = (percent = 100, extraMultiplier = 1, isSkill = false) => {
   const playerStore = usePlayerStore.getState();
   const combat = useCombatStore.getState();
@@ -404,7 +423,7 @@ const getPlayerDamage = (percent = 100, extraMultiplier = 1, isSkill = false) =>
 
   // PASSIVAS de proficiência (marcos 50/150/300): bônus de dano.
   const passiveDmg = getPassiveTotals().dmgBonus;
-  const finalBase = base * (1 + weaponBonus + passiveDmg) * extraMultiplier;
+  const finalBase = base * (1 + weaponBonus + passiveDmg) * extraMultiplier * getElementAdvantageMultiplier();
 
   const { isCrit, multiplier } = isSkill ? rollSkillCrit() : rollCrit();
   const defenseReduction = Math.max(0, combat.enemy?.def ?? 0) * 0.35;
@@ -716,6 +735,18 @@ export const combatEngine = {
       shieldPool: activeEffects ? getConditionalValue(activeEffects, EFFECT.SHIELD) : 0,
       barrierPool: activeEffects ? getConditionalValue(activeEffects, EFFECT.BARRIER) : 0
     });
+    // SINERGIA ELEMENTAL: avisa vantagem/desvantagem da arma vs inimigo
+    if (enemy.element) {
+      const eqRef = usePlayerStore.getState().data?.equipment?.weapon_main;
+      const wItem = eqRef ? resolveItemRef(eqRef) : undefined;
+      const we = elementOfWeapon(wItem?.id, wItem);
+      if (we && counters(we, enemy.element)) {
+        useCombatStore.getState().addLog('attack', t('combat.elementAdvantage'));
+      } else if (we && counters(enemy.element, we)) {
+        useCombatStore.getState().addLog('enemy', t('combat.elementDisadvantage'));
+      }
+    }
+
 
     useCombatStore.setState({
       active: true,

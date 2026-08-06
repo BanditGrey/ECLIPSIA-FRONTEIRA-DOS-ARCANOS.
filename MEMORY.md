@@ -98,15 +98,21 @@ Correções aplicadas (baselines depois: **89/89 · 41/41 · 18/18 · build OK**
     - Paperdoll do ItemsPanel mostra o personagem; chip ✦ elemento no detalhe;
       i18n elements.* (6) + fusions.* (6) nos 4 idiomas.
     - `tools/sprite_clean.py` no repo (flood bordas + nibble; nunca branco global).
+    - **Stamps no craft**: `rollElementForWeapon(rarity)` — arma craftada nasce
+      c/ elemento rolado (básicos sempre; dark/light só épico+), poder no tier da
+      raridade (POWER_BY_TIER). FIX junto: craft checava bolsa DEPOIS de gastar
+      materiais — agora checa antes (isInvFull).
+    - **Sinergia em combate**: monstros/bosses c/ campo `element` (12 monstros +
+      5 bosses atribuídos) · counter ×1.25 / desvantagem ÷1.25 no dano do
+      jogador (getPlayerDamage) · log de vantagem/desvantagem no início do
+      combate (i18n 4 idiomas).
 
     ⏳ PENDENTE:
     - **Glifos de off-hand** (design do usuário): rework do slot off-hand p/
       aceitar glifos que dão 2º elemento + fusão vira camada de AURA ao redor da
       arma (sem mudar a arte); incluir "espada+escudo" coerente no slot.
-    - **Stamps de elemento no loot/craft** (regra de drop: toda arma pode nascer
-      c/ qualquer elemento; avançados dark/light só épico+).
-    - **Sinergia em combate**: aplicar COUNTER_MULTIPLIER vs elemento inimigo
-      (inimigos precisam de campo `element`).
+    - (feito ↓) stamps no craft · sinergia em combate · elementos nos inimigos.
+    - **Stamps de elemento em shop/quests/loot de baú** (craft já faz).
     - Overlays: t1/t3 de terra/vento/água/sombrio/luz · anchors attack/walk/cast ·
       overlays male · arte própria de água/sombrio/luz (hoje reusa gelo/sombra/sagrada).
     - Tiers masculinos full-body das armaduras já existem; male elemental = overlay.
