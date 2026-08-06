@@ -1,7 +1,45 @@
 # 🧠 MEMÓRIA DO PROJETO — ECLIPSIA: FRONTEIRA DOS ARCANOS
-> Última atualização: **2026-08-06 (sessão de correções)**
+> Última atualização: **2026-08-06 (handoff — sessão visuais/elementos)**
 > Branch atual: **`arena/019fd6a8-eclipsia-fronteira-dos-arcanos`**
-> Sessão: leitura completa do projeto + correção do que estava quebrado (detalhes abaixo)
+
+## 🚀 HANDOFF — COMO CONTINUAR EM OUTRA CONVERSA (leia primeiro)
+1. `git branch --show-current` + `git log --oneline -3`. O `.git` do sandbox pode
+   resetar entre sessões: se faltar commit local, `git fetch origin <branch>` e
+   `git reset --mixed FETCH_HEAD` (os arquivos persistem, o .git às vezes não).
+2. `cd client && npm install` · `cd server && npm install` (node_modules NÃO persiste).
+   Python p/ sprites: `pip install --break-system-packages Pillow numpy scipy`.
+3. Leia esta MEMORY.md INTEIRA (sistema de visuais/elementos) + PROJECT_MEMORY.md
+   (ItemEffects/social/auditorias) + a seção ⚠ ARMADILHAS de cada uma.
+4. Baselines OBRIGATÓRIOS antes/depois de mexer: `npx tsc --noEmit` ·
+   `npm run build` · `npm run audit` (**89/89**) · `npm run audit:social` (**41/41**) ·
+   server `npm test` (**18/18**). A auditoria bloco 8 usa janela de 1200 chars em
+   combat.ts — não insira blocos grandes entre `start()` e `calculatePlayerStats`.
+5. Siga o PLANO na ordem e mova itens entre ✅ FEITO / ⏳ PENDENTE ao terminar.
+6. Sandbox sem MongoDB real (fastdl bloqueado): backend degrada p/ mock sozinho;
+   teste o jogo pelo botão "► ENTRAR (MODO SANDBOX)" do login (inventário rico).
+
+## 🗺️ PLANO DO SISTEMA DE VISUAIS/ELEMENTOS (prioridade)
+1. ✅ Stamps de elemento no craft (`rollElementForWeapon`; avançados só épico+).
+2. ✅ Sinergia em combate (`element` nos inimigos + counter ×1.25 + log i18n).
+3. ⏳ **GLIFOS de off-hand**: rework do slot (espada+escudo coerente); glifo dá
+   2º elemento; fusão (`elementSynergy.fusionOf`, água+vento=GELO…) vira camada
+   de AURA ao redor da arma (overlay extra, sem mudar a arte da arma).
+4. ⏳ Arte: overlays t1/t3 de terra/vento/água/sombrio/luz · artes PRÓPRIAS de
+   água/sombrio/luz (hoje reusa gelo/sombra/sagrada) · overlays male · anchors
+   de attack/walk/cast · gerar com `generate_image` + limpar com
+   `tools/sprite_clean.py` (nunca remover branco globalmente!).
+5. ⏳ Stamps em shop/quests/baú · relics próprias além da `w1h_1010` ·
+   balancear `POWER_BY_TIER` e `COUNTER_MULTIPLIER`.
+
+## 💬 PROMPT P/ PUXAR O CONTEXTO E CONTINUAR
+> "Continue o projeto ECLIPSIA. Leia primeiro a seção 🚀 HANDOFF da MEMORY.md e a
+> PROJECT_MEMORY.md, rode o bootstrap (npm install client+server, baselines
+> 89/89 · 41/41 · 18/18) e siga o 🗺️ PLANO no item 3: GLIFOS de off-hand (rework
+> do slot, glifo = 2º elemento, fusão vira aura visual ao redor da arma via
+> elementSynergy.fusionOf). Mantenha FEITO/PENDENTE da MEMORY atualizado, não
+> quebre baselines e commit/push na branch arena/ da sessão."
+
+---
 
 ## 🔧 SESSÃO DE CORREÇÕES (2026-08-06)
 Baselines antes: tsc OK · build OK · 89/89 · **40/41 social (1 MISSING)** · 18/18 · balance OK.
