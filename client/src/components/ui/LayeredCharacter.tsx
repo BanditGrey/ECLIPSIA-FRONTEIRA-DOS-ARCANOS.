@@ -63,10 +63,10 @@ export const LayeredCharacter: React.FC<Props> = ({
   }, [state, gender]);
 
   useEffect(() => {
-    // v2 camadas: arma com overlay próprio vira camada SEPARADA (combina com
-    // qualquer armadura); sem overlay, mantém o fluxo full-body (main>off>armadura)
-    const hasFullWeapon = Boolean(visualForItem(weaponRef));
-    const ov = !hasFullWeapon ? resolveWeaponOverlay(gender, state, weaponRef) : null;
+    // v2 camadas: elemento carimbado na instância (meta-par 101) vira overlay
+    // SEPARADO e vence até visual único; sem overlay, fluxo full-body legado
+    const ov = resolveWeaponOverlay(gender, state, weaponRef);
+    const hasFullWeapon = !ov && Boolean(visualForItem(weaponRef));
     setOverlay(ov);
     const equipped = resolveEquippedSprite(
       gender, state, frame, armorRef,

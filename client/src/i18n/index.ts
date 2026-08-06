@@ -341,15 +341,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       "fire": { "name": "Fogo" },
       "ice": { "name": "Gelo" },
       "lightning": { "name": "Raio" },
-      "earth": { "name": "Terra" },
-      "wind": { "name": "Vento" },
       "nature": { "name": "Natureza" },
-      "poison": { "name": "Veneno" },
       "blood": { "name": "Sangue" },
       "shadow": { "name": "Sombra" },
       "holy": { "name": "Sagrado" },
       "void": { "name": "Vazio" },
-      "arcane": { "name": "Arcano" }
     },
     "register": {
       "username": "Nome de usuário",
@@ -2118,15 +2114,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       "fire": { "name": "Fire" },
       "ice": { "name": "Ice" },
       "lightning": { "name": "Lightning" },
-      "earth": { "name": "Earth" },
-      "wind": { "name": "Wind" },
       "nature": { "name": "Nature" },
-      "poison": { "name": "Poison" },
       "blood": { "name": "Blood" },
       "shadow": { "name": "Shadow" },
       "holy": { "name": "Holy" },
       "void": { "name": "Void" },
-      "arcane": { "name": "Arcane" }
     },
     "register": {
       "username": "Username",
@@ -3894,15 +3886,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       "fire": { "name": "Fuego" },
       "ice": { "name": "Hielo" },
       "lightning": { "name": "Rayo" },
-      "earth": { "name": "Tierra" },
-      "wind": { "name": "Viento" },
       "nature": { "name": "Naturaleza" },
-      "poison": { "name": "Veneno" },
       "blood": { "name": "Sangre" },
       "shadow": { "name": "Sombra" },
       "holy": { "name": "Sagrado" },
       "void": { "name": "Vacío" },
-      "arcane": { "name": "Arcano" }
     },
     "register": {
       "username": "Nombre de usuario",
@@ -5670,15 +5658,11 @@ export const translations: Record<LangCode, TranslationTree> = {
       "fire": { "name": "炎" },
       "ice": { "name": "氷" },
       "lightning": { "name": "雷" },
-      "earth": { "name": "大地" },
-      "wind": { "name": "風" },
       "nature": { "name": "自然" },
-      "poison": { "name": "毒" },
       "blood": { "name": "血" },
       "shadow": { "name": "影" },
       "holy": { "name": "聖" },
       "void": { "name": "虚無" },
-      "arcane": { "name": "秘術" }
     },
     "register": {
       "username": "ユーザー名",

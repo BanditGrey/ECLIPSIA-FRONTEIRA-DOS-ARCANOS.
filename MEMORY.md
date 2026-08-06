@@ -76,9 +76,11 @@ Correções aplicadas (baselines depois: **89/89 · 41/41 · 18/18 · build OK**
     base p/ evitar moderação): ch_3001 padded · ch_3003 guard (tabardo azul) ·
     ch_3004 shadow · ch_3005 legendary (placas douradas) · ch_3102 mist (manto
     teal de mago). Total de armaduras com visual: 7. Sandbox libera todas no bag.
-13. **🎡 RODA DE ELEMENTOS OFICIAL (12)** — decidida c/ usuário (gama grande):
-    clássicos **fire · ice · lightning · earth · wind** | orgânicos
-    **nature · poison · blood** | metafísicos **shadow · holy · void · arcane**.
+13. **🎡 RODA DE ELEMENTOS OFICIAL (8)** — usuário reduziu p/ viabilizar arte de
+    TODA arma: 6 BÁSICOS **fire · ice · lightning · nature · shadow · holy** +
+    2 ULTRA-RAROS **void · blood** (regra de design: ultra só em loot épico+).
+    (Rodas antigas de 7/12 ficaram como legado; artes earth/wind/arcane/poison
+    permanecem no disco mas fora da roda.)
     Identidade de cor/VFX p/ arte e UI: fire laranja/brasas · ice ciano/cristais ·
     lightning amarelo/faiscas · earth âmbar/rocha · wind turquesa/vórtices ·
     nature verde/folhas · poison verde-ácido/borbulhas · blood carmesim/gotas ·
@@ -121,17 +123,23 @@ Correções aplicadas (baselines depois: **89/89 · 41/41 · 18/18 · build OK**
       ② visuais próprios das OUTRAS relics (só 1010 tem; 1005 usa 'eclipse'
       antigo; w2h_1505/1755 caem no t3 do elemento); ③ poses attack das armas
       elementais; ④ (opcional) combinar arma+armadura via overlays no futuro.
-15. **SISTEMA v2 DE CAMADAS (overlays de arma)** — responde à dúvida "arma não
-    some c/ armadura nova?": `data/weaponOverlays.ts` renderiza a arma como
-    camada SEPARADA (PNG só da arma + anchor x/y/w/rot por gênero/pose,
-    relativos ao container). **Qualquer armadura × qualquer arma/elemento**.
-    Fluxo: arma c/ overlay → corpo = armadura/base + overlay da arma; arma sem
-    overlay → mantém full-body legado (elemento full-body c/ leather).
-    - FEITO: overlays ov_sword_steel + gelo/fogo t1-t3 (trim de bbox + anchors
-      idle M+F calibrados por composite). Itens: w1h_1001 (steel), espadas de
-      gelo 1002-1009 e cajados de fogo 1151-1154 agora combinam c/ armaduras.
-    - FALTANDO overlays: demais 10 elementos · anchors de attack/walk/cast ·
-      overlays p/ off-hand.
+15. **SISTEMA v2 DE CAMADAS + ELEMENTO POR INSTÂNCIA** — "TODA arma pode ter
+    TODO elemento": elemento é meta-dado da INSTÂNCIA no itemStr como par
+    **`101:<1-8>`** (META_ELEMENT_ID; fora do registry 1-100 do spec — regex
+    genérica do server aceita; parseItemStr do client libera o 101; tabela de
+    effects da UI filtra o par; sem stamp vale curated/derivado p/ full-body).
+    `data/weaponOverlays.ts`: arma = camada SEPARADA (PNG só da arma + anchor
+    x/y/w/rot por gênero/pose). Prioridade: **stamp 101 (overlay) > visual
+    único full-body > curated full-body > armadura > base**.
+    - FEITO: overlays ov_sword_steel, gelo/fogo t1-t3 e t2 dos outros 6
+      elementos (lightning/nature/shadow/holy/void/blood); anchors idle M+F
+      calibrados (t2 ≈ x.22 y.48 w.22 rot8). Sandbox tem stamps demo:
+      1500|101:2 · 1504|101:1 · 1103|101:7 · 1204|101:8.
+    - **BUG LEGADO CORRIGIDO**: itemStr usa NUMID — o mock usava
+      "w1h_1150|1:120|99:5" (inválido, nunca resolvia!) → agora "1150|...";
+      itemIdOf/visualForItem convertem numId→id via resolveItemRef.
+    - FALTANDO overlays: t1/t3 dos 6 elementos novos · anchors de
+      attack/walk/cast · overlays p/ off-hand · stamps em loot/craft (design).
     - `tools/sprite_clean.py` AGORA VIVE NO REPO (scripts em /home/user somem
       entre sessões): flood das bordas + nibble_fringe; nunca branco global.
 

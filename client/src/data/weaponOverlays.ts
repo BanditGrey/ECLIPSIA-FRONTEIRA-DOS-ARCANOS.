@@ -1,7 +1,7 @@
 import type { CharState } from '../components/ui/LayeredCharacter';
 import type { Gender } from './equipmentVisuals';
 import { resolveItemRef } from '../utils/itemSerializer';
-import { elementOfWeapon, tierOfRarity } from './weaponElements';
+import { elementOfItemInstance, tierOfRarity } from './weaponElements';
 
 /**
  * OVERLAYS DE ARMA (sistema v2 de camadas)
@@ -77,6 +77,31 @@ export const WEAPON_OVERLAYS: Record<string, WeaponOverlayDef> = {
       male: { idle: { x: 0.20, y: 0.46, w: 0.26, rot: 8 } },
     },
   },
+  // t2 dos demais elementos da roda de 8 (fallback de tier cobre t1/t3)
+  ov_lightning_t2: {
+    file: 'ov_el_lightning_t2',
+    anchors: { female: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } }, male: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } } },
+  },
+  ov_nature_t2: {
+    file: 'ov_el_nature_t2',
+    anchors: { female: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } }, male: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } } },
+  },
+  ov_shadow_t2: {
+    file: 'ov_el_shadow_t2',
+    anchors: { female: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } }, male: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } } },
+  },
+  ov_holy_t2: {
+    file: 'ov_el_holy_t2',
+    anchors: { female: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } }, male: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } } },
+  },
+  ov_void_t2: {
+    file: 'ov_el_void_t2',
+    anchors: { female: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } }, male: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } } },
+  },
+  ov_blood_t2: {
+    file: 'ov_el_blood_t2',
+    anchors: { female: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } }, male: { idle: { x: 0.22, y: 0.48, w: 0.22, rot: 8 } } },
+  },
 };
 
 /** Itens com overlay específico (fora da regra por elemento). */
@@ -103,9 +128,11 @@ export const resolveWeaponOverlay = (
   const item = weaponRef ? resolveItemRef(weaponRef) : undefined;
   if (!item) return null;
 
+  // Overlay só para elemento CARIMBADO na instância (meta-par 101):
+  // é isso que garante "QUALQUER arma × QUALQUER elemento".
   let key: string | null = ITEM_OVERLAY[item.id] ?? null;
   if (!key || !hasOverlayKey(key)) {
-    const element = elementOfWeapon(item.id);
+    const element = elementOfItemInstance(item);
     if (element) {
       const tier = tierOfRarity(item.rarity);
       for (let t = tier; t >= 1; t--) {

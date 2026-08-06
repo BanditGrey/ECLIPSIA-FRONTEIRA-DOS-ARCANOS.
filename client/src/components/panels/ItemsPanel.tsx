@@ -3,7 +3,7 @@ import { describeEffect, getEffectIcon, getEffectName } from '../../data/effectN
 import { getEffect, getEffectPairs } from '../../data/effectRegistry';
 import { itemNames } from '../../data/itemNames';
 import { weaponCategoryOf } from '../../data/proficiencies';
-import { elementOfWeapon } from '../../data/weaponElements';
+import { elementOfItemInstance, META_ELEMENT_ID } from '../../data/weaponElements';
 import { useI18n } from '../../hooks/useI18n';
 import { useGameStore } from '../../store/useGameStore';
 import { refOf, usePlayerStore } from '../../store/usePlayerStore';
@@ -311,7 +311,8 @@ export const ItemsPanel = () => {
   const selectedMeta = selectedItem ? getItemMeta(refOf(selectedItem)) : null;
   const equippedCurrent = selectedMeta?.slot && player ? player.equipment[selectedMeta.slot] : null;
   const selectedWeaponCategory = selectedItem ? weaponCategoryOf(refOf(selectedItem)) : null;
-  const selectedElement = selectedItem ? elementOfWeapon(refOf(selectedItem).split('|')[0]) : null;
+  const selectedItemObj = selectedItem ? resolveItemRef(refOf(selectedItem)) : undefined;
+  const selectedElement = selectedItemObj ? elementOfItemInstance(selectedItemObj) : null;
 
   return (
     <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
@@ -471,9 +472,9 @@ export const ItemsPanel = () => {
             {/* Tabela de effects — fonte de verdade dos bônus */}
             <section className="rounded-xl border border-game-border bg-game-card p-3">
               <h3 className="mb-2 font-title text-game-gold">{t('items.effects')}</h3>
-              {getEffectPairs(selectedMeta.effects).length > 0 ? (
+              {getEffectPairs(selectedMeta.effects).filter((p) => p.effectId !== META_ELEMENT_ID).length > 0 ? (
                 <div className="grid gap-1 font-mono text-sm">
-                  {getEffectPairs(selectedMeta.effects).map(({ effectId, value }, index) => {
+                  {getEffectPairs(selectedMeta.effects).filter((p) => p.effectId !== META_ELEMENT_ID).map(({ effectId, value }, index) => {
                     const line = describeEffect(effectId, value, lang);
 
                     return (

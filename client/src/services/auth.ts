@@ -326,7 +326,7 @@ export const AuthService = {
       luck: { base: 10, equipment: 50, titles: 0, impulse: 0, events: 0 },
       freePoints: 0,
       equipment: {
-        weapon_main: "w1h_1150|1:120|99:5",
+        weapon_main: "1150|1:120|99:5",
         weapon_off: null,
         head: "hd_2500",
         chest: "ch_3000", // Vestimenta de Couro (visual ativo no sandbox)
@@ -395,15 +395,14 @@ export const AuthService = {
         { itemStr: "w2h_1702", id: "w2h_1702", qty: 1 }, // Vazio t2
         { itemStr: "w2h_1704", id: "w2h_1704", qty: 1 }, // Vazio t3
         // Roda completa: terra/vento/sangue (off-hand) t1→t3
-        { itemStr: "oh_2002", id: "oh_2002", qty: 1 }, // Terra t1
-        { itemStr: "oh_2003", id: "oh_2003", qty: 1 }, // Terra t2
-        { itemStr: "oh_2005", id: "oh_2005", qty: 1 }, // Terra t3
-        { itemStr: "oh_2150", id: "oh_2150", qty: 1 }, // Vento t1
-        { itemStr: "oh_2151", id: "oh_2151", qty: 1 }, // Vento t2
-        { itemStr: "oh_2153", id: "oh_2153", qty: 1 }, // Vento t3
         { itemStr: "oh_2200", id: "oh_2200", qty: 1 }, // Sangue t1
         { itemStr: "oh_2201", id: "oh_2201", qty: 1 }, // Sangue t2
         { itemStr: "oh_2203", id: "oh_2203", qty: 1 }, // Sangue t3
+        // META-PAR 101 = elemento da instância: QUALQUER arma × QUALQUER elemento
+        { itemStr: "1500|101:2", id: "w2h_1500", qty: 1 }, // Espadão GELO t1
+        { itemStr: "1504|101:1", id: "w2h_1504", qty: 1 }, // Espadão FOGO t3
+        { itemStr: "1103|101:7", id: "w1h_1103", qty: 1 }, // Adaga VAZIO (ultra)
+        { itemStr: "1204|101:8", id: "w1h_1204", qty: 1 }, // Arco SANGUE (ultra) t3
       ],
       maxInventory: 100,
       storage: [],

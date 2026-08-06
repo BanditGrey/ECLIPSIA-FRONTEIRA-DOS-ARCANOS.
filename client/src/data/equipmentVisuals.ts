@@ -101,24 +101,12 @@ const SPRITES: Record<string, Partial<Record<Gender, Partial<Record<CharState, n
   el_shadow_t1: { female: { idle: [1] } },
   el_shadow_t2: { female: { idle: [1] } },
   el_shadow_t3: { female: { idle: [1] } },
-  el_arcane_t1: { female: { idle: [1] } },
-  el_arcane_t2: { female: { idle: [1] } },
-  el_arcane_t3: { female: { idle: [1] } },
-  el_poison_t1: { female: { idle: [1] } },
-  el_poison_t2: { female: { idle: [1] } },
-  el_poison_t3: { female: { idle: [1] } },
   el_holy_t1: { female: { idle: [1] } },
   el_holy_t2: { female: { idle: [1] } },
   el_holy_t3: { female: { idle: [1] } },
   el_void_t1: { female: { idle: [1] } },
   el_void_t2: { female: { idle: [1] } },
   el_void_t3: { female: { idle: [1] } },
-  el_earth_t1: { female: { idle: [1] } },
-  el_earth_t2: { female: { idle: [1] } },
-  el_earth_t3: { female: { idle: [1] } },
-  el_wind_t1: { female: { idle: [1] } },
-  el_wind_t2: { female: { idle: [1] } },
-  el_wind_t3: { female: { idle: [1] } },
   el_blood_t1: { female: { idle: [1] } },
   el_blood_t2: { female: { idle: [1] } },
   el_blood_t3: { female: { idle: [1] } },
@@ -134,11 +122,13 @@ const SPRITES: Record<string, Partial<Record<Gender, Partial<Record<CharState, n
   greatstaff: { female: { idle: [1] } },
 };
 
-/** Aceita id de catálogo OU itemStr ("w1h_1150|1:120|99:5" → "w1h_1150"). */
+/** Aceita id de catálogo OU itemStr (numId | "1150|1:120" → id do catálogo). */
 const itemIdOf = (ref: string | null | undefined): string | null => {
   if (!ref) return null;
-  const id = ref.split('|')[0];
-  return ITEM_VISUALS[id] ? id : null;
+  const head = ref.split('|')[0];
+  if (ITEM_VISUALS[head]) return head;
+  const item = resolveItemRef(ref);
+  return item && ITEM_VISUALS[item.id] ? item.id : null;
 };
 
 export const visualForItem = (ref: string | null | undefined): ItemVisual | null => {
@@ -167,7 +157,7 @@ export const resolveEquippedSprite = (
     if (unique) candidates.push(unique);
     const item = ref ? resolveItemRef(ref) : undefined;
     if (item) {
-      const element = elementOfWeapon(item.id);
+      const element = elementOfWeapon(item.id, item);
       if (element) {
         // Fallback de tier: sem arte no tier da raridade, desce p/ o anterior
         const tier = tierOfRarity(item.rarity);
