@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useAudio } from '../../hooks/useAudio';
+import React, { useState, useEffect, useRef } from 'react';
 import { ParticleSystem } from './ParticleSystem';
 import { playSkillPhysical, playSkillMagic, playSkillVoid, playCrit, playLevelUp } from '../../systems/audio/SFXEngine';
 import { skills } from '../../data/skills';
@@ -13,6 +12,7 @@ export interface SkillEffectConfig {
   showParticles?: boolean;
   playSound?: boolean;
   narrate?: boolean;
+  castId?: number;
   onComplete?: () => void;
 }
 
@@ -33,9 +33,8 @@ const TYPE_META: Record<'physical' | 'magical' | 'void', { label: string; color:
 
 export const SkillEffectPanel: React.FC<SkillEffectConfig> = ({
   skillId, skillName = 'Skill', damageType = 'physical', damagePercent = 100,
-  isCritical = false, showParticles = true, playSound = true, narrate = false, onComplete
+  isCritical = false, showParticles = true, playSound = true, narrate = false, castId = 0, onComplete
 }) => {
-  const audio = useAudio();
   const [visible, setVisible] = useState(true);
   const [shake, setShake] = useState(false);
   const [floatKey, setFloatKey] = useState(0);
@@ -44,7 +43,14 @@ export const SkillEffectPanel: React.FC<SkillEffectConfig> = ({
   const skillData = skills.find(s => s.id === skillId);
   const skillIcon = skillData?.icon ?? '💥';
 
+  // onComplete em ref: o painel pai re-renderiza muito durante o combate e
+  // dependências instáveis reiniciavam o timer sem nunca deixá-lo concluir
+  // (o banner "travava" e o personagem ficava preso no estado cast).
+  const onCompleteRef = useRef(onComplete);
+  useEffect(() => { onCompleteRef.current = onComplete; });
+
   useEffect(() => {
+    setVisible(true);
     if (playSound) {
       if (damageType === 'void') playSkillVoid();
       else if (damageType === 'magical') playSkillMagic();
@@ -55,9 +61,10 @@ export const SkillEffectPanel: React.FC<SkillEffectConfig> = ({
     }
     if (isCritical) { setShake(true); setTimeout(() => setShake(false), 500); }
     setFloatKey((k) => k + 1);
-    const timer = setTimeout(() => { setVisible(false); if (onComplete) onComplete(); }, 2000);
+    const timer = setTimeout(() => { setVisible(false); onCompleteRef.current?.(); }, 2000);
     return () => clearTimeout(timer);
-  }, [skillId, audio, playSound, isCritical, damageType, narrate, onComplete]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [skillId, castId]);
 
   if (!visible) return null;
 

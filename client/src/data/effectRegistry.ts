@@ -70,6 +70,14 @@ export const EFFECT = {
   LCK: 9,
   HP: 10,
   MP: 11,
+  // ── ELEMENTOS DA ARMA (12–17) — valor = poder do elemento ──
+  //  roda: 4 básicos (fogo/terra/água/vento) + 2 avançados rivais (sombrio/luz)
+  ELEMENT_FIRE: 12,
+  ELEMENT_EARTH: 13,
+  ELEMENT_WATER: 14,
+  ELEMENT_WIND: 15,
+  ELEMENT_DARK: 16,
+  ELEMENT_LIGHT: 17,
 
   // ── STATS DE COMBATE (21–40) ──────────────────────────
   CRIT_CHANCE: 21,
@@ -184,6 +192,14 @@ export const EFFECT_REGISTRY: Record<number, EffectDefinition> = {
   [EFFECT.LCK]: { id: 9, code: 'LCK', category: 'primary', unit: 'flat', description: 'Sorte' },
   [EFFECT.HP]: { id: 10, code: 'HP', category: 'primary', unit: 'flat', description: 'Vida máxima' },
   [EFFECT.MP]: { id: 11, code: 'MP', category: 'primary', unit: 'flat', description: 'Mana máxima' },
+  // ═══════════════ ELEMENTOS DA ARMA — 12 a 17 ═══════════════
+  // value = poder do elemento na instância (tiers sugeridos: <25 t1 · <50 t2 · 50+ t3)
+  [EFFECT.ELEMENT_FIRE]: { id: 12, code: 'ELEMENT_FIRE', category: 'primary', unit: 'flat', description: 'Elemento da arma: Fogo (poder)' },
+  [EFFECT.ELEMENT_EARTH]: { id: 13, code: 'ELEMENT_EARTH', category: 'primary', unit: 'flat', description: 'Elemento da arma: Terra (poder)' },
+  [EFFECT.ELEMENT_WATER]: { id: 14, code: 'ELEMENT_WATER', category: 'primary', unit: 'flat', description: 'Elemento da arma: Água (poder)' },
+  [EFFECT.ELEMENT_WIND]: { id: 15, code: 'ELEMENT_WIND', category: 'primary', unit: 'flat', description: 'Elemento da arma: Vento (poder)' },
+  [EFFECT.ELEMENT_DARK]: { id: 16, code: 'ELEMENT_DARK', category: 'primary', unit: 'flat', description: 'Elemento da arma: Sombrio (poder)' },
+  [EFFECT.ELEMENT_LIGHT]: { id: 17, code: 'ELEMENT_LIGHT', category: 'primary', unit: 'flat', description: 'Elemento da arma: Luz (poder)' },
 
   // ═══════════════ STATS DE COMBATE — 21 a 40 ═══════════════
   [EFFECT.CRIT_CHANCE]: { id: 21, code: 'CRIT_CHANCE', category: 'combat', unit: 'percent', description: 'Chance de crítico (%)' },

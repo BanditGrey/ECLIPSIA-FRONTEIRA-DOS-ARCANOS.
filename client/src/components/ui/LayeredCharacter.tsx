@@ -1,4 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { resolveEquippedSprite, visualForItem } from '../../data/equipmentVisuals';
+import { resolveWeaponOverlay } from '../../data/weaponOverlays';
+import { usePlayerStore } from '../../store/usePlayerStore';
 
 export type CharState = 'idle' | 'walk' | 'attack' | 'hit' | 'death' | 'cast' | 'dash' | 'victory';
 type Gender = 'male' | 'female';
@@ -29,12 +32,21 @@ interface Props {
 
 export const LayeredCharacter: React.FC<Props> = ({
   gender, state, size = 128, className = '', flip = false,
-  onAnimationEnd, glowColor,
+  onAnimationEnd, glowColor, armorId, weaponId,
 }) => {
   const [src, setSrc] = useState('');
+  const [overlay, setOverlay] = useState<{ file: string; anchor: { x: number; y: number; w: number; rot?: number } } | null>(null);
   const [frame, setFrame] = useState(0);
   const animEndRef = useRef<ReturnType<typeof setTimeout>>();
   const frameRef = useRef<ReturnType<typeof setInterval>>();
+
+  // Equipamento atual do jogador (props têm prioridade p/ previews)
+  const eqChest = usePlayerStore((s) => s.data?.equipment?.chest ?? null);
+  const eqWeapon = usePlayerStore((s) => s.data?.equipment?.weapon_main ?? null);
+  const eqWeaponOff = usePlayerStore((s) => s.data?.equipment?.weapon_off ?? null);
+  const armorRef = armorId ?? eqChest;
+  const weaponRef = weaponId ?? eqWeapon;
+  const weaponOffRef = eqWeaponOff;
 
   // Frame cycling for idle animation
   useEffect(() => {
@@ -51,14 +63,24 @@ export const LayeredCharacter: React.FC<Props> = ({
   }, [state, gender]);
 
   useEffect(() => {
-    setSrc(getSprite(gender, state, frame));
+    // v2 camadas: elemento carimbado na instância (meta-par 101) vira overlay
+    // SEPARADO e vence até visual único; sem overlay, fluxo full-body legado
+    const ov = resolveWeaponOverlay(gender, state, weaponRef);
+    const hasFullWeapon = !ov && Boolean(visualForItem(weaponRef));
+    setOverlay(ov);
+    const equipped = resolveEquippedSprite(
+      gender, state, frame, armorRef,
+      ov ? null : weaponRef,
+      ov ? null : weaponOffRef,
+    );
+    setSrc(equipped || getSprite(gender, state, frame));
     if (animEndRef.current) clearTimeout(animEndRef.current);
     const oneShot = ['attack', 'hit', 'death', 'cast', 'dash', 'victory'];
     if (oneShot.includes(state) && onAnimationEnd) {
       animEndRef.current = setTimeout(onAnimationEnd, 600);
     }
     return () => { if (animEndRef.current) clearTimeout(animEndRef.current); };
-  }, [state, gender, frame, onAnimationEnd]);
+  }, [state, gender, frame, onAnimationEnd, armorRef, weaponRef, weaponOffRef]);
 
   // Preload
   useEffect(() => {
@@ -108,6 +130,19 @@ export const LayeredCharacter: React.FC<Props> = ({
             width: size, height: size * 1.2,
             objectFit: 'contain', objectPosition: 'bottom',
             animation: getAnim(), filter: getFilter(),
+          }}
+        />
+      )}
+
+      {/* Camada de arma (overlay) — combina com qualquer armadura */}
+      {overlay && (
+        <img src={overlay.file} alt="" draggable={false} className="pointer-events-none absolute z-10 select-none"
+          style={{
+            width: overlay.anchor.w * size,
+            left: overlay.anchor.x * size,
+            top: overlay.anchor.y * size * 1.3,
+            transform: `rotate(${overlay.anchor.rot ?? 0}deg)`,
+            objectFit: 'contain',
           }}
         />
       )}

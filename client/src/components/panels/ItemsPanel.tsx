@@ -3,6 +3,7 @@ import { describeEffect, getEffectIcon, getEffectName } from '../../data/effectN
 import { getEffect, getEffectPairs } from '../../data/effectRegistry';
 import { itemNames } from '../../data/itemNames';
 import { weaponCategoryOf } from '../../data/proficiencies';
+import { elementOfItemInstance } from '../../data/weaponElements';
 import { useI18n } from '../../hooks/useI18n';
 import { useGameStore } from '../../store/useGameStore';
 import { refOf, usePlayerStore } from '../../store/usePlayerStore';
@@ -11,7 +12,7 @@ import type { Equipment, InventoryItem } from '../../types/player.types';
 import { resolveItemRef, serializeItem } from '../../utils/itemSerializer';
 import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
-import { Portrait } from '../ui/Portrait';
+import { LayeredCharacter } from '../ui/LayeredCharacter';
 import { CraftingPanel } from './items/CraftingPanel';
 import { MarketPanel } from './items/MarketPanel';
 
@@ -310,6 +311,8 @@ export const ItemsPanel = () => {
   const selectedMeta = selectedItem ? getItemMeta(refOf(selectedItem)) : null;
   const equippedCurrent = selectedMeta?.slot && player ? player.equipment[selectedMeta.slot] : null;
   const selectedWeaponCategory = selectedItem ? weaponCategoryOf(refOf(selectedItem)) : null;
+  const selectedItemObj = selectedItem ? resolveItemRef(refOf(selectedItem)) : undefined;
+  const selectedElement = selectedItemObj ? elementOfItemInstance(selectedItemObj)?.element ?? null : null;
 
   return (
     <div className="grid h-full grid-rows-[auto_1fr] gap-3 overflow-hidden bg-game-dark p-3 text-game-text">
@@ -346,10 +349,10 @@ export const ItemsPanel = () => {
                 <div className="flex flex-col items-center shrink-0 w-[140px]">
                   <div className="relative mb-2">
                     <div className="absolute -inset-4 rounded-full bg-arcane-500/10 blur-xl animate-pulse" />
-                    <Portrait kind="class" id={player?.archetype ?? 'blade'} size={120} ring="arcane" />
+                    <LayeredCharacter gender={(player?.gender as 'male' | 'female') ?? 'female'} state="idle" size={110} glowColor="#3fd9c4" />
                   </div>
                   <span className="font-title font-bold text-game-gold text-base tracking-wide text-center leading-tight truncate w-full">{player?.name}</span>
-                  <span className="font-mono text-[10px] text-game-muted mb-3">{t('game.lvl')} {player?.level} • {t(`classes.${player?.archetype}.name`)}</span>
+                  <span className="font-mono text-[10px] text-game-muted mb-3">{t('game.lvl')} {player?.level} • {t(`archetypes.${player?.archetype}.name`)}</span>
 
                   <div className="flex gap-2">
                     {renderVisualizerSlot('belt')}
@@ -405,7 +408,7 @@ export const ItemsPanel = () => {
                   );
                 })}
                 {(player?.inventory ?? []).length === 0 && (
-                  <p className="col-span-full text-xs text-game-muted text-center mt-4 opacity-50">Sua mochila está vazia.</p>
+                  <p className="col-span-full text-xs text-game-muted text-center mt-4 opacity-50">{t('items.emptyBag')}</p>
                 )}
               </div>
             </div>
@@ -456,6 +459,11 @@ export const ItemsPanel = () => {
                   {t(`items.rarities.${selectedMeta.rarity}`)} • {selectedMeta.slot ? t(`items.slots.${selectedMeta.slot}`) : t('game.unknown')}
                   {selectedMeta.numId !== undefined && <> • #{selectedMeta.numId}</>}
                 </p>
+                {selectedWeaponCategory && selectedElement && (
+                  <p className="font-mono text-xs text-arcane-300">
+                    ✦ {t(`elements.${selectedElement}.name`)}
+                  </p>
+                )}
               </div>
             </header>
 

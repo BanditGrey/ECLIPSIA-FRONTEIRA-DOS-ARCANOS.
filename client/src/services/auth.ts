@@ -326,11 +326,11 @@ export const AuthService = {
       luck: { base: 10, equipment: 50, titles: 0, impulse: 0, events: 0 },
       freePoints: 0,
       equipment: {
-        weapon_main: "w1h_1150|1:120|99:5",
+        weapon_main: "1150|1:120|99:5",
         weapon_off: null,
-        head: "ar_3002",
-        chest: "ar_3102",
-        legs: "ar_3202",
+        head: "hd_2500",
+        chest: "ch_3000", // Vestimenta de Couro (visual ativo no sandbox)
+        legs: "lg_3500",
         gloves: null,
         boots: null,
         earring: null,
@@ -346,6 +346,63 @@ export const AuthService = {
         { itemStr: "mat_9000", id: "mat_9000", qty: 99 },
         { itemStr: "mat_9050", id: "mat_9050", qty: 10 },
         { itemStr: "w2h_1600", id: "w2h_1600", qty: 1 },
+        // Itens com visual (teste do sistema de visuais): 2 armaduras + 10 armas
+        { itemStr: "ch_3001", id: "ch_3001", qty: 1 }, // Vestimenta Acolchoada
+        { itemStr: "ch_3002", id: "ch_3002", qty: 1 }, // Cota de Ferro
+        { itemStr: "ch_3003", id: "ch_3003", qty: 1 }, // Cota da Guarda
+        { itemStr: "ch_3004", id: "ch_3004", qty: 1 }, // Cota Sombria
+        { itemStr: "ch_3005", id: "ch_3005", qty: 1 }, // Cota Lendária
+        { itemStr: "ch_3102", id: "ch_3102", qty: 1 }, // Veste da Névoa
+        { itemStr: "w1h_1001", id: "w1h_1001", qty: 1 }, // Espada de Ferro
+        { itemStr: "w1h_1005", id: "w1h_1005", qty: 1 }, // Lâmina do Eclipse
+        { itemStr: "w1h_1100", id: "w1h_1100", qty: 1 }, // Adaga
+        { itemStr: "w1h_1150", id: "w1h_1150", qty: 1 }, // Cajado Simples
+        { itemStr: "w1h_1200", id: "w1h_1200", qty: 1 }, // Arco Curto
+        { itemStr: "w2h_1500", id: "w2h_1500", qty: 1 }, // Espadão
+        { itemStr: "w2h_1650", id: "w2h_1650", qty: 1 }, // Lança
+        { itemStr: "w2h_1700", id: "w2h_1700", qty: 1 }, // Arco Longo
+        { itemStr: "w2h_1750", id: "w2h_1750", qty: 1 }, // Cajado de Batalha
+        // Progressão elemental por raridade (gelo/raio/fogo t1→t3) + relic única
+        { itemStr: "w1h_1002", id: "w1h_1002", qty: 1 }, // Gelo t1
+        { itemStr: "w1h_1004", id: "w1h_1004", qty: 1 }, // Gelo t2
+        { itemStr: "w1h_1006", id: "w1h_1006", qty: 1 }, // Gelo t2 (epic)
+        { itemStr: "w1h_1008", id: "w1h_1008", qty: 1 }, // Gelo t3
+        { itemStr: "w1h_1010", id: "w1h_1010", qty: 1 }, // RELIC visual próprio
+        { itemStr: "w1h_1102", id: "w1h_1102", qty: 1 }, // Raio t1
+        { itemStr: "w1h_1103", id: "w1h_1103", qty: 1 }, // Raio t2
+        { itemStr: "w1h_1105", id: "w1h_1105", qty: 1 }, // Raio t3
+        { itemStr: "w1h_1151", id: "w1h_1151", qty: 1 }, // Fogo t1
+        { itemStr: "w1h_1152", id: "w1h_1152", qty: 1 }, // Fogo t2
+        { itemStr: "w1h_1154", id: "w1h_1154", qty: 1 }, // Fogo t3
+        // Novos elementos: natureza/sombra/arcana t1→t3
+        { itemStr: "w1h_1201", id: "w1h_1201", qty: 1 }, // Natureza t1
+        { itemStr: "w1h_1202", id: "w1h_1202", qty: 1 }, // Natureza t2
+        { itemStr: "w1h_1204", id: "w1h_1204", qty: 1 }, // Natureza t3
+        { itemStr: "w2h_1501", id: "w2h_1501", qty: 1 }, // Sombra t1
+        { itemStr: "w2h_1502", id: "w2h_1502", qty: 1 }, // Sombra t2
+        { itemStr: "w2h_1504", id: "w2h_1504", qty: 1 }, // Sombra t3
+        { itemStr: "w2h_1751", id: "w2h_1751", qty: 1 }, // Arcana t1
+        { itemStr: "w2h_1752", id: "w2h_1752", qty: 1 }, // Arcana t2
+        { itemStr: "w2h_1754", id: "w2h_1754", qty: 1 }, // Arcana t3
+        // Novos elementos da roda: veneno/sagrado/vazio t1→t3
+        { itemStr: "w2h_1601", id: "w2h_1601", qty: 1 }, // Veneno t1
+        { itemStr: "w2h_1602", id: "w2h_1602", qty: 1 }, // Veneno t2
+        { itemStr: "w2h_1604", id: "w2h_1604", qty: 1 }, // Veneno t3
+        { itemStr: "w2h_1651", id: "w2h_1651", qty: 1 }, // Sagrado t1
+        { itemStr: "w2h_1652", id: "w2h_1652", qty: 1 }, // Sagrado t2
+        { itemStr: "w2h_1654", id: "w2h_1654", qty: 1 }, // Sagrado t3
+        { itemStr: "w2h_1701", id: "w2h_1701", qty: 1 }, // Vazio t1
+        { itemStr: "w2h_1702", id: "w2h_1702", qty: 1 }, // Vazio t2
+        { itemStr: "w2h_1704", id: "w2h_1704", qty: 1 }, // Vazio t3
+        // Roda completa: terra/vento/sangue (off-hand) t1→t3
+        { itemStr: "oh_2200", id: "oh_2200", qty: 1 }, // Sangue t1
+        { itemStr: "oh_2201", id: "oh_2201", qty: 1 }, // Sangue t2
+        { itemStr: "oh_2203", id: "oh_2203", qty: 1 }, // Sangue t3
+        // META-PAR 101 = elemento da instância: QUALQUER arma × QUALQUER elemento
+        { itemStr: "1500|13:35", id: "w2h_1500", qty: 1 }, // Espadão TERRA T2
+        { itemStr: "1504|12:60", id: "w2h_1504", qty: 1 }, // Espadão FOGO T3
+        { itemStr: "1103|16:35", id: "w1h_1103", qty: 1 }, // Adaga SOMBRIO T2 (avançado)
+        { itemStr: "1204|14:60", id: "w1h_1204", qty: 1 }, // Arco ÁGUA T3
       ],
       maxInventory: 100,
       storage: [],

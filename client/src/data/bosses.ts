@@ -19,6 +19,7 @@ export interface BossData {
   id: string;
   /** Raça do boss — usada pelos effects VS_* (75-78). */
   race: import('./monsters').MonsterRace;
+  element?: import('./weaponElements').WeaponElement;
   icon: string;
   level: number;
   hp: number;
@@ -68,6 +69,7 @@ export const bosses: BossData[] = [
   {
     id: 'root_guardian',
     race: 'elemental',
+  element: 'earth',
     icon: '🌳',
     level: 20,
     hp: 3500,
@@ -90,6 +92,7 @@ export const bosses: BossData[] = [
   {
     id: 'void_mirror',
     race: 'aberration',
+  element: 'dark',
     icon: '🪞',
     level: 35,
     hp: 6000,
@@ -109,6 +112,7 @@ export const bosses: BossData[] = [
   {
     id: 'azhur',
     race: 'beast',
+  element: 'fire',
     icon: '🐺',
     level: 50,
     hp: 25000,
@@ -132,6 +136,7 @@ export const bosses: BossData[] = [
   {
     id: 'thal_mora',
     race: 'beast',
+  element: 'water',
     icon: '🐍',
     level: 65,
     hp: 40000,
@@ -155,6 +160,7 @@ export const bosses: BossData[] = [
   {
     id: 'velkaryn',
     race: 'aberration',
+  element: 'dark',
     icon: '⚔',
     level: 55,
     hp: 18000,
