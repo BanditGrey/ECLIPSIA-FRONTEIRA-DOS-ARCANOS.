@@ -1,7 +1,40 @@
 # 🧠 MEMÓRIA DO PROJETO — ECLIPSIA: FRONTEIRA DOS ARCANOS
-> Última atualização: **2026-08-06 (sessão continuação)**
-> Branch atual: **`arena/019fd457-eclipsia-fronteira-dos-arcanos`** (commit `b401130`)
-> Commit HEAD: +1 sprite (sea_wraith_hit_1) + filtro black_bg corrigido + base male/female reprocessados
+> Última atualização: **2026-08-06 (sessão de correções)**
+> Branch atual: **`arena/019fd6a8-eclipsia-fronteira-dos-arcanos`**
+> Sessão: leitura completa do projeto + correção do que estava quebrado (detalhes abaixo)
+
+## 🔧 SESSÃO DE CORREÇÕES (2026-08-06)
+Baselines antes: tsc OK · build OK · 89/89 · **40/41 social (1 MISSING)** · 18/18 · balance OK.
+Correções aplicadas (baselines depois: **89/89 · 41/41 · 18/18 · build OK**):
+1. **CombatPanel: barra da caçada de party tinha regredido** (hardcoded em inglês, sem
+   auras/bônus/contribuições) → restaurada com `auraAtk/auraDef`, `sizeBonus`, andar,
+   ranking de contribuições e aviso de região, tudo via i18n `partyCombat.*` (4 idiomas).
+   Auditoria social voltou a 41/41.
+2. **Bug de balanceamento em `systems/combat.ts`**: `defBonus += activeSession.auraDef`
+   somava percentual inteiro (0-100) numa fração 0-1 → dano recebido caía ~16x com aura.
+   Corrigido para `auraDef / 100`.
+3. **Áudio quebrado (404)**: componentes usam `/assets/audio/*.mp3`, mas os arquivos
+   estavam em `public/` na RAIZ (não servido pelo Vite) e eram placeholders de texto.
+   Copiados para `client/public/assets/audio/` + **5 SFX reais sintetizados**
+   (attack/crit/heal/levelup/loot — script `/home/user/gen_sfx.py`, lameenc+numpy).
+   BGM/voz seguem placeholder (não são referenciados no código).
+4. **Backend caía sem MongoDB** (`process.exit(1)` quando o mongodb-memory-server não
+   consegue baixar o binário — `fastdl.mongodb.org` é bloqueado neste sandbox).
+   `database.js` agora degrada para modo mock + `isDbReady()`; `server.js` responde
+   503 amigável nas rotas de banco e pula restauração de sessões (jogo segue no
+   Modo Sandbox do login). Com `MONGO_URI` real nada muda.
+5. **Índice duplicado** `{name:1}` no modelo Guild (unique + schema.index) removido.
+6. **LoginScreen com strings hardcoded em PT** → i18n novo `login.sandboxMode/
+   offlineError/networkError/wikiButton/serverOffline/onlineWord` nos 4 idiomas.
+7. **AutoConfigModal**: botão Salvar não fazia nada → agora fecha o modal.
+
+### ⚠ Ambiente do sandbox (2026-08-06)
+- Rede só alcança: registry.npmjs.org, github.com, api.github.com, codeload.github.com,
+  pypi.org. **fastdl.mongodb.org, deb/ubuntu, jsdelivr, nodejs.org = BLOQUEADOS.**
+- Sem `MONGO_URI` não dá para subir MongoDB real aqui (binário não baixa). Para testar
+  online de verdade: definir `MONGO_URI` (Atlas) no `server/.env` ou usar o Modo Sandbox
+  do botão de login (100% client-side).
+- `gh` para rede externa foi bloqueado pelo sandbox nesta sessão.
 
 ---
 

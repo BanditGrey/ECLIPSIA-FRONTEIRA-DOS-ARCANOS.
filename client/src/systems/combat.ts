@@ -1024,11 +1024,11 @@ export const combatEngine = {
         defBonus += getConditionalValue(resolved, EFFECT.ON_LOW_HP_DEF);
       }
 
-      // Aura coletiva de defesa da caçada de party
+      // Aura coletiva de defesa da caçada de party (0-100% inteiro → fração 0-1)
       const activeSession = huntSession();
 
       if (activeSession && huntRegionMatches() && activeSession.auraDef > 0) {
-        defBonus += activeSession.auraDef;
+        defBonus += activeSession.auraDef / 100;
       }
 
       if (defBonus > 0) {

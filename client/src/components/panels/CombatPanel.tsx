@@ -92,6 +92,7 @@ const AutoConfigModal = () => {
   const { t } = useI18n();
   const autoConfig = useCombatStore((state) => state.autoConfig);
   const setAutoConfig = useCombatStore((state) => state.setAutoConfig);
+  const closeModal = useGameStore((state) => state.closeModal);
 
   return (
     <Modal id={AUTO_MODAL} title={t('combat.autoConfig.title')}>
@@ -115,7 +116,7 @@ const AutoConfigModal = () => {
           <input type="checkbox" checked={autoConfig.stopEvent} onChange={(event) => setAutoConfig({ stopEvent: event.target.checked })} />
           <span>{t('combat.autoConfig.stopEvent')}</span>
         </label>
-        <Button>{t('combat.autoConfig.save')}</Button>
+        <Button onClick={closeModal}>{t('combat.autoConfig.save')}</Button>
       </div>
     </Modal>
   );
@@ -311,11 +312,37 @@ export const CombatPanel = () => {
 
         {/* ─── HUNT SESSION INFO (if party hunting) ─── */}
         {huntSession && (
-          <div className="absolute top-10 left-1/2 -translate-x-1/2 z-20">
-            <div className="rounded-lg border border-green-700/50 bg-night-950/80 px-3 py-1 backdrop-blur-sm">
-              <span className="font-mono text-[10px] text-green-300">
-                Party Hunt · Round {huntSession.round} · {huntSession.members.length} members
-              </span>
+          <div className="absolute top-10 left-1/2 z-20 w-[min(24rem,92%)] -translate-x-1/2">
+            <div className="rounded-lg border border-green-700/50 bg-night-950/85 px-3 py-1.5 backdrop-blur-sm">
+              <p className="text-center font-mono text-[10px] text-green-300">
+                🎯 {t('partyCombat.activeHunt')}: {huntSession.region} · {t('partyCombat.round')} {huntSession.round} · ⚔ +{Math.round(huntSession.auraAtk)}% / 🛡 +{Math.round(huntSession.auraDef)}%
+              </p>
+              {huntSession.sizeBonus && (
+                <p className="text-center font-mono text-[10px] text-green-200/80">
+                  👥 {huntSession.members.length} {t('partyCombat.membersWord')} → +{huntSession.sizeBonus.xp}% XP · +{huntSession.sizeBonus.gold}% 🪙 · +{huntSession.sizeBonus.loot}% 🎁
+                </p>
+              )}
+              {huntSession.dungeonId && huntSession.floor != null && (
+                <p className="text-center font-mono text-[10px] text-green-200/80">
+                  🏰 {t('partyCombat.floor')} {huntSession.floor}
+                </p>
+              )}
+              {huntSession.members.length > 1 && (
+                <div className="mt-1 grid grid-cols-2 gap-x-3 gap-y-0.5">
+                  {[...huntSession.members]
+                    .sort((a, b) => b.dmg - a.dmg)
+                    .map((member) => (
+                      <p key={member.name} className="truncate font-mono text-[9px] text-green-100/70">
+                        {member.name} · ⚔{member.dmg} · 💀{member.kills}
+                      </p>
+                    ))}
+                </div>
+              )}
+              {combat.region !== huntSession.region && (
+                <p className="mt-0.5 text-center font-mono text-[9px] text-yellow-300/90">
+                  ⚠ {t('partyCombat.regionMismatch')}
+                </p>
+              )}
             </div>
           </div>
         )}

@@ -18,6 +18,4 @@ const GuildSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
-GuildSchema.index({ name: 1 });
-
 export const Guild = mongoose.model('Guild', GuildSchema);

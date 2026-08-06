@@ -5,7 +5,7 @@ import rateLimit from 'express-rate-limit';
 import cors from 'cors';
 import helmet from 'helmet';
 import { Server } from 'socket.io';
-import { connectDatabase } from './config/database.js';
+import { connectDatabase, isDbReady } from './config/database.js';
 import { authRoutes } from './routes/auth.routes.js';
 import { playerRoutes } from './routes/player.routes.js';
 import { rankingRoutes } from './routes/ranking.routes.js';
@@ -118,8 +118,23 @@ app.get('/api/world/state', (_req, res) => {
   res.json({
     online: onlinePlayers.size,
     colossus: null,
+    sandbox: !isDbReady(),
     serverTime: new Date().toISOString()
   });
+});
+
+// Modo sandbox (sem banco): rotas persistentes respondem 503 amigável em vez
+// de vazar erros internos do Mongoose. Health/world/state ficam acima.
+app.use('/api', (_req, res, next) => {
+  if (!isDbReady()) {
+    return res.status(503).json({
+      success: false,
+      sandbox: true,
+      message: 'Backend em modo sandbox: banco de dados indisponível. Use o Modo Sandbox do jogo.'
+    });
+  }
+
+  return next();
 });
 
 app.use('/api/auth', authRoutes);
@@ -1017,11 +1032,13 @@ const startServer = async () => {
   await connectDatabase();
 
   try {
-    // Restaura pendências de banco de dados
-    const [savedTrades, savedParties] = await Promise.all([
-      TradeSession.find({ status: { $in: ['active', 'pending'] } }).lean(),
-      PartySession.find().lean()
-    ]);
+    // Restaura pendências de banco de dados (só com banco real conectado)
+    const [savedTrades, savedParties] = isDbReady()
+      ? await Promise.all([
+          TradeSession.find({ status: { $in: ['active', 'pending'] } }).lean(),
+          PartySession.find().lean()
+        ])
+      : [[], []];
     
     savedTrades.forEach(t => {
       trades.set(t.tradeId, { id: t.tradeId, ...t, confirmed: new Set(t.confirmed) });

@@ -44,7 +44,7 @@ export const LoginScreen = () => {
     try {
       AuthService.playOfflineMock();
     } catch (e: any) {
-      addNotification(`Erro ao carregar offline: ${e.message}`, 'error');
+      addNotification(`${t('login.offlineError')}${e.message}`, 'error');
     }
   };
 
@@ -74,7 +74,7 @@ export const LoginScreen = () => {
         }
       }
     } catch (err: any) {
-      addNotification('Erro de rede ao conectar. Tente o Modo Offline.', 'error');
+      addNotification(t('login.networkError'), 'error');
     } finally {
       setLoading(false);
     }
@@ -121,7 +121,7 @@ export const LoginScreen = () => {
           onClick={handleOfflineMode}
           className="w-full mb-6 py-4 rounded-xl border border-arcane-400/50 bg-gradient-to-r from-night-800/90 via-arcane-600/30 to-night-800/90 text-arcane-300 font-bold font-title tracking-widest hover:border-arcane-400 hover:text-white transition-all shadow-[0_0_15px_rgba(63,217,196,0.15)] active:scale-95"
         >
-          ► ENTRAR (MODO SANDBOX)
+          {t('login.sandboxMode')}
         </button>
 
         {/* Container de Login Opcional */}
@@ -183,7 +183,7 @@ export const LoginScreen = () => {
             onClick={() => setScreen('wiki')}
             className="w-full mt-3 py-2 text-sm text-game-muted hover:text-white transition-colors"
           >
-            Enciclopédia / Wiki
+            {t('login.wikiButton')}
           </button>
         </section>
 
@@ -191,7 +191,7 @@ export const LoginScreen = () => {
         <footer className="mt-6 flex items-center gap-3 font-mono text-xs text-game-faded">
           <span className="flex items-center gap-1.5">
             <span className={`h-1.5 w-1.5 rounded-full ${online === null ? 'bg-game-faded' : 'bg-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.9)]'}`} />
-            {online === null ? 'Servidor Offline' : `${online} Online`}
+            {online === null ? t('login.serverOffline') : `${online} ${t('login.onlineWord')}`}
           </span>
           <span className="h-3 w-px bg-game-border" />
           <span>v1.0</span>
