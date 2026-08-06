@@ -257,3 +257,7 @@ git push origin arena/019fd3c8-eclipsia-fronteira-dos-arcanos
 - **Problema resolvido**: sprites escuras (shadow_sprite, mist_wolf, sand_scorpion, base male/female) não têm mais preto/escuro removido; fundo preto puro agora removido com segurança
 - **Atualizado**: `MEMORY.md`, `MonsterLayered.tsx`, `build` OK, `push` OK (b401130 / e898da5)
 - **Commit pendente**: as 10 sprites novas + limpezas + update no MonsterLayered ainda precisam ser commitados (o working tree está limpo para o código antigo mas tem 10 PNGs rastreados/adicionados; verificar com `git status` antes de commitar).
+
+---
+## 🔓 PRÓXIMA SEÇÃO (aberta para outro chat)
+**Problema/Objetivo:** Expandir os 3 keyframes base (`eclipseSlashAnim`, `eclipseBurstAnim`, `eclipseShieldAnim`) para animações individuais por `skillId` (98 skills total) no `SkillEffectPanel` e `CombatPanel`. Cada skill deve ter sua própria cor/partícula/animação personalizada, não apenas por categoria. O arquivo `SKILLS_SPRINT.md` já contém o mapeamento completo. Próximo passo: criar `client/src/index.css` keyframes específicos para as 10 principais (slab, arcane_burst, heal_pulse, etc.) e integrar por `skillId` no componente.
