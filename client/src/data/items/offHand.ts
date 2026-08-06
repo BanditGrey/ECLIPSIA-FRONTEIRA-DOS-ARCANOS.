@@ -444,6 +444,7 @@ export const offHand = {
   // Quando o elemento da arma + do glifo formam uma fusão (água+vento=GELO
   // etc.), nasce uma camada de aura ao redor da arma sem trocar a arte.
   // Glifos NEUTROS (element: null) não fundem — só dão bônus de stats.
+  // Gerado por tools/sync_glyphs.ts — editar catálogo em data/glyphs.ts.
   "gl_2240": {
     "id": "gl_2240",
     "numId": 2240,
@@ -458,12 +459,9 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 6 },
     "effects": {
-      "e1": 6,
-      "v1": 6,
-      "e2": 12,
-      "v2": 15,
-      "e3": 1,
-      "v3": 4
+      "e1": 6, "v1": 6,
+      "e2": 12, "v2": 15,
+      "e3": 1, "v3": 4
     }
   },
   "gl_2250": {
@@ -480,14 +478,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 12 },
     "effects": {
-      "e1": 6,
-      "v1": 12,
-      "e2": 12,
-      "v2": 35,
-      "e3": 1,
-      "v3": 8,
-      "e4": 22,
-      "v4": 6
+      "e1": 6, "v1": 12,
+      "e2": 12, "v2": 35,
+      "e3": 1, "v3": 8,
+      "e4": 22, "v4": 6
     }
   },
   "gl_2260": {
@@ -504,12 +498,9 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 20 },
     "effects": {
-      "e1": 6,
-      "v1": 20,
-      "e2": 12,
-      "v2": 50,
-      "e3": 24,
-      "v3": 5
+      "e1": 6, "v1": 20,
+      "e2": 12, "v2": 50,
+      "e3": 24, "v3": 5
     }
   },
   "gl_2270": {
@@ -526,14 +517,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 24 },
     "effects": {
-      "e1": 6,
-      "v1": 24,
-      "e2": 12,
-      "v2": 70,
-      "e3": 24,
-      "v3": 8,
-      "e4": 22,
-      "v4": 10
+      "e1": 6, "v1": 24,
+      "e2": 12, "v2": 70,
+      "e3": 24, "v3": 8,
+      "e4": 22, "v4": 10
     }
   },
   "gl_2290": {
@@ -550,14 +537,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 30 },
     "effects": {
-      "e1": 6,
-      "v1": 30,
-      "e2": 12,
-      "v2": 90,
-      "e3": 24,
-      "v3": 10,
-      "e4": 40,
-      "v4": 12
+      "e1": 6, "v1": 30,
+      "e2": 12, "v2": 90,
+      "e3": 24, "v3": 10,
+      "e4": 40, "v4": 12
     }
   },
   "gl_2241": {
@@ -574,12 +557,9 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 6 },
     "effects": {
-      "e1": 6,
-      "v1": 6,
-      "e2": 13,
-      "v2": 15,
-      "e3": 2,
-      "v3": 4
+      "e1": 6, "v1": 6,
+      "e2": 13, "v2": 15,
+      "e3": 2, "v3": 4
     }
   },
   "gl_2251": {
@@ -596,14 +576,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 12 },
     "effects": {
-      "e1": 6,
-      "v1": 12,
-      "e2": 13,
-      "v2": 35,
-      "e3": 2,
-      "v3": 8,
-      "e4": 25,
-      "v4": 4
+      "e1": 6, "v1": 12,
+      "e2": 13, "v2": 35,
+      "e3": 2, "v3": 8,
+      "e4": 25, "v4": 4
     }
   },
   "gl_2261": {
@@ -620,12 +596,9 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 20 },
     "effects": {
-      "e1": 6,
-      "v1": 20,
-      "e2": 13,
-      "v2": 50,
-      "e3": 25,
-      "v3": 6
+      "e1": 6, "v1": 20,
+      "e2": 13, "v2": 50,
+      "e3": 25, "v3": 6
     }
   },
   "gl_2271": {
@@ -642,14 +615,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 24 },
     "effects": {
-      "e1": 6,
-      "v1": 24,
-      "e2": 13,
-      "v2": 70,
-      "e3": 25,
-      "v3": 8,
-      "e4": 10,
-      "v4": 120
+      "e1": 6, "v1": 24,
+      "e2": 13, "v2": 70,
+      "e3": 25, "v3": 8,
+      "e4": 10, "v4": 120
     }
   },
   "gl_2291": {
@@ -666,14 +635,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 30 },
     "effects": {
-      "e1": 6,
-      "v1": 30,
-      "e2": 13,
-      "v2": 90,
-      "e3": 25,
-      "v3": 10,
-      "e4": 39,
-      "v4": 8
+      "e1": 6, "v1": 30,
+      "e2": 13, "v2": 90,
+      "e3": 25, "v3": 10,
+      "e4": 39, "v4": 8
     }
   },
   "gl_2242": {
@@ -690,12 +655,9 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 6 },
     "effects": {
-      "e1": 6,
-      "v1": 6,
-      "e2": 14,
-      "v2": 15,
-      "e3": 11,
-      "v3": 15
+      "e1": 6, "v1": 6,
+      "e2": 14, "v2": 15,
+      "e3": 11, "v3": 15
     }
   },
   "gl_2252": {
@@ -712,12 +674,9 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 12 },
     "effects": {
-      "e1": 6,
-      "v1": 12,
-      "e2": 14,
-      "v2": 35,
-      "e3": 26,
-      "v3": 5
+      "e1": 6, "v1": 12,
+      "e2": 14, "v2": 35,
+      "e3": 26, "v3": 5
     }
   },
   "gl_2262": {
@@ -734,12 +693,9 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 20 },
     "effects": {
-      "e1": 6,
-      "v1": 20,
-      "e2": 14,
-      "v2": 50,
-      "e3": 26,
-      "v3": 7
+      "e1": 6, "v1": 20,
+      "e2": 14, "v2": 50,
+      "e3": 26, "v3": 7
     }
   },
   "gl_2272": {
@@ -756,14 +712,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 24 },
     "effects": {
-      "e1": 6,
-      "v1": 24,
-      "e2": 14,
-      "v2": 70,
-      "e3": 26,
-      "v3": 10,
-      "e4": 34,
-      "v4": 6
+      "e1": 6, "v1": 24,
+      "e2": 14, "v2": 70,
+      "e3": 26, "v3": 10,
+      "e4": 34, "v4": 6
     }
   },
   "gl_2292": {
@@ -780,14 +732,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 30 },
     "effects": {
-      "e1": 6,
-      "v1": 30,
-      "e2": 14,
-      "v2": 90,
-      "e3": 26,
-      "v3": 12,
-      "e4": 33,
-      "v4": 8
+      "e1": 6, "v1": 30,
+      "e2": 14, "v2": 90,
+      "e3": 26, "v3": 12,
+      "e4": 33, "v4": 8
     }
   },
   "gl_2243": {
@@ -804,12 +752,9 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 6 },
     "effects": {
-      "e1": 6,
-      "v1": 6,
-      "e2": 15,
-      "v2": 15,
-      "e3": 4,
-      "v3": 3
+      "e1": 6, "v1": 6,
+      "e2": 15, "v2": 15,
+      "e3": 4, "v3": 3
     }
   },
   "gl_2253": {
@@ -826,12 +771,9 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 12 },
     "effects": {
-      "e1": 6,
-      "v1": 12,
-      "e2": 15,
-      "v2": 35,
-      "e3": 21,
-      "v3": 3
+      "e1": 6, "v1": 12,
+      "e2": 15, "v2": 35,
+      "e3": 21, "v3": 3
     }
   },
   "gl_2263": {
@@ -848,14 +790,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 20 },
     "effects": {
-      "e1": 6,
-      "v1": 20,
-      "e2": 15,
-      "v2": 50,
-      "e3": 21,
-      "v3": 5,
-      "e4": 32,
-      "v4": 6
+      "e1": 6, "v1": 20,
+      "e2": 15, "v2": 50,
+      "e3": 21, "v3": 5,
+      "e4": 32, "v4": 6
     }
   },
   "gl_2273": {
@@ -872,14 +810,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 24 },
     "effects": {
-      "e1": 6,
-      "v1": 24,
-      "e2": 15,
-      "v2": 70,
-      "e3": 32,
-      "v3": 10,
-      "e4": 21,
-      "v4": 5
+      "e1": 6, "v1": 24,
+      "e2": 15, "v2": 70,
+      "e3": 32, "v3": 10,
+      "e4": 21, "v4": 5
     }
   },
   "gl_2293": {
@@ -896,14 +830,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 30 },
     "effects": {
-      "e1": 6,
-      "v1": 30,
-      "e2": 15,
-      "v2": 90,
-      "e3": 32,
-      "v3": 14,
-      "e4": 33,
-      "v4": 8
+      "e1": 6, "v1": 30,
+      "e2": 15, "v2": 90,
+      "e3": 32, "v3": 14,
+      "e4": 33, "v4": 8
     }
   },
   "gl_2244": {
@@ -920,12 +850,9 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 6 },
     "effects": {
-      "e1": 6,
-      "v1": 6,
-      "e2": 16,
-      "v2": 15,
-      "e3": 35,
-      "v3": 5
+      "e1": 6, "v1": 6,
+      "e2": 16, "v2": 15,
+      "e3": 35, "v3": 5
     }
   },
   "gl_2254": {
@@ -942,12 +869,9 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 12 },
     "effects": {
-      "e1": 6,
-      "v1": 12,
-      "e2": 16,
-      "v2": 35,
-      "e3": 35,
-      "v3": 8
+      "e1": 6, "v1": 12,
+      "e2": 16, "v2": 35,
+      "e3": 35, "v3": 8
     }
   },
   "gl_2264": {
@@ -964,14 +888,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 20 },
     "effects": {
-      "e1": 6,
-      "v1": 20,
-      "e2": 16,
-      "v2": 50,
-      "e3": 31,
-      "v3": 6,
-      "e4": 35,
-      "v4": 6
+      "e1": 6, "v1": 20,
+      "e2": 16, "v2": 50,
+      "e3": 31, "v3": 6,
+      "e4": 35, "v4": 6
     }
   },
   "gl_2274": {
@@ -988,14 +908,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 24 },
     "effects": {
-      "e1": 6,
-      "v1": 24,
-      "e2": 16,
-      "v2": 70,
-      "e3": 31,
-      "v3": 10,
-      "e4": 40,
-      "v4": 8
+      "e1": 6, "v1": 24,
+      "e2": 16, "v2": 70,
+      "e3": 31, "v3": 10,
+      "e4": 40, "v4": 8
     }
   },
   "gl_2294": {
@@ -1012,14 +928,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 30 },
     "effects": {
-      "e1": 6,
-      "v1": 30,
-      "e2": 16,
-      "v2": 90,
-      "e3": 31,
-      "v3": 14,
-      "e4": 37,
-      "v4": 10
+      "e1": 6, "v1": 30,
+      "e2": 16, "v2": 90,
+      "e3": 31, "v3": 14,
+      "e4": 37, "v4": 10
     }
   },
   "gl_2245": {
@@ -1036,12 +948,9 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 6 },
     "effects": {
-      "e1": 6,
-      "v1": 6,
-      "e2": 17,
-      "v2": 15,
-      "e3": 9,
-      "v3": 3
+      "e1": 6, "v1": 6,
+      "e2": 17, "v2": 15,
+      "e3": 9, "v3": 3
     }
   },
   "gl_2255": {
@@ -1058,14 +967,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 12 },
     "effects": {
-      "e1": 6,
-      "v1": 12,
-      "e2": 17,
-      "v2": 35,
-      "e3": 9,
-      "v3": 6,
-      "e4": 27,
-      "v4": 5
+      "e1": 6, "v1": 12,
+      "e2": 17, "v2": 35,
+      "e3": 9, "v3": 6,
+      "e4": 27, "v4": 5
     }
   },
   "gl_2265": {
@@ -1082,14 +987,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 20 },
     "effects": {
-      "e1": 6,
-      "v1": 20,
-      "e2": 17,
-      "v2": 50,
-      "e3": 27,
-      "v3": 8,
-      "e4": 28,
-      "v4": 8
+      "e1": 6, "v1": 20,
+      "e2": 17, "v2": 50,
+      "e3": 27, "v3": 8,
+      "e4": 28, "v4": 8
     }
   },
   "gl_2275": {
@@ -1106,14 +1007,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 24 },
     "effects": {
-      "e1": 6,
-      "v1": 24,
-      "e2": 17,
-      "v2": 70,
-      "e3": 27,
-      "v3": 12,
-      "e4": 29,
-      "v4": 10
+      "e1": 6, "v1": 24,
+      "e2": 17, "v2": 70,
+      "e3": 27, "v3": 12,
+      "e4": 29, "v4": 10
     }
   },
   "gl_2295": {
@@ -1130,14 +1027,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 30 },
     "effects": {
-      "e1": 6,
-      "v1": 30,
-      "e2": 17,
-      "v2": 90,
-      "e3": 27,
-      "v3": 15,
-      "e4": 29,
-      "v4": 15
+      "e1": 6, "v1": 30,
+      "e2": 17, "v2": 90,
+      "e3": 27, "v3": 15,
+      "e4": 29, "v4": 15
     }
   },
   "gl_2280": {
@@ -1154,12 +1047,9 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 6 },
     "effects": {
-      "e1": 6,
-      "v1": 6,
-      "e2": 1,
-      "v2": 3,
-      "e3": 2,
-      "v3": 3
+      "e1": 6, "v1": 6,
+      "e2": 1, "v2": 3,
+      "e3": 2, "v3": 3
     }
   },
   "gl_2281": {
@@ -1174,14 +1064,12 @@ export const offHand = {
     "descKey": "itemNames.gl_2281.desc",
     "isTwoHanded": false,
     "weaponCategory": "glyph",
-    "stats": { "arcana": 6 },
+    "stats": { "arcana": 10 },
     "effects": {
-      "e1": 6,
-      "v1": 6,
-      "e2": 10,
-      "v2": 60,
-      "e3": 11,
-      "v3": 20
+      "e1": 6, "v1": 10,
+      "e2": 1, "v2": 5,
+      "e3": 10, "v3": 60,
+      "e4": 11, "v4": 20
     }
   },
   "gl_2282": {
@@ -1198,10 +1086,9 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 12 },
     "effects": {
-      "e1": 6,
-      "v1": 12,
-      "e2": 24,
-      "v2": 4
+      "e1": 6, "v1": 12,
+      "e2": 1, "v2": 7,
+      "e3": 24, "v3": 4
     }
   },
   "gl_2283": {
@@ -1218,12 +1105,10 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 20 },
     "effects": {
-      "e1": 6,
-      "v1": 20,
-      "e2": 24,
-      "v2": 5,
-      "e3": 25,
-      "v3": 5
+      "e1": 6, "v1": 20,
+      "e2": 1, "v2": 9,
+      "e3": 24, "v3": 5,
+      "e4": 25, "v4": 5
     }
   },
   "gl_2284": {
@@ -1240,14 +1125,11 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 24 },
     "effects": {
-      "e1": 6,
-      "v1": 24,
-      "e2": 24,
-      "v2": 6,
-      "e3": 21,
-      "v3": 4,
-      "e4": 25,
-      "v4": 6
+      "e1": 6, "v1": 24,
+      "e2": 1, "v2": 12,
+      "e3": 24, "v3": 6,
+      "e4": 21, "v4": 4,
+      "e5": 25, "v5": 6
     }
   },
   "gl_2285": {
@@ -1264,14 +1146,12 @@ export const offHand = {
     "weaponCategory": "glyph",
     "stats": { "arcana": 30 },
     "effects": {
-      "e1": 6,
-      "v1": 30,
-      "e2": 24,
-      "v2": 8,
-      "e3": 31,
-      "v3": 8,
-      "e4": 27,
-      "v4": 10
+      "e1": 6, "v1": 30,
+      "e2": 1, "v2": 16,
+      "e3": 24, "v3": 8,
+      "e4": 31, "v4": 8,
+      "e5": 27, "v5": 10
     }
-  },
+  }
+,
 } satisfies Record<string, Item>;

@@ -118,11 +118,11 @@ export const GLYPHS: GlyphDefinition[] = [
 
   // ── NEUTROS (sem elemento, sem fusão — só bônus) ──
   { itemId: 'gl_2280', element: null, rarity: 'common', power: 15, effects: [{ eid: 1, value: 3 }, { eid: 2, value: 3 }] },
-  { itemId: 'gl_2281', element: null, rarity: 'uncommon', power: 25, effects: [{ eid: 10, value: 60 }, { eid: 11, value: 20 }] },
-  { itemId: 'gl_2282', element: null, rarity: 'rare', power: 35, effects: [{ eid: 24, value: 4 }] },
-  { itemId: 'gl_2283', element: null, rarity: 'epic', power: 50, effects: [{ eid: 24, value: 5 }, { eid: 25, value: 5 }] },
-  { itemId: 'gl_2284', element: null, rarity: 'legendary', power: 70, effects: [{ eid: 24, value: 6 }, { eid: 21, value: 4 }, { eid: 25, value: 6 }] },
-  { itemId: 'gl_2285', element: null, rarity: 'relic', power: 90, effects: [{ eid: 24, value: 8 }, { eid: 31, value: 8 }, { eid: 27, value: 10 }] }
+  { itemId: 'gl_2281', element: null, rarity: 'uncommon', power: 25, effects: [{ eid: 1, value: 5 }, { eid: 10, value: 60 }, { eid: 11, value: 20 }] },
+  { itemId: 'gl_2282', element: null, rarity: 'rare', power: 35, effects: [{ eid: 1, value: 7 }, { eid: 24, value: 4 }] },
+  { itemId: 'gl_2283', element: null, rarity: 'epic', power: 50, effects: [{ eid: 1, value: 9 }, { eid: 24, value: 5 }, { eid: 25, value: 5 }] },
+  { itemId: 'gl_2284', element: null, rarity: 'legendary', power: 70, effects: [{ eid: 1, value: 12 }, { eid: 24, value: 6 }, { eid: 21, value: 4 }, { eid: 25, value: 6 }] },
+  { itemId: 'gl_2285', element: null, rarity: 'relic', power: 90, effects: [{ eid: 1, value: 16 }, { eid: 24, value: 8 }, { eid: 31, value: 8 }, { eid: 27, value: 10 }] }
 ];
 
 const BY_ID = new Map(GLYPHS.map((g) => [g.itemId, g]));
