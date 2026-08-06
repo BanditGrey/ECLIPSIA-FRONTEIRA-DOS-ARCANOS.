@@ -122,6 +122,8 @@ Legenda: ✅ existe em disco · 🟡 só hit/attack parcial (faltam outras poses
 
 ### 🟡 Médios
 4. ✅ **Glow do jogador dinâmico** `LayeredCharacter` — agora `glowColor` muda conforme `damageType`: physical=`#ef4444`, magical=`#3b82f6`, void=`#9333ea`, default=`#3fd9c4` (CombatPanel atualizado)
+4b. ✅ **SKILLS_SPRINT.md** — 98 skills mapeadas (físico/mágico/suporte) com cor/efeito/partícula; base de VFX (slash/burst/shield) definida
+4c. ✅ **Code-splitting iniciado** — React.lazy Hub/Ranking/Travel/Wiki/Items; chunk 923→839 KB; build OK
 5. **Bosses (bandit_leader, root_guardian, void_mirror, azhur, thal_mora, velkaryn)** usam Portrait (não MonsterLayered) — ok, mas confirmar assets.
 6. **forest_golem não tem hit_1** (aparecerá como idle quando levar dano).
 7. **Code-splitting** pendente (chunk 923 KB > 500 KB warning).
