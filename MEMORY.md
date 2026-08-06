@@ -88,9 +88,14 @@ Correções aplicadas (baselines depois: **89/89 · 41/41 · 18/18 · build OK**
     - Resolução: único do item > elemento×tier > armadura > base (itemStr ok).
     - FEITO (arte): gelo/fogo/raio t1-t3 female + relic própria `w1h_1010`
       (`relic_eclipse`) = 10 sprites. Sandbox: progressões completas no bag.
-    - **FALTANDO (backlog de arte)**: ① tiers de gelo/fogo/raio p/ MALE;
-      ② elementos nature/shadow/arcane/pure (t1-t3, ambos gêneros); ③ visuais
-      próprios das OUTRAS relics (só 1010 tem; 1005 usa 'eclipse' antigo);
+    - FEITO (2ª leva): **natureza** (arcos 1201-1204), **sombra** (espadões
+      1501-1504) e **arcana** (cajados 1751-1754) t1-t3 female = +9 sprites;
+      resolvedor com **fallback de tier** (t3→t2→t1 quando falta arte do tier).
+      Elementos com arte female completa: 6 de 7 (gelo, fogo, raio, natureza,
+      sombra, arcana). Sandbox: progressões dos 3 novos no bag.
+    - **FALTANDO (backlog de arte)**: ① elemento **pure** (t1-t3); ② tiers de
+      todos os elementos p/ MALE; ③ visuais próprios das OUTRAS relics (só
+      1010 tem; 1005 usa 'eclipse' antigo; w2h_1505/1755 caem no t3 do elemento);
       ④ poses attack das armas elementais; ⑤ nomes de elemento na UI (i18n)
       caso exiba o elemento no tooltip do item.
     - `tools/sprite_clean.py` AGORA VIVE NO REPO (scripts em /home/user somem

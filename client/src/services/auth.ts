@@ -374,6 +374,16 @@ export const AuthService = {
         { itemStr: "w1h_1151", id: "w1h_1151", qty: 1 }, // Fogo t1
         { itemStr: "w1h_1152", id: "w1h_1152", qty: 1 }, // Fogo t2
         { itemStr: "w1h_1154", id: "w1h_1154", qty: 1 }, // Fogo t3
+        // Novos elementos: natureza/sombra/arcana t1→t3
+        { itemStr: "w1h_1201", id: "w1h_1201", qty: 1 }, // Natureza t1
+        { itemStr: "w1h_1202", id: "w1h_1202", qty: 1 }, // Natureza t2
+        { itemStr: "w1h_1204", id: "w1h_1204", qty: 1 }, // Natureza t3
+        { itemStr: "w2h_1501", id: "w2h_1501", qty: 1 }, // Sombra t1
+        { itemStr: "w2h_1502", id: "w2h_1502", qty: 1 }, // Sombra t2
+        { itemStr: "w2h_1504", id: "w2h_1504", qty: 1 }, // Sombra t3
+        { itemStr: "w2h_1751", id: "w2h_1751", qty: 1 }, // Arcana t1
+        { itemStr: "w2h_1752", id: "w2h_1752", qty: 1 }, // Arcana t2
+        { itemStr: "w2h_1754", id: "w2h_1754", qty: 1 }, // Arcana t3
       ],
       maxInventory: 100,
       storage: [],

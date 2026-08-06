@@ -55,6 +55,21 @@ const CURATED: Record<string, WeaponElement> = {
   w1h_1103: 'lightning',
   w1h_1104: 'lightning',
   w1h_1105: 'lightning',
+  // Natureza (arcos curtos)
+  w1h_1201: 'nature',
+  w1h_1202: 'nature',
+  w1h_1203: 'nature',
+  w1h_1204: 'nature',
+  // Sombra (espadões)
+  w2h_1501: 'shadow',
+  w2h_1502: 'shadow',
+  w2h_1503: 'shadow',
+  w2h_1504: 'shadow',
+  // Arcano (cajados de batalha)
+  w2h_1751: 'arcane',
+  w2h_1752: 'arcane',
+  w2h_1753: 'arcane',
+  w2h_1754: 'arcane',
 };
 
 /**

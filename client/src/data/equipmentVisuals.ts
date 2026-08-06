@@ -95,6 +95,15 @@ const SPRITES: Record<string, Partial<Record<Gender, Partial<Record<CharState, n
   el_lightning_t1: { female: { idle: [1] } },
   el_lightning_t2: { female: { idle: [1] } },
   el_lightning_t3: { female: { idle: [1] } },
+  el_nature_t1: { female: { idle: [1] } },
+  el_nature_t2: { female: { idle: [1] } },
+  el_nature_t3: { female: { idle: [1] } },
+  el_shadow_t1: { female: { idle: [1] } },
+  el_shadow_t2: { female: { idle: [1] } },
+  el_shadow_t3: { female: { idle: [1] } },
+  el_arcane_t1: { female: { idle: [1] } },
+  el_arcane_t2: { female: { idle: [1] } },
+  el_arcane_t3: { female: { idle: [1] } },
   relic_eclipse: { female: { idle: [1] } },
   // Armas geradas com a heroína de couro segurando o item
   dagger: { female: { idle: [1] } },
@@ -140,10 +149,11 @@ export const resolveEquippedSprite = (
   if (weaponItem) {
     const element = elementOfWeapon(weaponItem.id);
     if (element) {
-      candidates.push({
-        kind: 'weapon',
-        key: `el_${element}_t${tierOfRarity(weaponItem.rarity)}`,
-      });
+      // Fallback de tier: sem arte no tier da raridade, desce p/ o anterior
+      const tier = tierOfRarity(weaponItem.rarity);
+      for (let t = tier; t >= 1; t--) {
+        candidates.push({ kind: 'weapon', key: `el_${element}_t${t}` });
+      }
     }
   }
 
