@@ -11,26 +11,44 @@ import { getGlyph, GLYPH_ELEMENT_COLORS, NEUTRAL_GLYPH_COLOR, GLYPH_RARITY_COLOR
  *  - GLIFO: oh_glyph_<elemento>.png (ou oh_glyph_neutral.png)
  */
 
+import { tierOfItem } from '../../data/weaponTiers';
+import { EFFECT } from '../../data/effectRegistry';
+
 export interface OffHandVisual {
   kind: 'shield' | 'glyph';
   element?: 'fire' | 'earth' | 'water' | 'wind' | 'dark' | 'light' | null;
   rarity?: string;
+  tier?: string;
 }
 
 export function resolveOffHandVisual(offRef: string | null | undefined): OffHandVisual | null {
   if (!offRef) return null;
   const item = resolveItemRef(offRef);
   if (!item) return null;
+  
+  let upgrade = 0;
+  const effects = item.effects as Record<string, unknown> | undefined;
+  if (effects) {
+    for (let i = 1; i <= 10; i++) {
+      if (Number(effects[`e${i}`]) === EFFECT.UPGRADE_LEVEL) {
+        upgrade = Number(effects[`v${i}`]) || 0;
+        break;
+      }
+    }
+  }
+  const tier = tierOfItem(item.rarity, upgrade);
+  
   const cat = item.weaponCategory;
   if (cat === 'glyph') {
     const glyph = getGlyph(item.id);
     return {
       kind: 'glyph',
       element: glyph?.element ?? elementOfItemInstance(item)?.element ?? null,
-      rarity: glyph?.rarity ?? item.rarity
+      rarity: glyph?.rarity ?? item.rarity,
+      tier
     };
   }
-  if (cat === 'shield') return { kind: 'shield' };
+  if (cat === 'shield') return { kind: 'shield', tier, rarity: item.rarity };
   return null;
 }
 
@@ -45,12 +63,14 @@ export const OffHandLayer: React.FC<Props> = ({ visual, size }) => {
   const left = size * 0.1;
   const top = size * 0.52;
 
+  const t = visual.tier || 't1';
+
   let spritePath = '';
   if (visual.kind === 'shield') {
-    spritePath = '/assets/sprites/oh_shield.png';
+    spritePath = `/assets/sprites/oh_shield_${t}.png`;
   } else {
     const el = visual.element || 'neutral';
-    spritePath = `/assets/sprites/oh_glyph_${el}.png`;
+    spritePath = `/assets/sprites/oh_glyph_${el}_${t}.png`;
   }
 
   const glowColor = visual.kind === 'glyph' ? 
