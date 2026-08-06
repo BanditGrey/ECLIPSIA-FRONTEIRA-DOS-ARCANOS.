@@ -24,7 +24,12 @@ export interface ItemVisual {
 export const ITEM_VISUALS: Record<string, ItemVisual> = {
   // Armaduras (peito)
   ch_3000: { kind: 'armor', key: 'leather' }, // Vestimenta de Couro
+  ch_3001: { kind: 'armor', key: 'padded' }, // Vestimenta Acolchoada
   ch_3002: { kind: 'armor', key: 'iron' }, // Cota de Ferro
+  ch_3003: { kind: 'armor', key: 'guard' }, // Cota da Guarda
+  ch_3004: { kind: 'armor', key: 'shadow' }, // Cota Sombria
+  ch_3005: { kind: 'armor', key: 'legendary' }, // Cota Lendária
+  ch_3102: { kind: 'armor', key: 'mist' }, // Veste da Névoa
   // Armas (mão principal) — 10 categorias com visual
   w1h_1001: { kind: 'weapon', key: 'sword' }, // Espada de Ferro (sword_one)
   w1h_1005: { kind: 'weapon', key: 'eclipse' }, // Lâmina do Eclipse (sword_one épica)
@@ -45,6 +50,26 @@ const SPRITES: Record<string, Partial<Record<Gender, Partial<Record<CharState, n
     male: { idle: [1] },
   },
   iron: {
+    female: { idle: [1] },
+    male: { idle: [1] },
+  },
+  padded: {
+    female: { idle: [1] },
+    male: { idle: [1] },
+  },
+  guard: {
+    female: { idle: [1] },
+    male: { idle: [1] },
+  },
+  shadow: {
+    female: { idle: [1] },
+    male: { idle: [1] },
+  },
+  legendary: {
+    female: { idle: [1] },
+    male: { idle: [1] },
+  },
+  mist: {
     female: { idle: [1] },
     male: { idle: [1] },
   },

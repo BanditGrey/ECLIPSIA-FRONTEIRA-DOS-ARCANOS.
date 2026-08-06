@@ -72,6 +72,10 @@ Correções aplicadas (baselines depois: **89/89 · 41/41 · 18/18 · build OK**
     - Lição de recorte: bolsões brancos PRESOS entre arma e corpo não conectam
       na borda → o flood não pega; nesses casos remover pure-white isolado
       (min>238) pontualmente + nibble (caso do cajado).
+12. **EXPANSÃO DE ARMADURAS**: +5 tipos (M+F idle, geradas "fully covered" sobre a
+    base p/ evitar moderação): ch_3001 padded · ch_3003 guard (tabardo azul) ·
+    ch_3004 shadow · ch_3005 legendary (placas douradas) · ch_3102 mist (manto
+    teal de mago). Total de armaduras com visual: 7. Sandbox libera todas no bag.
 
 ### ⚠ Ambiente do sandbox (2026-08-06)
 - Rede só alcança: registry.npmjs.org, github.com, api.github.com, codeload.github.com,

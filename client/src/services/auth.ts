@@ -347,7 +347,12 @@ export const AuthService = {
         { itemStr: "mat_9050", id: "mat_9050", qty: 10 },
         { itemStr: "w2h_1600", id: "w2h_1600", qty: 1 },
         // Itens com visual (teste do sistema de visuais): 2 armaduras + 10 armas
+        { itemStr: "ch_3001", id: "ch_3001", qty: 1 }, // Vestimenta Acolchoada
         { itemStr: "ch_3002", id: "ch_3002", qty: 1 }, // Cota de Ferro
+        { itemStr: "ch_3003", id: "ch_3003", qty: 1 }, // Cota da Guarda
+        { itemStr: "ch_3004", id: "ch_3004", qty: 1 }, // Cota Sombria
+        { itemStr: "ch_3005", id: "ch_3005", qty: 1 }, // Cota Lendária
+        { itemStr: "ch_3102", id: "ch_3102", qty: 1 }, // Veste da Névoa
         { itemStr: "w1h_1001", id: "w1h_1001", qty: 1 }, // Espada de Ferro
         { itemStr: "w1h_1005", id: "w1h_1005", qty: 1 }, // Lâmina do Eclipse
         { itemStr: "w1h_1100", id: "w1h_1100", qty: 1 }, // Adaga
