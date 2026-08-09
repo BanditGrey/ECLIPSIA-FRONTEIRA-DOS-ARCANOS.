@@ -90,7 +90,7 @@ const inferSlot = (itemId: string): EquipmentSlot | null => {
     return direct;
   }
 
-  if (normalized.includes('shield') || normalized.includes('orb') || normalized.includes('tome')) {
+  if (normalized.includes('glyph')) {
     return 'weapon_off';
   }
 
@@ -182,8 +182,6 @@ export const ItemsPanel = () => {
   const depositItem = usePlayerStore((state) => state.depositItem);
   const withdrawItem = usePlayerStore((state) => state.withdrawItem);
 
-  const mainWeaponTwoHanded = useMemo(() => Boolean(player?.equipment.weapon_main && isTwoHanded(player.equipment.weapon_main)), [player]);
-
   const [selectedEquippedSlot, setSelectedEquippedSlot] = useState<EquipmentSlot | null>(null);
 
   const openDetail = (item: InventoryItem, source: 'bag' | 'storage' | 'equipped' = 'bag', equippedSlot: EquipmentSlot | null = null) => {
@@ -249,10 +247,8 @@ export const ItemsPanel = () => {
   const renderSlot = (slot: EquipmentSlot) => {
     const itemId = player?.equipment[slot];
     const meta = itemId ? getItemMeta(itemId) : null;
-    const blocked = slot === 'weapon_off' && mainWeaponTwoHanded;
-
     return (
-      <article key={slot} className={['rounded-xl border bg-game-card p-3', meta ? rarityBorder[meta.rarity] : 'border-game-border', blocked ? 'opacity-60' : ''].join(' ')}>
+      <article key={slot} className={['rounded-xl border bg-game-card p-3', meta ? rarityBorder[meta.rarity] : 'border-game-border'].join(' ')}>
         <div className="flex items-start gap-3">
           <span className="text-3xl">{meta?.icon ?? slotIconFallback[slot]}</span>
           <div className="min-w-0 flex-1">
@@ -261,7 +257,6 @@ export const ItemsPanel = () => {
               {meta?.isTwoHanded && <span className="rounded bg-game-gold px-1.5 py-0.5 font-mono text-[10px] text-game-dark">{t('items.twoHandedBadge')}</span>}
             </div>
             <p className="truncate text-sm text-game-text">{itemId && meta ? itemName(meta) : t('items.slotEmpty')}</p>
-            {blocked && <p className="text-xs text-red-300">{t('items.twoHandedBlocked')}</p>}
             {meta && <p className="font-mono text-xs text-game-muted">{effectSummary(meta)}</p>}
           </div>
           {itemId && (
@@ -282,19 +277,15 @@ export const ItemsPanel = () => {
   const renderVisualizerSlot = (slot: EquipmentSlot) => {
     const itemId = player?.equipment[slot];
     const meta = itemId ? getItemMeta(itemId) : null;
-    const blocked = slot === 'weapon_off' && mainWeaponTwoHanded;
-
     return (
       <button
         key={slot}
         type="button"
-        disabled={blocked}
         onClick={() => (itemId ? openDetail({ itemStr: itemId, qty: 1 }, 'equipped', slot) : undefined)}
         className={[
           'relative flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border bg-game-card text-2xl transition-all shadow-sm',
           meta ? rarityBorder[meta.rarity] + ' hover:scale-105 active:scale-95' : 'border-night-600',
-          blocked ? 'opacity-40 grayscale' : '',
-          !itemId && !blocked ? 'text-game-muted opacity-60 hover:border-game-border hover:opacity-100 hover:scale-105 active:scale-95' : ''
+          !itemId ? 'text-game-muted opacity-60 hover:border-game-border hover:opacity-100 hover:scale-105 active:scale-95' : ''
         ].join(' ')}
         title={t(`items.slots.${slot}`)}
       >
@@ -588,26 +579,15 @@ export const ItemsPanel = () => {
                     {t('items.equipOff')}
                   </Button>
                 ) : selectedWeaponCategory ? (
-                  <>
-                    <Button
-                      onClick={() => {
-                        if (!equip(refOf(selectedItem), 'weapon_main')) {
-                          addNotification(t('items.sameWeaponCategory'), 'warning');
-                        }
-                      }}
-                    >
-                      {t('items.equipMain')}
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        if (!equip(refOf(selectedItem), 'weapon_off')) {
-                          addNotification(t('items.sameWeaponCategory'), 'warning');
-                        }
-                      }}
-                    >
-                      {t('items.equipOff')}
-                    </Button>
-                  </>
+                  <Button
+                    onClick={() => {
+                      if (!equip(refOf(selectedItem), 'weapon_main')) {
+                        addNotification(t('items.equipMain'), 'warning');
+                      }
+                    }}
+                  >
+                    {t('items.equipMain')}
+                  </Button>
                 ) : (
                   <Button disabled={!selectedMeta.slot} onClick={() => equip(refOf(selectedItem))}>
                     {t('items.equip')}

@@ -2,7 +2,7 @@ import type { WeaponCategory } from '../types/item.types';
 import { getItemByNumId } from '../utils/itemSerializer';
 
 /**
- * PROEFICIÊNCIAS DE ARMA (14) — o novo sistema de progressão de armas.
+ * PROEFICIÊNCIAS DE ARMA (10) — o novo sistema de progressão de armas.
  * Cada categoria de arma do catálogo é uma proficiência. O jogador sobe
  * proficiência usando a arma (ataques/skills/kills) e desbloqueia skills
  * e bônus passivos conforme o nível.
@@ -15,16 +15,12 @@ export const PROFICIENCIES: WeaponCategory[] = [
   'sword_two',
   'great_sword',
   'dagger',
-  'dagger_off',
   'bow_short',
   'bow_long',
   'staff_one',
   'staff_two',
-  'orb',
-  'tome',
   'hammer',
   'spear',
-  'shield'
 ];
 
 /** Teto de pontos de proficiência (generoso; balanceado pelos thresholds). */
@@ -46,16 +42,12 @@ export const PROFICIENCY_ICONS: Record<WeaponCategory, string> = {
   sword_two: '🗡',
   great_sword: '⚔',
   dagger: '🔪',
-  dagger_off: '🗡',
   bow_short: '🏹',
   bow_long: '🏹',
   staff_one: '🪄',
   staff_two: '🪄',
-  orb: '🔮',
-  tome: '📖',
   hammer: '🔨',
   spear: '🔱',
-  shield: '🛡',
   glyph: '🔯'
 };
 
@@ -90,9 +82,6 @@ export const equippedWeaponCategories = (equipment: {
 
   return [...new Set(categories)];
 };
-
-/** Armaduras/off-hands com categoria (escudo e adaga de apoio contam como arma). */
-export const isShieldCategory = (category: WeaponCategory | null): boolean => category === 'shield';
 
 /**
  * ARMAS INICIAIS — oferecidas na criação de personagem (nível 1).
@@ -149,11 +138,6 @@ export const PROFICIENCY_PASSIVES: Record<WeaponCategory, ProficiencyPassiveTier
     { at: 150, critChance: 0.03, critDamage: 0.05, dmgBonus: 0.01 },
     { at: 300, critChance: 0.03, critDamage: 0.05, dmgBonus: 0.01 }
   ],
-  dagger_off: [
-    { at: 50, critChance: 0.02, dmgBonus: 0.02 },
-    { at: 150, critChance: 0.02, dmgBonus: 0.03 },
-    { at: 300, critChance: 0.02, dmgBonus: 0.04 }
-  ],
   bow_short: [
     { at: 50, dmgBonus: 0.03, critChance: 0.01 },
     { at: 150, dmgBonus: 0.03, critChance: 0.01 },
@@ -174,16 +158,6 @@ export const PROFICIENCY_PASSIVES: Record<WeaponCategory, ProficiencyPassiveTier
     { at: 150, dmgBonus: 0.04, critChance: 0.01 },
     { at: 300, dmgBonus: 0.04, critChance: 0.01 }
   ],
-  orb: [
-    { at: 50, critDamage: 0.07, dmgBonus: 0.02 },
-    { at: 150, critDamage: 0.08, dmgBonus: 0.02 },
-    { at: 300, critDamage: 0.1, dmgBonus: 0.02 }
-  ],
-  tome: [
-    { at: 50, healBonus: 0.03, defBonus: 0.02 },
-    { at: 150, healBonus: 0.03, defBonus: 0.03 },
-    { at: 300, healBonus: 0.04, defBonus: 0.04 }
-  ],
   hammer: [
     { at: 50, defBonus: 0.04, dmgBonus: 0.02 },
     { at: 150, defBonus: 0.04, dmgBonus: 0.02 },
@@ -193,11 +167,6 @@ export const PROFICIENCY_PASSIVES: Record<WeaponCategory, ProficiencyPassiveTier
     { at: 50, dmgBonus: 0.03, critChance: 0.01 },
     { at: 150, dmgBonus: 0.04, critChance: 0.01 },
     { at: 300, dmgBonus: 0.05, critChance: 0.01 }
-  ],
-  shield: [
-    { at: 50, defBonus: 0.04, healBonus: 0.02 },
-    { at: 150, defBonus: 0.04, healBonus: 0.02 },
-    { at: 300, defBonus: 0.04, healBonus: 0.02 }
   ],
   // GLIFO de off-hand: ferramenta arcana (2º elemento/fusão), sem bônus de
   // combate próprio — o poder vem do elemento que ele carimba na arma.

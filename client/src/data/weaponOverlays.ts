@@ -34,6 +34,9 @@ const IDLE_ANCHOR: OverlayAnchor = { x: 0.22, y: 0.48, w: 0.22, rot: 8 };
 const BOTH = { female: { idle: IDLE_ANCHOR }, male: { idle: IDLE_ANCHOR } };
 
 export const WEAPON_OVERLAYS: Record<string, WeaponOverlayDef> = {
+  // Relíquias próprias: visual sóbrio e distinto, sem o brilho excessivo de tiers.
+  ov_relic_greatsword: { file: 'ov_relic_greatsword', anchors: { female: { idle: { x: 0.2, y: 0.46, w: 0.28, rot: 8 }, attack: { x: 0.2, y: 0.46, w: 0.28, rot: 8 } }, male: { idle: { x: 0.2, y: 0.46, w: 0.28, rot: 8 }, attack: { x: 0.2, y: 0.46, w: 0.28, rot: 8 } } } },
+  ov_relic_greatstaff: { file: 'ov_relic_greatstaff', anchors: { female: { idle: { x: 0.2, y: 0.42, w: 0.24, rot: 4 }, attack: { x: 0.2, y: 0.42, w: 0.24, rot: 4 } }, male: { idle: { x: 0.2, y: 0.42, w: 0.24, rot: 4 }, attack: { x: 0.2, y: 0.42, w: 0.24, rot: 4 } } } },
   ov_sword: { file: 'ov_sword', anchors: {"female":{"idle":{"x":0.22,"y":0.48,"w":0.22,"rot":8},"attack":{"x":0.22,"y":0.48,"w":0.22,"rot":8}},"male":{"idle":{"x":0.22,"y":0.48,"w":0.22,"rot":8},"attack":{"x":0.22,"y":0.48,"w":0.22,"rot":8}}} },
   ov_sword_t1: { file: 'ov_sword_t1', anchors: {"female":{"idle":{"x":0.22,"y":0.48,"w":0.22,"rot":8},"attack":{"x":0.22,"y":0.48,"w":0.22,"rot":8}},"male":{"idle":{"x":0.22,"y":0.48,"w":0.22,"rot":8},"attack":{"x":0.22,"y":0.48,"w":0.22,"rot":8}}} },
   ov_sword_sprint: { file: 'ov_sword_sprint', anchors: {"female":{"idle":{"x":0.22,"y":0.48,"w":0.22,"rot":8},"attack":{"x":0.22,"y":0.48,"w":0.22,"rot":8}},"male":{"idle":{"x":0.22,"y":0.48,"w":0.22,"rot":8},"attack":{"x":0.22,"y":0.48,"w":0.22,"rot":8}}} },
@@ -169,40 +172,13 @@ export const WEAPON_OVERLAYS: Record<string, WeaponOverlayDef> = {
   ov_bowlong_dark_t3: { file: 'ov_bowlong_dark_t3', anchors: {"female":{"idle":{"x":0.22,"y":0.4,"w":0.22,"rot":3},"attack":{"x":0.22,"y":0.4,"w":0.22,"rot":3}},"male":{"idle":{"x":0.22,"y":0.4,"w":0.22,"rot":3},"attack":{"x":0.22,"y":0.4,"w":0.22,"rot":3}}} },
   ov_bowlong_light_t2: { file: 'ov_bowlong_light_t2', anchors: {"female":{"idle":{"x":0.22,"y":0.4,"w":0.22,"rot":3},"attack":{"x":0.22,"y":0.4,"w":0.22,"rot":3}},"male":{"idle":{"x":0.22,"y":0.4,"w":0.22,"rot":3},"attack":{"x":0.22,"y":0.4,"w":0.22,"rot":3}}} },
   ov_bowlong_light_t3: { file: 'ov_bowlong_light_t3', anchors: {"female":{"idle":{"x":0.22,"y":0.4,"w":0.22,"rot":3},"attack":{"x":0.22,"y":0.4,"w":0.22,"rot":3}},"male":{"idle":{"x":0.22,"y":0.4,"w":0.22,"rot":3},"attack":{"x":0.22,"y":0.4,"w":0.22,"rot":3}}} },
-  ov_orb: { file: 'ov_orb', anchors: {"female":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}},"male":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}}} },
-  ov_orb_t1: { file: 'ov_orb_t1', anchors: {"female":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}},"male":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}}} },
-  ov_orb_sprint: { file: 'ov_orb_sprint', anchors: {"female":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}},"male":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}}} },
-  ov_orb_fire_t2: { file: 'ov_orb_fire_t2', anchors: {"female":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}},"male":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}}} },
-  ov_orb_fire_t3: { file: 'ov_orb_fire_t3', anchors: {"female":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}},"male":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}}} },
-  ov_orb_water_t2: { file: 'ov_orb_water_t2', anchors: {"female":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}},"male":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}}} },
-  ov_orb_water_t3: { file: 'ov_orb_water_t3', anchors: {"female":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}},"male":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}}} },
-  ov_orb_earth_t2: { file: 'ov_orb_earth_t2', anchors: {"female":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}},"male":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}}} },
-  ov_orb_earth_t3: { file: 'ov_orb_earth_t3', anchors: {"female":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}},"male":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}}} },
-  ov_orb_wind_t2: { file: 'ov_orb_wind_t2', anchors: {"female":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}},"male":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}}} },
-  ov_orb_wind_t3: { file: 'ov_orb_wind_t3', anchors: {"female":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}},"male":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}}} },
-  ov_orb_dark_t2: { file: 'ov_orb_dark_t2', anchors: {"female":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}},"male":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}}} },
-  ov_orb_dark_t3: { file: 'ov_orb_dark_t3', anchors: {"female":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}},"male":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}}} },
-  ov_orb_light_t2: { file: 'ov_orb_light_t2', anchors: {"female":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}},"male":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}}} },
-  ov_orb_light_t3: { file: 'ov_orb_light_t3', anchors: {"female":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}},"male":{"idle":{"x":0.3,"y":0.4,"w":0.3,"rot":0},"attack":{"x":0.3,"y":0.4,"w":0.3,"rot":0}}} },
-  ov_tome: { file: 'ov_tome', anchors: {"female":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}},"male":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}}} },
-  ov_tome_t1: { file: 'ov_tome_t1', anchors: {"female":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}},"male":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}}} },
-  ov_tome_sprint: { file: 'ov_tome_sprint', anchors: {"female":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}},"male":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}}} },
-  ov_tome_fire_t2: { file: 'ov_tome_fire_t2', anchors: {"female":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}},"male":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}}} },
-  ov_tome_fire_t3: { file: 'ov_tome_fire_t3', anchors: {"female":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}},"male":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}}} },
-  ov_tome_water_t2: { file: 'ov_tome_water_t2', anchors: {"female":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}},"male":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}}} },
-  ov_tome_water_t3: { file: 'ov_tome_water_t3', anchors: {"female":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}},"male":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}}} },
-  ov_tome_earth_t2: { file: 'ov_tome_earth_t2', anchors: {"female":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}},"male":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}}} },
-  ov_tome_earth_t3: { file: 'ov_tome_earth_t3', anchors: {"female":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}},"male":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}}} },
-  ov_tome_wind_t2: { file: 'ov_tome_wind_t2', anchors: {"female":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}},"male":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}}} },
-  ov_tome_wind_t3: { file: 'ov_tome_wind_t3', anchors: {"female":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}},"male":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}}} },
-  ov_tome_dark_t2: { file: 'ov_tome_dark_t2', anchors: {"female":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}},"male":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}}} },
-  ov_tome_dark_t3: { file: 'ov_tome_dark_t3', anchors: {"female":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}},"male":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}}} },
-  ov_tome_light_t2: { file: 'ov_tome_light_t2', anchors: {"female":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}},"male":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}}} },
-  ov_tome_light_t3: { file: 'ov_tome_light_t3', anchors: {"female":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}},"male":{"idle":{"x":0.28,"y":0.42,"w":0.3,"rot":-4},"attack":{"x":0.28,"y":0.42,"w":0.3,"rot":-4}}} },
 };
 
 /** Itens com overlay específico (fora da regra por elemento). */
-const ITEM_OVERLAY: Record<string, string> = {};
+const ITEM_OVERLAY: Record<string, string> = {
+  w2h_1505: 'ov_relic_greatsword',
+  w2h_1755: 'ov_relic_greatstaff',
+};
 
 const hasOverlayKey = (key: string) => Boolean(WEAPON_OVERLAYS[key]);
 
@@ -212,6 +188,21 @@ export interface ResolvedOverlay {
   file: string;
   anchor: OverlayAnchor;
 }
+
+/**
+ * Poses sem âncora desenhada reutilizam a posição idle com deslocamento leve.
+ * Isso mantém a arma acompanhando walk/cast/hit até existirem sprites de âncora
+ * específicas, sem usar um segundo fallback de arte.
+ */
+const anchorForState = (base: OverlayAnchor, state: CharState): OverlayAnchor => {
+  switch (state) {
+    case 'walk': return { ...base, x: base.x + 0.012, y: base.y + 0.012, rot: (base.rot ?? 0) - 3 };
+    case 'cast': return { ...base, x: base.x + 0.055, y: base.y - 0.045, rot: (base.rot ?? 0) - 13 };
+    case 'hit': return { ...base, x: base.x - 0.018, y: base.y + 0.02, rot: (base.rot ?? 0) + 7 };
+    case 'death': return { ...base, x: base.x - 0.05, y: base.y + 0.12, rot: (base.rot ?? 0) + 28 };
+    default: return base;
+  }
+};
 
 /**
  * Resolve o overlay de arma da instância.
@@ -230,10 +221,14 @@ export const resolveWeaponOverlay = (
   const item = weaponRef ? resolveItemRef(weaponRef) : undefined;
   if (!item) return null;
 
-  let key: string | null = null;
+  // Visual único de item vence o tier genérico e o elemento.
+  let key: string | null = ITEM_OVERLAY[item.id] && hasOverlayKey(ITEM_OVERLAY[item.id]) ? ITEM_OVERLAY[item.id] : null;
+  // Algumas armas reutilizam a âncora T1, mas possuem PNGs próprios T2/T3.
+  // Mantemos a âncora e trocamos apenas o arquivo, evitando fallback visual T1.
+  let tierFileOverride: string | null = null;
   const catKey = weaponCategoryKey(item.weaponCategory);
 
-  if (catKey) {
+  if (!key && catKey) {
     const effects = item.effects as Record<string, unknown> | undefined;
     let upgrade = 0;
     if (effects) {
@@ -265,7 +260,13 @@ export const resolveWeaponOverlay = (
     // Fallback tier (sem elemento)
     if (!key) {
         const tKey = `ov_${catKey}_${tier}`;
-        if (hasOverlayKey(tKey)) key = tKey;
+        if (hasOverlayKey(tKey)) {
+          key = tKey;
+        } else if ((tier === 't2' || tier === 't3') && hasOverlayKey(`ov_${catKey}_t1`)) {
+          // PNG T2/T3 existe para a categoria, mas a âncora canônica é T1.
+          key = `ov_${catKey}_t1`;
+          tierFileOverride = `ov_${catKey}_${tier}`;
+        }
     }
   }
 
@@ -273,16 +274,14 @@ export const resolveWeaponOverlay = (
       key = `ov_${catKey}`;
   }
 
-  if (!key && ITEM_OVERLAY[item.id] && hasOverlayKey(ITEM_OVERLAY[item.id])) {
-      key = ITEM_OVERLAY[item.id];
-  }
-
   if (!key && hasOverlayKey('ov_sword')) key = 'ov_sword';
   if (!key) return null;
 
   const def = WEAPON_OVERLAYS[key];
-  const anchor = def.anchors[gender]?.[state] ?? def.anchors[gender]?.idle;
+  const explicitAnchor = def.anchors[gender]?.[state];
+  const idleAnchor = def.anchors[gender]?.idle;
+  const anchor = explicitAnchor ?? (idleAnchor ? anchorForState(idleAnchor, state) : undefined);
   if (!anchor) return null;
 
-  return { file: `/assets/sprites/${def.file}.png`, anchor };
+  return { file: `/assets/sprites/${tierFileOverride ?? def.file}.png`, anchor };
 };

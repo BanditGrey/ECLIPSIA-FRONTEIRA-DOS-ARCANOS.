@@ -22,6 +22,7 @@ import { TradeSession } from './models/TradeSession.js';
 import { PartySession } from './models/PartySession.js';
 import { addToInventory, isValidItemRef, removeFromInventory } from './utils/gameUtils.js';
 import { notifyPlayer, onlinePlayers, setIO } from './utils/notify.js';
+import { logger } from './utils/logger.js';
 import {
   HUNT_SUMMARY_INTERVAL_MS,
   MAX_PARTY_SIZE,
@@ -110,8 +111,17 @@ app.use('/api/mail/send', actionLimiter);
 app.use('/api/market/list', actionLimiter);
 app.use('/api/market/buy', actionLimiter);
 
+const startedAt = Date.now();
+
 app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', online: onlinePlayers.size });
+  const databaseReady = isDbReady();
+  res.status(databaseReady ? 200 : 503).json({
+    status: databaseReady ? 'ok' : 'degraded',
+    database: databaseReady ? 'ready' : 'sandbox-mock',
+    online: onlinePlayers.size,
+    uptimeSeconds: Math.floor((Date.now() - startedAt) / 1000),
+    now: new Date().toISOString(),
+  });
 });
 
 app.get('/api/world/state', (_req, res) => {
@@ -1047,21 +1057,21 @@ const startServer = async () => {
     savedParties.forEach(p => {
       parties.set(p.partyId, { id: p.partyId, ...p });
     });
-    console.log(`[Memory] Restauradas ${savedTrades.length} trades e ${savedParties.length} parties.`);
+    logger.info({ trades: savedTrades.length, parties: savedParties.length }, 'Sessões em memória restauradas');
   } catch (err) {
-    console.error('[Memory] Erro ao restaurar sessões do banco', err);
+    logger.error({ err }, 'Erro ao restaurar sessões do banco');
   }
 
   const port = process.env.PORT || 5000;
 
   server.listen(port, () => {
-    console.log(`Servidor Eclipsia ouvindo na porta ${port}`);
+    logger.info({ port, database: isDbReady() ? 'ready' : 'sandbox-mock' }, 'Servidor Eclipsia iniciado');
   });
 };
 
 // Graceful shutdown (Railway/Docker enviam SIGTERM)
 const shutdown = (signal) => {
-  console.log(`Recebido ${signal}, encerrando...`);
+  logger.info({ signal }, 'Encerramento solicitado');
 
   server.close(() => process.exit(0));
   setTimeout(() => process.exit(0), 5000).unref();

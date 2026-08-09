@@ -9,8 +9,10 @@ import type { Item } from '../types/item.types';
 import { combatEngine } from './combat';
 import { hiddenEventsSystem } from './hiddenEvents';
 import { questSystem } from './quests';
+import { ELEMENT_REWARD_CHANCE, stampWeaponReward } from '../data/elementRewards';
+import { recordTelemetry } from './telemetry';
 
-export type ExploreEventType = 'item' | 'gold' | 'xp' | 'ambush' | 'rare_event' | 'secret_discovery';
+export type ExploreEventType = 'item' | 'chest' | 'gold' | 'xp' | 'ambush' | 'rare_event' | 'secret_discovery';
 
 export interface ExploreResult {
   type: ExploreEventType;
@@ -95,7 +97,21 @@ const getRegionMaterial = (regionId: string) => {
   return pickRandom(lootItems.length > 0 ? lootItems : ['mat_9000']);
 };
 
+/** Baús de exploração sempre entregam arma principal; o elemento é um roll extra. */
+const CHEST_WEAPONS_BY_REGION: Record<string, string[]> = {
+  nythera: ['w1h_1002', 'w1h_1102', 'w1h_1201'],
+  valedouro: ['w1h_1004', 'w2h_1600', 'w2h_1651'],
+  ormara: ['w1h_1151', 'w2h_1501', 'w2h_1701'],
+  ceupartido: ['w2h_1751', 'w2h_1652', 'w2h_1702'],
+  abissal: ['w2h_1502', 'w1h_1103', 'w2h_1752'],
+  fragmento: ['w1h_1005', 'w2h_1504', 'w2h_1754'],
+};
+
+const getExplorationChestWeapon = (regionId: string) =>
+  pickRandom(CHEST_WEAPONS_BY_REGION[regionId] ?? CHEST_WEAPONS_BY_REGION.nythera);
+
 const feedExplorationSystems = (region: string) => {
+  recordTelemetry('exploration', { region });
   questSystem.onExplore(region);
   usePlayerStore.getState().recordDailyEvent('explore');
   hiddenEventsSystem.recordExplore(region);
@@ -116,6 +132,18 @@ export const worldSystem = {
         type: 'item',
         region,
         itemId,
+        explorationTimeMultiplier
+      };
+    }
+
+    if (roll < 0.31) {
+      const weaponRef = stampWeaponReward(getExplorationChestWeapon(region), ELEMENT_REWARD_CHANCE.chest);
+      usePlayerStore.getState().addItem(weaponRef, 1);
+      useGameStore.getState().addNotification(`✦ ${t('notifications.itemFound')}`, 'gold');
+      return {
+        type: 'chest',
+        region,
+        itemId: weaponRef,
         explorationTimeMultiplier
       };
     }

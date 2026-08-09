@@ -1,37 +1,31 @@
-FASE 2 — CHECKLIST MESTRE
-Player [x] | Inimigos [x] | Boss [x] | Armas [x] | Itens [x] | Cenário [x] | VFX [x] | UI [x]
+# ✅ CHECKLIST MESTRE — 2026-08-09
 
-Lote 1: A1-A3, A6-A8, A10-A12 (crítico) — implementado via SkillEffectPanel + animações + SFXEngine
-Lote 2: A4, A5, A9, A13, A14, A18 — concluído nesta sessão (ver abaixo)
-Lote 3: A15-A17, A19-A22 — concluído nesta sessão (ver abaixo)
+## Fundação
+- [x] Client React/Vite/Zustand e server Express/Socket.io/Mongo.
+- [x] UI em pt-BR, en-US, es-ES e ja-JP.
+- [x] ItemEffects, itemStr, inventário, craft, upgrade, encantamento e sets.
+- [x] Mercado, leilão, correio, guilda, party, trade e chat social.
+- [x] 10 proficiências de arma principal e 70 skills.
+- [x] Mão secundária exclusiva para glifos; migração segura de saves legados.
+- [x] Elementos, fusões, auras, stamps e baús de exploração.
+- [x] Equipamento em camadas, 70 FX de skill, assets estáticos e auditoria de assets.
 
-Estado: Fase 2 concluída + continuação 2026-08-06.
+## Visual pendente
+- [ ] Validar em Sandbox glifo neutro, fusões e poses de combate.
+- [ ] Anchors desenhados específicos por categoria de arma.
+- [ ] T1/T3 próprios para fogo, terra e vento.
 
-Progresso adicional (2026-08-06):
-- ✅ 13 sprites novas (monstros + base male/female) + remove_bg.py corrigido (black_bg + sat<5)
-- ✅ MonsterLayered resolveSprite atualizado (mirage/dune/storm/cloud/sea/deep/forest)
-- ✅ Glow do jogador dinâmico por damageType (CombatPanel) — physical/magical/void/default
-- ✅ Build OK (923 KB chunk) · branch `arena/019fd457...` · push OK
+## Robustez pendente
+- [x] Pino + healthcheck detalhado + persistência de party/trade em Mongo.
+- [x] Telemetria local de combate, exploração, craft e upgrade.
+- [ ] Testes de integração com Mongo real para mail, market, guild e trade.
+- [ ] Deploy definitivo e teste multiplayer com duas contas.
 
-Progresso desta sessão (2026-08-04):
-- ✅ Build restaurado (4 erros de tsc corrigidos) + baselines 89/89 · 41/41 · 18/18
-- ✅ ParticleSystem (canvas, pooling, blend aditivo/glow) por tipo de efeito
-- ✅ SkillEffectPanel reescrito: partículas + dano flutuante + screen shake + SFX por tipo
-- ✅ FX de skill integrado ao cast real (combat store -> CombatPanel) + botão "Usar" no modal
-- ✅ CombatOutcomeScreen: Vitória/Derrota cinematográfica (A17)
-- ✅ ArcaneIcon (SVG) no HUD de combate e no Navbar (A08/A09)
-- ✅ Skill Tree: PassivePanel v2 com nós conectados + burst no unlock + aba no Perfil (A11)
-- ✅ Cenário arcano animado no campo de batalha (ArcaneField) (A12)
-- ✅ Feedback de dano sofrido: shake + flash + partículas (A16)
-- ✅ Arte gerada: 3 bosses (azhur, thal_mora, velkaryn) + 6 monstros (A03/A04)
-- ✅ i18n novo nos 4 idiomas (cast, combat.outcome.*, profile.tabs.passives)
-
-Continuidade (2026-08-04, 2ª leva):
-- ✅ Boss Room funcional (A04): BossPanel com lista de colossos, retratos, nível de
-      acesso a cada 20 níveis e entrada em combate via combatEngine.start({ bossId });
-      novo painel 'boss' + aba no Navbar
-- ✅ Transição cinematográfica entre painéis (A15): fade/slide/brightness no GameLayout
-- ✅ HUD profissional: Header com ícones arcano (coin/gem/settings) p/ moedas e configurações (A09)
-- ✅ Loot na tela de vitória (A13): handleVictory guarda lastLoot; CombatOutcomeScreen
-      exibe itens ganhos (nome i18n + qtd + baú)
-- ✅ Baselines intactos em todas as entregas (89/89 · 41/41 · build OK)
+## Baseline
+- [x] `npx tsc --noEmit`
+- [x] `npm run build`
+- [x] `npm run audit` — 89/89
+- [x] `npm run audit:social` — 41/41
+- [x] `npm run audit:balance`
+- [x] `npm run audit:assets`
+- [x] `cd ../server && npm test` — 20/20

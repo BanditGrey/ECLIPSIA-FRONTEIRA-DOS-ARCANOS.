@@ -75,7 +75,8 @@ export const resolveFusion = (
   const offItem = offRef ? resolveItemRef(offRef) : undefined;
   // Poder vem do catálogo de glifos (raridade) quando disponível; senão, do
   // elemento carimbado na instância. Glifos neutros nunca chegam aqui (b=null).
-  const glyphDef = offRef ? getGlyph(offRef) : undefined;
+  // `offRef` pode ser itemStr; a definição do catálogo usa o id resolvido.
+  const glyphDef = offItem ? getGlyph(offItem.id) : undefined;
   const offPower = glyphDef?.power ?? elementOfItemInstance(offItem)?.power ?? 25;
   const tier: 1 | 2 | 3 = offPower >= 50 ? 3 : offPower >= 25 ? 2 : 1;
 

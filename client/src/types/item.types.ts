@@ -22,10 +22,6 @@ export type WeaponCategory =
   | 'bow_long'
   | 'staff_one'
   | 'staff_two'
-  | 'shield'
-  | 'orb'
-  | 'tome'
-  | 'dagger_off'
   | 'glyph';
 
 export type Slot =

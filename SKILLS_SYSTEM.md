@@ -3,20 +3,18 @@
 > Referência definitiva do sistema (Caso 8/9). **Não voltar a discutir o design —
 > aqui está o contrato.** Dados no código: `client/src/data/proficiencies.ts`,
 > `client/src/data/skills.ts`, `client/src/data/weaponCombos.ts`.
-> Status: v1.0 (2026-08-03) · Baselines: tsc OK · build OK · 89/89 · 41/41 · 18/18.
+> Status: v1.0 consolidado em **2026-08-09**. Este é o contrato mecânico; rode os comandos de validação antes de repetir contagens históricas. A prioridade visual está em `SKILLS_SPRINT.md`.
 
 ---
 
 ## 1. FILOSOFIA
 
-- **Não existe classe fixa.** O jogador é definido pelas **2 armas equipadas**
-  (principal + secundária). Trocar de arma = trocar de build, sem custo, sem
-  criar outro personagem.
-- **Toda arma pode ser equipada em QUALQUER mão** (main ou off) — não há arma
-  exclusiva de mão. Espadão + escudo, cajado + espadão, adaga + arco: tudo vale.
-  Exceção (regra de ouro): **a MESMA categoria de arma não pode ocupar as duas
-  mãos** (ex.: 2 espadas de uma mão). Armas de "duas mãos" não bloqueiam mais a
-  outra mão — o termo vira só flavor.
+- **Não existe classe fixa.** O jogador é definido pela arma principal e pelo
+  glifo equipado. Trocar de arma = trocar de build, sem custo.
+- Existem **10 categorias de arma principal**. A mão secundária é exclusiva de
+  glifos: armas, escudos, orbes, tomos e adagas off-hand foram removidos.
+  Glifos não têm proficiência nem skills; eles selam o segundo elemento e podem
+  ativar uma fusão.
 - As **Origens** (6 antigos arquétipos) são **cosméticas** (retrato, sigilo,
   título) — zero efeito mecânico.
 - Cada arma tem: **proficiência** (progressão de pontos), **passivas** (marcos)
@@ -29,11 +27,11 @@
 
 | Ação | XP de proficiência (por arma equipada) |
 |---|---|
-| Ataque básico | +1 |
-| Usar skill | +2 |
-| Abater inimigo | +3 |
-| Andar de dungeon concluído | +5 |
-| Matar boss (dungeon/world) | +15 |
+| Ataque básico | +1 para a arma principal |
+| Usar skill | +2 para a arma principal |
+| Abater inimigo | +3 para a arma principal |
+| Andar de dungeon concluído | +5 para a arma principal |
+| Matar boss (dungeon/world) | +15 para a arma principal |
 
 - **Teto**: 1000 pontos por categoria.
 - **Marcos de skill**: 10 · 25 · 30 · 40 · 50 · 60 · 70 · 80 · 100 · 120
@@ -91,7 +89,7 @@ danoFinal = max(1, floor(danoBase × multiplicador − defInimigo×0.35))
 
 ---
 
-## 4. SKILLS POR ARMA (98 skills — **7 por arma**, obrigatório)
+## 4. SKILLS POR ARMA (70 skills — **7 por arma**, obrigatório)
 
 > ⚙️ **Fonte de verdade: `tools/gen_skills.mjs`** — o gerador cria
 > `client/src/data/skills.ts` + o bloco i18n "skills" (4 idiomas).
@@ -175,8 +173,8 @@ Além dos effects primários/combate existentes, estes 10 effects afetam
 
 ## 8. CHECKLIST DE STATUS
 
-- [x] 14 proficiências com XP por uso (ataque/skill/abate) e cap 1000
-- [x] **98 skills — exatamente 7 por arma** (geradas por `tools/gen_skills.mjs`)
+- [x] 10 proficiências com XP por uso (ataque/skill/abate) e cap 1000
+- [x] **70 skills — exatamente 7 por arma** (geradas por `tools/gen_skills.mjs`)
 - [x] **Toda arma equipável em qualquer mão** (main/off); mesma categoria
       bloqueada nas duas mãos; "duas mãos" não bloqueia mais a off
 - [x] Passivas por marcos (50/150/300) integradas (dano, crítico, cura, defesa)

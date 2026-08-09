@@ -108,7 +108,7 @@ for (const prof of PROFICIENCIES) {
 // ═══ RESULTADO ═══
 console.log('');
 if (errors === 0) {
-  console.log('✅ AUDITORIA DE BALANCEAMENTO OK (passivas + 98 skills)');
+  console.log('✅ AUDITORIA DE BALANCEAMENTO OK (passivas + 70 skills)');
   process.exit(0);
 } else {
   console.log(`❌ ${errors} problema(s) de balanceamento`);

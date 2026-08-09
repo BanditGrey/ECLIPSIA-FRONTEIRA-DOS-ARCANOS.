@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { useI18n } from '../../hooks/useI18n';
 import { useGameStore } from '../../store/useGameStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
+import { ELEMENT_REWARD_CHANCE, stampWeaponReward } from '../../data/elementRewards';
 import type { Equipment } from '../../types/player.types';
 import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
@@ -47,11 +48,18 @@ const npcs: NpcEntry[] = [
 ];
 
 const shopItems: ShopEntry[] = [
-  { id: 'sword_one_common_shop', icon: '⚔', category: 'weapons', rarity: 'common', price: 100, level: 1, stats: '+10' },
+  { id: 'w1h_1000', icon: '⚔', category: 'weapons', rarity: 'common', price: 100, level: 1, stats: '+10' },
+  { id: 'w1h_1100', icon: '🗡', category: 'weapons', rarity: 'common', price: 100, level: 1, stats: '+12' },
+  { id: 'w1h_1150', icon: '🪄', category: 'weapons', rarity: 'common', price: 140, level: 1, stats: '+14' },
+  { id: 'w1h_1200', icon: '🏹', category: 'weapons', rarity: 'common', price: 120, level: 1, stats: '+11' },
+  { id: 'w2h_1500', icon: '⚔', category: 'weapons', rarity: 'uncommon', price: 260, level: 5, stats: '+24' },
+  { id: 'w2h_1600', icon: '🔨', category: 'weapons', rarity: 'uncommon', price: 220, level: 5, stats: '+25' },
+  { id: 'w2h_1650', icon: '🔱', category: 'weapons', rarity: 'uncommon', price: 240, level: 5, stats: '+23' },
+  { id: 'w2h_1700', icon: '🏹', category: 'weapons', rarity: 'uncommon', price: 260, level: 5, stats: '+22' },
   { id: 'ch_3001', icon: '🥋', category: 'armor', rarity: 'uncommon', price: 160, level: 5, stats: '+8' },
-  { id: 'amulet_rare_shop', icon: '🔮', category: 'accessories', rarity: 'rare', price: 300, level: 10, stats: '+5' },
-  { id: 'pet_common_shop', icon: '🐾', category: 'pet', rarity: 'common', price: 250, level: 1, stats: '+1' },
-  { id: 'mount_common_shop', icon: '🐴', category: 'mount', rarity: 'common', price: 500, level: 15, stats: '10%'
+  { id: 'am_7000', icon: '🔮', category: 'accessories', rarity: 'rare', price: 300, level: 10, stats: '+5' },
+  { id: 'pt_8000', icon: '🐾', category: 'pet', rarity: 'common', price: 250, level: 1, stats: '+1' },
+  { id: 'mt_8500', icon: '🐴', category: 'mount', rarity: 'common', price: 500, level: 15, stats: '10%'
   }
 ];
 
@@ -110,7 +118,8 @@ export const CityPanel = () => {
       return;
     }
 
-    if (!addItem(item.id, 1)) {
+    const rewardRef = stampWeaponReward(item.id, ELEMENT_REWARD_CHANCE.shop);
+    if (!addItem(rewardRef, 1)) {
       addNotification(t('errors.inventoryFull'), 'error');
       return;
     }

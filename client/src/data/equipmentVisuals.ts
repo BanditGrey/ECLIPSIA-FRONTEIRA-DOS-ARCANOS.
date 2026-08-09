@@ -51,6 +51,20 @@ export const ITEM_VISUALS: Record<string, ItemVisual> = {
 /** Sprites full-body por elemento da roda de 6 (female; male = fallback).
  * água/sombrio/luz reusam arquivos da roda antiga (gelo/sombra/sagrada). */
 const SPRITE_FILE: Record<string, string> = {
+  // Artes próprias da roda oficial, com tier e gênero dedicados.
+  el_fire_t2: 'el_fire_t2',
+  el_earth_t2: 'el_earth_t2',
+  el_wind_t2: 'el_wind_t2',
+  el_water_t1: 'el_water_t1',
+  el_water_t2: 'el_water_t2',
+  el_water_t3: 'el_water_t3',
+  el_dark_t1: 'el_dark_t1',
+  el_dark_t2: 'el_dark_t2',
+  el_dark_t3: 'el_dark_t3',
+  el_light_t1: 'el_light_t1',
+  el_light_t2: 'el_light_t2',
+  el_light_t3: 'el_light_t3',
+  // Fallbacks legados apenas para tiers ainda sem sprite própria.
   water: 'el_ice',
   dark: 'el_shadow',
   light: 'el_holy',
@@ -65,7 +79,21 @@ const SPRITES: Record<string, Partial<Record<Gender, Partial<Record<CharState, n
   shadow: { female: { idle: [1] }, male: { idle: [1] } },
   legendary: { female: { idle: [1] }, male: { idle: [1] } },
   mist: { female: { idle: [1] }, male: { idle: [1] } },
-  // elementos da roda (full-body legado)
+  // Fogo, terra e vento: arte própria T2 para ambos os gêneros.
+  el_fire_t2: { female: { idle: [1] }, male: { idle: [1] } },
+  el_earth_t2: { female: { idle: [1] }, male: { idle: [1] } },
+  el_wind_t2: { female: { idle: [1] }, male: { idle: [1] } },
+  // Água, sombrio e luz: artes próprias T1-T3 para ambos os gêneros.
+  el_water_t1: { female: { idle: [1] }, male: { idle: [1] } },
+  el_water_t2: { female: { idle: [1] }, male: { idle: [1] } },
+  el_water_t3: { female: { idle: [1] }, male: { idle: [1] } },
+  el_dark_t1: { female: { idle: [1] }, male: { idle: [1] } },
+  el_dark_t2: { female: { idle: [1] }, male: { idle: [1] } },
+  el_dark_t3: { female: { idle: [1] }, male: { idle: [1] } },
+  el_light_t1: { female: { idle: [1] }, male: { idle: [1] } },
+  el_light_t2: { female: { idle: [1] }, male: { idle: [1] } },
+  el_light_t3: { female: { idle: [1] }, male: { idle: [1] } },
+  // elementos legados usados somente como fallback de tiers sem arte própria
   fire: { female: { idle: [1], attack: [1] } },
   earth: { female: { idle: [1] } },
   wind: { female: { idle: [1] } },

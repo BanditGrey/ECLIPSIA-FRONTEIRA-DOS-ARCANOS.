@@ -2,7 +2,7 @@
 // ⚙️ GERADOR OFICIAL — cria client/src/data/skills.ts + bloco i18n "skills" (4 idiomas)
 // Uso: node tools/gen_skills.mjs  (da raiz do repo)
 // Regras de balanceamento (auditadas automaticamente ao rodar):
-//   1. 7 skills por arma (14 × 7 = 98)
+//   1. 7 skills por arma (10 × 7 = 70)
 //   2. Burst (dano%×hits) NUNCA regride entre skills de dano puro (por arma)
 //   3. DPS (burst/(cd+1)) ≥ 30 para dano puro
 //   4. MP ≈ 20-35% do burst
@@ -42,13 +42,6 @@ const SKILLS = [
   N('shadow_step', 'dagger', 60, '👤', 55, 5, { damageType: 'physical', damagePercent: 195, dodgeNext: true }, 'Passo Sombrio', 'Shadow Step', 'Paso Sombrío', 'シャドウステップ'),
   N('fan_of_knives', 'dagger', 80, '🎴', 60, 5, { damageType: 'physical', damagePercent: 75, hits: 3 }, 'Leque de Adagas', 'Fan of Knives', 'Abanico de Dagas', 'ファンオブナイフ'),
   N('assassinate', 'dagger', 100, '🗡', 90, 8, { damageType: 'physical', damagePercent: 320, executeBelowHpPercent: 25 }, 'Assassinar', 'Assassinate', 'Asesinar', 'アサシネイト'),
-  N('feint', 'dagger_off', 15, '💨', 25, 2, { damageType: 'physical', damagePercent: 125, slowTurns: 2 }, 'Finta', 'Feint', 'Finta', 'フェイント'),
-  N('double_slash', 'dagger_off', 25, '⚔', 35, 3, { damageType: 'physical', damagePercent: 95, hits: 2 }, 'Corte Duplo', 'Double Slash', 'Tajo Doble', 'ダブルスラッシュ'),
-  N('riposte', 'dagger_off', 30, '🗡', 35, 3, { damageType: 'physical', damagePercent: 145, dodgeNext: true }, 'Riposta', 'Riposte', 'Riposta', 'リポスト'),
-  N('lacerate', 'dagger_off', 50, '🩸', 50, 4, { dotDamage: 55, dotTurns: 3 }, 'Lacerar', 'Lacerate', 'Lacerar', 'ラセレイト'),
-  N('twin_fang', 'dagger_off', 70, '🦷', 50, 4, { damageType: 'physical', damagePercent: 105, hits: 2 }, 'Presas Gêmeas', 'Twin Fang', 'Colmillos Gemelos', 'ツインファング'),
-  N('whirl_dagger', 'dagger_off', 90, '🌀', 60, 5, { damageType: 'physical', damagePercent: 62, hits: 4 }, 'Adaga Giratória', 'Whirl Dagger', 'Daga Giratoria', 'ワールダガー'),
-  N('shadow_parry', 'dagger_off', 110, '🌑', 60, 6, { damageType: 'physical', damagePercent: 175, stunTurns: 1, dodgeNext: true }, 'Apara Sombria', 'Shadow Parry', 'Parada Sombría', 'シャドウパリー'),
   N('piercing_shot', 'bow_short', 10, '🏹', 30, 2, { damageType: 'physical', damagePercent: 160, ignoreDef: true }, 'Disparo Perfurante', 'Piercing Shot', 'Disparo Perforante', 'ピアシングショット'),
   N('aimed_shot', 'bow_short', 20, '🎯', 40, 3, { damageType: 'physical', damagePercent: 185, ignoreDef: true }, 'Disparo Mirado', 'Aimed Shot', 'Disparo Apuntado', 'エイムドショット'),
   N('quick_shot', 'bow_short', 40, '💨', 30, 2, { damageType: 'physical', damagePercent: 135, slowTurns: 1 }, 'Disparo Rápido', 'Quick Shot', 'Disparo Rápido', 'クイックショット'),
@@ -77,20 +70,6 @@ const SKILLS = [
   N('chain_lightning', 'staff_two', 100, '⚡', 65, 5, { damageType: 'magical', damagePercent: 225 }, 'Raio em Cadeia', 'Chain Lightning', 'Cadena de Rayos', 'チェーンライトニング'),
   N('elemental_chaos', 'staff_two', 110, '🌪', 80, 6, { damageType: 'magical', damagePercent: 255 }, 'Caos Elemental', 'Elemental Chaos', 'Caos Elemental', 'エレメンタルカオス'),
   N('time_warp', 'staff_two', 140, '⏳', 70, 6, { markDamageBonus: 0.5, markTurns: 3 }, 'Distorção Temporal', 'Time Warp', 'Distorsión Temporal', 'タイムワープ'),
-  N('void_bolt', 'orb', 20, '🌑', 35, 3, { damageType: 'void', damagePercent: 165 }, 'Projétil do Vazio', 'Void Bolt', 'Proyectil del Vacío', 'ヴォイドボルト'),
-  N('void_rupture', 'orb', 50, '💥', 50, 4, { damageType: 'void', damagePercent: 145, dotDamage: 40, dotTurns: 3 }, 'Ruptura do Vazio', 'Void Rupture', 'Ruptura del Vacío', 'ヴォイドラプチャー'),
-  N('astral_barrier', 'orb', 60, '🔮', 40, 5, { defUpPercent: 35, defUpTurns: 3 }, 'Barreira Astral', 'Astral Barrier', 'Barrera Astral', 'アストラルバリア'),
-  N('gravity_well', 'orb', 80, '🕳', 45, 5, { damageType: 'void', damagePercent: 130, stunTurns: 1 }, 'Poço Gravitacional', 'Gravity Well', 'Pozo Gravitatorio', 'グラビティウェル'),
-  N('void_armor', 'orb', 100, '🛡', 45, 5, { defUpPercent: 35, defUpTurns: 3, healPercent: 10 }, 'Armadura do Vazio', 'Void Armor', 'Armadura del Vacío', 'ヴォイドアーマー'),
-  N('void_gate', 'orb', 120, '🌑', 100, 8, { damageType: 'void', damagePercent: 330 }, 'Portal do Vazio', 'Void Gate', 'Portal del Vacío', 'ヴォイドゲート'),
-  N('cosmic_burst', 'orb', 150, '🌟', 95, 8, { damageType: 'void', damagePercent: 70, hits: 5 }, 'Explosão Cósmica', 'Cosmic Burst', 'Explosión Cósmica', 'コズミックバースト'),
-  N('arcane_mark', 'tome', 15, '📖', 30, 3, { markDamageBonus: 0.4, markTurns: 3 }, 'Marca Arcana', 'Arcane Mark', 'Marca Arcana', 'アーケインマーク'),
-  N('root', 'tome', 25, '🌿', 35, 4, { damageType: 'magical', damagePercent: 110, stunTurns: 1 }, 'Raízes', 'Root', 'Raíces', 'ルート'),
-  N('petrify', 'tome', 45, '🗿', 45, 5, { damageType: 'magical', damagePercent: 130, stunTurns: 1 }, 'Petrificar', 'Petrify', 'Petrificar', 'ペトリファイ'),
-  N('arcane_ward', 'tome', 60, '📖', 45, 4, { defUpPercent: 30, defUpTurns: 3, healPercent: 25 }, 'Guarda Arcano', 'Arcane Ward', 'Guardia Arcana', 'アーケインウォード'),
-  N('rune_shield', 'tome', 70, '🔷', 45, 5, { defUpPercent: 45, defUpTurns: 2 }, 'Escudo Rúnico', 'Rune Shield', 'Escudo Rúnico', 'ルーンシールド'),
-  N('draining_tome', 'tome', 90, '📕', 50, 5, { damageType: 'magical', damagePercent: 145, healPercent: 30 }, 'Grimório Drenante', 'Draining Tome', 'Grimorio Drenante', 'ドレイニングトーム'),
-  N('forbidden_knowledge', 'tome', 130, '📜', 90, 8, { damageType: 'magical', damagePercent: 305 }, 'Conhecimento Proibido', 'Forbidden Knowledge', 'Conocimiento Prohibido', 'フォービドゥンナレッジ'),
   N('crushing_blow', 'hammer', 15, '🔨', 30, 2, { damageType: 'physical', damagePercent: 165 }, 'Golpe Esmagador', 'Crushing Blow', 'Golpe Aplastante', 'クラッシングブロウ'),
   N('fortress', 'hammer', 40, '🏰', 45, 5, { defUpPercent: 40, defUpTurns: 3 }, 'Fortaleza', 'Fortress', 'Fortaleza', 'フォートレス'),
   N('earth_shake', 'hammer', 50, '🌋', 50, 5, { damageType: 'physical', damagePercent: 60, hits: 3, slowTurns: 1 }, 'Tremor de Terra', 'Earth Shake', 'Sacudida de Tierra', 'アースシェイク'),
@@ -105,13 +84,6 @@ const SKILLS = [
   N('nature_burst', 'spear', 80, '🌿', 65, 5, { damageType: 'magical', damagePercent: 215 }, 'Explosão Natural', 'Nature Burst', 'Explosión Natural', 'ネイチャーバースト'),
   N('phalanx_ward', 'spear', 90, '🏛', 40, 5, { defUpPercent: 35, defUpTurns: 3 }, 'Guarda Falange', 'Phalanx Ward', 'Guardia Falange', 'ファランクスウォード'),
   N('dragon_lance', 'spear', 120, '🐉', 80, 7, { damageType: 'physical', damagePercent: 265, slowTurns: 1 }, 'Lança do Dragão', 'Dragon Lance', 'Lanza del Dragón', 'ドラゴンランス'),
-  N('shield_bash', 'shield', 10, '🛡', 25, 3, { damageType: 'physical', damagePercent: 125, stunTurns: 1 }, 'Investida de Escudo', 'Shield Bash', 'Embestida de Escudo', 'シールドバッシュ'),
-  N('shield_slam', 'shield', 20, '🛡', 25, 2, { damageType: 'physical', damagePercent: 150, slowTurns: 1 }, 'Esmagada de Escudo', 'Shield Slam', 'Golpe de Escudo', 'シールドスラム'),
-  N('provoke', 'shield', 35, '😡', 30, 4, { markDamageBonus: 0.3, markTurns: 3 }, 'Provocar', 'Provoke', 'Provocar', 'プロヴォーク'),
-  N('bastion', 'shield', 50, '🏰', 40, 5, { defUpPercent: 60, defUpTurns: 2 }, 'Bastião', 'Bastion', 'Bastión', 'バスティオン'),
-  N('aegis_guard', 'shield', 60, '🏛', 50, 6, { defUpPercent: 50, defUpTurns: 2, healPercent: 15 }, 'Guarda de Égide', 'Aegis Guard', 'Guardia de Égida', 'イージスガード'),
-  N('shield_charge', 'shield', 80, '💨', 55, 5, { damageType: 'physical', damagePercent: 205, stunTurns: 1 }, 'Carga de Escudo', 'Shield Charge', 'Carga de Escudo', 'シールドチャージ'),
-  N('holy_aegis', 'shield', 110, '✨', 70, 6, { healPercent: 50, defUpPercent: 20, defUpTurns: 2 }, 'Égide Sagrada', 'Holy Aegis', 'Égida Sagrada', 'ホーリーイージス'),
 ];
 
 const LANGS = ['pt-BR','en-US','es-ES','ja-JP'];
@@ -269,7 +241,7 @@ const isDot = (s) => Boolean(s.data.dotDamage);
 const isUtility = (s) => Boolean(s.data.dodgeNext || s.data.defUpPercent || s.data.healPercent || s.data.markDamageBonus || s.data.reflectPercent || s.data.executeBelowHpPercent);
 const isPure = (s) => hasDmg(s) && !isControl(s) && !isDot(s) && !isUtility(s);
 const totalBurst = (s) => burst(s) + (s.data.dotDamage ?? 0) * (s.data.dotTurns ?? 0);
-const PROFS = ['sword_one','sword_two','great_sword','dagger','dagger_off','bow_short','bow_long','staff_one','staff_two','orb','tome','hammer','spear','shield'];
+const PROFS = ['sword_one','sword_two','great_sword','dagger','bow_short','bow_long','staff_one','staff_two','hammer','spear'];
 let errors = 0;
 for (const prof of PROFS) {
   const rs = SKILLS.filter(s => s.prof === prof).sort((a, b) => a.req - b.req);
@@ -298,5 +270,5 @@ for (const prof of PROFS) {
   const reqs = rs.map(s => s.req);
   if (new Set(reqs).size !== 7) { console.error('❌ thresholds duplicados em', prof); errors++; }
 }
-console.log(errors === 0 ? '✅ AUDITORIA OK (98 skills, progressão e custos válidos)' : `❌ ${errors} problema(s) no balanceamento`);
+console.log(errors === 0 ? '✅ AUDITORIA OK (70 skills, progressão e custos válidos)' : `❌ ${errors} problema(s) no balanceamento`);
 process.exit(errors === 0 ? 0 : 1);

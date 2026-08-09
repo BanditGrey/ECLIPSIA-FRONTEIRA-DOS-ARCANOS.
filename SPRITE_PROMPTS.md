@@ -11,7 +11,14 @@
 - Fundo TRANSPARENTE (sem xadrez, sem cor sólida)
 - Sem texto, moldura, UI, sombra projetada no chão
 
-## Script remove_bg.py (VERSÃO CONSERVADORA — NÃO usar agressiva)
+## Limpeza de sprites (VERSÃO CONSERVADORA — NÃO usar agressiva)
+
+> O script versionado vigente é `tools/sprite_clean.py`. Use-o em vez de recriar
+> scripts em `/home/user`. A regra é flood-fill pelas bordas e tratamento leve de
+> fringe; **nunca** remoção global de pixels brancos, pois espadas e highlights
+> legítimos podem ser brancos.
+
+## Script histórico `remove_bg.py` (apenas referência)
 ```python
 #!/usr/bin/env python3
 import sys
