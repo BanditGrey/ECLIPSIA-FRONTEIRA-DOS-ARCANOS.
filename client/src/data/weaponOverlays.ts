@@ -184,6 +184,21 @@ export interface ResolvedOverlay {
 }
 
 /**
+ * Poses sem âncora desenhada reutilizam a posição idle com deslocamento leve.
+ * Isso mantém a arma acompanhando walk/cast/hit até existirem sprites de âncora
+ * específicas, sem usar um segundo fallback de arte.
+ */
+const anchorForState = (base: OverlayAnchor, state: CharState): OverlayAnchor => {
+  switch (state) {
+    case 'walk': return { ...base, x: base.x + 0.012, y: base.y + 0.012, rot: (base.rot ?? 0) - 3 };
+    case 'cast': return { ...base, x: base.x + 0.055, y: base.y - 0.045, rot: (base.rot ?? 0) - 13 };
+    case 'hit': return { ...base, x: base.x - 0.018, y: base.y + 0.02, rot: (base.rot ?? 0) + 7 };
+    case 'death': return { ...base, x: base.x - 0.05, y: base.y + 0.12, rot: (base.rot ?? 0) + 28 };
+    default: return base;
+  }
+};
+
+/**
  * Resolve o overlay de arma da instância.
  * Prioridade:
  *   1. ITEM_OVERLAY (item específico)
@@ -260,7 +275,9 @@ export const resolveWeaponOverlay = (
   if (!key) return null;
 
   const def = WEAPON_OVERLAYS[key];
-  const anchor = def.anchors[gender]?.[state] ?? def.anchors[gender]?.idle;
+  const explicitAnchor = def.anchors[gender]?.[state];
+  const idleAnchor = def.anchors[gender]?.idle;
+  const anchor = explicitAnchor ?? (idleAnchor ? anchorForState(idleAnchor, state) : undefined);
   if (!anchor) return null;
 
   return { file: `/assets/sprites/${tierFileOverride ?? def.file}.png`, anchor };
