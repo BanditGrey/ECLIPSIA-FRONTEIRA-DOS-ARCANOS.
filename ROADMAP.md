@@ -21,6 +21,7 @@
 - [x] Removidos do catálogo armas/escudos off-hand, suas proficiências, skills,
       combinações e overlays dedicados. O jogo agora possui 10 armas principais
       e 70 skills (7 por arma).
+- [x] Migração de save limpa equipamento secundário legado sem apagar itens da mochila.
 
 ## Prioridade 1 — finalizar glifos e fusão visual
 

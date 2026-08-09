@@ -220,10 +220,24 @@ interface PlayerState {
   recalcLuck: () => void;
 }
 
+/**
+ * Migração de save: a mão secundária deixou de aceitar armas/escudos.
+ * Itens antigos permanecem na mochila; apenas a referência equipada é limpa.
+ */
+const normalizeSecondaryGlyph = (data: PlayerData): PlayerData => {
+  const offRef = data.equipment.weapon_off;
+  if (!offRef || resolveItemRef(offRef)?.weaponCategory === 'glyph') return data;
+
+  return {
+    ...data,
+    equipment: { ...data.equipment, weapon_off: null },
+  };
+};
+
 export const usePlayerStore = create<PlayerState>((set, get) => ({
   data: null,
   isLoaded: false,
-  setPlayer: (data) => set({ data, isLoaded: true }),
+  setPlayer: (data) => set({ data: normalizeSecondaryGlyph(data), isLoaded: true }),
   clearPlayer: () => set({ data: null, isLoaded: false }),
   gainXp: (amount) => {
     // SORTE no leveling: +0,1% de XP por ponto (teto 1000 = +100%).
