@@ -9,14 +9,12 @@
 
 ## 1. FILOSOFIA
 
-- **Não existe classe fixa.** O jogador é definido pelas **2 armas equipadas**
-  (principal + secundária). Trocar de arma = trocar de build, sem custo, sem
-  criar outro personagem.
-- **Toda arma pode ser equipada em QUALQUER mão** (main ou off) — não há arma
-  exclusiva de mão. Espadão + escudo, cajado + espadão, adaga + arco: tudo vale.
-  Exceção (regra de ouro): **a MESMA categoria de arma não pode ocupar as duas
-  mãos** (ex.: 2 espadas de uma mão). Armas de "duas mãos" não bloqueiam mais a
-  outra mão — o termo vira só flavor.
+- **Não existe classe fixa.** O jogador é definido pela arma principal e pelo
+  glifo equipado. Trocar de arma = trocar de build, sem custo.
+- Existem **10 categorias de arma principal**. A mão secundária é exclusiva de
+  glifos: armas, escudos, orbes, tomos e adagas off-hand foram removidos.
+  Glifos não têm proficiência nem skills; eles selam o segundo elemento e podem
+  ativar uma fusão.
 - As **Origens** (6 antigos arquétipos) são **cosméticas** (retrato, sigilo,
   título) — zero efeito mecânico.
 - Cada arma tem: **proficiência** (progressão de pontos), **passivas** (marcos)
@@ -29,11 +27,11 @@
 
 | Ação | XP de proficiência (por arma equipada) |
 |---|---|
-| Ataque básico | +1 |
-| Usar skill | +2 |
-| Abater inimigo | +3 |
-| Andar de dungeon concluído | +5 |
-| Matar boss (dungeon/world) | +15 |
+| Ataque básico | +1 para a arma principal |
+| Usar skill | +2 para a arma principal |
+| Abater inimigo | +3 para a arma principal |
+| Andar de dungeon concluído | +5 para a arma principal |
+| Matar boss (dungeon/world) | +15 para a arma principal |
 
 - **Teto**: 1000 pontos por categoria.
 - **Marcos de skill**: 10 · 25 · 30 · 40 · 50 · 60 · 70 · 80 · 100 · 120

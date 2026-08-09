@@ -1,34 +1,31 @@
-# ✅ CHECKLIST MESTRE — estado em 2026-08-09
+# ✅ CHECKLIST MESTRE — 2026-08-09
 
 ## Fundação
+- [x] Client React/Vite/Zustand e server Express/Socket.io/Mongo.
+- [x] UI em pt-BR, en-US, es-ES e ja-JP.
+- [x] ItemEffects, itemStr, inventário, craft, upgrade, encantamento e sets.
+- [x] Mercado, leilão, correio, guilda, party, trade e chat social.
+- [x] 10 proficiências de arma principal e 70 skills.
+- [x] Mão secundária exclusiva para glifos; migração segura de saves legados.
+- [x] Elementos, fusões, auras, stamps e baús de exploração.
+- [x] Equipamento em camadas, 70 FX de skill, assets estáticos e auditoria de assets.
 
-- [x] Cliente React/Vite/Zustand e servidor Express/Socket.io/Mongo
-- [x] i18n em pt-BR, en-US, es-ES e ja-JP
-- [x] ItemEffects, itemStr, inventário, craft, upgrade, sets e encantamento
-- [x] Mercado, leilão, correio, trade, guilda, party e chat social
-- [x] 10 proficiências de armas principais, 70 skills, passivas e auditoria de balanceamento
-- [x] Mão secundária exclusiva para glifos; removidos armas e escudos off-hand
-- [x] Sprites, equipamento em camadas, assets estáticos, cenários e FX base
+## Visual pendente
+- [ ] Validar em Sandbox glifo neutro, fusões e poses de combate.
+- [ ] Anchors desenhados específicos por categoria de arma.
+- [ ] T1/T3 próprios para fogo, terra e vento.
 
-## Próxima entrega
+## Robustez pendente
+- [x] Pino + healthcheck detalhado + persistência de party/trade em Mongo.
+- [x] Telemetria local de combate, exploração, craft e upgrade.
+- [ ] Testes de integração com Mongo real para mail, market, guild e trade.
+- [ ] Deploy definitivo e teste multiplayer com duas contas.
 
-- [x] Renderizar escudo/glifo em `LayeredCharacter` por meio de `OffHandLayer`.
-- [x] Renderizar aura de fusão na arma, com anchor por gênero/pose.
-- [x] Smoke test de fusão água+vento e itemStr de glifo.
-- [ ] Testar visualmente fusão, glifo neutro e espada+escudo no Modo Sandbox.
-
-## Depois
-
-- [ ] FX específico por skillId para as 98 skills.
-- [ ] Stamps elementais em shop, quests e baús.
-- [ ] Cobertura de poses/anchors/overlays e arte elemental própria faltante.
-- [ ] Telemetria, integração Mongo, deploy definitivo e balanceamento real.
-
-## Validação obrigatória
-
-- [ ] `npx tsc --noEmit`
-- [ ] `npm run build`
-- [ ] `npm run audit`
-- [ ] `npm run audit:social`
-- [ ] `npm run audit:balance`
-- [ ] `cd ../server && npm test`
+## Baseline
+- [x] `npx tsc --noEmit`
+- [x] `npm run build`
+- [x] `npm run audit` — 89/89
+- [x] `npm run audit:social` — 41/41
+- [x] `npm run audit:balance`
+- [x] `npm run audit:assets`
+- [x] `cd ../server && npm test` — 20/20

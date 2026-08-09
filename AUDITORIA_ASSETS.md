@@ -14,8 +14,9 @@
   não servida pelo Vite; seus arquivos eram placeholders minúsculos.
 - Removidos BGM, voz e `attack_real.mp3` não consumidos pelo cliente.
 - Removidos `raw_mob_*.png` que não possuíam referências em código ou ferramentas.
-- Preservados `raw_shield.png` e `raw_glyph_*.png`: são entradas de
-  `tools/gen_final_offhands.js`.
+- Removidos `raw_shield.png`, escudos e armas off-hand junto com o sistema
+  descontinuado. Preservados `raw_glyph_*.png`, usados pelo gerador de glifos.
+- `npm run audit:assets` valida overlays e artes elementais declaradas.
 
 ## Não remover sem uma auditoria específica
 

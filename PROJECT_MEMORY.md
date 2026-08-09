@@ -103,17 +103,24 @@ verdade sem rodar as verificações.
   degrada para mock. O Modo Sandbox do login é o caminho de teste local confiável.
 - Produção planejada: client Vercel, server Railway e MongoDB Atlas. Ver `DEPLOY.md`.
 
-## 7. Próximas entregas
+## 7. Estado de entregas recentes
 
-1. Terminar a renderização do off-hand e da aura de fusão.
-2. Criar efeitos visuais diferenciados por skillId; `SKILLS_SPRINT.md` é o mapa.
-3. Estender stamps elementais a outras fontes de item.
-4. Telemetria e balanceamento real de economia/proficiências.
-5. Testes de integração com Mongo para mail/market/guild/trade e persistência de
-   party/trade quando o produto exigir.
+- Off-hand visual e aura de fusão: concluídos. Mão secundária aceita somente glifos.
+- FX por skillId: concluído para as 70 skills; ver `SKILLS_SPRINT.md`.
+- Stamps: craft, quest, loja, cache oculto e baú de exploração.
+- Telemetria local: combate, exploração, craft e upgrade; sem PII e limitada a 500 eventos.
+- Party/trade: modelos Mongo e restauração no boot já existem; falta teste de integração com banco real.
+- Visual: água/sombrio/luz T1–T3 em ambos os gêneros; fogo/terra/vento T2 em ambos os gêneros.
 
-## 8. Limpeza de arquivos — 2026-08-09
+## 8. Pendências reais
 
-A limpeza foi deliberadamente conservadora: foram removidos apenas placeholders
-não servidos e fontes `raw_mob_*.png` sem referências. Assets finais, geradores,
-documentos de design e fontes de off-hand continuaram no repositório.
+1. Revisão visual no Sandbox de glifos, fusões, armas e FX.
+2. Arte T1/T3 de fogo/terra/vento e anchors desenhados por categoria.
+3. Integração Mongo de mail/market/guild/trade. O sandbox bloqueia download do mongod; usar Atlas ou banco externo.
+4. Envio agregado de telemetria depois de definir backend analítico.
+5. Deploy Atlas/Railway/Vercel e teste multiplayer com duas contas.
+
+## 9. Limpeza de arquivos — 2026-08-09
+
+Foram removidos placeholders não servidos, fontes `raw_mob_*.png`, armas/escudos
+off-hand e seus overlays. Assets finais, fontes de glifo e geradores ativos foram preservados.
