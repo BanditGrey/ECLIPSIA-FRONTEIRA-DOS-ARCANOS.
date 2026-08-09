@@ -2,6 +2,7 @@ import { translations } from '../i18n';
 import { useGameStore } from '../store/useGameStore';
 import { usePlayerStore } from '../store/usePlayerStore';
 import { questSystem } from './quests';
+import { ELEMENT_REWARD_CHANCE, stampWeaponReward } from '../data/elementRewards';
 
 export type HiddenEventId =
   | 'cursed_dungeon'
@@ -124,7 +125,11 @@ export const hiddenEventDefinitions: HiddenEventDefinition[] = [
   {
     id: 'hidden_weapon',
     check: (tracker) => (tracker.explores.valedouro ?? 0) >= 10,
-    reward: () => usePlayerStore.getState().addItem('w1h_1002', 1)
+    // Cache escondido funciona como baú de exploração: arma pode vir carimbada.
+    reward: () => usePlayerStore.getState().addItem(
+      stampWeaponReward('w1h_1002', ELEMENT_REWARD_CHANCE.chest),
+      1,
+    )
   },
   {
     id: 'forbidden_boss',

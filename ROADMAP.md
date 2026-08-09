@@ -47,7 +47,8 @@
 ## Prioridade 3 — elementos e visuais
 
 - [x] Stamps elementais na loja da cidade (18% para armas, respeitando o limite de effects).
-- [ ] Stamps elementais em baús (o fluxo de abertura de baús ainda precisa ser definido/conectado).
+- [x] Cache/baú de exploração do evento oculto aplica 25% de chance de stamp.
+- [ ] Fluxo geral de abertura de baús ainda precisa ser definido/conectado.
 - [x] Stamps elementais em recompensas de quest (35% para armas, respeitando o limite de effects).
 - [ ] Overlays T1/T3 faltantes; anchors para walk/cast/hit/attack; cobertura masculina.
 - [ ] Arte própria para água, sombrio e luz onde ainda houver reaproveitamento legado.
