@@ -59,7 +59,7 @@
 - [ ] Persistência de parties/trades caso a operação online exija reinicialização segura.
 - [ ] Telemetria para ajustar drops, crystals, craft, upgrade e proficiências.
 - [x] Logs estruturados com Pino e healthcheck detalhado (status, banco, uptime e online).
-- [ ] Code-splitting adicional.
+- [x] Code-splitting adicional: painéis de combate, cidade, social, perfil, quest e boss carregam sob demanda..
 - [ ] Deploy definitivo em Atlas/Railway/Vercel e teste com duas contas.
 
 ## Baseline obrigatório antes/depois de mudanças

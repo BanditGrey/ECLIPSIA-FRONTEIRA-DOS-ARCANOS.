@@ -6,6 +6,14 @@ const RankingPanel = lazy(() => import('./components/panels/RankingPanel').then(
 const TravelPanel = lazy(() => import('./components/panels/TravelPanel').then(m => ({ default: m.TravelPanel })));
 const WikiScreen = lazy(() => import('./components/screens/WikiScreen').then(m => ({ default: m.WikiScreen })));
 const ItemsPanel = lazy(() => import('./components/panels/ItemsPanel').then(m => ({ default: m.ItemsPanel })));
+const CombatPanel = lazy(() => import('./components/panels/CombatPanel').then(m => ({ default: m.CombatPanel })));
+const BossPanel = lazy(() => import('./components/panels/BossPanel').then(m => ({ default: m.BossPanel })));
+const ChatPanel = lazy(() => import('./components/panels/ChatPanel').then(m => ({ default: m.ChatPanel })));
+const GuildPanel = lazy(() => import('./components/panels/GuildPanel').then(m => ({ default: m.GuildPanel })));
+const PartyPanel = lazy(() => import('./components/panels/PartyPanel').then(m => ({ default: m.PartyPanel })));
+const ProfilePanel = lazy(() => import('./components/panels/ProfilePanel').then(m => ({ default: m.ProfilePanel })));
+const QuestPanel = lazy(() => import('./components/panels/QuestPanel').then(m => ({ default: m.QuestPanel })));
+const CityPanel = lazy(() => import('./components/panels/CityPanel').then(m => ({ default: m.CityPanel })));
 import './index.css';
 import { ITEMS } from './data/items';
 import { registerPetData } from './store/usePetStore';
@@ -15,18 +23,6 @@ import { GameLayout } from './components/layout/GameLayout';
 import { CharCreateScreen } from './components/screens/CharCreateScreen';
 import { CharacterSelectScreen } from './components/screens/CharacterSelectScreen';
 import { LoginScreen } from './components/screens/LoginScreen';
-
-import { ChatPanel } from './components/panels/ChatPanel';
-import { CityPanel } from './components/panels/CityPanel';
-import { CombatPanel } from './components/panels/CombatPanel';
-import { GuildPanel } from './components/panels/GuildPanel';
-
-
-import { PartyPanel } from './components/panels/PartyPanel';
-import { ProfilePanel } from './components/panels/ProfilePanel';
-import { QuestPanel } from './components/panels/QuestPanel';
-
-import { BossPanel } from './components/panels/BossPanel';
 
 import { useI18n } from './hooks/useI18n';
 import { Auth } from './services/auth';
