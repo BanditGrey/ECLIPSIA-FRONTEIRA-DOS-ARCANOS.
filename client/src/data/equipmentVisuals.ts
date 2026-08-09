@@ -52,6 +52,9 @@ export const ITEM_VISUALS: Record<string, ItemVisual> = {
  * água/sombrio/luz reusam arquivos da roda antiga (gelo/sombra/sagrada). */
 const SPRITE_FILE: Record<string, string> = {
   // Artes próprias da roda oficial, com tier e gênero dedicados.
+  el_fire_t2: 'el_fire_t2',
+  el_earth_t2: 'el_earth_t2',
+  el_wind_t2: 'el_wind_t2',
   el_water_t1: 'el_water_t1',
   el_water_t2: 'el_water_t2',
   el_water_t3: 'el_water_t3',
@@ -76,6 +79,10 @@ const SPRITES: Record<string, Partial<Record<Gender, Partial<Record<CharState, n
   shadow: { female: { idle: [1] }, male: { idle: [1] } },
   legendary: { female: { idle: [1] }, male: { idle: [1] } },
   mist: { female: { idle: [1] }, male: { idle: [1] } },
+  // Fogo, terra e vento: arte própria T2 para ambos os gêneros.
+  el_fire_t2: { female: { idle: [1] }, male: { idle: [1] } },
+  el_earth_t2: { female: { idle: [1] }, male: { idle: [1] } },
+  el_wind_t2: { female: { idle: [1] }, male: { idle: [1] } },
   // Água, sombrio e luz: artes próprias T1-T3 para ambos os gêneros.
   el_water_t1: { female: { idle: [1] }, male: { idle: [1] } },
   el_water_t2: { female: { idle: [1] }, male: { idle: [1] } },
