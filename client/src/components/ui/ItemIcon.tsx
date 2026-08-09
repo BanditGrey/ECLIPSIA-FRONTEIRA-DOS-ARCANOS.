@@ -53,7 +53,7 @@ export const ItemIcon: React.FC<Props> = ({ name, size = 24, className = '', rar
 
 export const slotToIcon = (slot: string): ItemIconName => {
   const m: Record<string, ItemIconName> = {
-    weapon_main: 'sword', weapon_off: 'shield', head: 'helmet', chest: 'chestplate',
+    weapon_main: 'sword', weapon_off: 'crystal', head: 'helmet', chest: 'chestplate',
     legs: 'leggings', gloves: 'gloves', boots: 'boots', earring: 'earring',
     necklace: 'amulet', belt: 'belt', resistance: 'bracelet', amulet: 'amulet',
     spirit_stone: 'spirit_stone', pet: 'pet', mount: 'mount',
