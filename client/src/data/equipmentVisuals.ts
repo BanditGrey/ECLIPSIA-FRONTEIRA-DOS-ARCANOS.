@@ -71,9 +71,9 @@ const SPRITES: Record<string, Partial<Record<Gender, Partial<Record<CharState, n
   legendary: { female: { idle: [1] }, male: { idle: [1] } },
   mist: { female: { idle: [1] }, male: { idle: [1] } },
   // Elementos da roda: água/sombrio/luz T2 possuem arte própria feminina.
-  el_water_t2: { female: { idle: [1] } },
-  el_dark_t2: { female: { idle: [1] } },
-  el_light_t2: { female: { idle: [1] } },
+  el_water_t2: { female: { idle: [1] }, male: { idle: [1] } },
+  el_dark_t2: { female: { idle: [1] }, male: { idle: [1] } },
+  el_light_t2: { female: { idle: [1] }, male: { idle: [1] } },
   // elementos legados usados somente como fallback de tiers sem arte própria
   fire: { female: { idle: [1], attack: [1] } },
   earth: { female: { idle: [1] } },
