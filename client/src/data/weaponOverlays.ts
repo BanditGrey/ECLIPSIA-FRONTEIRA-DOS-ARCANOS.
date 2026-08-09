@@ -34,6 +34,9 @@ const IDLE_ANCHOR: OverlayAnchor = { x: 0.22, y: 0.48, w: 0.22, rot: 8 };
 const BOTH = { female: { idle: IDLE_ANCHOR }, male: { idle: IDLE_ANCHOR } };
 
 export const WEAPON_OVERLAYS: Record<string, WeaponOverlayDef> = {
+  // Relíquias próprias: visual sóbrio e distinto, sem o brilho excessivo de tiers.
+  ov_relic_greatsword: { file: 'ov_relic_greatsword', anchors: { female: { idle: { x: 0.2, y: 0.46, w: 0.28, rot: 8 }, attack: { x: 0.2, y: 0.46, w: 0.28, rot: 8 } }, male: { idle: { x: 0.2, y: 0.46, w: 0.28, rot: 8 }, attack: { x: 0.2, y: 0.46, w: 0.28, rot: 8 } } } },
+  ov_relic_greatstaff: { file: 'ov_relic_greatstaff', anchors: { female: { idle: { x: 0.2, y: 0.42, w: 0.24, rot: 4 }, attack: { x: 0.2, y: 0.42, w: 0.24, rot: 4 } }, male: { idle: { x: 0.2, y: 0.42, w: 0.24, rot: 4 }, attack: { x: 0.2, y: 0.42, w: 0.24, rot: 4 } } } },
   ov_sword: { file: 'ov_sword', anchors: {"female":{"idle":{"x":0.22,"y":0.48,"w":0.22,"rot":8},"attack":{"x":0.22,"y":0.48,"w":0.22,"rot":8}},"male":{"idle":{"x":0.22,"y":0.48,"w":0.22,"rot":8},"attack":{"x":0.22,"y":0.48,"w":0.22,"rot":8}}} },
   ov_sword_t1: { file: 'ov_sword_t1', anchors: {"female":{"idle":{"x":0.22,"y":0.48,"w":0.22,"rot":8},"attack":{"x":0.22,"y":0.48,"w":0.22,"rot":8}},"male":{"idle":{"x":0.22,"y":0.48,"w":0.22,"rot":8},"attack":{"x":0.22,"y":0.48,"w":0.22,"rot":8}}} },
   ov_sword_sprint: { file: 'ov_sword_sprint', anchors: {"female":{"idle":{"x":0.22,"y":0.48,"w":0.22,"rot":8},"attack":{"x":0.22,"y":0.48,"w":0.22,"rot":8}},"male":{"idle":{"x":0.22,"y":0.48,"w":0.22,"rot":8},"attack":{"x":0.22,"y":0.48,"w":0.22,"rot":8}}} },
@@ -172,7 +175,10 @@ export const WEAPON_OVERLAYS: Record<string, WeaponOverlayDef> = {
 };
 
 /** Itens com overlay específico (fora da regra por elemento). */
-const ITEM_OVERLAY: Record<string, string> = {};
+const ITEM_OVERLAY: Record<string, string> = {
+  w2h_1505: 'ov_relic_greatsword',
+  w2h_1755: 'ov_relic_greatstaff',
+};
 
 const hasOverlayKey = (key: string) => Boolean(WEAPON_OVERLAYS[key]);
 
@@ -215,13 +221,14 @@ export const resolveWeaponOverlay = (
   const item = weaponRef ? resolveItemRef(weaponRef) : undefined;
   if (!item) return null;
 
-  let key: string | null = null;
+  // Visual único de item vence o tier genérico e o elemento.
+  let key: string | null = ITEM_OVERLAY[item.id] && hasOverlayKey(ITEM_OVERLAY[item.id]) ? ITEM_OVERLAY[item.id] : null;
   // Algumas armas reutilizam a âncora T1, mas possuem PNGs próprios T2/T3.
   // Mantemos a âncora e trocamos apenas o arquivo, evitando fallback visual T1.
   let tierFileOverride: string | null = null;
   const catKey = weaponCategoryKey(item.weaponCategory);
 
-  if (catKey) {
+  if (!key && catKey) {
     const effects = item.effects as Record<string, unknown> | undefined;
     let upgrade = 0;
     if (effects) {
@@ -265,10 +272,6 @@ export const resolveWeaponOverlay = (
 
   if (!key && catKey && hasOverlayKey(`ov_${catKey}`)) {
       key = `ov_${catKey}`;
-  }
-
-  if (!key && ITEM_OVERLAY[item.id] && hasOverlayKey(ITEM_OVERLAY[item.id])) {
-      key = ITEM_OVERLAY[item.id];
   }
 
   if (!key && hasOverlayKey('ov_sword')) key = 'ov_sword';
