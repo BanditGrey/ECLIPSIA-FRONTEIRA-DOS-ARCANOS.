@@ -45,7 +45,8 @@
 
 ## Prioridade 3 — elementos e visuais
 
-- [ ] Stamps elementais em shop, quests e baús (craft já faz).
+- [ ] Stamps elementais em shop e baús (craft já faz).
+- [x] Stamps elementais em recompensas de quest (35% para armas, respeitando o limite de effects).
 - [ ] Overlays T1/T3 faltantes; anchors para walk/cast/hit/attack; cobertura masculina.
 - [ ] Arte própria para água, sombrio e luz onde ainda houver reaproveitamento legado.
 - [ ] Relíquias próprias adicionais e balanceamento de poder/tier elemental.

@@ -1,4 +1,5 @@
 import { translations } from '../i18n';
+import { ELEMENT_REWARD_CHANCE, stampWeaponReward } from '../data/elementRewards';
 import { useGameStore } from '../store/useGameStore';
 import { usePlayerStore } from '../store/usePlayerStore';
 
@@ -283,7 +284,8 @@ export const questSystem = {
     }
 
     if (quest.reward.item) {
-      playerStore.addItem(quest.reward.item, 1);
+      // Recompensas de quest têm chance maior de chegar com um elemento selado.
+      playerStore.addItem(stampWeaponReward(quest.reward.item, ELEMENT_REWARD_CHANCE.quest), 1);
     }
 
     useGameStore.getState().addNotification(t('notifications.questComplete'), 'gold');
