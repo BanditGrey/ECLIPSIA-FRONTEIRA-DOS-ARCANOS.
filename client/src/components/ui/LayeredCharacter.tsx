@@ -131,9 +131,30 @@ export const LayeredCharacter: React.FC<Props> = ({
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 rounded-full bg-black/40 blur-sm"
         style={{ width: size * 0.3, height: size * 0.04 }} />
 
+      {/* Aura da fusão: fica atrás da arma e nunca substitui a sua arte. */}
+      {fusion && (() => {
+        const anchor = resolveFusionAuraAnchor(gender, state);
+        const diameter = anchor.r * size * 2;
+        return (
+          <div
+            className="pointer-events-none absolute z-0 rounded-full"
+            aria-hidden="true"
+            style={{
+              width: diameter,
+              height: diameter,
+              left: anchor.x * size - diameter / 2,
+              top: anchor.y * size * 1.3 - diameter / 2,
+              background: `radial-gradient(circle, ${fusion.glow}bf 0%, ${fusion.color}70 30%, ${fusion.color}20 55%, transparent 72%)`,
+              boxShadow: `0 0 ${size * (0.1 + fusion.tier * 0.035)}px ${fusion.color}, inset 0 0 ${size * 0.08}px ${fusion.glow}`,
+              animation: 'lcFusionAura 1.8s ease-in-out infinite',
+            }}
+          />
+        );
+      })()}
+
       {/* Camada de arma (overlay) — combina com qualquer armadura */}
       {overlay && (
-        <img src={overlay.file} alt="" draggable={false} className="pointer-events-none absolute z-0 select-none"
+        <img src={overlay.file} alt="" draggable={false} className="pointer-events-none absolute z-[1] select-none"
           style={{
             width: overlay.anchor.w * size,
             left: overlay.anchor.x * size,
@@ -154,7 +175,8 @@ export const LayeredCharacter: React.FC<Props> = ({
         />
       )}
 
-      {/* AURA DE FUSÃO (glifo): halo atrás da arma, sem trocar a arte dela */}
+      {/* Mão secundária: escudo físico ou selo de glifo, conforme o item equipado. */}
+      {offVisual && <OffHandLayer visual={offVisual} size={size} />}
 
       {/* Attack slash VFX */}
       {state === 'attack' && (

@@ -11,9 +11,10 @@
 
 ## Próxima entrega
 
-- [ ] Renderizar escudo/glifo em `LayeredCharacter` por meio de `OffHandLayer`.
-- [ ] Renderizar aura de fusão na arma, com anchor por gênero/pose.
-- [ ] Testar fusão e glifo neutro no Modo Sandbox.
+- [x] Renderizar escudo/glifo em `LayeredCharacter` por meio de `OffHandLayer`.
+- [x] Renderizar aura de fusão na arma, com anchor por gênero/pose.
+- [x] Smoke test de fusão água+vento e itemStr de glifo.
+- [ ] Testar visualmente fusão, glifo neutro e espada+escudo no Modo Sandbox.
 
 ## Depois
 

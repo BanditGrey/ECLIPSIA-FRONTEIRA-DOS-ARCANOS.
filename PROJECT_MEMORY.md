@@ -74,10 +74,10 @@ server/src/
 
 ### Estado real dos glifos
 
-A lógica de catálogo, off-hand, fusão e combate está presente. Contudo,
-`LayeredCharacter.tsx` ainda não insere no JSX os states já calculados para
-`OffHandLayer` e para a aura. Assim, a apresentação está incompleta mesmo que o
-bônus de dano seja aplicado. Resolver essa lacuna é a prioridade atual.
+A lógica de catálogo, off-hand, fusão e combate está presente e agora a apresentação
+foi conectada: `LayeredCharacter.tsx` renderiza o `OffHandLayer` e a aura de fusão
+ancorada na arma. `fusionAuras.ts` resolve corretamente a definição do glifo mesmo
+quando a mão secundária usa `itemStr`.
 
 ## 5. Qualidade e execução
 

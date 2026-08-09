@@ -17,13 +17,14 @@
 
 ## Prioridade 1 — finalizar glifos e fusão visual
 
-- [ ] Em `LayeredCharacter.tsx`, renderizar `OffHandLayer` quando `offVisual`
+- [x] Em `LayeredCharacter.tsx`, renderizar `OffHandLayer` quando `offVisual`
       existir.
-- [ ] Renderizar a aura calculada por `resolveFusion` usando
+- [x] Renderizar a aura calculada por `resolveFusion` usando
       `resolveFusionAuraAnchor`, atrás da arma e sem substituir a arte dela.
-- [ ] Validar no Modo Sandbox: arma água + glifo vento = GELO, com aura, log e
-      bônus de dano; glifo neutro não deve produzir fusão.
-- [ ] Confirmar visual de espada + escudo e fallback seguro em todas as poses.
+- [x] Smoke test serializado: arma água + glifo vento resolve GELO e o glifo
+      resolve como off-hand de vento.
+- [ ] Validar manualmente no Modo Sandbox: glifo neutro, espada+escudo e poses
+      de combate.
 
 ## Prioridade 2 — FX individual das 98 skills
 

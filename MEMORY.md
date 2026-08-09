@@ -58,11 +58,11 @@ de prosseguir.
 - Os catálogos e resolvers existem em `data/glyphs.ts`, `data/fusionAuras.ts`,
   `data/elementSynergy.ts` e `components/ui/OffHandLayer.tsx`.
 
-### Pendência crítica confirmada no código
+### Estado confirmado da entrega visual
 
-`LayeredCharacter.tsx` calcula `fusion` e `offVisual`, mas o JSX atual não renderiza
-`<OffHandLayer>` nem a aura de fusão. Logo, o bônus lógico funciona, porém escudo,
-glifo e halo não aparecem no personagem. Esta é a prioridade visual imediata.
+`LayeredCharacter.tsx` agora renderiza `OffHandLayer` para escudos/glifos e uma aura
+radial ancorada na arma quando `resolveFusion` encontra uma combinação. A resolução
+do catálogo de glifo também funciona quando o off-hand chega como `itemStr`.
 
 ## Próximas prioridades
 
