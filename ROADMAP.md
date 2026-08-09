@@ -56,8 +56,8 @@
 ## Robustez contínua
 
 - [ ] Testes de integração Mongo para mail, market, guild e trade.
-- [ ] Persistência de parties/trades caso a operação online exija reinicialização segura.
-- [ ] Telemetria para ajustar drops, crystals, craft, upgrade e proficiências.
+- [x] Persistência de parties/trades: modelos Mongo e restauração de sessões pendentes no boot (exige banco real).
+- [x] Telemetria local para drops, exploração, craft e upgrade; envio agregado ao backend fica para a fase online.
 - [x] Logs estruturados com Pino e healthcheck detalhado (status, banco, uptime e online).
 - [x] Code-splitting adicional: painéis de combate, cidade, social, perfil, quest e boss carregam sob demanda..
 - [ ] Deploy definitivo em Atlas/Railway/Vercel e teste com duas contas.

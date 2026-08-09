@@ -47,8 +47,8 @@ server/src/
 
 - Mochila: 60; baú: 500.
 - Mercado e leilão usam crystals, com custódia e entrega por correio.
-- Trade, party e party hunt usam Socket.io; parte do estado social ainda é efêmera
-  em memória do servidor e deve ser tratada como tal até persistência futura.
+- Trade, party e party hunt usam Socket.io. Trades/parties pendentes são persistidos
+  em MongoDB e restaurados no boot quando há banco real; o sandbox mock continua efêmero.
 - Servidor não possui o catálogo de itens: valida referências serializadas e numId.
 
 ### Proficiências e skills
