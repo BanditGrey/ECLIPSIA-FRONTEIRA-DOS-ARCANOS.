@@ -120,6 +120,10 @@ export const SkillEffectPanel: React.FC<SkillEffectConfig> = ({
         @keyframes eclipseSkillQuake { 0%{opacity:0;transform:translateY(-55px) scale(.3)} 42%{opacity:1;transform:translateY(28px) scaleX(1.35) scaleY(.75)} 100%{opacity:0;transform:translateY(54px) scaleX(1.8) scaleY(.32)} }
         @keyframes eclipseSkillLance { 0%{opacity:0;transform:translateX(-120px) rotate(-18deg) scaleX(.25)} 36%{opacity:1} 100%{opacity:0;transform:translateX(125px) rotate(12deg) scaleX(1.7)} }
         @keyframes eclipseSkillMark { 0%{opacity:0;transform:scale(1.7)} 38%{opacity:1;transform:scale(.85)} 100%{opacity:0;transform:scale(1.35)} }
+        @keyframes eclipseSkillSmoke { 0%{opacity:0;transform:scale(.2)} 40%{opacity:.8;transform:scale(1.15)} 100%{opacity:0;transform:scale(1.9)} }
+        @keyframes eclipseSkillVoid { 0%{opacity:0;transform:scale(1.5) rotate(0)} 45%{opacity:1;transform:scale(.75) rotate(210deg)} 100%{opacity:0;transform:scale(1.45) rotate(420deg)} }
+        @keyframes eclipseSkillWard { 0%{opacity:0;transform:scale(.25) rotate(45deg)} 45%{opacity:1;transform:scale(1.1) rotate(45deg)} 100%{opacity:0;transform:scale(1.55) rotate(45deg)} }
+        @keyframes eclipseSkillThorns { 0%{opacity:0;transform:translateY(65px) scaleX(.35)} 45%{opacity:1;transform:translateY(0) scaleX(1.2)} 100%{opacity:0;transform:translateY(-30px) scaleX(1.65)} }
       `}</style>
     </div>
   );
