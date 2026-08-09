@@ -3,7 +3,7 @@
 > Referência definitiva do sistema (Caso 8/9). **Não voltar a discutir o design —
 > aqui está o contrato.** Dados no código: `client/src/data/proficiencies.ts`,
 > `client/src/data/skills.ts`, `client/src/data/weaponCombos.ts`.
-> Status: v1.0 (2026-08-03) · Baselines: tsc OK · build OK · 89/89 · 41/41 · 18/18.
+> Status: v1.0 consolidado em **2026-08-09**. Este é o contrato mecânico; rode os comandos de validação antes de repetir contagens históricas. A prioridade visual está em `SKILLS_SPRINT.md`.
 
 ---
 

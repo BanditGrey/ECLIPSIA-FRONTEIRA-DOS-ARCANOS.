@@ -1,6 +1,12 @@
 # SPRINT — Efeitos visuais para todas as 98 Skills
-> Base de partele: SkillEffectPanel (physical/magical/void)
-> Regra: name do arquivo = id da skill + animação básica
+> **Estado confirmado em 2026-08-09:** o `SkillEffectPanel` hoje só escolhe entre
+> três efeitos genéricos (physical/magical/void). Este documento é o mapa para
+> migrar essa decisão a uma configuração específica por `skillId`, sem criar SVG
+> inline ou Canvas geométrico. Começar pelas skills de maior visibilidade, validar
+> o cast repetido e marcar a cobertura ao concluir.
+>
+> Base de partida: `SkillEffectPanel` (physical/magical/void)
+> Regra: o nome da configuração deve ser o id da skill + a animação correspondente.
 
  1. `slash` — slash
     Categoria: physical | Cor: #ef4444 | Efeito visual: slash/lunge | Som: physical_impact
