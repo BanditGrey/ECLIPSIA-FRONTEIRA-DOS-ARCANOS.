@@ -51,6 +51,11 @@ export const ITEM_VISUALS: Record<string, ItemVisual> = {
 /** Sprites full-body por elemento da roda de 6 (female; male = fallback).
  * água/sombrio/luz reusam arquivos da roda antiga (gelo/sombra/sagrada). */
 const SPRITE_FILE: Record<string, string> = {
+  // Artes próprias da roda oficial (T2); T3 cai no T2 até existir arte dedicada.
+  el_water_t2: 'el_water_t2',
+  el_dark_t2: 'el_dark_t2',
+  el_light_t2: 'el_light_t2',
+  // Fallbacks legados apenas para tiers ainda sem sprite própria.
   water: 'el_ice',
   dark: 'el_shadow',
   light: 'el_holy',
@@ -65,7 +70,11 @@ const SPRITES: Record<string, Partial<Record<Gender, Partial<Record<CharState, n
   shadow: { female: { idle: [1] }, male: { idle: [1] } },
   legendary: { female: { idle: [1] }, male: { idle: [1] } },
   mist: { female: { idle: [1] }, male: { idle: [1] } },
-  // elementos da roda (full-body legado)
+  // Elementos da roda: água/sombrio/luz T2 possuem arte própria feminina.
+  el_water_t2: { female: { idle: [1] } },
+  el_dark_t2: { female: { idle: [1] } },
+  el_light_t2: { female: { idle: [1] } },
+  // elementos legados usados somente como fallback de tiers sem arte própria
   fire: { female: { idle: [1], attack: [1] } },
   earth: { female: { idle: [1] } },
   wind: { female: { idle: [1] } },

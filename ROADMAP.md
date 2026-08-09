@@ -51,7 +51,7 @@
 - [x] Stamps elementais em recompensas de quest (35% para armas, respeitando o limite de effects).
 - [x] Overlays neutros T1/T2/T3/sprint: tiers T2/T3 usam PNG próprio e reutilizam a âncora T1 quando necessário.
 - [ ] Anchors dedicados para walk/cast/hit e revisão visual de cobertura masculina.
-- [ ] Arte própria para água, sombrio e luz onde ainda houver reaproveitamento legado.
+- [x] Arte própria T2 feminina para água, sombrio e luz; tiers sem arte própria continuam em fallback legado.
 - [ ] Relíquias próprias adicionais e balanceamento de poder/tier elemental.
 
 ## Robustez contínua
