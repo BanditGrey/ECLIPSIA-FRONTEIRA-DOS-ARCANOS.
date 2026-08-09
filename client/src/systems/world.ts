@@ -10,6 +10,7 @@ import { combatEngine } from './combat';
 import { hiddenEventsSystem } from './hiddenEvents';
 import { questSystem } from './quests';
 import { ELEMENT_REWARD_CHANCE, stampWeaponReward } from '../data/elementRewards';
+import { recordTelemetry } from './telemetry';
 
 export type ExploreEventType = 'item' | 'chest' | 'gold' | 'xp' | 'ambush' | 'rare_event' | 'secret_discovery';
 
@@ -110,6 +111,7 @@ const getExplorationChestWeapon = (regionId: string) =>
   pickRandom(CHEST_WEAPONS_BY_REGION[regionId] ?? CHEST_WEAPONS_BY_REGION.nythera);
 
 const feedExplorationSystems = (region: string) => {
+  recordTelemetry('exploration', { region });
   questSystem.onExplore(region);
   usePlayerStore.getState().recordDailyEvent('explore');
   hiddenEventsSystem.recordExplore(region);

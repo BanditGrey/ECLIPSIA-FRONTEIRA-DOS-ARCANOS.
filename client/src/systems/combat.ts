@@ -25,6 +25,7 @@ import { hiddenEventsSystem } from './hiddenEvents';
 import { impulseSystem } from './impulse';
 import { rollLoot } from './loot';
 import { questSystem } from './quests';
+import { recordTelemetry } from './telemetry';
 import { MONSTER_SKILLS, type MonsterId } from '../components/ui/MonsterLayered';
 
 export interface CombatStartOptions {
@@ -645,6 +646,15 @@ const handleVictory = () => {
   const loot = rollLoot(enemy, lootLuck, combat.autoConfig.lootFilter);
   loot.forEach((entry) => playerStore.addItem(entry.itemId, entry.qty));
   useCombatStore.setState({ lastLoot: loot });
+  recordTelemetry('combat_victory', {
+    enemyId: enemy.id,
+    enemyLevel: enemy.level,
+    dungeon: combat.isDungeon,
+    boss: combat.isBoss,
+    xp,
+    gold,
+    lootEntries: loot.length,
+  });
 
   impulseSystem.consumeCharge();
 

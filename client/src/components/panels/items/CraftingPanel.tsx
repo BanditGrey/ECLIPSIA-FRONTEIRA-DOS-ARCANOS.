@@ -10,6 +10,7 @@ import { refOf, usePlayerStore } from '../../../store/usePlayerStore';
 import type { Item } from '../../../types/item.types';
 import { resolveItemRef, serializeItem } from '../../../utils/itemSerializer';
 import { rollElementForWeapon } from '../../../data/weaponElements';
+import { recordTelemetry } from '../../../systems/telemetry';
 import { Button } from '../../ui/Button';
 
 const itemNameOf = (id: string, lang: 'pt-BR' | 'en-US' | 'es-ES' | 'ja-JP') => {
@@ -101,6 +102,7 @@ export const CraftingPanel = () => {
     }
 
     usePlayerStore.getState().recordDailyEvent('craft');
+    recordTelemetry('craft', { recipeId, outputId: recipe.outputId, elemental: outRef.includes('|') });
     addNotification(`${t('crafting.success')}: ${itemNameOf(recipe.outputId, lang)}`, 'gold');
   };
 
@@ -194,6 +196,7 @@ export const CraftingPanel = () => {
     removeItem(cost.materialId, cost.materialQty);
     spendGold(cost.gold);
     addItem(newRef, 1);
+    recordTelemetry('upgrade', { itemId: selectedItem.id, level: selectedLevel + 1 });
     setSelectedRef(newRef);
     addNotification(`${t('crafting.upgraded')} +${selectedLevel + 1}`, 'gold');
   };
