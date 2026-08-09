@@ -57,6 +57,7 @@ const SPRITE_FILE: Record<string, string> = {
   el_dark_t2: 'el_dark_t2',
   el_dark_t3: 'el_dark_t3',
   el_light_t2: 'el_light_t2',
+  el_light_t3: 'el_light_t3',
   // Fallbacks legados apenas para tiers ainda sem sprite própria.
   water: 'el_ice',
   dark: 'el_shadow',
@@ -78,6 +79,7 @@ const SPRITES: Record<string, Partial<Record<Gender, Partial<Record<CharState, n
   el_dark_t2: { female: { idle: [1] }, male: { idle: [1] } },
   el_dark_t3: { female: { idle: [1] }, male: { idle: [1] } },
   el_light_t2: { female: { idle: [1] }, male: { idle: [1] } },
+  el_light_t3: { female: { idle: [1] }, male: { idle: [1] } },
   // elementos legados usados somente como fallback de tiers sem arte própria
   fire: { female: { idle: [1], attack: [1] } },
   earth: { female: { idle: [1] } },
