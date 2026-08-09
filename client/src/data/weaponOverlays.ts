@@ -201,6 +201,9 @@ export const resolveWeaponOverlay = (
   if (!item) return null;
 
   let key: string | null = null;
+  // Algumas armas reutilizam a âncora T1, mas possuem PNGs próprios T2/T3.
+  // Mantemos a âncora e trocamos apenas o arquivo, evitando fallback visual T1.
+  let tierFileOverride: string | null = null;
   const catKey = weaponCategoryKey(item.weaponCategory);
 
   if (catKey) {
@@ -235,7 +238,13 @@ export const resolveWeaponOverlay = (
     // Fallback tier (sem elemento)
     if (!key) {
         const tKey = `ov_${catKey}_${tier}`;
-        if (hasOverlayKey(tKey)) key = tKey;
+        if (hasOverlayKey(tKey)) {
+          key = tKey;
+        } else if ((tier === 't2' || tier === 't3') && hasOverlayKey(`ov_${catKey}_t1`)) {
+          // PNG T2/T3 existe para a categoria, mas a âncora canônica é T1.
+          key = `ov_${catKey}_t1`;
+          tierFileOverride = `ov_${catKey}_${tier}`;
+        }
     }
   }
 
@@ -254,5 +263,5 @@ export const resolveWeaponOverlay = (
   const anchor = def.anchors[gender]?.[state] ?? def.anchors[gender]?.idle;
   if (!anchor) return null;
 
-  return { file: `/assets/sprites/${def.file}.png`, anchor };
+  return { file: `/assets/sprites/${tierFileOverride ?? def.file}.png`, anchor };
 };
