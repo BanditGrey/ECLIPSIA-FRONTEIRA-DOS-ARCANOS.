@@ -32,7 +32,9 @@ O servidor aceita origens: `localhost:3000/4173/5173`, `*.vercel.app` e `CLIENT_
 Se o client sair da Vercel, ajuste `CLIENT_URL` no server.
 
 ## 5. Verificação
-- `GET https://<server>/api/health` → `{ status: 'ok', online: N }`
+- `GET https://<server>/api/health` → `{ status: 'ok', database: 'ready', online: N, uptimeSeconds }`.
+  Em sandbox/fallback sem Mongo, o endpoint responde `503` com `status: 'degraded'`
+  e `database: 'sandbox-mock'` — comportamento esperado, não use isso em produção.
 - Abra o client → login → chat global e correio devem conectar (socket).
 
 ## 6. Teste rápido sem Atlas (dev/preview)
