@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ParticleSystem } from './ParticleSystem';
 import { playSkillPhysical, playSkillMagic, playSkillVoid, playCrit, playLevelUp } from '../../systems/audio/SFXEngine';
 import { skills } from '../../data/skills';
+import { resolveSkillVisual } from './skillVisuals';
 
 export interface SkillEffectConfig {
   skillId: string;
@@ -39,6 +40,8 @@ export const SkillEffectPanel: React.FC<SkillEffectConfig> = ({
   const [shake, setShake] = useState(false);
   const [floatKey, setFloatKey] = useState(0);
   const meta = TYPE_META[damageType] ?? TYPE_META.physical;
+  const visual = resolveSkillVisual(skillId, damageType);
+  const animationName = `eclipseSkill${visual.kind.charAt(0).toUpperCase()}${visual.kind.slice(1)}`;
 
   const skillData = skills.find(s => s.id === skillId);
   const skillIcon = skillData?.icon ?? '💥';
@@ -71,14 +74,15 @@ export const SkillEffectPanel: React.FC<SkillEffectConfig> = ({
   return (
     <div className={`fixed inset-0 z-[90] pointer-events-none flex items-center justify-center overflow-hidden ${shake ? 'animate-[eclipsiaShake_0.5s_ease]' : ''}`}>
       {showParticles && (
-        <ParticleSystem trigger={visible} type={meta.particle} className="absolute inset-0 w-full h-full" />
+        <ParticleSystem trigger={visible} type={visual.particle ?? meta.particle} className="absolute inset-0 w-full h-full" />
       )}
       <div className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center">
         <div
           className="w-48 h-48 md:w-72 md:h-72 rounded-full opacity-60 mix-blend-screen"
           style={{
-            background: `radial-gradient(circle, ${meta.color}55 0%, transparent 70%)`,
-            animation: damageType === 'physical' ? 'eclipseSlashAnim 0.6s ease-out forwards' : damageType === 'magical' ? 'eclipseBurstAnim 0.8s ease-out forwards' : 'eclipseShieldAnim 0.7s ease-out forwards',
+            background: `radial-gradient(circle, ${visual.glow}cc 0%, ${visual.color}66 38%, transparent 72%)`,
+            boxShadow: `0 0 38px ${visual.color}`,
+            animation: `${animationName} 0.85s ease-out forwards`, 
           }}
         />
       </div>
@@ -101,6 +105,22 @@ export const SkillEffectPanel: React.FC<SkillEffectConfig> = ({
           <div className={`h-full rounded-full bg-gradient-to-r ${meta.bar} ${isCritical ? 'animate-[pulse_1s_ease-in-out_infinite]' : ''}`} style={{ width: `${Math.min(100, damagePercent)}%` }} />
         </div>
       </div>
+      <style>{`
+        @keyframes eclipseSkillSlash { 0%{opacity:0;transform:translateX(-90px) rotate(-35deg) scale(.35)} 28%{opacity:1} 100%{opacity:0;transform:translateX(105px) rotate(25deg) scale(1.3)} }
+        @keyframes eclipseSkillSpin { 0%{opacity:0;transform:rotate(0) scale(.2)} 35%{opacity:1} 100%{opacity:0;transform:rotate(540deg) scale(1.45)} }
+        @keyframes eclipseSkillCross { 0%{opacity:0;transform:rotate(-45deg) scale(.25)} 42%{opacity:1;transform:rotate(45deg) scale(1.1)} 100%{opacity:0;transform:rotate(135deg) scale(1.4)} }
+        @keyframes eclipseSkillFlurry { 0%{opacity:0;transform:scale(.25) rotate(-20deg)} 45%{opacity:1;transform:scale(1.25) rotate(18deg)} 100%{opacity:0;transform:scale(1.65) rotate(-12deg)} }
+        @keyframes eclipseSkillArrow { 0%{opacity:0;transform:translateX(-130px) scaleX(.2)} 25%{opacity:1} 100%{opacity:0;transform:translateX(145px) scaleX(1.7)} }
+        @keyframes eclipseSkillRain { 0%{opacity:0;transform:translateY(-105px) scaleX(1.8) scaleY(.2)} 40%{opacity:1} 100%{opacity:0;transform:translateY(85px) scaleX(.6) scaleY(1.45)} }
+        @keyframes eclipseSkillArcane { 0%{opacity:0;transform:scale(.15) rotate(0)} 48%{opacity:1;transform:scale(1.05) rotate(160deg)} 100%{opacity:0;transform:scale(1.7) rotate(320deg)} }
+        @keyframes eclipseSkillFrost { 0%{opacity:0;transform:translateX(-80px) scale(.2)} 42%{opacity:1;transform:translateX(10px) scale(1)} 100%{opacity:0;transform:translateX(70px) scale(1.5)} }
+        @keyframes eclipseSkillLightning { 0%{opacity:0;transform:scaleY(.15) skewX(-28deg)} 32%{opacity:1;transform:scaleY(1.35) skewX(18deg)} 100%{opacity:0;transform:scaleY(1.8) skewX(-12deg)} }
+        @keyframes eclipseSkillHeal { 0%{opacity:0;transform:translateY(55px) scale(.25)} 45%{opacity:1;transform:translateY(-10px) scale(1.05)} 100%{opacity:0;transform:translateY(-95px) scale(1.45)} }
+        @keyframes eclipseSkillBarrier { 0%{opacity:0;transform:scale(.25)} 45%{opacity:1;transform:scale(1.15)} 100%{opacity:0;transform:scale(1.65)} }
+        @keyframes eclipseSkillQuake { 0%{opacity:0;transform:translateY(-55px) scale(.3)} 42%{opacity:1;transform:translateY(28px) scaleX(1.35) scaleY(.75)} 100%{opacity:0;transform:translateY(54px) scaleX(1.8) scaleY(.32)} }
+        @keyframes eclipseSkillLance { 0%{opacity:0;transform:translateX(-120px) rotate(-18deg) scaleX(.25)} 36%{opacity:1} 100%{opacity:0;transform:translateX(125px) rotate(12deg) scaleX(1.7)} }
+        @keyframes eclipseSkillMark { 0%{opacity:0;transform:scale(1.7)} 38%{opacity:1;transform:scale(.85)} 100%{opacity:0;transform:scale(1.35)} }
+      `}</style>
     </div>
   );
 };

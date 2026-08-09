@@ -1,9 +1,11 @@
 # SPRINT — Efeitos visuais para todas as 70 Skills
-> **Estado confirmado em 2026-08-09:** o `SkillEffectPanel` hoje só escolhe entre
-> três efeitos genéricos (physical/magical/void). Este documento é o mapa para
-> migrar essa decisão a uma configuração específica por `skillId`, sem criar SVG
-> inline ou Canvas geométrico. Começar pelas skills de maior visibilidade, validar
-> o cast repetido e marcar a cobertura ao concluir.
+> **Estado atualizado em 2026-08-09:** a primeira leva está entregue por
+> `components/effects/skillVisuals.ts`: slash, spin_slash, cross_slash,
+> blade_flurry, quick_shot, rain_of_arrows, arcane_burst, frost_bolt,
+> chain_lightning, heal_pulse, greater_heal, astral_barrier, earth_shake,
+> seismic_slam, dragon_lance, hunters_mark e arcane_mark têm identidade visual
+> própria. As demais usam fallback por categoria até serem migradas. Não criar SVG
+> inline ou Canvas geométrico; validar casts repetidos ao ampliar a cobertura.
 >
 > Base de partida: `SkillEffectPanel` (physical/magical/void)
 > Regra: o nome da configuração deve ser o id da skill + a animação correspondente.
