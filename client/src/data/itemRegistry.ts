@@ -42,7 +42,7 @@ export const itemCategoryRanges: ItemCategoryRange[] = [
     category: 'off_hand',
     min: 2000,
     max: 2499,
-    description: 'Off-Hand: escudos, adagas off, orbes, tomos'
+    description: 'Mão secundária: glifos elementais e neutros'
   },
   {
     category: 'head',
