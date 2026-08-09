@@ -31,18 +31,17 @@
       `resolveFusionAuraAnchor`, atrás da arma e sem substituir a arte dela.
 - [x] Smoke test serializado: arma água + glifo vento resolve GELO e o glifo
       resolve como off-hand de vento.
-- [ ] Validar manualmente no Modo Sandbox: glifo neutro, espada+escudo e poses
-      de combate.
+- [ ] Validar manualmente no Modo Sandbox: glifo neutro e poses de combate
+      (escudos foram removidos do design).
 
 ## Prioridade 2 — FX individual das 70 skills
 
-- [ ] Substituir a decisão atual de três animações genéricas no
+- [x] Substituir a decisão de três animações genéricas no
       `SkillEffectPanel` por configuração por `skillId`.
-- [ ] Começar com habilidades representativas de corte, giro, tiro, cura, barreira,
-      magia arcana, vazio, terremoto e escudo.
-- [ ] Manter PNGs estáticos/CSS; não introduzir SVG inline ou Canvas geométrico
-      para novos assets.
-- [ ] Usar `SKILLS_SPRINT.md` como mapa de cobertura e marcar as skills concluídas.
+- [x] Cobrir as 70 skills ativas com corte, giro, tiro, cura, barreira,
+      magia arcana, vazio, terremoto, lança, fumaça, guarda e espinhos.
+- [x] Manter CSS/partículas existentes, sem SVG inline ou Canvas geométrico novo.
+- [x] Usar `SKILLS_SPRINT.md` como mapa: 70/70 IDs ativos configurados.
 
 ## Prioridade 3 — elementos e visuais
 
@@ -59,7 +58,8 @@
 - [ ] Testes de integração Mongo para mail, market, guild e trade.
 - [ ] Persistência de parties/trades caso a operação online exija reinicialização segura.
 - [ ] Telemetria para ajustar drops, crystals, craft, upgrade e proficiências.
-- [ ] Code-splitting adicional, logs estruturados e healthcheck detalhado.
+- [x] Logs estruturados com Pino e healthcheck detalhado (status, banco, uptime e online).
+- [ ] Code-splitting adicional.
 - [ ] Deploy definitivo em Atlas/Railway/Vercel e teste com duas contas.
 
 ## Baseline obrigatório antes/depois de mudanças
