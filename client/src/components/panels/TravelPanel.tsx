@@ -7,6 +7,7 @@ import { useI18n } from '../../hooks/useI18n';
 import { useGameStore } from '../../store/useGameStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
 import { combatEngine } from '../../systems/combat';
+import { worldSystem } from '../../systems/world';
 import type { Item } from '../../types/item.types';
 import { Button } from '../ui/Button';
 import { ART } from '../../data/art';
@@ -84,6 +85,11 @@ export const TravelPanel = () => {
     // Usa o motor real: monstros, elementos, loot e progressão da região.
     combatEngine.start(region.id);
     setPanel('combat');
+  };
+
+  const exploreRegion = (region: RegionEntry) => {
+    const result = worldSystem.explore(region.id);
+    if (result.type === 'ambush') setPanel('combat');
   };
 
   const isDungeonUnlocked = (dungeon: DungeonDef) => {
@@ -166,7 +172,10 @@ export const TravelPanel = () => {
                   </div>
                   <div className="flex min-w-32 items-center justify-end">
                     {unlocked ? (
-                      <Button size="sm" onClick={() => enterRegion(region)}>{t('travel.enter')}</Button>
+                      <div className="flex gap-2">
+                        <Button size="sm" variant="ghost" onClick={() => exploreRegion(region)}>{t('travel.explore')}</Button>
+                        <Button size="sm" onClick={() => enterRegion(region)}>{t('travel.enter')}</Button>
+                      </div>
                     ) : (
                       <span className="rounded-md border border-night-600 bg-night-900/90 px-3 py-2 text-center font-mono text-xs text-game-muted">
                         🔒 {requirementText(region)}

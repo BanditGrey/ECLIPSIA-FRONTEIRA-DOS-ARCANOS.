@@ -520,6 +520,7 @@ export const translations: Record<LangCode, TranslationTree> = {
         "fragment_nexus": { "name": "Nexo do Fragmento", "desc": "O coração partido de Eclipsia pulsa atrás do véu. Apenas os despertos o encontram." }
       },
       "enter": "Entrar",
+      "explore": "Explorar",
       "go": "Ir",
       "locked": "Bloqueado",
       "requireLevel": "Requer nível",
@@ -2222,6 +2223,7 @@ export const translations: Record<LangCode, TranslationTree> = {
         "fragment_nexus": { "name": "Fragment Nexus", "desc": "The shattered heart of Eclipsia beats behind the veil. Only the awakened find it." }
       },
       "enter": "Enter",
+      "explore": "Explore",
       "go": "Go",
       "locked": "Locked",
       "requireLevel": "Requires level",
@@ -3923,6 +3925,7 @@ export const translations: Record<LangCode, TranslationTree> = {
         "fragment_nexus": { "name": "Nexo del Fragmento", "desc": "El corazón roto de Eclipsia late tras el velo. Solo los despertados lo encuentran." }
       },
       "enter": "Entrar",
+      "explore": "Explorar",
       "go": "Ir",
       "locked": "Bloqueado",
       "requireLevel": "Requiere nivel",
@@ -5624,6 +5627,7 @@ export const translations: Record<LangCode, TranslationTree> = {
         "fragment_nexus": { "name": "欠片の中枢", "desc": "エクリプシアの砕けた心臓がヴェールの向こうで脈打つ。目覚めし者だけが辿り着く。" }
       },
       "enter": "入る",
+      "explore": "探索",
       "go": "行く",
       "locked": "ロック中",
       "requireLevel": "必要レベル",
