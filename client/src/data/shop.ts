@@ -69,24 +69,6 @@ export const shop: ShopEntry[] = [
     requireLevel: 18
   },
   {
-    itemId: 'oh_2000',
-    price: 160,
-    category: 'weapon',
-    requireLevel: 1
-  },
-  {
-    itemId: 'oh_2002',
-    price: 520,
-    category: 'weapon',
-    requireLevel: 10
-  },
-  {
-    itemId: 'oh_2150',
-    price: 480,
-    category: 'weapon',
-    requireLevel: 8
-  },
-  {
     itemId: 'hd_2500',
     price: 150,
     category: 'armor',

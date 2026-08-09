@@ -45,16 +45,6 @@ export const recipes: Recipe[] = [
     ]
   },
   {
-    id: 'recipe_shield_iron',
-    outputId: 'oh_2002',
-    gold: 200,
-    requireLevel: 10,
-    inputs: [
-      { itemId: 'mat_9000', qty: 3 },
-      { itemId: 'mat_9001', qty: 2 }
-    ]
-  },
-  {
     id: 'recipe_helm_iron',
     outputId: 'hd_2502',
     gold: 180,

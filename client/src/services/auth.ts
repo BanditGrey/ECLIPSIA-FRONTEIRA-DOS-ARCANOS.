@@ -396,9 +396,6 @@ export const AuthService = {
         { itemStr: "w2h_1702", id: "w2h_1702", qty: 1 }, // Vazio t2
         { itemStr: "w2h_1704", id: "w2h_1704", qty: 1 }, // Vazio t3
         // Roda completa: terra/vento/sangue (off-hand) t1→t3
-        { itemStr: "oh_2200", id: "oh_2200", qty: 1 }, // Sangue t1
-        { itemStr: "oh_2201", id: "oh_2201", qty: 1 }, // Sangue t2
-        { itemStr: "oh_2203", id: "oh_2203", qty: 1 }, // Sangue t3
         // META-PAR 101 = elemento da instância: QUALQUER arma × QUALQUER elemento
         { itemStr: "1500|13:35", id: "w2h_1500", qty: 1 }, // Espadão TERRA T2
         { itemStr: "1504|12:60", id: "w2h_1504", qty: 1 }, // Espadão FOGO T3
@@ -415,7 +412,6 @@ export const AuthService = {
         { itemStr: "gl_2295", id: "gl_2295", qty: 1 }, // Luz rélica
         { itemStr: "gl_2280", id: "gl_2280", qty: 1 }, // NEUTRO comum (sem fusão)
         { itemStr: "gl_2285", id: "gl_2285", qty: 1 }, // NEUTRO rélica
-        { itemStr: "oh_2003", id: "oh_2003", qty: 1 }, // Escudo Arcano (espada+escudo)
         // DEMO DE FUSÃO: Espada ÁGUA + glifo VENTO = aura de GELO
         { itemStr: "1004|14:35", id: "w1h_1004", qty: 1 }, // Espada da Guarda ÁGUA T2
       ],
@@ -431,16 +427,12 @@ export const AuthService = {
         sword_two: 2000,
         great_sword: 0,
         dagger: 0,
-        dagger_off: 0,
         bow_short: 0,
         bow_long: 0,
         staff_one: 0,
         staff_two: 0,
-        orb: 0,
-        tome: 0,
         hammer: 0,
-        spear: 0,
-        shield: 0
+        spear: 0
       },
       kills: {},
       discoveries: [],

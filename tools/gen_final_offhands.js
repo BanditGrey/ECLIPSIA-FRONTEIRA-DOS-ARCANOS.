@@ -17,14 +17,7 @@ async function processSprite(source, dest, params) {
 }
 
 async function run() {
-    // Escudos
-    const shieldSrc = 'raw_shield.png';
-    await processSprite(shieldSrc, 'oh_shield.png', {});
-    await processSprite(shieldSrc, 'oh_shield_t1.png', { modulate: { saturation: 0.2, brightness: 0.8 } }); // Aço
-    await processSprite(shieldSrc, 'oh_shield_t2.png', { modulate: { saturation: 1.2, hue: 180, brightness: 0.9 } }); // Azulado
-    await processSprite(shieldSrc, 'oh_shield_t3.png', { modulate: { saturation: 1.4, brightness: 1.1 } }); // Dourado
-    await processSprite(shieldSrc, 'oh_shield_sprint.png', { modulate: { saturation: 0.1, brightness: 1.2 } }); // Branco
-    
+    // Off-hand é exclusivo de glifos; não gerar escudos.
     // Glifos base
     const els = ['fire', 'water', 'earth', 'wind', 'dark', 'light'];
     

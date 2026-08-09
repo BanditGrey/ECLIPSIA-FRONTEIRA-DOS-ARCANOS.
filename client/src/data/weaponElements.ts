@@ -70,7 +70,6 @@ const CURATED: Record<string, WeaponElement> = {
   w2h_1501: 'dark', w2h_1502: 'dark', w2h_1503: 'dark', w2h_1504: 'dark',
   w2h_1651: 'light', w2h_1652: 'light', w2h_1653: 'light', w2h_1654: 'light',
   w2h_1701: 'water', w2h_1702: 'water', w2h_1703: 'water', w2h_1704: 'water',
-  oh_2200: 'dark', oh_2201: 'dark', oh_2202: 'dark', oh_2203: 'dark',
 };
 
 /**

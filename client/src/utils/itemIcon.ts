@@ -38,10 +38,9 @@ export function itemIconFor(item: Item): ItemIconName {
           return 'sword';
       }
     case 'weapon_off':
-      if (weaponCategory === 'shield') return 'shield';
-      if (weaponCategory === 'dagger' || weaponCategory === 'dagger_off') return 'dagger';
-      if (weaponCategory === 'orb' || weaponCategory === 'tome') return 'crystal';
-      return 'shield';
+      if (weaponCategory === 'glyph') return 'crystal';
+      if (weaponCategory === 'dagger') return 'dagger';
+      return 'item_generic';
     case 'armor':
     case 'chest': return 'chestplate';
     case 'helmet':

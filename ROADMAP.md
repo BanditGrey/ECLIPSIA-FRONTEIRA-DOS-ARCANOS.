@@ -9,11 +9,18 @@
   conjuntos, mochila/baú e efeitos aplicados ao combate.
 - Mercado, correio, leilão, guildas, chat, whisper persistente, mute, presença,
   trade P2P, party e caçada cooperativa sincronizada.
-- Dungeons, bosses, quests diárias, proficiências de armas, 98 skills e auditoria
+- Dungeons, bosses, quests diárias, 10 proficiências de armas principais, 70 skills e auditoria
   de balanceamento.
 - Identidade visual Fronteira Arcana, sprites de personagem/inimigos/bosses,
   ícones em assets estáticos, equipamento por camadas e armas por tier.
 - Roda elemental, stamps no craft, counters contra inimigos e catálogo de glifos.
+
+## Decisão de equipamento — concluída
+
+- [x] A mão secundária é exclusiva para glifos.
+- [x] Removidos do catálogo armas/escudos off-hand, suas proficiências, skills,
+      combinações e overlays dedicados. O jogo agora possui 10 armas principais
+      e 70 skills (7 por arma).
 
 ## Prioridade 1 — finalizar glifos e fusão visual
 
@@ -26,7 +33,7 @@
 - [ ] Validar manualmente no Modo Sandbox: glifo neutro, espada+escudo e poses
       de combate.
 
-## Prioridade 2 — FX individual das 98 skills
+## Prioridade 2 — FX individual das 70 skills
 
 - [ ] Substituir a decisão atual de três animações genéricas no
       `SkillEffectPanel` por configuração por `skillId`.

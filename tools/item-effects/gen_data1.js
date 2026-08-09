@@ -74,23 +74,6 @@ const W2H = [
 const W2H_META = { file: 'weapons2h', groups: { 1500: 'great_sword', 1600: 'hammer', 1650: 'spear', 1700: 'bow_long', 1750: 'staff_two' } };
 
 const OH = [
-  ['oh_2000', 2000, 'c', 1, '🛡', ['Tábua de Madeira', 'Wooden Plank', 'Tabla de Madera', '木の板'], [2, 12], 'shield'],
-  ['oh_2001', 2001, 'c', 3, '🛡', ['Escudo de Madeira', 'Wooden Shield', 'Escudo de Madera', '木の盾'], [2, 20], 'shield'],
-  ['oh_2002', 2002, 'u', 10, '🛡', ['Escudo de Ferro', 'Iron Shield', 'Escudo de Hierro', '鉄の盾'], [2, 35, 5, 5], 'shield'],
-  ['oh_2003', 2003, 'r', 20, '🛡', ['Escudo Arcano', 'Arcane Shield', 'Escudo Arcano', '秘法の盾'], [2, 55, 5, 10, 23, 10], 'shield'],
-  ['oh_2004', 2004, 'e', 30, '🛡', ['Escudo do Eclipse', 'Shield of the Eclipse', 'Escudo del Eclipse', '日食の盾'], [2, 85, 5, 18, 23, 20, 73, 20], 'shield'],
-  ['oh_2005', 2005, 'l', 40, '🛡', ['Escudo Lendário', 'Legendary Shield', 'Escudo Legendario', '伝説の盾'], [2, 130, 5, 30, 23, 35, 10, 300, 73, 30], 'shield'],
-  ['oh_2100', 2100, 'u', 8, '🗡', ['Adaga Off-Hand', 'Off-Hand Dagger', 'Daga Secundaria', '副手の短剣'], [1, 18, 4, 5], 'dagger_off'],
-  ['oh_2101', 2101, 'r', 20, '🗡', ['Adaga das Sombras Off', 'Off-Hand Shadow Dagger', 'Daga Sombría Secundaria', '副手の影の短剣'], [1, 42, 4, 10, 7, 5], 'dagger_off'],
-  ['oh_2102', 2102, 'e', 32, '🗡', ['Adaga do Eclipse Off', 'Off-Hand Eclipse Dagger', 'Daga del Eclipse Secundaria', '副手の日食の短剣'], [1, 75, 4, 18, 7, 10, 21, 5], 'dagger_off'],
-  ['oh_2150', 2150, 'u', 8, '🔮', ['Orbe Arcano', 'Arcane Orb', 'Orbe Arcano', '秘法のオーブ'], [6, 18, 11, 60], 'orb'],
-  ['oh_2151', 2151, 'r', 18, '🔮', ['Orbe das Trevas', 'Orb of Darkness', 'Orbe de las Tinieblas', '闇のオーブ'], [6, 38, 11, 120, 8, 5], 'orb'],
-  ['oh_2152', 2152, 'e', 30, '🔮', ['Orbe do Eclipse', 'Orb of the Eclipse', 'Orbe del Eclipse', '日食のオーブ'], [6, 65, 11, 220, 8, 12], 'orb'],
-  ['oh_2153', 2153, 'l', 40, '🔮', ['Orbe Lendário', 'Legendary Orb', 'Orbe Legendario', '伝説のオーブ'], [6, 100, 11, 380, 8, 22, 26, 15], 'orb'],
-  ['oh_2200', 2200, 'u', 10, '📖', ['Tomo Antigo', 'Ancient Tome', 'Tomo Antiguo', '古の書'], [6, 25, 8, 6, 11, 80], 'tome'],
-  ['oh_2201', 2201, 'r', 20, '📖', ['Tomo das Ruínas', 'Tome of the Ruins', 'Tomo de las Ruinas', '遺跡の書'], [6, 45, 8, 12, 11, 160], 'tome'],
-  ['oh_2202', 2202, 'e', 30, '📖', ['Tomo do Eclipse', 'Tome of the Eclipse', 'Tomo del Eclipse', '日食の書'], [6, 75, 8, 20, 11, 280, 26, 10], 'tome'],
-  ['oh_2203', 2203, 'l', 40, '📖', ['Tomo Lendário', 'Legendary Tome', 'Tomo Legendario', '伝説の書'], [6, 115, 8, 32, 11, 450, 26, 20], 'tome']
 ];
 
 const HEAD = [

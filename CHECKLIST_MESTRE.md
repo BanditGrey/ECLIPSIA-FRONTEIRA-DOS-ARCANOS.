@@ -6,7 +6,8 @@
 - [x] i18n em pt-BR, en-US, es-ES e ja-JP
 - [x] ItemEffects, itemStr, inventário, craft, upgrade, sets e encantamento
 - [x] Mercado, leilão, correio, trade, guilda, party e chat social
-- [x] Proficiências, 98 skills, passivas e auditoria de balanceamento
+- [x] 10 proficiências de armas principais, 70 skills, passivas e auditoria de balanceamento
+- [x] Mão secundária exclusiva para glifos; removidos armas e escudos off-hand
 - [x] Sprites, equipamento em camadas, assets estáticos, cenários e FX base
 
 ## Próxima entrega

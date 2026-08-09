@@ -53,11 +53,12 @@ server/src/
 
 ### Proficiências e skills
 
-- Há 14 categorias de arma, cap de 1000 pontos, bônus de ATK por ponto e passivas
-  nos marcos 50/150/300.
-- Existem 98 skills, exatamente 7 por arma. Alterações devem partir de
+- Há 10 categorias de arma principal, cap de 1000 pontos, bônus de ATK por ponto e
+  passivas nos marcos 50/150/300.
+- Existem 70 skills, exatamente 7 por arma. Alterações devem partir de
   `tools/gen_skills.mjs`, não da saída gerada.
-- A mesma categoria não pode ocupar as duas mãos; armas podem ocupar main ou off.
+- A mão secundária é exclusiva para glifos; armas, escudos e proficiências de
+  off-hand foram removidos do catálogo.
 
 ## 4. Elementos, visuais e assets
 

@@ -223,7 +223,6 @@ export const LayeredCharacter: React.FC<Props> = ({
         @keyframes lcHitFlash { 0%{opacity:0.7} 40%{opacity:0.4} 100%{opacity:0} }
         @keyframes lcFusionAura { 0%,100%{transform:scale(0.92)} 50%{transform:scale(1.1)} }
         @keyframes ohGlyphFloat { 0%,100%{transform:translateY(0) rotate(-4deg)} 50%{transform:translateY(-4px) rotate(4deg)} }
-        @keyframes ohShieldIdle { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-2px)} }
       `}</style>
     </div>
   );

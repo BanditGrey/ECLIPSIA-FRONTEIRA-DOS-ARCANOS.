@@ -1,4 +1,4 @@
-# SPRINT — Efeitos visuais para todas as 98 Skills
+# SPRINT — Efeitos visuais para todas as 70 Skills
 > **Estado confirmado em 2026-08-09:** o `SkillEffectPanel` hoje só escolhe entre
 > três efeitos genéricos (physical/magical/void). Este documento é o mapa para
 > migrar essa decisão a uma configuração específica por `skillId`, sem criar SVG
@@ -499,5 +499,5 @@
     Partícula: `support` | Estado do monstro: `attack` (skill_1) / `skill_2` (skill_2)
 
 ---
-TOTAL: 98 skills mapeadas para sprint visual\.
+TOTAL: 70 skills mapeadas para sprint visual\.
 Próximo passo: criar 3 keyframes base (slash, burst, shield) e replicar para grupos.

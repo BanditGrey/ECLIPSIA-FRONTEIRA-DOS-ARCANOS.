@@ -91,7 +91,7 @@ danoFinal = max(1, floor(danoBase × multiplicador − defInimigo×0.35))
 
 ---
 
-## 4. SKILLS POR ARMA (98 skills — **7 por arma**, obrigatório)
+## 4. SKILLS POR ARMA (70 skills — **7 por arma**, obrigatório)
 
 > ⚙️ **Fonte de verdade: `tools/gen_skills.mjs`** — o gerador cria
 > `client/src/data/skills.ts` + o bloco i18n "skills" (4 idiomas).
@@ -175,8 +175,8 @@ Além dos effects primários/combate existentes, estes 10 effects afetam
 
 ## 8. CHECKLIST DE STATUS
 
-- [x] 14 proficiências com XP por uso (ataque/skill/abate) e cap 1000
-- [x] **98 skills — exatamente 7 por arma** (geradas por `tools/gen_skills.mjs`)
+- [x] 10 proficiências com XP por uso (ataque/skill/abate) e cap 1000
+- [x] **70 skills — exatamente 7 por arma** (geradas por `tools/gen_skills.mjs`)
 - [x] **Toda arma equipável em qualquer mão** (main/off); mesma categoria
       bloqueada nas duas mãos; "duas mãos" não bloqueia mais a off
 - [x] Passivas por marcos (50/150/300) integradas (dano, crítico, cura, defesa)

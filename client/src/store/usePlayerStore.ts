@@ -56,7 +56,7 @@ const inferEquipmentSlot = (itemId: string): EquipmentSlot | null => {
     return directSlot;
   }
 
-  if (normalized.includes('shield') || normalized.includes('orb') || normalized.includes('tome') || normalized.includes('dagger_off')) {
+  if (normalized.includes('glyph')) {
     return 'weapon_off';
   }
 
@@ -564,29 +564,17 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       return false;
     }
 
-    // ARMAS: podem ir em QUALQUER mão (main ou off) — escolha do jogador.
-    // Regra: a MESMA categoria de arma não pode ocupar as duas mãos.
+    // MÃO PRINCIPAL = arma; MÃO SECUNDÁRIA = exclusivamente glifo.
+    // Não existe mais arma, escudo ou proficiência de combate de off-hand.
     const weaponCategory = weaponCategoryOf(itemId);
     const isWeapon = Boolean(weaponCategory);
 
     if (isWeapon) {
-      // GLIFOS são exclusivos de mão secundária (selam o 2º elemento/fusão).
-      if (weaponCategory === 'glyph' && preferredSlot === 'weapon_main') {
+      const isGlyph = weaponCategory === 'glyph';
+      if ((isGlyph && preferredSlot === 'weapon_main') || (!isGlyph && preferredSlot === 'weapon_off')) {
         return false;
       }
-      const requestedSlot = preferredSlot === 'weapon_main' || preferredSlot === 'weapon_off'
-        ? preferredSlot
-        : (weaponCategory === 'glyph'
-          ? 'weapon_off'
-          : (item.slot === 'weapon_main' || item.slot === 'weapon_off' ? item.slot : 'weapon_main'));
-      const otherSlot = requestedSlot === 'weapon_main' ? 'weapon_off' : 'weapon_main';
-      const otherId = data.equipment[otherSlot];
-      const otherCategory = otherId ? weaponCategoryOf(otherId) : null;
-
-      if (otherCategory && otherCategory === weaponCategory) {
-        return false;
-      }
-
+      const requestedSlot = isGlyph ? 'weapon_off' : 'weapon_main';
       const equipment: Equipment = {
         ...data.equipment,
         [requestedSlot]: itemId

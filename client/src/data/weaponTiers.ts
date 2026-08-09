@@ -56,15 +56,12 @@ export const weaponCategoryKey = (weaponCategory: string | undefined): string | 
     sword_two: 'sword',
     great_sword: 'greatsword',
     dagger: 'dagger',
-    dagger_off: 'dagger',
     bow_short: 'bowshort',
     bow_long: 'bowlong',
     staff_one: 'staff',
     staff_two: 'greatstaff',
     hammer: 'hammer',
     spear: 'spear',
-    orb: 'orb',
-    tome: 'tome',
   };
   return map[weaponCategory] ?? null;
 };

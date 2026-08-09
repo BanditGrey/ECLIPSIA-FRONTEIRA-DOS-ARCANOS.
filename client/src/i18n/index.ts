@@ -1242,7 +1242,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "questComplete": "Missão concluída!",
       "itemFound": "Item encontrado!"
     },
-                            "skills": {
+                                "skills": {
       "slash": {
         "name": "Corte Rápido",
         "desc": "Causa 150% do ATK físico."
@@ -1354,34 +1354,6 @@ export const translations: Record<LangCode, TranslationTree> = {
       "assassinate": {
         "name": "Assassinar",
         "desc": "Causa 320% do ATK físico. Executa alvos abaixo de 25% de HP."
-      },
-      "feint": {
-        "name": "Finta",
-        "desc": "Causa 125% do ATK físico. Retarda o alvo por 2 turno(s)."
-      },
-      "double_slash": {
-        "name": "Corte Duplo",
-        "desc": "Causa 2 golpes de 95% do ATK físico."
-      },
-      "riposte": {
-        "name": "Riposta",
-        "desc": "Causa 145% do ATK físico. Esquiva o próximo golpe."
-      },
-      "lacerate": {
-        "name": "Lacerar",
-        "desc": "Causa 55 de dano por 3 turnos."
-      },
-      "twin_fang": {
-        "name": "Presas Gêmeas",
-        "desc": "Causa 2 golpes de 105% do ATK físico."
-      },
-      "whirl_dagger": {
-        "name": "Adaga Giratória",
-        "desc": "Causa 4 golpes de 62% do ATK físico."
-      },
-      "shadow_parry": {
-        "name": "Apara Sombria",
-        "desc": "Causa 175% do ATK físico. Atordoa o alvo por 1 turno(s). Esquiva o próximo golpe."
       },
       "piercing_shot": {
         "name": "Disparo Perfurante",
@@ -1495,62 +1467,6 @@ export const translations: Record<LangCode, TranslationTree> = {
         "name": "Distorção Temporal",
         "desc": "Marca o alvo: +50% de dano recebido por 3 turnos."
       },
-      "void_bolt": {
-        "name": "Projétil do Vazio",
-        "desc": "Causa 165% do ATK do vazio."
-      },
-      "void_rupture": {
-        "name": "Ruptura do Vazio",
-        "desc": "Causa 145% do ATK do vazio. Causa 40 de dano por 3 turnos."
-      },
-      "astral_barrier": {
-        "name": "Barreira Astral",
-        "desc": "Aumenta a defesa em 35% por 3 turnos."
-      },
-      "gravity_well": {
-        "name": "Poço Gravitacional",
-        "desc": "Causa 130% do ATK do vazio. Atordoa o alvo por 1 turno(s)."
-      },
-      "void_armor": {
-        "name": "Armadura do Vazio",
-        "desc": "Aumenta a defesa em 35% por 3 turnos. e restaura 10% do hp máximo."
-      },
-      "void_gate": {
-        "name": "Portal do Vazio",
-        "desc": "Causa 330% do ATK do vazio."
-      },
-      "cosmic_burst": {
-        "name": "Explosão Cósmica",
-        "desc": "Causa 5 golpes de 70% do ATK do vazio."
-      },
-      "arcane_mark": {
-        "name": "Marca Arcana",
-        "desc": "Marca o alvo: +40% de dano recebido por 3 turnos."
-      },
-      "root": {
-        "name": "Raízes",
-        "desc": "Causa 110% do ATK mágico. Atordoa o alvo por 1 turno(s)."
-      },
-      "petrify": {
-        "name": "Petrificar",
-        "desc": "Causa 130% do ATK mágico. Atordoa o alvo por 1 turno(s)."
-      },
-      "arcane_ward": {
-        "name": "Guarda Arcano",
-        "desc": "Aumenta a defesa em 30% por 3 turnos. e restaura 25% do hp máximo."
-      },
-      "rune_shield": {
-        "name": "Escudo Rúnico",
-        "desc": "Aumenta a defesa em 45% por 2 turnos."
-      },
-      "draining_tome": {
-        "name": "Grimório Drenante",
-        "desc": "Causa 145% do ATK mágico. Restaura 30% do HP máximo."
-      },
-      "forbidden_knowledge": {
-        "name": "Conhecimento Proibido",
-        "desc": "Causa 305% do ATK mágico."
-      },
       "crushing_blow": {
         "name": "Golpe Esmagador",
         "desc": "Causa 165% do ATK físico."
@@ -1606,34 +1522,6 @@ export const translations: Record<LangCode, TranslationTree> = {
       "dragon_lance": {
         "name": "Lança do Dragão",
         "desc": "Causa 265% do ATK físico. Retarda o alvo por 1 turno(s)."
-      },
-      "shield_bash": {
-        "name": "Investida de Escudo",
-        "desc": "Causa 125% do ATK físico. Atordoa o alvo por 1 turno(s)."
-      },
-      "shield_slam": {
-        "name": "Esmagada de Escudo",
-        "desc": "Causa 150% do ATK físico. Retarda o alvo por 1 turno(s)."
-      },
-      "provoke": {
-        "name": "Provocar",
-        "desc": "Marca o alvo: +30% de dano recebido por 3 turnos."
-      },
-      "bastion": {
-        "name": "Bastião",
-        "desc": "Aumenta a defesa em 60% por 2 turnos."
-      },
-      "aegis_guard": {
-        "name": "Guarda de Égide",
-        "desc": "Aumenta a defesa em 50% por 2 turnos. e restaura 15% do hp máximo."
-      },
-      "shield_charge": {
-        "name": "Carga de Escudo",
-        "desc": "Causa 205% do ATK físico. Atordoa o alvo por 1 turno(s)."
-      },
-      "holy_aegis": {
-        "name": "Égide Sagrada",
-        "desc": "Aumenta a defesa em 20% por 2 turnos. e restaura 50% do hp máximo."
       }
     },
     "bosses": {
@@ -3057,7 +2945,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "questComplete": "Quest complete!",
       "itemFound": "Item found!"
     },
-                            "skills": {
+                                "skills": {
       "slash": {
         "name": "Quick Slash",
         "desc": "Deals 150% of physical ATK damage."
@@ -3169,34 +3057,6 @@ export const translations: Record<LangCode, TranslationTree> = {
       "assassinate": {
         "name": "Assassinate",
         "desc": "Deals 320% of physical ATK damage. Executes targets below 25% HP."
-      },
-      "feint": {
-        "name": "Feint",
-        "desc": "Deals 125% of physical ATK damage. Slows the target for 2 turn(s)."
-      },
-      "double_slash": {
-        "name": "Double Slash",
-        "desc": "Deals 2 hits of 95% physical ATK damage."
-      },
-      "riposte": {
-        "name": "Riposte",
-        "desc": "Deals 145% of physical ATK damage. Dodges the next incoming hit."
-      },
-      "lacerate": {
-        "name": "Lacerate",
-        "desc": "Deals 55 damage per turn for 3 turns."
-      },
-      "twin_fang": {
-        "name": "Twin Fang",
-        "desc": "Deals 2 hits of 105% physical ATK damage."
-      },
-      "whirl_dagger": {
-        "name": "Whirl Dagger",
-        "desc": "Deals 4 hits of 62% physical ATK damage."
-      },
-      "shadow_parry": {
-        "name": "Shadow Parry",
-        "desc": "Deals 175% of physical ATK damage. Stuns the target for 1 turn(s). Dodges the next incoming hit."
       },
       "piercing_shot": {
         "name": "Piercing Shot",
@@ -3310,62 +3170,6 @@ export const translations: Record<LangCode, TranslationTree> = {
         "name": "Time Warp",
         "desc": "Marks the target: +50% damage taken for 3 turns."
       },
-      "void_bolt": {
-        "name": "Void Bolt",
-        "desc": "Deals 165% of void ATK damage."
-      },
-      "void_rupture": {
-        "name": "Void Rupture",
-        "desc": "Deals 145% of void ATK damage. Deals 40 damage per turn for 3 turns."
-      },
-      "astral_barrier": {
-        "name": "Astral Barrier",
-        "desc": "Increases defense by 35% for 3 turns."
-      },
-      "gravity_well": {
-        "name": "Gravity Well",
-        "desc": "Deals 130% of void ATK damage. Stuns the target for 1 turn(s)."
-      },
-      "void_armor": {
-        "name": "Void Armor",
-        "desc": "Increases defense by 35% for 3 turns. e restores 10% of max hp."
-      },
-      "void_gate": {
-        "name": "Void Gate",
-        "desc": "Deals 330% of void ATK damage."
-      },
-      "cosmic_burst": {
-        "name": "Cosmic Burst",
-        "desc": "Deals 5 hits of 70% void ATK damage."
-      },
-      "arcane_mark": {
-        "name": "Arcane Mark",
-        "desc": "Marks the target: +40% damage taken for 3 turns."
-      },
-      "root": {
-        "name": "Root",
-        "desc": "Deals 110% of magic ATK damage. Stuns the target for 1 turn(s)."
-      },
-      "petrify": {
-        "name": "Petrify",
-        "desc": "Deals 130% of magic ATK damage. Stuns the target for 1 turn(s)."
-      },
-      "arcane_ward": {
-        "name": "Arcane Ward",
-        "desc": "Increases defense by 30% for 3 turns. e restores 25% of max hp."
-      },
-      "rune_shield": {
-        "name": "Rune Shield",
-        "desc": "Increases defense by 45% for 2 turns."
-      },
-      "draining_tome": {
-        "name": "Draining Tome",
-        "desc": "Deals 145% of magic ATK damage. Restores 30% of max HP."
-      },
-      "forbidden_knowledge": {
-        "name": "Forbidden Knowledge",
-        "desc": "Deals 305% of magic ATK damage."
-      },
       "crushing_blow": {
         "name": "Crushing Blow",
         "desc": "Deals 165% of physical ATK damage."
@@ -3421,34 +3225,6 @@ export const translations: Record<LangCode, TranslationTree> = {
       "dragon_lance": {
         "name": "Dragon Lance",
         "desc": "Deals 265% of physical ATK damage. Slows the target for 1 turn(s)."
-      },
-      "shield_bash": {
-        "name": "Shield Bash",
-        "desc": "Deals 125% of physical ATK damage. Stuns the target for 1 turn(s)."
-      },
-      "shield_slam": {
-        "name": "Shield Slam",
-        "desc": "Deals 150% of physical ATK damage. Slows the target for 1 turn(s)."
-      },
-      "provoke": {
-        "name": "Provoke",
-        "desc": "Marks the target: +30% damage taken for 3 turns."
-      },
-      "bastion": {
-        "name": "Bastion",
-        "desc": "Increases defense by 60% for 2 turns."
-      },
-      "aegis_guard": {
-        "name": "Aegis Guard",
-        "desc": "Increases defense by 50% for 2 turns. e restores 15% of max hp."
-      },
-      "shield_charge": {
-        "name": "Shield Charge",
-        "desc": "Deals 205% of physical ATK damage. Stuns the target for 1 turn(s)."
-      },
-      "holy_aegis": {
-        "name": "Holy Aegis",
-        "desc": "Increases defense by 20% for 2 turns. e restores 50% of max hp."
       }
     },
     "bosses": {
@@ -4870,7 +4646,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "questComplete": "¡Misión completada!",
       "itemFound": "¡Objeto encontrado!"
     },
-                            "skills": {
+                                "skills": {
       "slash": {
         "name": "Tajo Rápido",
         "desc": "Causa 150% de ATQ físico."
@@ -4982,34 +4758,6 @@ export const translations: Record<LangCode, TranslationTree> = {
       "assassinate": {
         "name": "Asesinar",
         "desc": "Causa 320% de ATQ físico. Ejecuta objetivos con menos de 25% de HP."
-      },
-      "feint": {
-        "name": "Finta",
-        "desc": "Causa 125% de ATQ físico. Ralentiza al objetivo por 2 turno(s)."
-      },
-      "double_slash": {
-        "name": "Tajo Doble",
-        "desc": "Causa 2 golpes de 95% de ATQ físico."
-      },
-      "riposte": {
-        "name": "Riposta",
-        "desc": "Causa 145% de ATQ físico. Esquiva el próximo golpe."
-      },
-      "lacerate": {
-        "name": "Lacerar",
-        "desc": "Causa 55 de daño por 3 turnos."
-      },
-      "twin_fang": {
-        "name": "Colmillos Gemelos",
-        "desc": "Causa 2 golpes de 105% de ATQ físico."
-      },
-      "whirl_dagger": {
-        "name": "Daga Giratoria",
-        "desc": "Causa 4 golpes de 62% de ATQ físico."
-      },
-      "shadow_parry": {
-        "name": "Parada Sombría",
-        "desc": "Causa 175% de ATQ físico. Aturde al objetivo por 1 turno(s). Esquiva el próximo golpe."
       },
       "piercing_shot": {
         "name": "Disparo Perforante",
@@ -5123,62 +4871,6 @@ export const translations: Record<LangCode, TranslationTree> = {
         "name": "Distorsión Temporal",
         "desc": "Marca al objetivo: +50% de daño recibido por 3 turnos."
       },
-      "void_bolt": {
-        "name": "Proyectil del Vacío",
-        "desc": "Causa 165% de ATQ del vacío."
-      },
-      "void_rupture": {
-        "name": "Ruptura del Vacío",
-        "desc": "Causa 145% de ATQ del vacío. Causa 40 de daño por 3 turnos."
-      },
-      "astral_barrier": {
-        "name": "Barrera Astral",
-        "desc": "Aumenta la defensa un 35% por 3 turnos."
-      },
-      "gravity_well": {
-        "name": "Pozo Gravitatorio",
-        "desc": "Causa 130% de ATQ del vacío. Aturde al objetivo por 1 turno(s)."
-      },
-      "void_armor": {
-        "name": "Armadura del Vacío",
-        "desc": "Aumenta la defensa un 35% por 3 turnos. e restaura 10% del hp máximo."
-      },
-      "void_gate": {
-        "name": "Portal del Vacío",
-        "desc": "Causa 330% de ATQ del vacío."
-      },
-      "cosmic_burst": {
-        "name": "Explosión Cósmica",
-        "desc": "Causa 5 golpes de 70% de ATQ del vacío."
-      },
-      "arcane_mark": {
-        "name": "Marca Arcana",
-        "desc": "Marca al objetivo: +40% de daño recibido por 3 turnos."
-      },
-      "root": {
-        "name": "Raíces",
-        "desc": "Causa 110% de ATQ mágico. Aturde al objetivo por 1 turno(s)."
-      },
-      "petrify": {
-        "name": "Petrificar",
-        "desc": "Causa 130% de ATQ mágico. Aturde al objetivo por 1 turno(s)."
-      },
-      "arcane_ward": {
-        "name": "Guardia Arcana",
-        "desc": "Aumenta la defensa un 30% por 3 turnos. e restaura 25% del hp máximo."
-      },
-      "rune_shield": {
-        "name": "Escudo Rúnico",
-        "desc": "Aumenta la defensa un 45% por 2 turnos."
-      },
-      "draining_tome": {
-        "name": "Grimorio Drenante",
-        "desc": "Causa 145% de ATQ mágico. Restaura 30% del HP máximo."
-      },
-      "forbidden_knowledge": {
-        "name": "Conocimiento Prohibido",
-        "desc": "Causa 305% de ATQ mágico."
-      },
       "crushing_blow": {
         "name": "Golpe Aplastante",
         "desc": "Causa 165% de ATQ físico."
@@ -5234,34 +4926,6 @@ export const translations: Record<LangCode, TranslationTree> = {
       "dragon_lance": {
         "name": "Lanza del Dragón",
         "desc": "Causa 265% de ATQ físico. Ralentiza al objetivo por 1 turno(s)."
-      },
-      "shield_bash": {
-        "name": "Embestida de Escudo",
-        "desc": "Causa 125% de ATQ físico. Aturde al objetivo por 1 turno(s)."
-      },
-      "shield_slam": {
-        "name": "Golpe de Escudo",
-        "desc": "Causa 150% de ATQ físico. Ralentiza al objetivo por 1 turno(s)."
-      },
-      "provoke": {
-        "name": "Provocar",
-        "desc": "Marca al objetivo: +30% de daño recibido por 3 turnos."
-      },
-      "bastion": {
-        "name": "Bastión",
-        "desc": "Aumenta la defensa un 60% por 2 turnos."
-      },
-      "aegis_guard": {
-        "name": "Guardia de Égida",
-        "desc": "Aumenta la defensa un 50% por 2 turnos. e restaura 15% del hp máximo."
-      },
-      "shield_charge": {
-        "name": "Carga de Escudo",
-        "desc": "Causa 205% de ATQ físico. Aturde al objetivo por 1 turno(s)."
-      },
-      "holy_aegis": {
-        "name": "Égida Sagrada",
-        "desc": "Aumenta la defensa un 20% por 2 turnos. e restaura 50% del hp máximo."
       }
     },
     "bosses": {
@@ -6683,7 +6347,7 @@ export const translations: Record<LangCode, TranslationTree> = {
       "questComplete": "クエスト完了！",
       "itemFound": "アイテム発見！"
     },
-                            "skills": {
+                                "skills": {
       "slash": {
         "name": "クイックスラッシュ",
         "desc": "物理ATKの150%のダメージ。"
@@ -6795,34 +6459,6 @@ export const translations: Record<LangCode, TranslationTree> = {
       "assassinate": {
         "name": "アサシネイト",
         "desc": "物理ATKの320%のダメージ。 HPが25%以下の敵を即死させる。"
-      },
-      "feint": {
-        "name": "フェイント",
-        "desc": "物理ATKの125%のダメージ。 2ターン鈍足にする。"
-      },
-      "double_slash": {
-        "name": "ダブルスラッシュ",
-        "desc": "物理ATKの95%で2回攻撃。"
-      },
-      "riposte": {
-        "name": "リポスト",
-        "desc": "物理ATKの145%のダメージ。 次の攻撃を回避する。"
-      },
-      "lacerate": {
-        "name": "ラセレイト",
-        "desc": "3ターンの間、毎ターン55のダメージ。"
-      },
-      "twin_fang": {
-        "name": "ツインファング",
-        "desc": "物理ATKの105%で2回攻撃。"
-      },
-      "whirl_dagger": {
-        "name": "ワールダガー",
-        "desc": "物理ATKの62%で4回攻撃。"
-      },
-      "shadow_parry": {
-        "name": "シャドウパリー",
-        "desc": "物理ATKの175%のダメージ。 1ターン気絶させる。 次の攻撃を回避する。"
       },
       "piercing_shot": {
         "name": "ピアシングショット",
@@ -6936,62 +6572,6 @@ export const translations: Record<LangCode, TranslationTree> = {
         "name": "タイムワープ",
         "desc": "目標をマーク：3ターンの間、受けるダメージ+50%。"
       },
-      "void_bolt": {
-        "name": "ヴォイドボルト",
-        "desc": "虚無ATKの165%のダメージ。"
-      },
-      "void_rupture": {
-        "name": "ヴォイドラプチャー",
-        "desc": "虚無ATKの145%のダメージ。 3ターンの間、毎ターン40のダメージ。"
-      },
-      "astral_barrier": {
-        "name": "アストラルバリア",
-        "desc": "3ターンの間、防御力+35%。"
-      },
-      "gravity_well": {
-        "name": "グラビティウェル",
-        "desc": "虚無ATKの130%のダメージ。 1ターン気絶させる。"
-      },
-      "void_armor": {
-        "name": "ヴォイドアーマー",
-        "desc": "3ターンの間、防御力+35%。 e 最大hpの10%を回復。"
-      },
-      "void_gate": {
-        "name": "ヴォイドゲート",
-        "desc": "虚無ATKの330%のダメージ。"
-      },
-      "cosmic_burst": {
-        "name": "コズミックバースト",
-        "desc": "虚無ATKの70%で5回攻撃。"
-      },
-      "arcane_mark": {
-        "name": "アーケインマーク",
-        "desc": "目標をマーク：3ターンの間、受けるダメージ+40%。"
-      },
-      "root": {
-        "name": "ルート",
-        "desc": "魔法ATKの110%のダメージ。 1ターン気絶させる。"
-      },
-      "petrify": {
-        "name": "ペトリファイ",
-        "desc": "魔法ATKの130%のダメージ。 1ターン気絶させる。"
-      },
-      "arcane_ward": {
-        "name": "アーケインウォード",
-        "desc": "3ターンの間、防御力+30%。 e 最大hpの25%を回復。"
-      },
-      "rune_shield": {
-        "name": "ルーンシールド",
-        "desc": "2ターンの間、防御力+45%。"
-      },
-      "draining_tome": {
-        "name": "ドレイニングトーム",
-        "desc": "魔法ATKの145%のダメージ。 最大HPの30%を回復。"
-      },
-      "forbidden_knowledge": {
-        "name": "フォービドゥンナレッジ",
-        "desc": "魔法ATKの305%のダメージ。"
-      },
       "crushing_blow": {
         "name": "クラッシングブロウ",
         "desc": "物理ATKの165%のダメージ。"
@@ -7047,34 +6627,6 @@ export const translations: Record<LangCode, TranslationTree> = {
       "dragon_lance": {
         "name": "ドラゴンランス",
         "desc": "物理ATKの265%のダメージ。 1ターン鈍足にする。"
-      },
-      "shield_bash": {
-        "name": "シールドバッシュ",
-        "desc": "物理ATKの125%のダメージ。 1ターン気絶させる。"
-      },
-      "shield_slam": {
-        "name": "シールドスラム",
-        "desc": "物理ATKの150%のダメージ。 1ターン鈍足にする。"
-      },
-      "provoke": {
-        "name": "プロヴォーク",
-        "desc": "目標をマーク：3ターンの間、受けるダメージ+30%。"
-      },
-      "bastion": {
-        "name": "バスティオン",
-        "desc": "2ターンの間、防御力+60%。"
-      },
-      "aegis_guard": {
-        "name": "イージスガード",
-        "desc": "2ターンの間、防御力+50%。 e 最大hpの15%を回復。"
-      },
-      "shield_charge": {
-        "name": "シールドチャージ",
-        "desc": "物理ATKの205%のダメージ。 1ターン気絶させる。"
-      },
-      "holy_aegis": {
-        "name": "ホーリーイージス",
-        "desc": "2ターンの間、防御力+20%。 e 最大hpの50%を回復。"
       }
     },
     "bosses": {

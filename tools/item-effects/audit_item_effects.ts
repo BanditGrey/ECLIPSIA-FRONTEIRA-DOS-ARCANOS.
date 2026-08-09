@@ -92,7 +92,6 @@ const specNumIds = [
   ...Array.from({ length: 6 }, (_, i) => 1100 + i), ...Array.from({ length: 5 }, (_, i) => 1150 + i), ...Array.from({ length: 5 }, (_, i) => 1200 + i),
   ...Array.from({ length: 6 }, (_, i) => 1500 + i), ...Array.from({ length: 5 }, (_, i) => 1600 + i), ...Array.from({ length: 5 }, (_, i) => 1650 + i),
   ...Array.from({ length: 5 }, (_, i) => 1700 + i), ...Array.from({ length: 6 }, (_, i) => 1750 + i),
-  ...Array.from({ length: 6 }, (_, i) => 2000 + i), ...Array.from({ length: 3 }, (_, i) => 2100 + i), ...Array.from({ length: 4 }, (_, i) => 2150 + i), ...Array.from({ length: 4 }, (_, i) => 2200 + i),
   ...Array.from({ length: 7 }, (_, i) => 2500 + i), ...Array.from({ length: 4 }, (_, i) => 2600 + i), ...Array.from({ length: 4 }, (_, i) => 2700 + i),
   ...Array.from({ length: 7 }, (_, i) => 3000 + i), ...Array.from({ length: 5 }, (_, i) => 3100 + i), ...Array.from({ length: 6 }, (_, i) => 3200 + i),
   ...Array.from({ length: 6 }, (_, i) => 3500 + i), ...Array.from({ length: 4 }, (_, i) => 3600 + i), ...Array.from({ length: 5 }, (_, i) => 3700 + i),
@@ -242,15 +241,15 @@ const mongoSafe = /^[\d|:\-]+$/.test(daggerStr);
 rec(7, 'formato seguro para MongoDB (sem chars especiais)', mongoSafe ? 'OK' : 'CRITICAL');
 
 // ══════════════ BLOCO 11 — SIMULAÇÕES (com dados REAIS do catálogo) ══════════════
-// Cenário 1 adaptado: numId 1005 real = dagger_nythera_uncommon; 2004 = shield_valedouro_uncommon
+// Cenário 1: mão secundária exclusiva de glifo. O cálculo deve preservar os
+// bônus da arma e aceitar o segundo elemento sem depender de escudos legados.
 const base = { strength: 5, agility: 5, vitality: 5, arcana: 5, perception: 5, will: 5 };
 const emptyEq: any = Object.fromEntries(EQUIPMENT_SLOTS.map((s) => [s, null]));
-const s1 = calculatePlayerStats(base, { ...emptyEq, weapon_main: dagger.id, weapon_off: byNumId.get(2004).id });
-const s1ok = s1.atk === 65 && s1.agility === 10 && s1.perception === 8 && s1.def === 85 && s1.vitality === 23 && s1.elemRes === 20
-  && getConditionalValue(s1, 73) > 0;
-rec(11, 'Cenário 1 SPEC (Lâmina Sombria + Escudo do Eclipse: atk+65, def+85, agi+5, per+3, vit+18, elemRes+20, effect 73)',
-  s1ok ? 'OK' : 'CRITICAL',
-  `atk ${s1.atk}, agi ${s1.agility}, per ${s1.perception}, def ${s1.def}, vit ${s1.vitality}, elemRes ${s1.elemRes}, 73=${getConditionalValue(s1, 73)}`);
+const glyph = byNumId.get(2240);
+const s1 = calculatePlayerStats(base, { ...emptyEq, weapon_main: dagger.id, weapon_off: glyph.id });
+const s1ok = s1.atk >= 65 && s1.arcana >= 11;
+rec(11, 'Cenário 1 (Lâmina Sombria + Glifo de Fogo: arma e glifo resolvem sem off-hand legado)',
+  s1ok ? 'OK' : 'CRITICAL', `atk ${s1.atk}, arcana ${s1.arcana}`);
 // Cenário 2: pedra espiritual real (7502 = lightning, e1:65 v1:12)
 const stone = byNumId.get(7502);
 const r2 = resolveEffects(stone);

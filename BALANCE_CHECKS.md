@@ -7,7 +7,7 @@
 - [x] Effects 31–40 para skills/armas integrados no registry, engine e combate:
       dano de skill/básico, redução de CD/MP, DoT, cura, controle, execute,
       reflect e crítico de skill.
-- [x] `tools/audit_balance.ts` valida passivas e as 98 skills.
+- [x] `tools/audit_balance.ts` valida passivas e as 70 skills das 10 armas principais.
 - [x] `tools/gen_skills.mjs` é a fonte de verdade para `skills.ts` e i18n gerado.
 
 ## A validar em dados reais

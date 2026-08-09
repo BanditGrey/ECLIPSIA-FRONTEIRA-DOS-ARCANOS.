@@ -10,7 +10,7 @@ import { getEffectName } from '../data/effectNames';
 import { monsters } from '../data/monsters';
 import { regions } from '../data/regions';
 import { skills } from '../data/skills';
-import { equippedWeaponCategories, getProficiencyPassiveTotals, PROFICIENCY_ATK_BONUS_PER_POINT, PROF_XP, weaponCategoryOf } from '../data/proficiencies';
+import { equippedWeaponCategories, getProficiencyPassiveTotals, PROFICIENCY_ATK_BONUS_PER_POINT, PROF_XP } from '../data/proficiencies';
 import { useCombatStore } from '../store/useCombatStore';
 import { useGameStore } from '../store/useGameStore';
 import { usePartyStore } from '../store/usePartyStore';
@@ -498,27 +498,9 @@ const applyDotEffects = () => {
 };
 
 const selectPartyTarget = (): PartyMember | null => {
-  const party = usePartyStore.getState();
-  const alive = party.getAlive();
+  const alive = usePartyStore.getState().getAlive();
 
-  if (alive.length === 0) {
-    return null;
-  }
-
-  // PROEFICIÊNCIA DE ARMA: quem empunha ESCUDO assume o papel de tanque
-  // e tem 60% de chance de absorver o golpe pelos aliados.
-  const shielded = alive.filter((member) => {
-    const main = weaponCategoryOf(member.equipment?.weapon_main);
-    const off = weaponCategoryOf(member.equipment?.weapon_off);
-
-    return main === 'shield' || off === 'shield';
-  });
-
-  if (shielded.length > 0 && Math.random() < 0.6) {
-    return pickRandom(shielded);
-  }
-
-  return pickRandom(alive);
+  return alive.length > 0 ? pickRandom(alive) : null;
 };
 
 const damagePartyOrPlayer = (damage: number) => {

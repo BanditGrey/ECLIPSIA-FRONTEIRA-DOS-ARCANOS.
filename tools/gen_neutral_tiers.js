@@ -6,7 +6,7 @@ const spritesDir = path.join(__dirname, '..', 'client', 'public', 'assets', 'spr
 
 const CATEGORIES = [
     'sword', 'dagger', 'greatsword', 'spear', 'staff', 'greatstaff',
-    'hammer', 'bowshort', 'bowlong', 'orb', 'tome'
+    'hammer', 'bowshort', 'bowlong', 'REMOVED_TOME'
 ];
 
 async function generateNeutralTiers() {

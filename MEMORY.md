@@ -43,7 +43,7 @@ de prosseguir.
 4. `ResolvedEffects` trabalha com percentuais em fração; o item armazena inteiros.
    Não dividir percentuais duas vezes.
 5. `tools/gen_skills.mjs` é a fonte de verdade de `data/skills.ts` e do bloco
-   de i18n das 98 skills.
+   de i18n das 70 skills.
 6. Não apagar assets por simples busca textual: paths podem ser montados em runtime.
 
 ## Sistema de elementos e glifos
