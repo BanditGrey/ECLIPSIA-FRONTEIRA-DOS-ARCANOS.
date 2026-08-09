@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "audit": "tsx ../tools/item-effects/audit_item_effects.ts",
     "audit:social": "tsx ../tools/audit_social.ts",
-    "audit:balance": "tsx ../tools/audit_balance.ts"
+    "audit:balance": "tsx ../tools/audit_balance.ts",
+    "audit:assets": "tsx ../tools/audit_assets.ts"
   },
   "dependencies": {
     "react": "^18.3.1",
