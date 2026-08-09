@@ -4,11 +4,9 @@ import { dungeons } from '../../data/dungeons';
 import type { DungeonDef } from '../../data/dungeons';
 import { ITEMS } from '../../data/items';
 import { useI18n } from '../../hooks/useI18n';
-import { useCombatStore } from '../../store/useCombatStore';
 import { useGameStore } from '../../store/useGameStore';
 import { usePlayerStore } from '../../store/usePlayerStore';
 import { combatEngine } from '../../systems/combat';
-import type { Enemy } from '../../types/combat.types';
 import type { Item } from '../../types/item.types';
 import { Button } from '../ui/Button';
 import { ART } from '../../data/art';
@@ -36,26 +34,10 @@ const regions: RegionEntry[] = [
   { id: 'fragmento', icon: '💀', requiredTitle: 'eclipse_awakened' }
 ];
 
-const createEnemyForRegion = (region: RegionEntry): Enemy => ({
-  id: `${region.id}-scout`,
-  icon: region.icon,
-  nameKey: `travel.regions.${region.id}.name`,
-  level: region.minLevel ?? 40,
-  hp: 100 + (region.minLevel ?? 20) * 10,
-  maxHp: 100 + (region.minLevel ?? 20) * 10,
-  atk: 10 + (region.minLevel ?? 10),
-  def: 5 + Math.floor((region.minLevel ?? 10) / 2),
-  xp: 25,
-  gold: 10,
-  skills: [],
-  lootTable: []
-});
-
 export const TravelPanel = () => {
   const { t } = useI18n();
   const player = usePlayerStore((state) => state.data);
   const setPanel = useGameStore((state) => state.setPanel);
-  const setEnemy = useCombatStore((state) => state.setEnemy);
   const [tab, setTab] = useState<TravelTab>('regions');
 
   const isUnlocked = (region: RegionEntry) => {
@@ -99,14 +81,8 @@ export const TravelPanel = () => {
   };
 
   const enterRegion = (region: RegionEntry) => {
-    useCombatStore.setState({
-      region: t(`travel.regions.${region.id}.name`),
-      floor: 1,
-      maxFloor: 1,
-      isDungeon: false,
-      phase: 'player'
-    });
-    setEnemy(createEnemyForRegion(region));
+    // Usa o motor real: monstros, elementos, loot e progressão da região.
+    combatEngine.start(region.id);
     setPanel('combat');
   };
 
